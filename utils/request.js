@@ -1,85 +1,148 @@
+import axios from 'axios';
+import {Platform} from 'react-native';
+
+import {Toast, ModalIndicator} from 'teaset';
+import AsyncStorage from '@react-native-community/async-storage';
+
+import NavigationService from '../../NavigationService';
+
+// const BASE_URL = 'http://172.18.229.32:8762/gw/';
 // const BASE_URL = 'https://internalgw-test.mottuum.com/gw/';
-/**
- * 让fetch也可以timeout
- *  timeout不是请求连接超时的含义，它表示请求的response时间，包括请求的连接、服务器处理及服务器响应回来的时间
- * fetch的timeout即使超时发生了，本次请求也不会被abort丢弃掉，它在后台仍然会发送到服务器端，只是本次请求的响应内容被丢弃而已
- * @param {Promise} fetch_promise    fetch请求返回的Promise
- * @param {number} [timeout=10000]   单位：毫秒，这里设置默认超时时间为10秒
- * @return 返回Promise
- */
-function timeout_fetch(fetch_promise, timeout = 10000) {
-  let timeout_fn = null;
+const BASE_URL = 'https://internalgw-uat.mottuum.com/gw/';
+// const BASE_URL = 'https://internalgw.mottuum.com/gw/';
 
-  //这是一个可以被reject的promise
-  let timeout_promise = new Promise(function(resolve, reject) {
-    timeout_fn = function() {
-      reject('timeout promise');
-    };
-  });
+const instance = axios.create({
+  baseURL: BASE_URL,
+  timeout: 6000,
+  headers: {
+    'X-Custom-Header': 'foobar',
+    'Content-Type': 'application/json',
+    'Device-Type': Platform.OS === 'ios' ? 'iOS' : 'Android',
+  },
+  //chrome下debug调试
+  // __DEV__ react-native自带的环境变量，表示开发环境
+  withCredentials: !__DEV__,
+});
 
-  //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
-  let abortable_promise = Promise.race([fetch_promise, timeout_promise]);
+//请求拦截处理
+instance.interceptors.request.use(
+  async function(config) {
+    let c_token = await AsyncStorage.getItem('Authorization');
+    if (c_token) {
+      // 登录之后 c_token
+      config.headers.Authorization = c_token;
+    } else {
+      //没有登录状态时，跳转到登录页
+      config.headers.Authorization = c_token;
+    }
 
-  setTimeout(function() {
-    timeout_fn();
-  }, timeout);
+    //  给data赋值以绕过if判断，get请求时没有data content-type会失去
+    if (config.method === 'get') {
+      config.data = true;
+    }
+    // config.headers['Content-Type'] = 'application/json'
+    return config;
+  },
+  function(error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  },
+);
 
-  return abortable_promise;
-}
+//返回拦截处理
+instance.interceptors.response.use(
+  function(response) {
+    return response;
+  },
+  function(err) {
+    // 对响应错误做点什么
+    if (err && err.response) {
+      switch (err.response.status) {
+        case 400:
+          err.message = '错误请求';
+          break;
+        case 401:
+          err.message = '未授权，请重新登录';
+          break;
+        case 403:
+          err.message = '拒绝访问';
+          break;
+        case 404:
+          err.message = '请求错误,未找到该资源';
+          break;
+        case 405:
+          err.message = '请求方法未允许';
+          break;
+        case 408:
+          err.message = '请求超时';
+          break;
+        case 500:
+          err.message = '服务器端出错';
+          break;
+        case 501:
+          err.message = '网络未实现';
+          break;
+        case 502:
+          err.message = '网络错误';
+          break;
+        case 503:
+          err.message = '服务不可用';
+          break;
+        case 504:
+          err.message = '网络超时';
+          break;
+        case 505:
+          err.message = 'http版本不支持该请求';
+          break;
+        default:
+          err.message = `连接错误${err.response.status}`;
+      }
+      let errData = {
+        code: err.response.status,
+        message: err.message,
+      };
+      // 统一错误处理可以放这，例如页面提示错误...
+      console.log('统一错误处理: ', errData);
+      Toast.sad(errData.message);
+      NavigationService.navigate('Login');
+      ModalIndicator.hide();
+    } else {
+      Toast.sad('网络请求失败');
+      if (__DEV__) {
+        NavigationService.navigate('Login');
+      }
+      ModalIndicator.hide();
+    }
+    return Promise.reject(err);
+  },
+);
 
-let common_url = 'https://internalgw-test.mottuum.com/gw/'; //服务器地址
-let token = '';
-/**
- * @param {string} url 接口地址
- * @param {string} method 请求方法：GET、POST，只能大写
- * @param {JSON} [params=''] body的请求参数，默认为空
- * @return 返回Promise
- */
-function fetchRequest(url, method, params = '') {
-  let header = {
-    'Content-Type': 'application/json;charset=UTF-8',
-    accesstoken: token, //用户登陆后返回的token，某些涉及用户数据的接口需要在header中加上token
-  };
-  console.log('request url:', url, params); //打印请求参数
-  if (params == '') {
-    //如果网络请求中带有参数
-    return new Promise(function(resolve, reject) {
-      timeout_fetch(
-        fetch(common_url + url, {
-          method: method,
-          headers: header,
-        }),
-      )
-        .then(response => response.json())
-        .then(responseData => {
-          console.log('res:', url, responseData); //网络请求成功返回的数据
-          resolve(responseData);
-        })
-        .catch(err => {
-          console.log('err:', url, err); //网络请求失败返回的数据
-          reject(err);
-        });
+const request = async (api, {method, params}) => {
+  if (method === 'GET') {
+    return new Promise((resolve, reject) => {
+      instance
+        .get(api, {params})
+        .then(res => resolve(res.data))
+        .catch(error => reject(error));
     });
-  } else {
-    //如果网络请求中没有参数
-    return new Promise(function(resolve, reject) {
-      timeout_fetch(
-        fetch(common_url + url, {
-          method: method,
-          headers: header,
-          body: JSON.stringify(params), //body参数，通常需要转换成字符串后服务器才能解析
-        }),
-      )
-        .then(response => response.json())
-        .then(responseData => {
-          console.log('res:', url, responseData); //网络请求成功返回的数据
-          resolve(responseData);
-        })
-        .catch(err => {
-          console.log('err:', url, err); //网络请求失败返回的数据
-          reject(err);
-        });
+  } else if (method === 'POST') {
+    return new Promise((resolve, reject) => {
+      instance
+        .post(api, params)
+        .then(res => resolve(res.data))
+        .catch(error => reject(error));
+    });
+  } else if (method === 'UPLOAD') {
+    return new Promise((resolve, reject) => {
+      instance({
+        url: api,
+        method: 'post',
+        data: params,
+        headers: {'Content-Type': 'multipart/form-data'},
+      })
+        .then(res => resolve(res.data))
+        .catch(error => reject(error));
     });
   }
-}
-export default fetchRequest;
+};
+export default request;
