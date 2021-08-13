@@ -1,104 +1,100 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+/* eslint-disable no-undef */
 
+// 标准模块
 import React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import 'react-native-gesture-handler';
+import { BackHandler, YellowBox } from 'react-native';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One1</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this screen and then come back to see your
-                edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>Read the docs to discover what to do next:</Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+// 第三方模块
+import { Toast } from 'teaset';
+// import AsyncStorage from '@react-native-community/async-storage';
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+// 自己代码导入模块
+import useStore from '@store/index';
+import Route from '@src/route/bottomNav';
+import Login from '@page/login/Index';
+import AuthLoadingScreen from '@page/auth/Index';
+
+export const store = createStore(useStore, applyMiddleware(thunk));
+
+import NavigationService from './NavigationService';
+
+//debugger模式下查看接口
+GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+// 忽略控制台黄色警告
+console.disableYellowBox = true;
+
+YellowBox.ignoreWarnings = [
+  'Warning: componentWillMount',
+  'Warning: componentWillReceiveProps',
+  'Warning: componentWillUpdate',
+];
+
+const loginStack = createStackNavigator({ Login });
+
+const AppContainer = createAppContainer(
+  createSwitchNavigator({
+    App: Route,
+    // AuthLoading: AuthLoadingScreen,
+    // Auth: loginStack,
+  }),
+  {
+    initialRouteName: 'AuthLoading',
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    if (Platform.OS === 'android') {
+      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  }
+
+  // 安卓后退键统一处理
+  onBackAndroid = async () => {
+    const routeData = ['Profile', 'Kpi', 'Monitor', 'Warning', 'Home'];
+    const routeName = NavigationService.getCurrentRouteName();
+    //处理一级菜单和login页面
+    const routeDataMap = ['Login', 'Home', 'AuthLoading'];
+    if (routeDataMap.includes(routeName)) {
+      if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+        //最近2秒内按过back键，可以退出应用。
+        BackHandler.exitApp(); //直接退出APP
+      } else {
+        this.lastBackPressed = Date.now();
+        //提示
+        Toast.info('再按一次退出应用');
+        return true;
+      }
+    } else if (routeData.includes(routeName)) {
+      //回到首页
+      NavigationService.navigate('Home');
+    } else {
+      // 其他页面(一级之外的)为默认后退行为
+      NavigationService.goBack();
+    }
+  };
+
+  render() {
+    return (
+      <Provider store={store}>
+        <AppContainer theme="light" ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef)} />
+      </Provider>
+    );
+  }
+}
 
 export default App;

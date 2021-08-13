@@ -627,7 +627,7 @@
     "pirates" "^4.0.0"
     "source-map-support" "^0.5.16"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.6.2", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.6.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   "integrity" "sha1-LhwogMoRjlsvmYgyK9inZWoyUCs="
   "resolved" "https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.15.3.tgz"
   "version" "7.15.3"
@@ -871,6 +871,13 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^3.0.0"
 
+"@react-native-community/async-storage@^1.12.1":
+  "integrity" "sha1-JfghtPaxOr4AWtZ+R8bxzunyeyQ="
+  "resolved" "https://registry.nlark.com/@react-native-community/async-storage/download/@react-native-community/async-storage-1.12.1.tgz"
+  "version" "1.12.1"
+  dependencies:
+    "deep-assign" "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^3.0.0":
   "integrity" "sha1-0B0I0eXdwWM9gsfYTUj/8HvTlBY="
   "resolved" "https://registry.nlark.com/@react-native-community/cli-debugger-ui/download/@react-native-community/cli-debugger-ui-3.0.0.tgz?cache=0&sync_timestamp=1623144592774&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40react-native-community%2Fcli-debugger-ui%2Fdownload%2F%40react-native-community%2Fcli-debugger-ui-3.0.0.tgz"
@@ -1045,6 +1052,14 @@
   "resolved" "https://registry.nlark.com/@types/hammerjs/download/@types/hammerjs-2.0.40.tgz"
   "version" "2.0.40"
 
+"@types/hoist-non-react-statics@^3.3.0":
+  "integrity" "sha1-ESSq/lEYy1kZd66xzqrtEHDrA58="
+  "resolved" "https://registry.nlark.com/@types/hoist-non-react-statics/download/@types/hoist-non-react-statics-3.3.1.tgz?cache=0&sync_timestamp=1621241339435&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fhoist-non-react-statics%2Fdownload%2F%40types%2Fhoist-non-react-statics-3.3.1.tgz"
+  "version" "3.3.1"
+  dependencies:
+    "@types/react" "*"
+    "hoist-non-react-statics" "^3.3.0"
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   "integrity" "sha1-S6jdtyAiH0MuRDvV+RF/0iz9R2I="
   "resolved" "https://registry.nlark.com/@types/istanbul-lib-coverage/download/@types/istanbul-lib-coverage-2.0.3.tgz"
@@ -1069,6 +1084,35 @@
   "integrity" "sha1-l+3JA36gw4WFMgsolk3eOznkZg0="
   "resolved" "https://registry.nlark.com/@types/json-schema/download/@types/json-schema-7.0.9.tgz?cache=0&sync_timestamp=1627999424913&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fjson-schema%2Fdownload%2F%40types%2Fjson-schema-7.0.9.tgz"
   "version" "7.0.9"
+
+"@types/prop-types@*":
+  "integrity" "sha1-/PcgXCXf95Xuea8eMNosl5CAjxE="
+  "resolved" "https://registry.nlark.com/@types/prop-types/download/@types/prop-types-15.7.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fprop-types%2Fdownload%2F%40types%2Fprop-types-15.7.4.tgz"
+  "version" "15.7.4"
+
+"@types/react-redux@^7.1.16":
+  "integrity" "sha1-K/j9Vuuq5nmpDr/+SP9zcXxDjgQ="
+  "resolved" "https://registry.nlark.com/@types/react-redux/download/@types/react-redux-7.1.18.tgz?cache=0&sync_timestamp=1625795312121&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact-redux%2Fdownload%2F%40types%2Freact-redux-7.1.18.tgz"
+  "version" "7.1.18"
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.0"
+    "@types/react" "*"
+    "hoist-non-react-statics" "^3.3.0"
+    "redux" "^4.0.0"
+
+"@types/react@*":
+  "integrity" "sha1-F3LT1UJRKOBjWnFvSe9XwpVd8FU="
+  "resolved" "https://registry.nlark.com/@types/react/download/@types/react-17.0.17.tgz?cache=0&sync_timestamp=1628649231568&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-17.0.17.tgz"
+  "version" "17.0.17"
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    "csstype" "^3.0.2"
+
+"@types/scheduler@*":
+  "integrity" "sha1-GmL4lSVyPd4kuhsBsJK/XfitTTk="
+  "resolved" "https://registry.nlark.com/@types/scheduler/download/@types/scheduler-0.16.2.tgz"
+  "version" "0.16.2"
 
 "@types/stack-utils@^1.0.1":
   "integrity" "sha1-CoUdO9lkmPolwzq3J47TvWXwbD4="
@@ -1634,6 +1678,11 @@
   dependencies:
     "file-uri-to-path" "1.0.0"
 
+"boolbase@^1.0.0", "boolbase@~1.0.0":
+  "integrity" "sha1-aN/1++YMUes3cl6p4+0xDcwed24="
+  "resolved" "https://registry.npm.taobao.org/boolbase/download/boolbase-1.0.0.tgz"
+  "version" "1.0.0"
+
 "bplist-creator@0.0.8":
   "integrity" "sha1-VrKm556a7D/DO/gx0JNH1zeU55w="
   "resolved" "https://registry.npm.taobao.org/bplist-creator/download/bplist-creator-0.0.8.tgz"
@@ -2092,7 +2141,7 @@
 
 "core-js@^1.0.0":
   "integrity" "sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY="
-  "resolved" "https://registry.nlark.com/core-js/download/core-js-1.2.7.tgz"
+  "resolved" "https://registry.nlark.com/core-js/download/core-js-1.2.7.tgz?cache=0&sync_timestamp=1628444181233&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-1.2.7.tgz"
   "version" "1.2.7"
 
 "core-js@^2.2.2", "core-js@^2.4.1":
@@ -2125,7 +2174,7 @@
 
 "create-react-class@15.6.0":
   "integrity" "sha1-q0SEl8JlZuHilBPogyB9V8/nvtQ="
-  "resolved" "https://registry.npm.taobao.org/create-react-class/download/create-react-class-15.6.0.tgz"
+  "resolved" "https://registry.npm.taobao.org/create-react-class/download/create-react-class-15.6.0.tgz?cache=0&sync_timestamp=1602801795820&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcreate-react-class%2Fdownload%2Fcreate-react-class-15.6.0.tgz"
   "version" "15.6.0"
   dependencies:
     "fbjs" "^0.8.9"
@@ -2168,6 +2217,29 @@
     "shebang-command" "^1.2.0"
     "which" "^1.2.9"
 
+"css-select@^2.1.0":
+  "integrity" "sha1-ajRlM1ZjWTSoG6ymjQJVQyEF2+8="
+  "resolved" "https://registry.nlark.com/css-select/download/css-select-2.1.0.tgz?cache=0&sync_timestamp=1622994276976&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcss-select%2Fdownload%2Fcss-select-2.1.0.tgz"
+  "version" "2.1.0"
+  dependencies:
+    "boolbase" "^1.0.0"
+    "css-what" "^3.2.1"
+    "domutils" "^1.7.0"
+    "nth-check" "^1.0.2"
+
+"css-tree@^1.0.0-alpha.39":
+  "integrity" "sha1-60hw+2/XcHMn7JXC/yqwm16NuR0="
+  "resolved" "https://registry.nlark.com/css-tree/download/css-tree-1.1.3.tgz"
+  "version" "1.1.3"
+  dependencies:
+    "mdn-data" "2.0.14"
+    "source-map" "^0.6.1"
+
+"css-what@^3.2.1":
+  "integrity" "sha1-6nAm/LAXd+295SEk4h8yfnrpUOQ="
+  "resolved" "https://registry.nlark.com/css-what/download/css-what-3.4.2.tgz?cache=0&sync_timestamp=1622227760882&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcss-what%2Fdownload%2Fcss-what-3.4.2.tgz"
+  "version" "3.4.2"
+
 "cssom@>= 0.3.2 < 0.4.0", "cssom@0.3.x":
   "integrity" "sha1-nxJ29bK0Y/IRTT8sdSUK+MGjb0o="
   "resolved" "https://registry.nlark.com/cssom/download/cssom-0.3.8.tgz"
@@ -2179,6 +2251,11 @@
   "version" "1.4.0"
   dependencies:
     "cssom" "0.3.x"
+
+"csstype@^3.0.2":
+  "integrity" "sha1-0iZqeScp+yJ80hb7Vy9Dco4a00A="
+  "resolved" "https://registry.nlark.com/csstype/download/csstype-3.0.8.tgz"
+  "version" "3.0.8"
 
 "dashdash@^1.12.0":
   "integrity" "sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA="
@@ -2245,6 +2322,13 @@
   "integrity" "sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU="
   "resolved" "https://registry.npm.taobao.org/decode-uri-component/download/decode-uri-component-0.2.0.tgz"
   "version" "0.2.0"
+
+"deep-assign@^3.0.0":
+  "integrity" "sha1-yOTE1AHLolVQovD0hqLnW8XyGaI="
+  "resolved" "https://registry.npm.taobao.org/deep-assign/download/deep-assign-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "is-obj" "^1.0.0"
 
 "deep-is@~0.1.3":
   "integrity" "sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ="
@@ -2346,12 +2430,38 @@
   dependencies:
     "esutils" "^2.0.2"
 
+"dom-serializer@0":
+  "integrity" "sha1-GvuB9TNxcXXUeGVd68XjMtn5u1E="
+  "resolved" "https://registry.nlark.com/dom-serializer/download/dom-serializer-0.2.2.tgz?cache=0&sync_timestamp=1621256918158&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdom-serializer%2Fdownload%2Fdom-serializer-0.2.2.tgz"
+  "version" "0.2.2"
+  dependencies:
+    "domelementtype" "^2.0.1"
+    "entities" "^2.0.0"
+
+"domelementtype@^2.0.1":
+  "integrity" "sha1-mgtsJ4LtahxzI9QiZxg9+b2LHVc="
+  "resolved" "https://registry.npm.taobao.org/domelementtype/download/domelementtype-2.2.0.tgz"
+  "version" "2.2.0"
+
+"domelementtype@1":
+  "integrity" "sha1-0EjESzew0Qp/Kj1f7j9DM9eQSB8="
+  "resolved" "https://registry.npm.taobao.org/domelementtype/download/domelementtype-1.3.1.tgz"
+  "version" "1.3.1"
+
 "domexception@^1.0.1":
   "integrity" "sha1-k3RCZEymoxJh7zbj7Gd/6AVYLJA="
   "resolved" "https://registry.npm.taobao.org/domexception/download/domexception-1.0.1.tgz"
   "version" "1.0.1"
   dependencies:
     "webidl-conversions" "^4.0.2"
+
+"domutils@^1.7.0":
+  "integrity" "sha1-Vuo0HoNOBuZ0ivehyyXaZ+qfjCo="
+  "resolved" "https://registry.nlark.com/domutils/download/domutils-1.7.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdomutils%2Fdownload%2Fdomutils-1.7.0.tgz"
+  "version" "1.7.0"
+  dependencies:
+    "dom-serializer" "0"
+    "domelementtype" "1"
 
 "ecc-jsbn@~0.1.1":
   "integrity" "sha1-OoOpBOVDUyh4dMVkt1SThoSamMk="
@@ -2399,6 +2509,11 @@
   "version" "1.4.4"
   dependencies:
     "once" "^1.4.0"
+
+"entities@^2.0.0":
+  "integrity" "sha1-CY3JDruD2N/6CJ1VJWs1HTTE2lU="
+  "resolved" "https://registry.nlark.com/entities/download/entities-2.2.0.tgz?cache=0&sync_timestamp=1628508126700&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fentities%2Fdownload%2Fentities-2.2.0.tgz"
+  "version" "2.2.0"
 
 "envinfo@^7.1.0":
   "integrity" "sha1-Bjd+Pl9NN5/qesWS1a2JJ+DE1HU="
@@ -2869,7 +2984,7 @@
 
 "fbjs@^0.8.9", "fbjs@~0.8.9":
   "integrity" "sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90="
-  "resolved" "https://registry.npm.taobao.org/fbjs/download/fbjs-0.8.17.tgz?cache=0&sync_timestamp=1602048313843&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffbjs%2Fdownload%2Ffbjs-0.8.17.tgz"
+  "resolved" "https://registry.npm.taobao.org/fbjs/download/fbjs-0.8.17.tgz?cache=0&sync_timestamp=1602048886093&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffbjs%2Fdownload%2Ffbjs-0.8.17.tgz"
   "version" "0.8.17"
   dependencies:
     "core-js" "^1.0.0"
@@ -3367,7 +3482,7 @@
 
 "immutable@~3.7.6":
   "integrity" "sha1-E7TTyxK++hVIKib+Gy665kAHHks="
-  "resolved" "https://registry.nlark.com/immutable/download/immutable-3.7.6.tgz"
+  "resolved" "https://registry.nlark.com/immutable/download/immutable-3.7.6.tgz?cache=0&sync_timestamp=1625766594726&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fimmutable%2Fdownload%2Fimmutable-3.7.6.tgz"
   "version" "3.7.6"
 
 "import-fresh@^2.0.0":
@@ -3657,6 +3772,11 @@
   "version" "3.0.0"
   dependencies:
     "kind-of" "^3.0.2"
+
+"is-obj@^1.0.0":
+  "integrity" "sha1-PkcprB9f3gJc19g6iW2rn09n2w8="
+  "resolved" "https://registry.npm.taobao.org/is-obj/download/is-obj-1.0.1.tgz"
+  "version" "1.0.1"
 
 "is-plain-object@^2.0.3", "is-plain-object@^2.0.4":
   "integrity" "sha1-LBY7P6+xtgbZ0Xko8FwqHDjgdnc="
@@ -4522,6 +4642,11 @@
   dependencies:
     "object-visit" "^1.0.0"
 
+"mdn-data@2.0.14":
+  "integrity" "sha1-cRP8QoGRfWPOKbQ0RvcB5owlulA="
+  "resolved" "https://registry.nlark.com/mdn-data/download/mdn-data-2.0.14.tgz?cache=0&sync_timestamp=1626306527975&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmdn-data%2Fdownload%2Fmdn-data-2.0.14.tgz"
+  "version" "2.0.14"
+
 "mem@^1.1.0":
   "integrity" "sha1-Xt1StIXKHZAP5kiVUFOZoN+kX3Y="
   "resolved" "https://registry.nlark.com/mem/download/mem-1.1.0.tgz?cache=0&sync_timestamp=1626534487701&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmem%2Fdownload%2Fmem-1.1.0.tgz"
@@ -4998,6 +5123,13 @@
   "version" "2.0.2"
   dependencies:
     "path-key" "^2.0.0"
+
+"nth-check@^1.0.2":
+  "integrity" "sha1-sr0pXDfj3VijvwcAN2Zjuk2c8Fw="
+  "resolved" "https://registry.npm.taobao.org/nth-check/download/nth-check-1.0.2.tgz?cache=0&sync_timestamp=1606860944410&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnth-check%2Fdownload%2Fnth-check-1.0.2.tgz"
+  "version" "1.0.2"
+  dependencies:
+    "boolbase" "~1.0.0"
 
 "nullthrows@^1.1.0":
   "integrity" "sha1-eBgliEOFaulx6uQgitfX6xmkMbE="
@@ -5529,7 +5661,7 @@
     "shell-quote" "^1.6.1"
     "ws" "^3.3.1"
 
-"react-is@^16.12.0", "react-is@^16.13.0", "react-is@^16.7.0", "react-is@^16.8.1", "react-is@^16.8.4", "react-is@^16.9.0":
+"react-is@^16.12.0", "react-is@^16.13.0", "react-is@^16.13.1", "react-is@^16.7.0", "react-is@^16.8.1", "react-is@^16.8.4", "react-is@^16.9.0":
   "integrity" "sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ="
   "resolved" "https://registry.nlark.com/react-is/download/react-is-16.13.1.tgz"
   "version" "16.13.1"
@@ -5587,7 +5719,7 @@
   dependencies:
     "fbjs" "^1.0.0"
 
-"react-native-responsive-screen@^1.4.0":
+"react-native-responsive-screen@^1.4.2":
   "integrity" "sha1-RSgIJtJPmsy/30ajbLjm14D3byg="
   "resolved" "https://registry.npm.taobao.org/react-native-responsive-screen/download/react-native-responsive-screen-1.4.2.tgz"
   "version" "1.4.2"
@@ -5609,6 +5741,14 @@
   "resolved" "https://registry.nlark.com/react-native-screens/download/react-native-screens-2.18.1.tgz"
   "version" "2.18.1"
 
+"react-native-svg@^12.1.1":
+  "integrity" "sha1-XykkELi8wHu8UrLafOsiyvW8qu4="
+  "resolved" "https://registry.npm.taobao.org/react-native-svg/download/react-native-svg-12.1.1.tgz"
+  "version" "12.1.1"
+  dependencies:
+    "css-select" "^2.1.0"
+    "css-tree" "^1.0.0-alpha.39"
+
 "react-native-tab-view@^2.15.2":
   "integrity" "sha1-yucscIQ5S9Mo+sX++4bNlm3zeoY="
   "resolved" "https://registry.nlark.com/react-native-tab-view/download/react-native-tab-view-2.16.0.tgz"
@@ -5623,7 +5763,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^15.0.2"
 
-"react-native@0.61.5":
+"react-native@*", "react-native@>=0.50.0", "react-native@>=0.59", "react-native@0.61.5":
   "integrity" "sha1-biGstWy9daO66x9wIBpm9CYAu6g="
   "resolved" "https://registry.nlark.com/react-native/download/react-native-0.61.5.tgz"
   "version" "0.61.5"
@@ -5689,6 +5829,18 @@
     "@react-navigation/core" "^3.7.9"
     "@react-navigation/native" "^3.8.4"
 
+"react-redux@^7.2.4":
+  "integrity" "sha1-HrtHQDK3LYBt4uBRnNB3YeIi4iU="
+  "resolved" "https://registry.nlark.com/react-redux/download/react-redux-7.2.4.tgz"
+  "version" "7.2.4"
+  dependencies:
+    "@babel/runtime" "^7.12.1"
+    "@types/react-redux" "^7.1.16"
+    "hoist-non-react-statics" "^3.3.2"
+    "loose-envify" "^1.4.0"
+    "prop-types" "^15.7.2"
+    "react-is" "^16.13.1"
+
 "react-refresh@^0.4.0":
   "integrity" "sha1-lm8XUMGRZy524Wwu+laRUMxzq1M="
   "resolved" "https://registry.nlark.com/react-refresh/download/react-refresh-0.4.3.tgz"
@@ -5709,7 +5861,7 @@
   "resolved" "https://registry.npm.taobao.org/react-timer-mixin/download/react-timer-mixin-0.13.4.tgz"
   "version" "0.13.4"
 
-"react@16.9.0":
+"react@*", "react@^16.8", "react@^16.8.3 || ^17", "react@16.9.0":
   "integrity" "sha1-QLovmvE7waONddvy9DWaUYXE96o="
   "resolved" "https://registry.nlark.com/react/download/react-16.9.0.tgz"
   "version" "16.9.0"
@@ -5776,6 +5928,18 @@
   "integrity" "sha1-SiJSVMr32nVnl7GcWBe/enlB+sE="
   "resolved" "https://registry.npm.taobao.org/rebound/download/rebound-0.0.13.tgz"
   "version" "0.0.13"
+
+"redux-thunk@^2.3.0":
+  "integrity" "sha1-UcLBmhhe1Rh6qpotCLZm0NZGdiI="
+  "resolved" "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz"
+  "version" "2.3.0"
+
+"redux@^4.0.0", "redux@^4.1.1":
+  "integrity" "sha1-dvHEObtCBD+YX72b8hmQ5gvWf0c="
+  "resolved" "https://registry.nlark.com/redux/download/redux-4.1.1.tgz?cache=0&sync_timestamp=1628001519092&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fredux%2Fdownload%2Fredux-4.1.1.tgz"
+  "version" "4.1.1"
+  dependencies:
+    "@babel/runtime" "^7.9.2"
 
 "regenerate-unicode-properties@^8.2.0":
   "integrity" "sha1-5d5xEdZV57pgwFfb6f83yH5lzew="
@@ -6587,10 +6751,10 @@
     "slice-ansi" "^2.1.0"
     "string-width" "^3.0.0"
 
-"teaset@^0.7.5":
-  "integrity" "sha1-Ml9DFxMm3wMDJkypTTkwL8H4dPs="
-  "resolved" "https://registry.npm.taobao.org/teaset/download/teaset-0.7.5.tgz"
-  "version" "0.7.5"
+"teaset@0.7.1":
+  "integrity" "sha1-ZSpOFGZi7M13hNpF3W5s8onYufc="
+  "resolved" "https://registry.npm.taobao.org/teaset/download/teaset-0.7.1.tgz"
+  "version" "0.7.1"
   dependencies:
     "prop-types" "^15.7.2"
     "react-native-legacy-components" "^0.1.3"
