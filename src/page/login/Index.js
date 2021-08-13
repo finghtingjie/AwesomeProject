@@ -7,6 +7,11 @@ import { login } from '@api/login';
 
 import styles from './LoginStyle';
 
+const loginBg = require('../../assets/login/bg.png');
+const logo = require('../../assets/login/logo.png');
+const userIcon = require('../../assets/login/usericon.png');
+const passwordIcon = require('../../assets/login/passwordicon.png');
+
 class Index extends React.PureComponent {
   static navigationOptions = {
     headerShown: false,
@@ -52,13 +57,13 @@ class Index extends React.PureComponent {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
-        <Image style={styles.loginBg} source={require('../../assets/login/bg.png')} />
+        <Image style={styles.loginBg} source={loginBg} />
         <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={require('../../assets/login/logo.png')} />
+          <Image style={styles.logo} source={logo} />
         </View>
         <Text style={styles.title}>首钢京唐智慧电网</Text>
         <View style={styles.userContainer}>
-          <Image style={styles.userIcon} source={require('../../assets/login/usericon.png')} />
+          <Image style={styles.userIcon} source={userIcon} />
           <TextInput
             onBlur={() => Keyboard.dismiss()}
             style={styles.inputBase}
@@ -69,7 +74,7 @@ class Index extends React.PureComponent {
           />
         </View>
         <View style={styles.passwordContainer}>
-          <Image style={styles.userIcon} source={require('../../assets/login/passwordicon.png')} />
+          <Image style={styles.userIcon} source={passwordIcon} />
           <TextInput
             password
             placeholder="密码"

@@ -27,7 +27,7 @@ export default StyleSheet.create({
     // backgroundColor: 'pink',
   },
   logo: {
-    width: wp(309 / BASE_WIDTH),
+    width: wp(312 / BASE_WIDTH),
     height: hp(166 / BASE_HEIGHT),
   },
   title: {
