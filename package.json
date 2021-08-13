@@ -5,6 +5,7 @@
   "scripts": {
     "icon": "npx iconfont-rn",
     "android": "react-native run-android",
+    "bundle-android": "cd android && ./gradlew assembleRelease ",
     "clean": "cd android && ./gradlew clean",
     "ios": "react-native run-ios",
     "start": "react-native start",
