@@ -1,133 +1,95 @@
-import { StyleSheet, Platform } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { StyleSheet } from 'react-native';
+import { p2dWidth, p2dHeight, px2dp } from '@utils/device';
+// import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const BASE_WIDTH = 3.75;
-const BASE_HEIGHT = 8.12;
+// const BASE_WIDTH = 10.8;
+// const BASE_HEIGHT = 19.2;
 
 export default StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     flex: 1,
   },
-  loginContent: {
-    width: wp(84),
-    marginLeft: wp(8),
-    marginRight: wp(8),
+  loginBg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  },
+  logoContainer: {
+    width: '100%',
+    height: 'auto',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingTop: p2dHeight(247),
     // backgroundColor: 'pink',
   },
-  tabContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    // backgroundColor: 'red',
-    // height: hp(7.38),
-    marginTop: hp(13.17),
-    marginBottom: hp(6.15),
+  logo: {
+    width: p2dWidth(360),
+    height: p2dHeight(166),
   },
-  titleRight: {
-    marginRight: wp(13.33),
-  },
-  commonColor: {
-    backgroundColor: '#E10600',
-  },
-  leftTab: {
-    height: hp(0.246),
-    width: wp(25.06),
-  },
-  rightTab: {
-    height: hp(0.246),
-    width: wp(32),
-  },
-  welComeTitle: {
-    lineHeight: hp(5.41),
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  normalText: {
-    color: '#888',
-    fontSize: hp(24 / BASE_HEIGHT),
-    lineHeight: hp(44 / BASE_HEIGHT),
-    fontWeight: Platform.OS === 'android' ? '700' : '500',
-  },
-  activedText: {
+  title: {
+    fontSize: 20,
+    width: '100%',
     textAlign: 'center',
-    color: '#333',
-    fontSize: hp(2.95),
-    fontWeight: Platform.OS === 'android' ? '700' : '500',
+    paddingTop: p2dHeight(73),
+    color: '#fff',
+    fontWeight: 'bold',
   },
-  inputBox: {
-    height: hp(7.38),
-    borderBottomColor: 'rgba(228,228,228,1)',
-    borderBottomWidth: wp(0.266),
+  logoContent: {
+    width: '100%',
+    height: p2dHeight(226),
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginTop: p2dHeight(100),
   },
-  inputBoxActive: {
-    height: hp(7.38),
-    borderBottomWidth: wp(0.266),
-    borderBottomColor: '#E10600',
+  userContainer: {
+    width: p2dWidth(600),
+    height: p2dHeight(88),
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    marginLeft: p2dWidth(240),
+    marginTop: p2dHeight(100),
+  },
+  userIcon: {
+    width: p2dWidth(40),
+    height: p2dWidth(40),
+    marginTop: p2dHeight(22),
+    marginLeft: p2dWidth(20),
   },
   inputBase: {
     color: '#333',
-    height: hp(7.38),
-    fontSize: hp(1.97),
-    fontWeight: '400',
+    fontSize: 14,
+    height: p2dHeight(88),
+    lineHeight: p2dHeight(88),
   },
-  password: {
-    color: '#333',
-    height: hp(7.38),
-    fontSize: hp(2.46),
-    letterSpacing: 2,
-    fontWeight: '400',
-  },
-  submitBtn: {
-    backgroundColor: 'rgba(225, 6, 0, 0.6)',
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: wp(2.66),
-    height: hp(6.15),
-    color: '#FFF',
-    borderRadius: wp(1.6),
-  },
-  submitBtnActive: {
-    backgroundColor: '#E10600',
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: wp(2.66),
-    height: hp(6.15),
-    color: '#FFF',
-    borderRadius: wp(1.6),
-  },
-  loginTop: {
-    paddingTop: hp(6.15),
-  },
-  otherBtnBox: {
-    marginTop: hp(2.46),
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
+  passwordContainer: {
+    width: p2dWidth(600),
+    height: p2dHeight(88),
+    justifyContent: 'flex-start',
     flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    marginLeft: p2dWidth(240),
+    marginTop: p2dHeight(50),
   },
-  otherBtn: {
-    fontSize: hp(1.6),
-    color: 'rgba(153,153,153,1)',
-    height: hp(4.38),
-    justifyContent: 'center',
-    alignItems: 'center',
+  loginBtn: {
+    width: p2dWidth(600),
+    height: p2dHeight(88),
+    borderRadius: 4,
+    backgroundColor: '#1967D9',
+    paddingVertical: 0,
+    marginLeft: p2dWidth(240),
+    marginTop: p2dHeight(100),
   },
-  loginText: {
+  loginBtnText: {
+    fontSize: 18,
+    width: '100%',
+    textAlign: 'center',
     color: '#fff',
-    fontSize: hp(2.09),
-    fontWeight: 'normal',
-    lineHeight: hp(2.95),
-  },
-  loginTextActive: {
-    color: '#fff',
-    fontSize: hp(2.09),
     fontWeight: 'bold',
-    lineHeight: hp(2.95),
-  },
-  commonTextColor: {
-    color: '#999',
-    lineHeight: hp(20 / BASE_HEIGHT),
   },
 });

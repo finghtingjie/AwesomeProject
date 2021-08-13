@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, TextInput, Text, TouchableOpacity, Keyboard, StatusBar } from 'react-native';
+import { View, TextInput, Text, Keyboard, StatusBar, Image } from 'react-native';
 
-import { Overlay, Toast, ModalIndicator } from 'teaset';
+import { Toast, ModalIndicator, Button } from 'teaset';
 
-import { queryUpdate, getChooseBizEntity, getChoseBizAccount, login } from '@api/login';
+import { login } from '@api/login';
 
 import styles from './LoginStyle';
 
@@ -16,19 +16,31 @@ class Index extends React.PureComponent {
     super(props);
     this.state = {
       userName: '',
-      userPhone: '',
       password: '',
-      id: null,
-      userNameend: false,
-      userPhoneend: false,
-      passwordend: false,
-      tabActiveIndex: 1, //tab切换
     };
   }
 
   componentDidMount() {}
 
-  _signInAsync = () => {};
+  handleLogin = () => {
+    const { navigation } = this.props;
+    const { userName, password } = this.state;
+    if (!userName) {
+      Toast.info('请输入用户名');
+    } else if (!password) {
+      Toast.info('请输入密码');
+    } else {
+      ModalIndicator.show();
+      const params = { userName, password };
+      login(params).then(res => {
+        ModalIndicator.hide();
+        if (res && res.status === 200) {
+          // 登录成功
+          navigation.navigate('Home', { activeIndex: 1 });
+        }
+      });
+    }
+  };
 
   render() {
     return (
@@ -41,113 +53,36 @@ class Index extends React.PureComponent {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
-        <View style={styles.loginContent}>
-          <View style={styles.tabContainer}>
-            <TouchableOpacity style={styles.titleRight} onPress={() => this.handleTabChange(1)}>
-              {this.state.tabActiveIndex === 2 ? (
-                <Text style={[styles.welComeTitle, styles.normalText]}>账号登录</Text>
-              ) : (
-                <>
-                  <Text style={[styles.welComeTitle, styles.activedText]}>账号登录</Text>
-                  <View style={[styles.leftTab, styles.commonColor]} />
-                </>
-              )}
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => this.handleTabChange(2)}>
-              {this.state.tabActiveIndex === 1 ? (
-                <Text style={[styles.welComeTitle, styles.normalText]}>手机号登录</Text>
-              ) : (
-                <>
-                  <Text style={[styles.welComeTitle, styles.activedText]}>手机号登录</Text>
-                  <View style={[styles.rightTab, styles.commonColor]} />
-                </>
-              )}
-            </TouchableOpacity>
-          </View>
-          {this.state.tabActiveIndex === 1 && (
-            <>
-              <View style={this.state.userName && !this.state.userNameend ? styles.inputBoxActive : styles.inputBox}>
-                <TextInput
-                  onBlur={() => Keyboard.dismiss()}
-                  onEndEditing={() => this.setState({ userNameend: true })}
-                  style={styles.inputBase}
-                  selectionColor="rgba(225, 6, 0, 0.6)"
-                  placeholderTextColor="#999"
-                  placeholder="请输入账号"
-                  onChangeText={userName => this.setState({ userName, userNameend: false })}
-                  value={this.state.userName}
-                />
-              </View>
-              <View style={this.state.password && !this.state.passwordend ? styles.inputBoxActive : styles.inputBox}>
-                <TextInput
-                  onBlur={() => Keyboard.dismiss()}
-                  onEndEditing={() => this.setState({ passwordend: true })}
-                  style={this.state.password ? styles.password : styles.inputBase}
-                  selectionColor="rgba(225, 6, 0, 0.6)"
-                  placeholderTextColor="#999"
-                  placeholder="请输入密码"
-                  password
-                  secureTextEntry
-                  onChangeText={password => this.setState({ password, passwordend: false })}
-                  value={this.state.password}
-                />
-              </View>
-            </>
-          )}
-
-          {this.state.tabActiveIndex === 2 && (
-            <>
-              <View style={this.state.userName && !this.state.userPhoneend ? styles.inputBoxActive : styles.inputBox}>
-                <TextInput
-                  onBlur={() => Keyboard.dismiss()}
-                  onEndEditing={() => this.setState({ userPhoneend: true })}
-                  style={styles.inputBase}
-                  maxLength={11}
-                  placeholder="请输入手机号"
-                  keyboardType="numeric"
-                  placeholderTextColor="#999"
-                  selectionColor="rgba(225, 6, 0, 0.6)"
-                  onChangeText={userPhone => this.setState({ userPhone, userPhoneend: false })}
-                  value={this.state.userPhone}
-                />
-              </View>
-              <View style={this.state.password && !this.state.passwordend ? styles.inputBoxActive : styles.inputBox}>
-                <TextInput
-                  onBlur={() => Keyboard.dismiss()}
-                  onEndEditing={() => this.setState({ passwordend: true })}
-                  style={this.state.password ? styles.password : styles.inputBase}
-                  placeholder="请输入密码"
-                  placeholderTextColor="#999"
-                  selectionColor="rgba(225, 6, 0, 0.6)"
-                  password
-                  secureTextEntry
-                  onChangeText={password => this.setState({ password, passwordend: false })}
-                  value={this.state.password}
-                />
-              </View>
-            </>
-          )}
-
-          <View style={styles.loginTop}>
-            <TouchableOpacity onPress={this._signInAsync}>
-              <View style={this.state.userName || this.state.password ? styles.submitBtnActive : styles.submitBtn}>
-                <Text style={this.state.userName || this.state.password ? styles.loginTextActive : styles.loginText}>
-                  登录
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.otherBtnBox}>
-            <TouchableOpacity style={styles.otherBtn} onPress={this._firstLogin}>
-              <Text style={styles.commonTextColor}>初次登录</Text>
-            </TouchableOpacity>
-            <Text style={styles.commonTextColor}> 丨 </Text>
-            <TouchableOpacity style={styles.otherBtn} onPress={this._forgetPassword}>
-              <Text style={styles.commonTextColor}>忘记密码</Text>
-            </TouchableOpacity>
-          </View>
+        <Image style={styles.loginBg} source={require('../../assets/login/bg.png')} />
+        <View style={styles.logoContainer}>
+          <Image style={styles.logo} source={require('../../assets/login/logo.png')} />
         </View>
+        <Text style={styles.title}>首钢京唐智慧电网</Text>
+        <View style={styles.userContainer}>
+          <Image style={styles.userIcon} source={require('../../assets/login/usericon.png')} />
+          <TextInput
+            onBlur={() => Keyboard.dismiss()}
+            style={styles.inputBase}
+            placeholderTextColor="#999"
+            placeholder="用户名"
+            value={this.state.userName}
+          />
+        </View>
+        <View style={styles.passwordContainer}>
+          <Image style={styles.userIcon} source={require('../../assets/login/passwordicon.png')} />
+          <TextInput
+            password
+            placeholder="密码"
+            secureTextEntry
+            onBlur={() => Keyboard.dismiss()}
+            style={styles.inputBase}
+            placeholderTextColor="#999"
+            value={this.state.password}
+          />
+        </View>
+        <Button style={styles.loginBtn} onPress={this.handleLogin}>
+          <Text style={styles.loginBtnText}>登&nbsp;&nbsp;&nbsp;录</Text>
+        </Button>
       </View>
     );
   }

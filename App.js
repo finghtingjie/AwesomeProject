@@ -39,9 +39,10 @@ const loginStack = createStackNavigator({ Login });
 
 const AppContainer = createAppContainer(
   createSwitchNavigator({
+    // App: Route,
+    AuthLoading: AuthLoadingScreen,
+    Auth: loginStack,
     App: Route,
-    // AuthLoading: AuthLoadingScreen,
-    // Auth: loginStack,
   }),
   {
     initialRouteName: 'AuthLoading',
