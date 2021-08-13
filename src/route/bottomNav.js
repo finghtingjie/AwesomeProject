@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { getActiveChildNavigationOptions } from 'react-navigation';
 
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 // import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import IconWithBadge from '../components/IconWithBadge';
@@ -72,19 +72,24 @@ const iconMap = {
   首页: {
     // icon: 'qiche',
     icon: require('@assets/home/tabbar/homeicon.png'),
+    iconActive: require('@assets/home/tabbar/homeicon.png'),
   },
   监控: {
     // icon: 'yuyue',
     icon: require('@assets/home/tabbar/monitoricon.png'),
+    iconActive: require('@assets/home/tabbar/monitoricon.png'),
   },
   kpi: {
     icon: require('@assets/home/tabbar/kpiicon.png'),
+    iconActive: require('@assets/home/tabbar/kpiicon.png'),
   },
   警告: {
     icon: require('@assets/home/tabbar/gaojingicon.png'),
+    iconActive: require('@assets/home/tabbar/gaojingicon.png'),
   },
   我的: {
     icon: require('@assets/home/tabbar/wodeicon.png'),
+    iconActive: require('@assets/home/tabbar/wodeicon.png'),
   },
 };
 
@@ -123,6 +128,14 @@ class customTabBar extends React.PureComponent {
     ]);
     const action = actions.get(item) || actions.get('default');
     return action;
+  };
+
+  renderImage = (item, activeColor) => {
+    if (activeColor === '#4367FD') {
+      return <Image style={styles.userPic} source={iconMap[item].iconActive} />;
+    } else {
+      return <Image style={styles.userPic} source={iconMap[item].icon} />;
+    }
   };
 
   // 自定义一级导航器跳转
@@ -179,7 +192,8 @@ class customTabBar extends React.PureComponent {
               style={styles.tabButton}
               key={routeIndex}
               onPress={() => this.handleClick(item, routeIndex)}>
-              <Image style={styles.userPic} source={iconMap[item].icon} />
+              {this.renderImage(item, activeColor)}
+              {/* <Image style={styles.userPic} source={iconMap[item].icon} /> */}
               {/* <IconWithBadge icon={iconMap[item].icon} name={item} size={22} color={activeColor} /> */}
               <Text style={{ fontSize: p2dHeight(30), fontWeight: '400', color: activeColor }}>{item}</Text>
             </TouchableOpacity>

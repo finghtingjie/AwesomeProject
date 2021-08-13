@@ -1,7 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-class HomeScreen extends React.Component {
+class Index extends React.Component {
+  static navigationOptions = {
+    headerShown: false,
+  };
   render() {
     return (
       <View style={styles.text}>
@@ -19,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default Index;
