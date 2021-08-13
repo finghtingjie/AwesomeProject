@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform, Modal } from 'react-native';
 import moment from 'moment';
 import Picker from 'react-native-picker';
 

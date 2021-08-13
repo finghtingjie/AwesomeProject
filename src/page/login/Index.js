@@ -47,9 +47,8 @@ class Index extends React.PureComponent {
       <View style={styles.container}>
         <StatusBar
           animated
-          barStyle="dark-content"
+          translucent
           backgroundColor="transparent"
-          translucent={false}
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
@@ -66,6 +65,7 @@ class Index extends React.PureComponent {
             placeholderTextColor="#999"
             placeholder="用户名"
             value={this.state.userName}
+            onChangeText={userName => this.setState({ userName })}
           />
         </View>
         <View style={styles.passwordContainer}>
@@ -74,10 +74,11 @@ class Index extends React.PureComponent {
             password
             placeholder="密码"
             secureTextEntry
-            onBlur={() => Keyboard.dismiss()}
             style={styles.inputBase}
             placeholderTextColor="#999"
             value={this.state.password}
+            onBlur={() => Keyboard.dismiss()}
+            onChangeText={password => this.setState({ password })}
           />
         </View>
         <Button style={styles.loginBtn} onPress={this.handleLogin}>

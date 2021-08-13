@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { p2dWidth, p2dHeight, px2dp } from '@utils/device';
-// import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { p2dWidth, p2dHeight } from '@utils/device';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-// const BASE_WIDTH = 10.8;
-// const BASE_HEIGHT = 19.2;
+const BASE_WIDTH = 10.8;
+const BASE_HEIGHT = 19.2;
 
 export default StyleSheet.create({
   container: {
@@ -23,6 +23,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     paddingTop: p2dHeight(247),
+    // paddingTop: p2dHeight(247),
     // backgroundColor: 'pink',
   },
   logo: {
@@ -61,10 +62,13 @@ export default StyleSheet.create({
     marginLeft: p2dWidth(20),
   },
   inputBase: {
-    color: '#333',
+    color: '#1967D9',
+    fontWeight: '400',
     fontSize: 14,
+    width: '90%',
     height: p2dHeight(88),
     lineHeight: p2dHeight(88),
+    // backgroundColor: 'pink',
   },
   passwordContainer: {
     width: p2dWidth(600),

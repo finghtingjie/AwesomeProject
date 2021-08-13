@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { getActiveChildNavigationOptions } from 'react-navigation';
 
-// import AsyncStorage from '@react-native-community/async-storage';
 // import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import IconWithBadge from '../components/IconWithBadge';

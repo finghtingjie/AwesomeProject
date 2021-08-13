@@ -12,11 +12,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 // 第三方模块
 import { Toast } from 'teaset';
-// import AsyncStorage from '@react-native-community/async-storage';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 自己代码导入模块
-import useStore from '@store/index';
-import Route from '@src/route/bottomNav';
+import useStore from './src/store/index';
+import Route from './src/route/bottomNav';
 import Login from '@page/login/Index';
 import AuthLoadingScreen from '@page/auth/Index';
 

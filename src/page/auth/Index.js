@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ActivityIndicator, StatusBar, StyleSheet, View, Text } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Index extends React.PureComponent {
   componentDidMount() {

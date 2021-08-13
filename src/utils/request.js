@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Platform } from 'react-native';
 
 import { Toast, ModalIndicator } from 'teaset';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BASE_URL from '../utils/baseurl';
 import NavigationService from '../../NavigationService';
