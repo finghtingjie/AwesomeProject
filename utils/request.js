@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 
-import {Toast, ModalIndicator} from 'teaset';
+import { Toast, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import NavigationService from '../../NavigationService';
@@ -117,11 +117,11 @@ instance.interceptors.response.use(
   },
 );
 
-const request = async (api, {method, params}) => {
+const request = async (api, { method, params }) => {
   if (method === 'GET') {
     return new Promise((resolve, reject) => {
       instance
-        .get(api, {params})
+        .get(api, { params })
         .then(res => resolve(res.data))
         .catch(error => reject(error));
     });
@@ -138,7 +138,7 @@ const request = async (api, {method, params}) => {
         url: api,
         method: 'post',
         data: params,
-        headers: {'Content-Type': 'multipart/form-data'},
+        headers: { 'Content-Type': 'multipart/form-data' },
       })
         .then(res => resolve(res.data))
         .catch(error => reject(error));

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, SafeAreaView, StatusBar, Image} from 'react-native';
+import { StyleSheet, SafeAreaView, StatusBar, Image } from 'react-native';
 
 // import {Colors} from 'react-native/Libraries/NewAppScreen';
 // // import HomeScreen from './navigator/HomeScreen2';
