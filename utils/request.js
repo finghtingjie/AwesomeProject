@@ -4,114 +4,159 @@ import { Platform } from 'react-native';
 import { Toast, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import BASE_URL from '../utils/baseurl';
 import NavigationService from '../../NavigationService';
 
-// const BASE_URL = 'http://172.18.229.32:8762/gw/';
-// const BASE_URL = 'https://internalgw-test.mottuum.com/gw/';
-const BASE_URL = 'https://internalgw-uat.mottuum.com/gw/';
-// const BASE_URL = 'https://internalgw.mottuum.com/gw/';
+const pending = new Map();
+
+/**
+ * 添加请求
+ * @param {Object} config
+ */
+const addPending = config => {
+  const url = [config.method, config.url, JSON.stringify(config.params), JSON.stringify(config.data)].join('&');
+  config.cancelToken =
+    config.cancelToken ||
+    new axios.CancelToken(cancel => {
+      if (!pending.has(url)) {
+        // 如果 pending 中不存在当前请求，则添加进去
+        pending.set(url, cancel);
+      }
+    });
+};
+/**
+ * 移除请求
+ * @param {Object} config
+ */
+const removePending = config => {
+  const url = [config.method, config.url, JSON.stringify(config.params), JSON.stringify(config.data)].join('&');
+  if (pending.has(url)) {
+    // 如果在 pending 中存在当前请求标识，需要取消当前请求，并且移除
+    const cancel = pending.get(url);
+    cancel(url);
+    pending.delete(url);
+  }
+};
+/**
+ * 清空 pending 中的请求（在路由跳转时调用）
+ */
+export const clearPending = () => {
+  for (const [url, cancel] of pending) {
+    cancel(url);
+  }
+  pending.clear();
+};
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 6000,
+  timeout: 10000,
   headers: {
     'X-Custom-Header': 'foobar',
     'Content-Type': 'application/json',
     'Device-Type': Platform.OS === 'ios' ? 'iOS' : 'Android',
   },
-  //chrome下debug调试
-  // __DEV__ react-native自带的环境变量，表示开发环境
-  withCredentials: !__DEV__,
 });
 
 //请求拦截处理
 instance.interceptors.request.use(
-  async function(config) {
-    let c_token = await AsyncStorage.getItem('Authorization');
+  async config => {
+    const c_token = await AsyncStorage.getItem('Authorization');
     if (c_token) {
-      // 登录之后 c_token
       config.headers.Authorization = c_token;
     } else {
       //没有登录状态时，跳转到登录页
       config.headers.Authorization = c_token;
     }
-
-    //  给data赋值以绕过if判断，get请求时没有data content-type会失去
     if (config.method === 'get') {
       config.data = true;
     }
-    // config.headers['Content-Type'] = 'application/json'
+    removePending(config); // 在请求开始前，对之前的请求做检查取消操作
+    addPending(config); // 将当前请求添加到 pending 中
     return config;
   },
-  function(error) {
-    // 对请求错误做些什么
+  error => {
     return Promise.reject(error);
   },
 );
 
+const errorHandler = err => {
+  if (err && err.response) {
+    ModalIndicator.hide();
+    switch (err.response.status) {
+      case 400:
+        err.message = '错误请求';
+        break;
+      case 401:
+        err.message = '未授权，请重新登录';
+        break;
+      case 403:
+        err.message = '拒绝访问';
+        break;
+      case 404:
+        err.message = `请求地址出错: ${err.response.config.url}`;
+        break;
+      case 405:
+        err.message = '请求方法未允许';
+        break;
+      case 408:
+        err.message = '请求超时';
+        break;
+      case 500:
+        err.message = '服务器端出错';
+        break;
+      case 501:
+        err.message = '服务未实现';
+        break;
+      case 502:
+        err.message = '网关错误';
+        break;
+      case 503:
+        err.message = '服务不可用';
+        break;
+      case 504:
+        err.message = '网关超时';
+        break;
+      case 505:
+        err.message = 'http版本不支持该请求';
+        break;
+      default:
+        err.message = `连接错误${err.response.status}`;
+    }
+    const errData = {
+      code: err.response.status,
+      message: err.message,
+    };
+    // 统一错误处理可以放这，例如页面提示错误...
+    console.log('统一错误处理: ', errData);
+    Toast.sad(errData.message);
+    NavigationService.navigate('Login');
+  } else {
+    console.log('Error', JSON.parse(JSON.stringify(err)));
+    // 超时或断网
+    let msg = '';
+    if (err.message.includes('timeout')) {
+      msg = '请求超时！请检查网络是否正常';
+    } else {
+      msg = '网络错误，请检查网络是否已连接！';
+    }
+    Toast.sad(msg);
+    if (__DEV__) {
+      NavigationService.navigate('Login');
+    }
+  }
+};
+
 //返回拦截处理
 instance.interceptors.response.use(
-  function(response) {
+  response => {
+    removePending(response); // 在请求结束后，移除本次请求
     return response;
   },
-  function(err) {
-    // 对响应错误做点什么
-    if (err && err.response) {
-      switch (err.response.status) {
-        case 400:
-          err.message = '错误请求';
-          break;
-        case 401:
-          err.message = '未授权，请重新登录';
-          break;
-        case 403:
-          err.message = '拒绝访问';
-          break;
-        case 404:
-          err.message = '请求错误,未找到该资源';
-          break;
-        case 405:
-          err.message = '请求方法未允许';
-          break;
-        case 408:
-          err.message = '请求超时';
-          break;
-        case 500:
-          err.message = '服务器端出错';
-          break;
-        case 501:
-          err.message = '网络未实现';
-          break;
-        case 502:
-          err.message = '网络错误';
-          break;
-        case 503:
-          err.message = '服务不可用';
-          break;
-        case 504:
-          err.message = '网络超时';
-          break;
-        case 505:
-          err.message = 'http版本不支持该请求';
-          break;
-        default:
-          err.message = `连接错误${err.response.status}`;
-      }
-      let errData = {
-        code: err.response.status,
-        message: err.message,
-      };
-      // 统一错误处理可以放这，例如页面提示错误...
-      console.log('统一错误处理: ', errData);
-      Toast.sad(errData.message);
-      NavigationService.navigate('Login');
-      ModalIndicator.hide();
+  err => {
+    if (axios.isCancel(err)) {
+      console.log('repeated request: ' + err.message);
     } else {
-      Toast.sad('网络请求失败');
-      if (__DEV__) {
-        NavigationService.navigate('Login');
-      }
-      ModalIndicator.hide();
+      errorHandler(err);
     }
     return Promise.reject(err);
   },
@@ -145,4 +190,5 @@ const request = async (api, { method, params }) => {
     });
   }
 };
+
 export default request;
