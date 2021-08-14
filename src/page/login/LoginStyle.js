@@ -28,7 +28,7 @@ export default StyleSheet.create({
   },
   logo: {
     width: wp(312 / BASE_WIDTH),
-    height: hp(166 / BASE_HEIGHT),
+    height: hp(175 / BASE_HEIGHT),
   },
   title: {
     color: '#fff',
