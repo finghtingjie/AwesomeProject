@@ -65,6 +65,7 @@ export default StyleSheet.create({
     color: '#1967D9',
     fontWeight: '400',
     width: '90%',
+    paddingVertical: 0,
     fontSize: hp(24 / BASE_HEIGHT),
     height: hp(88 / BASE_HEIGHT),
     lineHeight: hp((24 * 1.2) / BASE_HEIGHT),
