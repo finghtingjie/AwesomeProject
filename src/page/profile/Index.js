@@ -60,7 +60,7 @@ class Index extends React.Component {
       case 2:
         return fenzuPic;
       case 3:
-        return gaojingPic;
+        return navigation.navigate('WarningConfig');
       case 4:
         return navigation.navigate('ChangePassword');
       default:
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     width: wp(996 / BASE_WIDTH),
-    height: wp(808 / BASE_HEIGHT),
+    height: hp(808 / BASE_HEIGHT),
     backgroundColor: '#fff',
     marginLeft: wp(42 / BASE_WIDTH),
     borderTopLeftRadius: 0,
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: wp(20 / BASE_WIDTH),
     borderBottomRightRadius: wp(20 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
-    shadowOffset: { width: 20, height: 20 },
+    // shadowOffset: { width: 20, height: 20 },
   },
   commonRow: {
     width: wp(904 / BASE_WIDTH),
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     height: hp(30 / BASE_HEIGHT),
   },
   loginBtn: {
+    position: 'relative',
     paddingVertical: 0,
     backgroundColor: '#4367FD',
     width: wp(700 / BASE_WIDTH),

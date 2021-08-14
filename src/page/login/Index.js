@@ -37,13 +37,13 @@ class Index extends React.PureComponent {
     } else {
       ModalIndicator.show();
       const params = { userName, password };
-      login(params).then(res => {
-        ModalIndicator.hide();
-        if (res && res.status === 200) {
-          // 登录成功
-          navigation.navigate('Home', { activeIndex: 1 });
-        }
-      });
+      // login(params).then(res => {
+      //   ModalIndicator.hide();
+      //   if (res && res.status === 200) {
+      //     // 登录成功
+      //     navigation.navigate('Home', { activeIndex: 1 });
+      //   }
+      // });
     }
   };
 

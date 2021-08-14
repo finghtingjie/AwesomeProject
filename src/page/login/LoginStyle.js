@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { p2dWidth, p2dHeight } from '@utils/device';
+// import { p2dWidth, p2dHeight } from '@utils/device';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const BASE_WIDTH = 10.8;
@@ -67,7 +67,7 @@ export default StyleSheet.create({
     width: '90%',
     fontSize: hp(24 / BASE_HEIGHT),
     height: hp(88 / BASE_HEIGHT),
-    lineHeight: hp(88 / BASE_HEIGHT),
+    lineHeight: hp((24 * 1.2) / BASE_HEIGHT),
     // backgroundColor: 'pink',
   },
   passwordContainer: {
