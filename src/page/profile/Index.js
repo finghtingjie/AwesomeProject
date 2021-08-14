@@ -1,11 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
 
 import { Toast, ModalIndicator, Button } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
-import TimePicker from '@components/TimePicker';
 
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
@@ -54,7 +52,21 @@ class Index extends React.Component {
     }
   };
 
-  handleClick = id => {};
+  handleClick = id => {
+    const { navigation } = this.props;
+    switch (id) {
+      case 1:
+        return yonghuPic;
+      case 2:
+        return fenzuPic;
+      case 3:
+        return gaojingPic;
+      case 4:
+        return navigation.navigate('ChangePassword');
+      default:
+        break;
+    }
+  };
 
   handleLoginOut = async () => {
     await AsyncStorage.clear();
@@ -65,6 +77,13 @@ class Index extends React.Component {
     const { userName } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar
+          animated
+          translucent
+          backgroundColor="transparent"
+          showHideTransition="fade"
+          networkActivityIndicatorVisible
+        />
         <View style={styles.topBg} />
         <View style={styles.userContainer}>
           <Image style={styles.userPic} source={userPic} />
@@ -76,7 +95,7 @@ class Index extends React.Component {
         <View style={styles.centerContainer}>
           {dataList.map(item => {
             return (
-              <TouchableOpacity style={styles.commonRow} key={item.id} onPress={this.handleClick(item.id)}>
+              <TouchableOpacity style={styles.commonRow} key={item.id} onPress={() => this.handleClick(item.id)}>
                 <Image style={styles.yonghuPic} source={this.renderSource(item.id)} />
                 <View style={styles.commonContent}>
                   <Text style={styles.commonTitle}>{item.name}</Text>
@@ -139,7 +158,7 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     width: wp(996 / BASE_WIDTH),
-    height: wp(808 / BASE_WIDTH),
+    height: wp(808 / BASE_HEIGHT),
     backgroundColor: '#fff',
     marginLeft: wp(42 / BASE_WIDTH),
     borderTopLeftRadius: 0,
