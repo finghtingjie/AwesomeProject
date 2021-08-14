@@ -8,7 +8,7 @@ import IconFont from '@iconfont/index.js';
 
 const orderPic = require('../../assets/profile/order.png');
 
-import styles from './userConfigStyle';
+import styles from './UserConfigStyle';
 
 const fakeData = [{ userId: 1, userName: '张珊山/zhangshanshan' }, { userId: 2, userName: '张珊山/zhangshanshan' }];
 
@@ -21,6 +21,16 @@ class WarningConfig extends React.PureComponent {
   }
   static navigationOptions = {
     headerShown: false,
+  };
+
+  handleAddUser = () => {
+    const { navigation } = this.props;
+    navigation.navigate('AddUser', { type: 'add' });
+  };
+
+  handleEditUser = item => {
+    const { navigation } = this.props;
+    navigation.navigate('AddUser', { type: 'edit', item });
   };
 
   render() {
@@ -67,7 +77,7 @@ class WarningConfig extends React.PureComponent {
             </View>
           );
         })}
-        <Button style={styles.submitBtn} onPress={this.handleSubmit}>
+        <Button style={styles.submitBtn} onPress={this.handleAddUser}>
           <Text style={styles.submitBtnText}>新增用户</Text>
         </Button>
       </View>

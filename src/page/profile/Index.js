@@ -56,7 +56,7 @@ class Index extends React.Component {
     const { navigation } = this.props;
     switch (id) {
       case 1:
-        return navigation.navigate('userConfig');
+        return navigation.navigate('UserConfig');
       case 2:
         return fenzuPic;
       case 3:

@@ -36,7 +36,7 @@ export default StyleSheet.create({
     width: wp(866 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
     shadowOffset: { width: 1, height: 1 },
-    borderColor: 'rgba(0, 0, 0, 0.15)',
+    borderColor: '#fff',
     borderWidth: 1,
     shadowOpacity: 0.9,
     height: hp(80 / BASE_HEIGHT),
