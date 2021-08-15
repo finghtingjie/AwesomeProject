@@ -23,6 +23,8 @@ import ChangePassword from '@page/profile/ChangePassword';
 import WarningConfig from '@page/profile/WarningConfig';
 import UserConfig from '@page/profile/UserConfig';
 import AddUser from '@page/profile/AddUser';
+import GroupConfig from '@page/profile/GroupConfig';
+import AddGroup from '@page/profile/AddGroup';
 
 import { queryMenu } from '@api/login';
 
@@ -37,7 +39,15 @@ const KpiStack = createStackNavigator({ Kpi });
 
 const WarningStack = createStackNavigator({ Warning });
 
-const ProfileStack = createStackNavigator({ Profile, ChangePassword, WarningConfig, UserConfig, AddUser });
+const ProfileStack = createStackNavigator({
+  Profile,
+  ChangePassword,
+  WarningConfig,
+  UserConfig,
+  AddUser,
+  GroupConfig,
+  AddGroup,
+});
 
 // 动态隐藏底部导航
 HomeStack.navigationOptions = ({ navigation }) => {

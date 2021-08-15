@@ -58,7 +58,7 @@ class Index extends React.Component {
       case 1:
         return navigation.navigate('UserConfig');
       case 2:
-        return fenzuPic;
+        return navigation.navigate('GroupConfig');
       case 3:
         return navigation.navigate('WarningConfig');
       case 4:
