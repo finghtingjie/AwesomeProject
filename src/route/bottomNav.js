@@ -6,10 +6,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { getActiveChildNavigationOptions } from 'react-navigation';
 
 // import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-
-import IconWithBadge from '../components/IconWithBadge';
-import NavigationService from '../../NavigationService';
-
 import Home from '@page/home/Index';
 
 import monitor from '@page/monitor/Index';
@@ -29,6 +25,9 @@ import AddGroup from '@page/profile/AddGroup';
 import { queryMenu } from '@api/login';
 
 import { p2dWidth, p2dHeight } from '../utils/device';
+
+import IconWithBadge from '../components/IconWithBadge';
+import NavigationService from '../../NavigationService';
 
 // 底部一级导航器
 const HomeStack = createStackNavigator({ Home });
@@ -83,25 +82,23 @@ ProfileStack.navigationOptions = ({ navigation }) => {
 // 渲染icon
 const iconMap = {
   首页: {
-    // icon: 'qiche',
-    icon: require('@assets/home/tabbar/homeicon.png'),
+    icon: require('@assets/home/tabbar/homeicon2.png'),
     iconActive: require('@assets/home/tabbar/homeicon.png'),
   },
   监控: {
-    // icon: 'yuyue',
-    icon: require('@assets/home/tabbar/monitoricon.png'),
-    iconActive: require('@assets/home/tabbar/monitoricon.png'),
+    icon: require('@assets/home/tabbar/jiankongicon2.png'),
+    iconActive: require('@assets/home/tabbar/jiankongicon.png'),
   },
   kpi: {
-    icon: require('@assets/home/tabbar/kpiicon.png'),
+    icon: require('@assets/home/tabbar/kpiicon2.png'),
     iconActive: require('@assets/home/tabbar/kpiicon.png'),
   },
-  警告: {
-    icon: require('@assets/home/tabbar/gaojingicon.png'),
+  告警: {
+    icon: require('@assets/home/tabbar/gaojingicon2.png'),
     iconActive: require('@assets/home/tabbar/gaojingicon.png'),
   },
   我的: {
-    icon: require('@assets/home/tabbar/wodeicon.png'),
+    icon: require('@assets/home/tabbar/wodeicon2.png'),
     iconActive: require('@assets/home/tabbar/wodeicon.png'),
   },
 };
@@ -124,7 +121,7 @@ class customTabBar extends React.PureComponent {
     //   }
     // });
     this.setState({
-      menuData: ['首页', '监控', 'kpi', '警告', '我的'],
+      menuData: ['首页', '监控', 'kpi', '告警', '我的'],
     });
   }
 
@@ -164,7 +161,7 @@ class customTabBar extends React.PureComponent {
       case 'kpi':
         NavigationService.navigate('Kpi');
         break;
-      case '警告':
+      case '告警':
         NavigationService.navigate('Warning');
         break;
       case '我的':
