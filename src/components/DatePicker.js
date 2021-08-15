@@ -5,8 +5,8 @@ import Picker from 'react-native-picker';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const BASE_WIDTH = 3.75;
-const BASE_HEIGHT = 8.12;
+const BASE_WIDTH = 10.8;
+const BASE_HEIGHT = 19.2;
 
 export default class DatePicker extends Component {
   constructor(props, context) {
@@ -183,7 +183,7 @@ export default class DatePicker extends Component {
         let dateStr = moment(str, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm:ss');
         this.props.onConfirm(dateStr);
         that.setState({
-          dateFormat: moment(dateStr).format('YYYY-MM-DD HH:mm:ss'),
+          dateFormat: moment(dateStr).format('YYYY-MM-DD'),
           modalVisible: false,
         });
       },
@@ -216,12 +216,6 @@ export default class DatePicker extends Component {
       },
     });
     Picker.show();
-  }
-
-  _isPickerShow() {
-    Picker.isPickerShow(status => {
-      alert(status);
-    });
   }
 
   hideModal() {
@@ -261,11 +255,11 @@ export default class DatePicker extends Component {
           {dateFormat ? (
             <Text style={valueTextStyle ? valueTextStyle : styles.textValue}>{dateFormat}</Text>
           ) : (
-            <Text style={placeholderStyle ? placeholderStyle : styles.textPlaceholder}>请选择日期</Text>
+            <Text style={placeholderStyle ? placeholderStyle : styles.textPlaceholder}>时间</Text>
           )}
           {this.props.suffix ? this.props.suffix : null}
         </TouchableOpacity>
-        <Modal animationType={'none'} transparent={true} visible={this.state.modalVisible}>
+        <Modal animationType="none" transparent visible={this.state.modalVisible}>
           <TouchableOpacity style={styles.touchModalStyle} onPress={this.hideModal.bind(this)} />
         </Modal>
       </View>
@@ -286,14 +280,15 @@ const styles = StyleSheet.create({
   textValue: {
     color: '#333',
     fontWeight: '400',
-    fontSize: hp(15 / BASE_HEIGHT),
-    lineHeight: hp(21 / BASE_HEIGHT),
+    fontSize: hp(32 / BASE_HEIGHT),
+    lineHeight: hp(40 / BASE_HEIGHT),
   },
   textPlaceholder: {
-    color: '#999999',
+    color: '#3D447B',
     fontWeight: '400',
-    fontSize: hp(15 / BASE_HEIGHT),
-    lineHeight: hp(21 / BASE_HEIGHT),
+    marginLeft: wp(40 / BASE_WIDTH),
+    fontSize: hp(32 / BASE_HEIGHT),
+    lineHeight: hp(40 / BASE_HEIGHT),
   },
   touchModalStyle: {
     width: '100%',

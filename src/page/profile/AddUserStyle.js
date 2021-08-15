@@ -58,6 +58,7 @@ export default StyleSheet.create({
   inputBase: {
     color: '#333',
     width: wp(54),
+    paddingVertical: 0,
     fontSize: hp(32 / BASE_HEIGHT),
     paddingLeft: wp(10 / BASE_WIDTH),
     lineHeight: hp((32 * 1.2) / BASE_HEIGHT),
