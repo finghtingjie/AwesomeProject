@@ -3,7 +3,6 @@ import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } f
 
 import { Toast, Button, PullPicker } from 'teaset';
 
-const backPic = require('../../assets/profile/back.png');
 const arrowPic = require('../../assets/profile/xiala.png');
 
 import IconFont from '@iconfont/index.js';
@@ -11,12 +10,12 @@ import IconFont from '@iconfont/index.js';
 
 import styles from './AddUserStyle';
 
-class ChangePassword extends React.PureComponent {
+class AddUser extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      curPassword: '',
-      newPassword: '',
+      userName: '',
+      fullName: '',
       verifyPassword: '',
       type: 'add',
       selectedIndex: null,
@@ -36,31 +35,18 @@ class ChangePassword extends React.PureComponent {
 
   handleSubmit = () => {
     const { navigation } = this.props;
-    const { newPassword, verifyPassword } = this.state;
-    if (!newPassword || !verifyPassword) {
-      Toast.info('请输入旧密码');
-    } else if (newPassword !== verifyPassword) {
-      Toast.info('两次输入的密码不一样,请重新输入');
-      this.setState({ newPassword: '', verifyPassword: '' });
-    } else {
-      // updateInfo({ password: newPassword }).then(res => {
-      //   if (res && res.status === 200) {
-      //     Toast.success('更新成功！');
-      //     navigation.navigate('Profile');
-      //   }
-      // });
-    }
+    const { fullName, verifyPassword } = this.state;
   };
 
   handleSelect = () => {
-    let items = ['分组1', '分组2', '分组3'];
+    const items = ['分组1', '分组2', '分组3'];
     PullPicker.show('请选择分组', items, this.state.selectedIndex, (item, index) =>
       this.setState({ selectedIndex: index, groupName: item }, () => console.log(item)),
     );
   };
 
   render() {
-    const { curPassword, newPassword, verifyPassword, type, groupName } = this.state;
+    const { userName, fullName, verifyPassword, type, groupName } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -83,9 +69,9 @@ class ChangePassword extends React.PureComponent {
               style={styles.inputBase}
               placeholder="请输入用户名"
               placeholderTextColor="#999"
-              value={curPassword}
+              value={userName}
               onBlur={() => Keyboard.dismiss()}
-              onChangeText={val => this.setState({ curPassword: val })}
+              onChangeText={val => this.setState({ userName: val })}
             />
           </View>
           <View style={styles.inputBox}>
@@ -94,9 +80,9 @@ class ChangePassword extends React.PureComponent {
               style={styles.inputBase}
               placeholder="请输入真实姓名"
               placeholderTextColor="#999"
-              value={newPassword}
+              value={fullName}
               onBlur={() => Keyboard.dismiss()}
-              onChangeText={val => this.setState({ newPassword: val })}
+              onChangeText={val => this.setState({ fullName: val })}
             />
           </View>
           <View style={styles.inputBox}>
@@ -126,4 +112,4 @@ class ChangePassword extends React.PureComponent {
   }
 }
 
-export default ChangePassword;
+export default AddUser;
