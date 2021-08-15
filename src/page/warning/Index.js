@@ -37,6 +37,7 @@ class Index extends React.PureComponent {
       dateStart: null,
       dateEnd: '请选择日期',
       keyWord: '',
+      order: 0,
       fakeData: [
         {
           id: 1,
@@ -128,6 +129,10 @@ class Index extends React.PureComponent {
     );
   };
 
+  handleChangeOrder = () => {
+    const { order } = this.state;
+  };
+
   render() {
     const { keyWord, fakeData, levelName, statusName } = this.state;
     return (
@@ -162,7 +167,7 @@ class Index extends React.PureComponent {
             />
             <Image style={styles.arrowPic} source={arrowPic} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.orderContainer}>
+          <TouchableOpacity style={styles.orderContainer} onPress={() => this.handleChangeOrder()}>
             <Image style={styles.orderPic} source={orderPic} />
           </TouchableOpacity>
         </View>
