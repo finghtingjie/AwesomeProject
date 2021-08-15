@@ -4,6 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } f
 import { Toast, Button, PullPicker } from 'teaset';
 
 const arrowPic = require('../../assets/profile/xiala.png');
+const orderPic = require('../../assets/warning/paixu.png');
 
 import IconFont from '@iconfont/index.js';
 // import { updateInfo } from '@api/profile';
@@ -59,8 +60,22 @@ class Index extends React.PureComponent {
         <View style={styles.navigationBar}>
           <Text style={styles.content}>告警</Text>
         </View>
-        <View style={styles.centerContainer}>
-          <Text style={styles.content}>告警</Text>
+        <View style={styles.conditionContainer}>
+          <TouchableOpacity style={styles.levelContainer}>
+            <Text style={styles.commonText}>等级</Text>
+            <Image style={styles.arrowPic} source={arrowPic} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.statusContainer}>
+            <Text style={styles.commonText}>状态</Text>
+            <Image style={styles.arrowPic} source={arrowPic} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.statusContainer}>
+            <Text style={styles.commonText}>时间</Text>
+            <Image style={styles.arrowPic} source={arrowPic} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.orderContainer}>
+            <Image style={styles.orderPic} source={orderPic} />
+          </TouchableOpacity>
         </View>
       </View>
     );
