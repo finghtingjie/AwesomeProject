@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } from 'react-native';
 
-import { Toast, Button } from 'teaset';
+import { Toast, Button, Overlay } from 'teaset';
 
 import IconFont from '@iconfont/index.js';
 // import { updateInfo } from '@api/profile';
@@ -9,18 +9,38 @@ import IconFont from '@iconfont/index.js';
 const orderPic = require('../../assets/profile/order.png');
 
 import styles from './UserConfigStyle';
+import overlayStyles from '../style/overlayStyle';
 
-const fakeData = [{ userId: 1, userName: '张珊山/zhangshanshan' }, { userId: 2, userName: '张珊山/zhangshanshan' }];
+const fakeData = [
+  { userId: 1, userName: '张珊山/zhangshanshan', password: 'ceshimima' },
+  { userId: 2, userName: '张珊山/zhangshanshan', password: 'ceshimima2' },
+];
 
 class WarningConfig extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tabActiveIndex: 1, //tab激活下标
+      keyWord: null,
     };
   }
   static navigationOptions = {
     headerShown: false,
+  };
+
+  handleLookPwd = item => {
+    const overlayView = (
+      <Overlay.View style={overlayStyles.overlay} modal overlayOpacity={null} ref={v => (this.overlayView = v)}>
+        <View style={overlayStyles.overlayContent}>
+          <Text style={overlayStyles.overlayTitle}>{item.password}</Text>
+          <View style={overlayStyles.overlayFooter}>
+            <TouchableOpacity style={overlayStyles.confirmCenter} onPress={() => this.overlayView.close()}>
+              <Text style={overlayStyles.centerText}>关闭</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Overlay.View>
+    );
+    Overlay.show(overlayView);
   };
 
   handleAddUser = () => {
@@ -33,8 +53,10 @@ class WarningConfig extends React.PureComponent {
     navigation.navigate('AddUser', { type: 'edit', item });
   };
 
+  handleDeleteUser = item => {};
+
   render() {
-    const { curPassword, newPassword, verifyPassword } = this.state;
+    const { keyWord } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -52,12 +74,12 @@ class WarningConfig extends React.PureComponent {
         </View>
         <View style={styles.inputBox}>
           <TextInput
+            value={keyWord}
             placeholder="搜索用户"
             style={styles.inputBase}
             placeholderTextColor="#999"
-            value={this.state.userName}
             onBlur={() => Keyboard.dismiss()}
-            onChangeText={userName => this.setState({ userName })}
+            onChangeText={val => this.setState({ keyWord: val })}
           />
         </View>
         {fakeData.map(item => {
@@ -65,13 +87,13 @@ class WarningConfig extends React.PureComponent {
             <View key={item.userId} style={styles.userBtn}>
               <Image style={styles.orderPic} source={orderPic} />
               <Text style={styles.userBtnText}>{item.userName}</Text>
-              <Button style={styles.pwdBtn} onPress={this.handleLookPwd}>
+              <Button style={styles.pwdBtn} onPress={() => this.handleLookPwd(item)}>
                 <Text style={styles.pwdBtnText}>查看密码</Text>
               </Button>
-              <Button style={styles.editBtn} onPress={this.handleEditUser}>
+              <Button style={styles.editBtn} onPress={() => this.handleEditUser(item)}>
                 <Text style={styles.pwdBtnText}>编辑</Text>
               </Button>
-              <Button style={styles.deleteBtn} onPress={this.handleDeleteUser}>
+              <Button style={styles.deleteBtn} onPress={() => this.handleDeleteUser(item.userId)}>
                 <Text style={styles.pwdBtnText}>删除</Text>
               </Button>
             </View>
