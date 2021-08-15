@@ -58,7 +58,7 @@ class Index extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <WebView
+        {/* <WebView
           useWebKit
           javaScriptEnabled
           source={source}
@@ -69,11 +69,11 @@ class Index extends React.Component {
           onError={e => console.log(e)}
           onMessage={() => this.handleMessage()}
           onLoadEnd={() => this.webView.postMessage('RN向H5发送的消息')}
-        />
+        /> */}
 
-        {/* <Button onPress={this.handleSend}>
-          <Text style={styles.loginBtnText}>发送消息</Text>
-        </Button> */}
+        <Button>
+          <Text style={styles.loginBtnText}>首页</Text>
+        </Button>
       </View>
     );
   }
