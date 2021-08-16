@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
-import Orientation from 'react-native-orientation-locker';
-// import { Table, Row, Rows } from 'react-native-table-component';
 
 const backIcon = require('../../assets/backicon.png');
 const yes = require('../../assets/kpi/yes.png');
@@ -11,72 +9,36 @@ const no = require('../../assets/kpi/no.png');
 
 // import { updateInfo } from '@api/profile';
 
-import styles from './HegelvStyle';
+import styles from './FuzailvStyle';
 
 class Hegelv extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: [
-        '名称',
-        '实测线电压',
-        '电压合格上限',
-        '电压合格下限',
-        '今日合格率',
-        '本月合格率',
-        '本年合格率',
-        '是否带电',
-      ],
+      tableHead: ['机组', '发电机', '负载率'],
       tableData: [
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '是'],
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '否'],
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '否'],
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '是'],
+        ['220kV铁钢站220kV4#母线', '231.89', '215'],
+        ['220kV铁钢站220kV4#母线', '231.89', '215'],
+        ['220kV铁钢站220kV4#母线', '231.89', '215'],
       ],
       dataSource: [
         {
           id: 45,
-          name: '220kV铁钢站220kV4#母线',
-          power: '231.89',
-          shangxian: '215',
-          xiaxian: '235',
-          dayPercent: '100',
-          monthPercent: '100',
-          yearPercent: '100',
-          isLight: false,
+          name: '热电110kV站',
+          fadian: ['3#25MW机组', '4#25MW机组'],
+          fvzailv: ['100.23', '100.04'],
         },
         {
-          id: 45,
-          name: '220kV铁钢站220kV4#母线',
-          power: '231.89',
-          shangxian: '215',
-          xiaxian: '235',
-          dayPercent: '100',
-          monthPercent: '100',
-          yearPercent: '100',
-          isLight: false,
+          id: 46,
+          name: '热电110kV站',
+          fadian: ['3#25MW机组', '4#25MW机组'],
+          fvzailv: ['100.23', '100.04'],
         },
         {
-          id: 45,
-          name: '220kV铁钢站220kV4#母线',
-          power: '231.89',
-          shangxian: '215',
-          xiaxian: '235',
-          dayPercent: '100',
-          monthPercent: '100',
-          yearPercent: '100',
-          isLight: false,
-        },
-        {
-          id: 45,
-          name: '220kV铁钢站220kV4#母线',
-          power: '231.89',
-          shangxian: '215',
-          xiaxian: '235',
-          dayPercent: '100',
-          monthPercent: '100',
-          yearPercent: '100',
-          isLight: false,
+          id: 47,
+          name: '热电110kV站',
+          fadian: ['3#25MW机组', '4#25MW机组'],
+          fvzailv: ['100.23', '100.04'],
         },
       ],
     };
@@ -85,9 +47,7 @@ class Hegelv extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {
-    Orientation.lockToLandscapeLeft();
-  }
+  componentDidMount() {}
 
   renderColStyle = (item, index) => {
     if (index === 0) {
@@ -150,13 +110,9 @@ class Hegelv extends React.PureComponent {
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
             <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
-          <Text style={styles.content}>电压合格率</Text>
+          <Text style={styles.content}>发电机负载率</Text>
         </View>
         <View style={styles.tableContainer}>
-          {/* <Table borderStyle={styles.borderStyle}>
-            <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
-            <Rows data={tableData} style={styles.rows} textStyle={styles.rowsText} />
-          </Table> */}
           <View style={styles.headContainer}>
             {tableHead.map((item, index) => {
               return (

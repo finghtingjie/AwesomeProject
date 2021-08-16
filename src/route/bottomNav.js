@@ -15,6 +15,7 @@ import Yuanduan from '@page/kpi/Yuanduan';
 import Wangce from '@page/kpi/Wangce';
 import Dianlichaoliu from '@page/kpi/Dianlichaoliu';
 import Hegelv from '@page/kpi/Hegelv';
+import Fuzailv from '@page/kpi/Fuzailv';
 
 import Warning from '@page/warning/Index';
 
@@ -38,7 +39,7 @@ const HomeStack = createStackNavigator({ Home });
 
 const MonitorStack = createStackNavigator({ monitor });
 
-const KpiStack = createStackNavigator({ Kpi, Yuanduan, Wangce, Dianlichaoliu, Hegelv });
+const KpiStack = createStackNavigator({ Kpi, Yuanduan, Wangce, Dianlichaoliu, Hegelv, Fuzailv });
 
 const WarningStack = createStackNavigator({ Warning });
 
