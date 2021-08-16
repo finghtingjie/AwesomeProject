@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
 import Orientation from 'react-native-orientation-locker';
@@ -152,34 +152,36 @@ class Hegelv extends React.PureComponent {
           </TouchableOpacity>
           <Text style={styles.content}>电压合格率</Text>
         </View>
-        <View style={styles.tableContainer}>
-          {/* <Table borderStyle={styles.borderStyle}>
+        <ScrollView style={styles.container} horizontal>
+          <View style={styles.tableContainer}>
+            {/* <Table borderStyle={styles.borderStyle}>
             <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
             <Rows data={tableData} style={styles.rows} textStyle={styles.rowsText} />
           </Table> */}
-          <View style={styles.headContainer}>
-            {tableHead.map((item, index) => {
+            <View style={styles.headContainer}>
+              {tableHead.map((item, index) => {
+                return (
+                  <View key={item} style={this.renderColStyle(item, index)}>
+                    <Text style={styles.commonColText}>{item}</Text>
+                  </View>
+                );
+              })}
+            </View>
+            {tableData.map(item => {
               return (
-                <View key={item} style={this.renderColStyle(item, index)}>
-                  <Text style={styles.commonColText}>{item}</Text>
+                <View style={styles.rowContainer}>
+                  {item.map((items, index) => {
+                    return (
+                      <View key={items} style={this.renderColStyle(item, index)}>
+                        <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
+                      </View>
+                    );
+                  })}
                 </View>
               );
             })}
           </View>
-          {tableData.map(item => {
-            return (
-              <View style={styles.rowContainer}>
-                {item.map((items, index) => {
-                  return (
-                    <View key={items} style={this.renderColStyle(item, index)}>
-                      <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
-                    </View>
-                  );
-                })}
-              </View>
-            );
-          })}
-        </View>
+        </ScrollView>
       </View>
     );
   }
