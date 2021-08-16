@@ -69,6 +69,8 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#6972CC',
+    borderTopLeftRadius: wp(20 / BASE_WIDTH),
+    borderTopRightRadius: wp(20 / BASE_WIDTH),
   },
   //   commonColor: {
   //     backgroundColor: '#fff',
@@ -107,7 +109,8 @@ export default StyleSheet.create({
     width: wp(1000 / 3 / BASE_WIDTH),
   },
   itemsStyle: {
-    height: hp(200 / BASE_HEIGHT),
+    height: 'auto',
+    // backgroundColor: 'rgba(186, 210, 237, 0.1)',
     width: wp(1000 / 3 / BASE_WIDTH),
   },
   commonColText: {
@@ -123,14 +126,16 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#fff',
+    flexWrap: 'wrap',
   },
   darkTextStyle: {
     color: '#333',
-    textAlign: 'center',
+    textAlign: 'left',
+    marginLeft: wp(120 / BASE_WIDTH),
     fontSize: hp(32 / BASE_HEIGHT),
     height: hp(100 / BASE_HEIGHT),
     lineHeight: hp(100 / BASE_HEIGHT),
-    fontWeight: 'normal',
+    fontWeight: 'bold',
   },
   greenTextStyle: {
     color: '#4A7808',
@@ -138,7 +143,7 @@ export default StyleSheet.create({
     fontSize: hp(32 / BASE_HEIGHT),
     height: hp(100 / BASE_HEIGHT),
     lineHeight: hp(100 / BASE_HEIGHT),
-    fontWeight: 'normal',
+    fontWeight: 'bold',
   },
   redTextStyle: {
     color: '#FA0208',
@@ -146,7 +151,7 @@ export default StyleSheet.create({
     fontSize: hp(32 / BASE_HEIGHT),
     height: hp(100 / BASE_HEIGHT),
     lineHeight: hp(100 / BASE_HEIGHT),
-    fontWeight: 'normal',
+    fontWeight: 'bold',
   },
   orangeTextStyle: {
     color: '#FBA104',
@@ -154,10 +159,18 @@ export default StyleSheet.create({
     fontSize: hp(32 / BASE_HEIGHT),
     height: hp(100 / BASE_HEIGHT),
     lineHeight: hp(100 / BASE_HEIGHT),
-    fontWeight: 'normal',
+    fontWeight: 'bold',
   },
   yes: {
     width: wp(40 / BASE_WIDTH),
     height: wp(40 / BASE_WIDTH),
+  },
+  purpleTextStyle: {
+    color: '#424984',
+    textAlign: 'center',
+    fontSize: hp(32 / BASE_HEIGHT),
+    height: hp(100 / BASE_HEIGHT),
+    lineHeight: hp(100 / BASE_HEIGHT),
+    fontWeight: 'bold',
   },
 });
