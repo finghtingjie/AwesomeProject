@@ -58,10 +58,10 @@ export default StyleSheet.create({
   },
   tableContainer: {
     position: 'relative',
-    width: wp(1830 / BASE_WIDTH),
+    width: wp(1000 / BASE_WIDTH),
     height: 'auto',
     backgroundColor: '#fff',
-    marginLeft: wp(92 / BASE_WIDTH),
+    marginLeft: wp(40 / BASE_WIDTH),
     marginTop: hp(33 / BASE_HEIGHT),
   },
   headContainer: {
@@ -79,12 +79,12 @@ export default StyleSheet.create({
   },
   head: {
     height: hp(100 / BASE_HEIGHT),
-    width: wp(1830 / BASE_WIDTH),
+    width: wp(1000 / BASE_WIDTH),
     backgroundColor: '#3D447B',
   },
   rows: {
     height: hp(100 / BASE_HEIGHT),
-    width: wp(1830 / BASE_WIDTH),
+    width: wp(1000 / BASE_WIDTH),
   },
   headText: {
     color: '#fff',
@@ -100,11 +100,15 @@ export default StyleSheet.create({
   },
   nameStyle: {
     height: hp(100 / BASE_HEIGHT),
-    width: wp((182 * 3) / BASE_WIDTH),
+    width: wp(1000 / 3 / BASE_WIDTH),
   },
   commonnameStyle: {
     height: hp(100 / BASE_HEIGHT),
-    width: wp(182 / BASE_WIDTH),
+    width: wp(1000 / 3 / BASE_WIDTH),
+  },
+  itemsStyle: {
+    height: hp(200 / BASE_HEIGHT),
+    width: wp(1000 / 3 / BASE_WIDTH),
   },
   commonColText: {
     color: '#fff',

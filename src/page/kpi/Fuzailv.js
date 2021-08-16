@@ -17,7 +17,7 @@ class Hegelv extends React.PureComponent {
     this.state = {
       tableHead: ['机组', '发电机', '负载率'],
       tableData: [
-        ['220kV铁钢站220kV4#母线', '231.89', '215'],
+        ['220kV铁钢站220kV4#母线', ['231.89', '232'], '215'],
         ['220kV铁钢站220kV4#母线', '231.89', '215'],
         ['220kV铁钢站220kV4#母线', '231.89', '215'],
       ],
@@ -49,9 +49,11 @@ class Hegelv extends React.PureComponent {
 
   componentDidMount() {}
 
-  renderColStyle = (item, index) => {
+  renderColStyle = (item, items, index) => {
     if (index === 0) {
       return styles.nameStyle;
+    } else if (index === 1 && Array.isArray(items)) {
+      return styles.itemsStyle;
     } else {
       return styles.commonnameStyle;
     }
@@ -76,9 +78,27 @@ class Hegelv extends React.PureComponent {
       } else {
         return <Image style={styles.yes} source={no} />;
       }
+    } else if (Array.isArray(items)) {
+      console.log(items);
+      return (
+        <Text>
+          {items[0]}
+          <Text>{items[1]}</Text>
+        </Text>
+      );
     } else {
       return items;
     }
+  };
+
+  renderArrayText = items => {
+    return items.map(item => {
+      return (
+        <View>
+          <Text>{item}</Text>
+        </View>
+      );
+    });
   };
 
   render() {
@@ -116,7 +136,7 @@ class Hegelv extends React.PureComponent {
           <View style={styles.headContainer}>
             {tableHead.map((item, index) => {
               return (
-                <View key={item} style={this.renderColStyle(item, index)}>
+                <View key={item} style={this.renderColStyle(item, null, index)}>
                   <Text style={styles.commonColText}>{item}</Text>
                 </View>
               );
@@ -127,8 +147,13 @@ class Hegelv extends React.PureComponent {
               <View style={styles.rowContainer}>
                 {item.map((items, index) => {
                   return (
-                    <View key={items} style={this.renderColStyle(item, index)}>
-                      <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
+                    <View key={items} style={this.renderColStyle(item, items, index)}>
+                      {Array.isArray(items) ? (
+                        this.renderArrayText(items)
+                      ) : (
+                        <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
+                      )}
+                      )}
                     </View>
                   );
                 })}
