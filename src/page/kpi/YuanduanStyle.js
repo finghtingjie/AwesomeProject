@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   navigationBar: {
     width: wp(1080 / BASE_WIDTH),
-    height: wp(215 / BASE_WIDTH),
+    height: hp(215 / BASE_HEIGHT),
     backgroundColor: '#3D447B',
   },
   tabContainer: {
