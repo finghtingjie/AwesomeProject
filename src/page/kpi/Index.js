@@ -32,7 +32,7 @@ class Index extends React.PureComponent {
         { id: 5, val: '电压合格率', source: hegelv, routeName: 'Hegelv' },
         { id: 6, val: '发电机负载率', source: fuzailv, routeName: 'Fuzailv' },
         { id: 7, val: '主变油温', source: youwen, routeName: 'youwen' },
-        { id: 8, val: '主变负载率', source: zhubianfuzailv, routeName: 'zhubianfuzailv' },
+        { id: 8, val: '主变负载率', source: zhubianfuzailv, routeName: 'ZhubianFuzailv' },
         { id: 9, val: '直流系统', source: zhiliu, routeName: 'zhiliu' },
       ],
     };
@@ -52,11 +52,7 @@ class Index extends React.PureComponent {
     const { fakeData } = this.state;
     return (
       <View style={styles.container}>
-        <NavigationEvents
-          onDidFocus={() => {
-            Orientation.lockToPortrait();
-          }}
-        />
+        <NavigationEvents onDidFocus={() => Orientation.lockToPortrait()} />
         <StatusBar
           animated
           translucent
