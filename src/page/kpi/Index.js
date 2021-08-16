@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
+import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
-import { Toast, Button, PullPicker } from 'teaset';
+import Orientation from 'react-native-orientation-locker';
+// import { Toast, Button, PullPicker } from 'teaset';
 
 const yuanduan = require('../../assets/kpi/yuanduan.png');
 const wangce = require('../../assets/kpi/wangce.png');
@@ -50,6 +52,11 @@ class Index extends React.PureComponent {
     const { fakeData } = this.state;
     return (
       <View style={styles.container}>
+        <NavigationEvents
+          onDidFocus={() => {
+            Orientation.lockToPortrait();
+          }}
+        />
         <StatusBar
           animated
           translucent

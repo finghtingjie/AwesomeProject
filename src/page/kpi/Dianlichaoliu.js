@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, StatusBar } from 'reac
 
 import { WebView } from 'react-native-webview';
 
+import Orientation from 'react-native-orientation-locker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const backIcon = require('../../assets/backicon.png');
@@ -22,7 +23,7 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    // this.sendMessage();
+    Orientation.lockToLandscapeLeft();
   }
 
   componentDidUpdate() {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
   },
   navigationBar: {
-    width: wp(1080 / BASE_WIDTH),
+    width: '100%',
     height: hp(215 / BASE_HEIGHT),
     backgroundColor: '#3D447B',
   },
