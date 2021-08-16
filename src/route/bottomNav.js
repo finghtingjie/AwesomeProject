@@ -11,6 +11,7 @@ import Home from '@page/home/Index';
 import monitor from '@page/monitor/Index';
 
 import Kpi from '@page/kpi/Index';
+import Yuanduan from '@page/kpi/Yuanduan';
 
 import Warning from '@page/warning/Index';
 
@@ -34,7 +35,7 @@ const HomeStack = createStackNavigator({ Home });
 
 const MonitorStack = createStackNavigator({ monitor });
 
-const KpiStack = createStackNavigator({ Kpi });
+const KpiStack = createStackNavigator({ Kpi, Yuanduan });
 
 const WarningStack = createStackNavigator({ Warning });
 
