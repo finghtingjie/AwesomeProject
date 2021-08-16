@@ -8,6 +8,8 @@ import IconFont from '@iconfont/index.js';
 
 import styles from './WarningStyle';
 
+const backIcon = require('../../assets/backicon.png');
+
 const WarningArr = [1, 2, 3, 4];
 
 const fakeData = [{ userId: 1, userName: '张珊山/zhangshanshan' }, { userId: 2, userName: '张珊山/zhangshanshan' }];
@@ -95,7 +97,7 @@ class WarningConfig extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <IconFont name="xiayiye" size={24} color="#fff" />
+            <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
           <Text style={styles.content}>告警配置</Text>
         </View>

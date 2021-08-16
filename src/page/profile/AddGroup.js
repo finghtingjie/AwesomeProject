@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StatusBar, TextInput, Keyboard, Image } f
 import { Toast, Button, Checkbox } from 'teaset';
 
 const arrowPic = require('../../assets/profile/xiala.png');
+const backIcon = require('../../assets/backicon.png');
 
 import IconFont from '@iconfont/index.js';
 // import { updateInfo } from '@api/profile';
@@ -105,7 +106,7 @@ class AddGroup extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <IconFont name="xiayiye" size={24} color="#fff" />
+            <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
           <Text style={styles.content}>{type === 'add' ? '新增' : '编辑'}分组</Text>
         </View>

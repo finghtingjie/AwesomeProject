@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
-const arrowPic = require('../../assets/profile/xiala.png');
+// import { Toast, Button, PullPicker } from 'teaset';
+import { Table, Row, Rows } from 'react-native-table-component';
 
-import IconFont from '@iconfont/index.js';
+const backIcon = require('../../assets/backicon.png');
+const leftTab = require('../../assets/kpi/lefttab.png');
+const rightTab = require('../../assets/kpi/righttab.png');
+
 // import { updateInfo } from '@api/profile';
 
 import styles from './YuanduanStyle';
@@ -11,7 +15,10 @@ import styles from './YuanduanStyle';
 class Yuanduan extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      tableHead: ['系统', '有功功率(MW)', '无功功率(MVar)', '功率因数'],
+      tableData: [['1', '2', '3', '4'], ['a', 'b', 'c', 'd'], ['1', '2', '3', '456'], ['a', 'b', 'c', 'd']],
+    };
   }
   static navigationOptions = {
     headerShown: false,
@@ -19,8 +26,10 @@ class Yuanduan extends React.PureComponent {
 
   componentDidMount() {}
 
+  handleTabChange = val => {};
+
   render() {
-    // const { userName, fullName, verifyPassword, type, groupName } = this.state;
+    const { tableData, tableHead } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -32,14 +41,25 @@ class Yuanduan extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <IconFont name="xiayiye" size={24} color="#fff" />
+            <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
           <Text style={styles.content}>源端监视</Text>
         </View>
-        <View style={styles.centerContainer}>
-          {/* <Button style={styles.submitBtn} onPress={this.handleSubmit}>
-            <Text style={styles.submitBtnText}>保&nbsp;&nbsp;&nbsp;存</Text>
-          </Button> */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity style={styles.commonBtn} onPress={this.handleTabChange(1)}>
+            <Image style={styles.leftTab} source={leftTab} />
+            <Text style={styles.commonText}>电网购电</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.commonBtn} onPress={this.handleTabChange(2)}>
+            <Image style={styles.leftTab} source={rightTab} />
+            <Text style={styles.commonText}>发电</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.tableContainer}>
+          <Table borderStyle={styles.borderStyle}>
+            <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
+            <Rows data={tableData} style={styles.rows} textStyle={styles.headText} />
+          </Table>
         </View>
       </View>
     );

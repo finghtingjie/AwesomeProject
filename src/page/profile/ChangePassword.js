@@ -5,6 +5,7 @@ import { Toast, Button } from 'teaset';
 
 const backPic = require('../../assets/profile/back.png');
 const rank = require('../../assets/profile/xinghao.png');
+const backIcon = require('../../assets/backicon.png');
 
 import IconFont from '@iconfont/index.js';
 // import { updateInfo } from '@api/profile';
@@ -55,7 +56,7 @@ class ChangePassword extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <IconFont name="xiayiye" size={24} color="#fff" />
+            <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
           <Text style={styles.content}>修改密码</Text>
         </View>

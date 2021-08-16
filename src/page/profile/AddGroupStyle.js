@@ -21,6 +21,10 @@ export default StyleSheet.create({
     left: wp(70 / BASE_WIDTH),
     zIndex: 100,
   },
+  backIcon: {
+    width: wp(24 / BASE_WIDTH),
+    height: hp(40 / BASE_HEIGHT),
+  },
   content: {
     position: 'absolute',
     color: '#fff',

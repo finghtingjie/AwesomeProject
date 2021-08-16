@@ -7,6 +7,7 @@ import IconFont from '@iconfont/index.js';
 // import { updateInfo } from '@api/profile';
 
 const orderPic = require('../../assets/profile/order.png');
+const backIcon = require('../../assets/backicon.png');
 
 import styles from './UserConfigStyle';
 import overlayStyles from '../style/overlayStyle';
@@ -68,7 +69,7 @@ class WarningConfig extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <IconFont name="xiayiye" size={24} color="#fff" />
+            <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
           <Text style={styles.content}>用户管理</Text>
         </View>
