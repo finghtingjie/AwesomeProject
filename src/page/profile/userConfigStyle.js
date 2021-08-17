@@ -95,7 +95,7 @@ export default StyleSheet.create({
     paddingVertical: 0,
     width: wp(142 / BASE_WIDTH),
     height: hp(70 / BASE_HEIGHT),
-    marginLeft: wp(82 / BASE_WIDTH),
+    marginLeft: wp(62 / BASE_WIDTH),
     borderColor: '#588CE4',
     backgroundColor: '#588CE4',
     borderRadius: wp(8 / BASE_WIDTH),
@@ -123,7 +123,7 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     fontWeight: 'normal',
-    fontSize: hp(18 / BASE_HEIGHT),
+    fontSize: hp(16 / BASE_HEIGHT),
   },
   userBtnText: {
     color: '#333',

@@ -58,11 +58,10 @@ export default StyleSheet.create({
   },
   tableContainer: {
     position: 'relative',
-    width: wp(1830 / BASE_WIDTH),
-    height: 'auto',
-    backgroundColor: '#fff',
-    marginLeft: wp(92 / BASE_WIDTH),
-    marginTop: hp(33 / BASE_HEIGHT),
+    width: wp(1920 / BASE_WIDTH),
+    height: hp(500 / BASE_HEIGHT),
+    // marginLeft: wp(92 / BASE_WIDTH),
+    marginTop: hp(20 / BASE_HEIGHT),
   },
   headContainer: {
     flexDirection: 'row',

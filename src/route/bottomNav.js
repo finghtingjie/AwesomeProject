@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { getActiveChildNavigationOptions } from 'react-navigation';
 
-// import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Home from '@page/home/Index';
 
 import monitor from '@page/monitor/Index';
@@ -33,10 +33,11 @@ import AddGroup from '@page/profile/AddGroup';
 
 import { queryMenu } from '@api/login';
 
-import { p2dWidth, p2dHeight } from '../utils/device';
-
 import IconWithBadge from '../components/IconWithBadge';
 import NavigationService from '../../NavigationService';
+
+const BASE_WIDTH = 10.8;
+const BASE_HEIGHT = 19.2;
 
 // 底部一级导航器
 const HomeStack = createStackNavigator({ Home });
@@ -255,14 +256,13 @@ class customTabBar extends React.PureComponent {
           const activeColor = index === activeIndex ? '#4367FD' : '#999DB2'; //菜单激活颜色
           return (
             <TouchableOpacity
-              activeOpacity={1}
               style={styles.tabButton}
               key={routeIndex}
               onPress={() => this.handleClick(item, routeIndex)}>
               {this.renderImage(item, activeColor)}
               {/* <Image style={styles.userPic} source={iconMap[item].icon} /> */}
               {/* <IconWithBadge icon={iconMap[item].icon} name={item} size={22} color={activeColor} /> */}
-              <Text style={{ fontSize: p2dHeight(30), fontWeight: '400', color: activeColor }}>{item}</Text>
+              <Text style={{ fontSize: hp(30 / BASE_HEIGHT), fontWeight: '400', color: activeColor }}>{item}</Text>
             </TouchableOpacity>
           );
         })}
@@ -327,25 +327,25 @@ const MainNavigator = createBottomTabNavigator(
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    borderWidth: p2dHeight(1),
+    borderWidth: wp(1 / BASE_WIDTH),
     borderColor: '#EEE',
     shadowOffset: {
-      width: p2dWidth(5),
-      height: p2dHeight(10),
+      width: wp(5 / BASE_WIDTH),
+      height: hp(10 / BASE_HEIGHT),
     },
-    backgroundColor: '#fff',
     shadowOpacity: 0.75,
     elevation: 1,
+    backgroundColor: '#fff',
   },
   tabButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: p2dHeight(160),
+    height: wp(160 / BASE_WIDTH),
   },
   userPic: {
-    width: p2dWidth(60),
-    height: p2dWidth(60),
+    width: wp(60 / BASE_WIDTH),
+    height: wp(60 / BASE_WIDTH),
   },
 });
 
