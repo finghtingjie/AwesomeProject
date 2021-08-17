@@ -1,0 +1,171 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主变油温</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        width: 100%;
+        height: 100%;
+    }
+
+    @media screen and (orientation: portrait) {
+
+        /*要横屏显示的内容的外层盒子*/
+        #container {
+            /* 设置基准点为左上角 */
+            transform-origin: top left;
+            /* 以左上角为基准点，顺时针旋转90度 然后沿Y轴反方向平移100% */
+            /* 为什么沿Y轴，因为旋转使坐标轴方向发生了变化 */
+            transform: rotate(90deg) translateY(-100%);
+            /*设置元素的宽度为 100%父元素的高度 并提高样式优先级 */
+            width: 100vh !important;
+            /* 设置元素的宽度为 100%父元素的宽度  并提高样式优先级  */
+            height: 100vw !important;
+        }
+    }
+
+    #container {
+        width: 100%;
+        height: 100%;
+    }
+
+    #main {
+        width: 100%;
+        /* height: calc(100% - 230px); */
+        height: 68.66%;
+    }
+
+    ul,
+    li {
+        list-style: none;
+    }
+
+    #group {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-left: 3.54%;
+    }
+
+    #group>li {
+        font-size: 16px;
+        margin-right: 18px;
+        width: 12.8%;
+        height: 7.4%;
+        background-color: #3D447B;
+        text-align: center;
+        line-height: 4;
+        font-weight: bold;
+        color: #fff;
+        margin-bottom: 4%;
+        margin-top: 3.96%;
+        border-radius: 20px;
+    }
+</style>
+
+<body>
+    <div id="container">
+        <ul id='group'>
+            <li>
+                1#主变油温
+            </li>
+            <li>
+                2#主变油温
+            </li>
+            <li>
+                3#主变油温
+            </li>
+        </ul>
+
+        <div id="main"></div>
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            // window.postMessage('网页向rn发送的消息');
+            document.addEventListener('message', function (e) {
+                console.log('e', e)
+                var msg = JSON.parse(e.data);
+                console.log('接受到的消息', msg)
+            })
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+            // 指定图表的配置项和数据
+            var option = {
+                color: ['#3CBE1E', '#1C6DDA'],//图例颜色
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['油温1', '油温2'],
+                    left: '3%',
+                },
+                grid: {
+                    left: '3%',
+                    right: '0%',
+                    bottom: '0%',
+                    width: '94%',
+                    containLabel: true,
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45']
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                series: [
+                    {
+                        name: '油温1',
+                        type: 'line',
+                        lineStyle: {
+                            color: '#3CBE1E',
+                        },
+                        stack: '总量',
+                        data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
+                    },
+                    {
+                        name: '油温2',
+                        type: 'line',
+                        lineStyle: {
+                            color: '#1C6DDA',
+                        },
+                        stack: '总量',
+                        data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
+                        markLine: {
+                            lineStyle: {
+                                color: 'red'
+                            },
+                            data: [{
+                                yAxis: 90
+                            }, {
+                                yAxis: 40
+                            }]
+                        },
+                    },
+                ]
+
+            };;
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
+            document.addEventListener('resize', function () {
+                myChart.resize() // 窗口大小发生变化的时候重置
+            })
+
+        }
+    </script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } from 'react-native';
 
-import { Toast, Button, PullPicker } from 'teaset';
+// import { Toast, Button, PullPicker } from 'teaset';
 
 const rect = require('../../assets/monitor/rect.png');
 const changePic = require('../../assets/monitor/change.png');
@@ -14,9 +14,7 @@ import styles from './MonitorStyle';
 class Index extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      type: 'add',
-    };
+    this.state = {};
   }
   static navigationOptions = {
     headerShown: false,
