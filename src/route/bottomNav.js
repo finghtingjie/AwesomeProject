@@ -19,6 +19,7 @@ import Fuzailv from '@page/kpi/Fuzailv';
 import ZhubianFuzailv from '@page/kpi/ZhubianFuzailv';
 import Zhubianyouwen from '@page/kpi/Zhubianyouwen';
 import Dianyaqushi from '@page/kpi/Dianyaqushi';
+import Zhiliu from '@page/kpi/Zhiliu';
 
 import Warning from '@page/warning/Index';
 
@@ -52,6 +53,7 @@ const KpiStack = createStackNavigator({
   ZhubianFuzailv,
   Zhubianyouwen,
   Dianyaqushi,
+  Zhiliu,
 });
 
 const WarningStack = createStackNavigator({ Warning });
