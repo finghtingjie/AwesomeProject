@@ -13,8 +13,6 @@ const backIcon = require('../../assets/backicon.png');
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
-const source = { uri: 'file:///android_asset/zhubianyouwen.html' };
-
 class Index extends React.Component {
   static navigationOptions = {
     headerShown: false,
@@ -120,27 +118,17 @@ class Index extends React.Component {
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
             <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
-          <Text style={styles.content}>主变油温趋势图</Text>
+          <Text style={styles.content}>电压趋势图</Text>
         </View>
-        {/* <WebView
-          useWebKit
-          javaScriptEnabled
-          source={source}
-          originWhitelist={['*']}
-          style={styles.webview}
-          mixedContentMode="compatibility"
-          ref={ref => (this.webView = ref)}
-          onError={e => console.log(e)}
-        /> */}
         <View style={styles.btnContainer}>
           <Button style={styles.commonBtn} onPress={this.handleChange(1)}>
-            <Text style={styles.submitBtnText}>1#主变油温</Text>
+            <Text style={styles.submitBtnText}>220kv</Text>
           </Button>
           <Button style={[styles.commonBtn, styles.commonColor]} onPress={this.handleChange(2)}>
-            <Text style={styles.submitBtnText}>2#主变油温</Text>
+            <Text style={styles.submitBtnText}>110kv</Text>
           </Button>
           <Button style={[[styles.commonBtn, styles.commonColor]]} onPress={this.handleChange(3)}>
-            <Text style={styles.submitBtnText}>3#主变油温</Text>
+            <Text style={styles.submitBtnText}>10kv</Text>
           </Button>
         </View>
         <ECharts option={option} backgroundColor="#fff" />
@@ -177,16 +165,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'normal',
     fontSize: hp(32 / BASE_HEIGHT),
-  },
-  webviewContainer: {
-    width: wp(100),
-    height: 200,
-  },
-  webview: {
-    // flex: 1,
-    width: wp(100),
-    // height: 200,
-    // backgroundColor: 'pink',
   },
   navigationBar: {
     width: '100%',

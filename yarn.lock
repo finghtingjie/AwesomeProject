@@ -5854,6 +5854,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
+react-native-echarts-wrapper@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.nlark.com/react-native-echarts-wrapper/download/react-native-echarts-wrapper-2.0.0.tgz#87c539841418ef900bc3e07efa8aae135d231b1d"
+  integrity sha1-h8U5hBQY75ALw+B++oquE10jGx0=
+
 react-native-gesture-handler@^1.5.6:
   version "1.10.3"
   resolved "https://registry.npm.taobao.org/react-native-gesture-handler/download/react-native-gesture-handler-1.10.3.tgz"

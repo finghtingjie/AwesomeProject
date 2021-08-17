@@ -18,6 +18,7 @@ import Hegelv from '@page/kpi/Hegelv';
 import Fuzailv from '@page/kpi/Fuzailv';
 import ZhubianFuzailv from '@page/kpi/ZhubianFuzailv';
 import Zhubianyouwen from '@page/kpi/Zhubianyouwen';
+import Dianyaqushi from '@page/kpi/Dianyaqushi';
 
 import Warning from '@page/warning/Index';
 
@@ -50,6 +51,7 @@ const KpiStack = createStackNavigator({
   Fuzailv,
   ZhubianFuzailv,
   Zhubianyouwen,
+  Dianyaqushi,
 });
 
 const WarningStack = createStackNavigator({ Warning });
