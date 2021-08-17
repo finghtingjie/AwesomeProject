@@ -129,10 +129,10 @@ class Index extends React.Component {
         <View style={styles.chartContainer}>
           <ECharts option={option} backgroundColor="#fff" />
         </View>
-        <ScrollView horizontal style={styles.container}>
+        <ScrollView horizontal style={styles.horizontalContainer}>
           <View style={styles.topContainer}>
             <View style={styles.menuContainer}>
-              {fakeData.map(item => {
+              {fakeData.slice(0, 8).map(item => {
                 return (
                   <TouchableOpacity style={styles.tabButton} key={item.id} onPress={() => this.handleClick(item)}>
                     <Image source={item.source} style={styles.image} />
@@ -140,10 +140,12 @@ class Index extends React.Component {
                   </TouchableOpacity>
                 );
               })}
-              {/* <TouchableOpacity style={styles.tabButton} onPress={() => this.handleClick()}>
+            </View>
+            <View style={styles.menuContainer2}>
+              <TouchableOpacity style={styles.tabButton} onPress={() => this.handleClick()}>
                 <Image source={fakeData[8].source} style={styles.image} />
                 <Text style={styles.menuItem}>{fakeData[8].val}</Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
@@ -155,6 +157,10 @@ class Index extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  horizontalContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
   image: {
     width: wp(100 / BASE_WIDTH),
@@ -177,10 +183,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 'auto',
     width: wp(1040 / BASE_WIDTH),
-    marginTop: hp(20 / BASE_HEIGHT),
+    marginTop: hp(24 / BASE_HEIGHT),
     marginLeft: wp(40 / BASE_WIDTH),
     backgroundColor: '#fff',
     flexWrap: 'wrap',
+  },
+  menuContainer2: {
+    width: 'auto',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginTop: hp(24 / BASE_HEIGHT),
   },
   tabButton: {
     // flex: 1,
