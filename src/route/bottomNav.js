@@ -143,6 +143,43 @@ class customTabBar extends React.PureComponent {
     this.setState({
       menuData: ['首页', '监控', 'kpi', '告警', '我的'],
     });
+
+    const menuData = [
+      {
+        menuId: 1,
+        menuName: '首页',
+      },
+      {
+        menuId: 2,
+        menuName: '监控',
+      },
+      {
+        menuId: 3,
+        menuName: 'kpi',
+        children: [
+          {
+            submenuId: 1,
+            submenu: '源端监视',
+          },
+          {
+            submenuId: 2,
+            submenu: '网侧监视',
+          },
+          {
+            submenuId: 3,
+            submenu: '电力潮流图',
+          },
+        ],
+      },
+      {
+        menuId: 4,
+        menuName: '告警',
+      },
+      {
+        menuId: 5,
+        menuName: '我的',
+      },
+    ];
   }
 
   // 根据接口返回渲染icon
@@ -292,7 +329,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: p2dHeight(1),
     borderColor: '#EEE',
-    shadowOffset: { width: p2dWidth(5), height: p2dHeight(10) },
+    shadowOffset: {
+      width: p2dWidth(5),
+      height: p2dHeight(10),
+    },
     backgroundColor: '#fff',
     shadowOpacity: 0.75,
     elevation: 1,

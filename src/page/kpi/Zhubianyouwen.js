@@ -81,6 +81,7 @@ class Index extends React.Component {
             stack: '总量',
             data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
             markLine: {
+              symbol: ['none', 'none'], //去掉箭头
               lineStyle: {
                 color: 'red',
               },
