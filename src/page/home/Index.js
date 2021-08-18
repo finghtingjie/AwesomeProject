@@ -250,9 +250,9 @@ class Index extends React.Component {
             );
           })}
         </View>
-        {/* <View style={styles.chartContainer1}>
+        <View style={styles.chartContainer1}>
           <ECharts option={pieOption} backgroundColor="transparent" />
-        </View> */}
+        </View>
         <View style={styles.chartContainer}>
           <ECharts option={option} backgroundColor="#fff" />
         </View>
@@ -424,17 +424,17 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   chartContainer1: {
-    position: 'absolute',
-    right: wp(72 / BASE_WIDTH),
-    top: hp(100 / BASE_HEIGHT),
+    // position: 'absolute',
+    // right: wp(72 / BASE_WIDTH),
+    // top: hp(100 / BASE_HEIGHT),
     width: '92%',
     height: hp(430 / BASE_HEIGHT),
     marginTop: hp(20 / BASE_HEIGHT),
     marginLeft: '4%',
     borderRadius: wp(20 / BASE_WIDTH),
     overflow: 'hidden',
-    width: wp(152 / BASE_WIDTH),
-    height: wp(152 / BASE_WIDTH),
+    // width: wp(152 / BASE_WIDTH),
+    // height: wp(152 / BASE_WIDTH),
   },
   chartContainer: {
     width: '92%',
