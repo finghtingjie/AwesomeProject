@@ -75,7 +75,7 @@ export default StyleSheet.create({
   orderPic: {
     width: wp(16 / BASE_WIDTH),
     height: wp(16 / BASE_WIDTH),
-    marginLeft: wp(60 / BASE_WIDTH),
+    marginLeft: wp(40 / BASE_WIDTH),
   },
   userBtn: {
     position: 'relative',
@@ -95,7 +95,7 @@ export default StyleSheet.create({
     paddingVertical: 0,
     width: wp(142 / BASE_WIDTH),
     height: hp(70 / BASE_HEIGHT),
-    marginLeft: wp(62 / BASE_WIDTH),
+    marginLeft: wp(42 / BASE_WIDTH),
     borderColor: '#588CE4',
     backgroundColor: '#588CE4',
     borderRadius: wp(8 / BASE_WIDTH),
