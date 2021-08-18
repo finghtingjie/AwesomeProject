@@ -36,7 +36,6 @@ const zhubianfuzailv = require('../../assets/kpi/zhubian.png');
 const zhiliu = require('../../assets/kpi/zhiliu.png');
 const commonPic = require('../../assets/home/cardbg.png');
 const lightPic = require('../../assets/home/light.png');
-const dianlvjindu = require('../../assets/home/dianlvjindu.png');
 
 class Index extends React.Component {
   static navigationOptions = {

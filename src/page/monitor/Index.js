@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
 
@@ -14,7 +14,9 @@ import styles from './MonitorStyle';
 class Index extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      activeIndex: 0,
+    };
   }
   static navigationOptions = {
     headerShown: false,
@@ -23,6 +25,8 @@ class Index extends React.PureComponent {
   componentDidMount() {}
 
   render() {
+    const tableHead = ['220kv', '110kv', '10kv', '主变'];
+    const { activeIndex } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -41,6 +45,19 @@ class Index extends React.PureComponent {
           <TouchableOpacity style={styles.iconContainerRight}>
             <Image style={styles.changePic} source={changePic} />
           </TouchableOpacity>
+        </View>
+        <View style={styles.tabContainer}>
+          {tableHead.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={item}
+                style={styles.commonBtn}
+                onPress={() => this.setState({ activeIndex: index })}>
+                <Text style={styles.commonText}>{item}</Text>
+                {index === activeIndex && <View style={styles.commonBorder} />}
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
     );
