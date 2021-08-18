@@ -23,17 +23,17 @@
 </style>
 
 <body>
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="width:152px;height: 152px;"></div>
+    <div id="main" style="width:100%;height:100%"></div>
     <script type="text/javascript">
         window.onload = function () {
-            window.postMessage('网页向rn发送的消息');
-            document.addEventListener('message', function (e) {
-                console.log('e', e)
-                var msg = JSON.parse(e.data);
-                console.log('接受到的消息', msg)
-            })
-            // 基于准备好的dom，初始化echarts实例
+            // window.ReactNativeWebView.postMessage('网页向rn发送的消息');
+            document.addEventListener('message', function (msg) {
+                alert(JSON.parse(msg).data)
+            });
+            init(40);
+        }
+
+        function init(msg) {
             var myChart = echarts.init(document.getElementById('main'));
             // 指定图表的配置项和数据
             var option = {
@@ -42,7 +42,7 @@
                     x: 'center',
                     textStyle: {
                         fontWeight: 'normal',
-                        fontSize: 16,
+                        fontSize: 12,
                     },
                 },
                 animation: true,
@@ -62,14 +62,14 @@
                         },
                         data: [
                             {
-                                value: 89,
+                                value: msg || 89,
                                 name: '',
                                 selected: false,
                                 label: {
                                     normal: {
                                         show: true,
                                         position: 'center',
-                                        fontSize: 16,
+                                        fontSize: 12,
                                         color: '#1575F6',
                                         formatter: '{d}%',
                                     },
@@ -93,71 +93,80 @@
                     },
                 ],
             };
-            var getvalue = [88],
-                option2 = {
-                    title: {
-                        text: getvalue + '%',
-                        textStyle: {
-                            color: '#28BCFE',
-                            fontSize: 16
-                        },
-                        left: 'center',
-                        top: 'center'
-                    },
-                    angleAxis: {
-                        max: 100,
-                        clockwise: true, // 逆时针
-                        // 隐藏刻度线
-                        show: false
-                    },
-                    radiusAxis: {
-                        type: 'category',
-                        show: true,
-                        axisLabel: {
-                            show: false,
-                        },
-                        axisLine: {
-                            show: false,
-
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                    },
-                    polar: {
-                        center: ['50%', '50%'],
-                        radius: '100%' //图形大小
-                    },
-                    series: [{
-                        type: 'bar',
-                        data: getvalue,
-                        coordinateSystem: 'polar',
-                        showBackground: true,
-                        backgroundStyle: {
-                            color: '#BDEBFF',
-                        },
-                        coordinateSystem: 'polar',
-                        roundCap: true,
-                        barWidth: 10,
-                        itemStyle: {
-                            normal: {
-                                opacity: 1,
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: '#25BFFF'
-                                }, {
-                                    offset: 1,
-                                    color: '#5284DE'
-                                }]),
-                                shadowBlur: 5,
-                                shadowColor: '#2A95F9',
-                            }
-                        },
-                    }]
-                };
             // 使用刚指定的配置项和数据显示图表。
             myChart.setOption(option);
         }
+        window.receiveMessage = (msg) => {
+            //在window上挂载一个receiveMessage方法，RN会调用
+            alert(msg)
+            console.log('来自rn的消息', msg)
+            // 基于准备好的dom，初始化echarts实例
+            init(msg);
+        }
+
+        // var getvalue = [88],
+            // option2 = {
+            //     title: {
+            //         text: getvalue + '%',
+            //         textStyle: {
+            //             color: '#28BCFE',
+            //             fontSize: 16
+            //         },
+            //         left: 'center',
+            //         top: 'center'
+            //     },
+            //     angleAxis: {
+            //         max: 100,
+            //         clockwise: true, // 逆时针
+            //         // 隐藏刻度线
+            //         show: false
+            //     },
+            //     radiusAxis: {
+            //         type: 'category',
+            //         show: true,
+            //         axisLabel: {
+            //             show: false,
+            //         },
+            //         axisLine: {
+            //             show: false,
+
+            //         },
+            //         axisTick: {
+            //             show: false
+            //         },
+            //     },
+            //     polar: {
+            //         center: ['50%', '50%'],
+            //         radius: '100%' //图形大小
+            //     },
+            //     series: [{
+            //         type: 'bar',
+            //         data: getvalue,
+            //         coordinateSystem: 'polar',
+            //         showBackground: true,
+            //         backgroundStyle: {
+            //             color: '#BDEBFF',
+            //         },
+            //         coordinateSystem: 'polar',
+            //         roundCap: true,
+            //         barWidth: 10,
+            //         itemStyle: {
+            //             normal: {
+            //                 opacity: 1,
+            //                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            //                     offset: 0,
+            //                     color: '#25BFFF'
+            //                 }, {
+            //                     offset: 1,
+            //                     color: '#5284DE'
+            //                 }]),
+            //                 shadowBlur: 5,
+            //                 shadowColor: '#2A95F9',
+            //             }
+            //         },
+            //     }]
+            // };
+
 
 
     </script>

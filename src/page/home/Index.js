@@ -11,6 +11,8 @@ import { screenWidth, screenHeight, scale } from '../../utils/device';
 
 const BASE_WIDTH = 10.8;
 
+// const injectedJavaScriptCode = "document.body.style.backgroundColor = 'red';";
+
 let BASE_HEIGHT = 19.2;
 const formatVal = Number(screenHeight).toFixed(0);
 if (scale === 2.75 && formatVal === 759) {
@@ -43,6 +45,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      percent: 89,
       option: {
         title: {
           text: '自供电率统计图',
@@ -196,9 +199,16 @@ class Index extends React.Component {
 
   componentDidMount() {}
 
+  onLoadEnd = () => {
+    this.webView.postMessage('rn啊');
+    // rn 注入调用（执行） web的 window.alert 方法
+    this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
+  };
+
   handleClick = item => {
     const { navigation } = this.props;
     navigation.navigate(item.routeName);
+    // this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
   };
 
   render() {
@@ -233,6 +243,7 @@ class Index extends React.Component {
                     {/* <ECharts option={pieOption} backgroundColor="red" /> */}
                     <WebView
                       useWebKit
+                      scrollEnabled={false}
                       javaScriptEnabled
                       source={webViewsource}
                       originWhitelist={['*']}
@@ -240,6 +251,8 @@ class Index extends React.Component {
                       mixedContentMode="compatibility"
                       ref={ref => (this.webView = ref)}
                       onError={e => console.log(e)}
+                      onMessage={event => console.log(event.nativeEvent.data)}
+                      onLoadEnd={this.onLoadEnd}
                     />
                   </View>
                 )}
@@ -286,8 +299,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   webview: {
-    flex: 1,
     position: 'relative',
+    overflow: 'hidden',
     // width: wp(152 / BASE_WIDTH),
     // height: wp(152 / BASE_WIDTH),
   },
@@ -364,12 +377,11 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     top: hp(62 / BASE_HEIGHT),
-    left: wp(2 / BASE_WIDTH),
+    left: wp(40 / BASE_WIDTH),
     // height: hp(152 / BASE_HEIGHT),
     zIndex: 100,
-    // width: wp(236 / BASE_WIDTH),
-    // height: wp(236 / BASE_WIDTH),
-    // backgroundColor: 'pink',
+    width: wp(152 / BASE_WIDTH),
+    height: wp(152 / BASE_WIDTH),
   },
   percent: {
     position: 'absolute',
