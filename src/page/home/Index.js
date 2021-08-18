@@ -226,7 +226,7 @@ class Index extends React.Component {
                       {item.yougong ? <Image source={lightPic} style={styles.lightPic} /> : null}
                     </View>
                     <Text style={styles.wugong}>{item.wugong}</Text>
-                    <Text style={styles.yougong2}>{item.yougong ? '无功功率(Mvar)' : ''}</Text>
+                    <Text style={styles.yougong2}>{item.wugong ? '无功功率(Mvar)' : ''}</Text>
                   </View>
                 ) : (
                   <View style={styles.lightContainer2}>
@@ -324,9 +324,9 @@ const styles = StyleSheet.create({
   },
   commonWrap: {
     position: 'absolute',
-    left: '10%',
+    left: '5%',
     top: hp(32 / BASE_HEIGHT),
-    width: '80%',
+    width: '90%',
     height: 'auto',
   },
   yougong: {
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     color: '#888',
     width: '100%',
     textAlign: 'center',
-    marginTop: hp(6 / BASE_HEIGHT),
+    // marginTop: hp(6 / BASE_HEIGHT),
     fontSize: hp(24 / BASE_HEIGHT),
     fontWeight: 'bold',
   },

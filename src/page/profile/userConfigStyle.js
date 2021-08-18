@@ -71,6 +71,7 @@ export default StyleSheet.create({
     borderRadius: wp(20 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
     shadowOffset: { width: 20, height: 20 },
+    elevation: 1,
   },
   orderPic: {
     width: wp(16 / BASE_WIDTH),
@@ -119,7 +120,7 @@ export default StyleSheet.create({
     borderRadius: wp(8 / BASE_WIDTH),
   },
   pwdBtnText: {
-    width: '100%',
+    width: wp(142 / BASE_WIDTH),
     textAlign: 'center',
     color: '#fff',
     fontWeight: 'normal',
