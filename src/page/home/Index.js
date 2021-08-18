@@ -7,12 +7,21 @@ import { Toast, ModalIndicator, Button } from 'teaset';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const BASE_WIDTH = 10.8;
-const BASE_HEIGHT = 19.2;
+import { screenWidth, screenHeight, scale } from '../../utils/device';
 
-const screenWidth = Dimensions.get('screen').width;
-const screenHeight = Dimensions.get('screen').height;
-const scale = Dimensions.get('screen').scale;
+const BASE_WIDTH = 10.8;
+
+let BASE_HEIGHT = 19.2;
+const formatVal = Number(screenHeight).toFixed(0);
+if (scale === 2.75 && formatVal === 759) {
+  // 1080*2220
+  BASE_HEIGHT = 22.2;
+} else if (scale === 2.75 && formatVal === 802) {
+  // 1080*2340
+  BASE_HEIGHT = 23.4;
+}
+
+const webViewsource = { uri: 'file:///android_asset/pie.html' };
 
 const yuanduan = require('../../assets/kpi/yuanduan.png');
 const wangce = require('../../assets/kpi/wangce.png');
@@ -125,12 +134,67 @@ class Index extends React.Component {
         { id: 3, val: '总进线', yougong: 61.23, wugong: 26.86, source: dianlichaoliu, routeName: 'Dianlichaoliu' },
         { id: 4, val: '自供电率', percent: 96, source: dianyaqushi, routeName: 'Dianyaqushi' },
       ],
+      pieOption: {
+        title: {
+          show: false,
+          x: 'center',
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: 16,
+          },
+        },
+        animation: true,
+        series: [
+          {
+            name: '',
+            type: 'pie',
+            radius: ['50%', '64%'],
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            startAngle: 150,
+            silent: true,
+            labelLine: {
+              normal: {
+                show: false,
+              },
+            },
+            data: [
+              {
+                value: 89,
+                name: '',
+                selected: false,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'center',
+                    fontSize: hp(32 / BASE_HEIGHT),
+                    color: '#1575F6',
+                    formatter: '{d}%',
+                  },
+                },
+                itemStyle: {
+                  color: '#1575F6',
+                },
+              },
+              {
+                value: 11,
+                label: {
+                  normal: {
+                    show: false,
+                  },
+                },
+                itemStyle: {
+                  color: '#b3daee',
+                },
+              },
+            ],
+          },
+        ],
+      },
     };
   }
 
-  componentDidMount() {
-    console.log(screenWidth, screenHeight, scale);
-  }
+  componentDidMount() {}
 
   handleClick = item => {
     const { navigation } = this.props;
@@ -138,7 +202,7 @@ class Index extends React.Component {
   };
 
   render() {
-    const { option, fakeData, fakeData2 } = this.state;
+    const { option, fakeData, fakeData2, pieOption } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -165,14 +229,20 @@ class Index extends React.Component {
                     <Text style={styles.yougong2}>{item.yougong ? '无功功率(Mvar)' : ''}</Text>
                   </View>
                 ) : (
-                  <View style={styles.commonWrap}>
-                    <View style={styles.lightContainer}>
-                      <Image source={dianlvjindu} style={styles.dianlvjindu} />
-                      <Text style={styles.percent}>89%</Text>
-                    </View>
+                  <View style={styles.lightContainer2}>
+                    {/* <ECharts option={pieOption} backgroundColor="red" /> */}
+                    <WebView
+                      useWebKit
+                      javaScriptEnabled
+                      source={webViewsource}
+                      originWhitelist={['*']}
+                      style={styles.webview}
+                      mixedContentMode="compatibility"
+                      ref={ref => (this.webView = ref)}
+                      onError={e => console.log(e)}
+                    />
                   </View>
                 )}
-
                 <View style={styles.commonTextbg}>
                   <Text style={styles.commonText}>{item.val}</Text>
                 </View>
@@ -180,9 +250,9 @@ class Index extends React.Component {
             );
           })}
         </View>
-        <View style={styles.chartContainer1}>
-          <ECharts option={option} backgroundColor="#fff" />
-        </View>
+        {/* <View style={styles.chartContainer1}>
+          <ECharts option={pieOption} backgroundColor="transparent" />
+        </View> */}
         <View style={styles.chartContainer}>
           <ECharts option={option} backgroundColor="#fff" />
         </View>
@@ -214,6 +284,12 @@ class Index extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  webview: {
+    flex: 1,
+    position: 'relative',
+    // width: wp(152 / BASE_WIDTH),
+    // height: wp(152 / BASE_WIDTH),
   },
   topcardContainer: {
     position: 'absolute',
@@ -264,7 +340,7 @@ const styles = StyleSheet.create({
     color: '#888',
     width: '100%',
     textAlign: 'center',
-    marginTop: hp(10 / BASE_HEIGHT),
+    marginTop: hp(6 / BASE_HEIGHT),
     fontSize: hp(24 / BASE_HEIGHT),
     fontWeight: 'bold',
   },
@@ -281,10 +357,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  lightContainer2: {
+    position: 'absolute',
+    // width: '80%',
+    // left: '8%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    top: hp(62 / BASE_HEIGHT),
+    left: wp(2 / BASE_WIDTH),
+    // height: hp(152 / BASE_HEIGHT),
+    zIndex: 100,
+    // width: wp(236 / BASE_WIDTH),
+    // height: wp(236 / BASE_WIDTH),
+    // backgroundColor: 'pink',
+  },
   percent: {
     position: 'absolute',
     width: '100%',
-    top: hp(110 / BASE_HEIGHT),
+    top: hp(42 / BASE_HEIGHT),
     // left: hp(76 / BASE_HEIGHT),
     color: '#1575F6',
     textAlign: 'center',
@@ -298,7 +388,7 @@ const styles = StyleSheet.create({
   dianlvjindu: {
     width: wp(153 / BASE_WIDTH),
     height: wp(153 / BASE_WIDTH),
-    marginTop: hp(62 / BASE_HEIGHT),
+    // marginTop: hp(62 / BASE_HEIGHT),
   },
   commonTextbg: {
     position: 'absolute',
@@ -313,7 +403,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     width: '100%',
     textAlign: 'center',
-    fontSize: hp(36 / BASE_HEIGHT),
+    fontSize: hp(32 / BASE_HEIGHT),
     // lineHeight: hp(50 / BASE_HEIGHT),
     // height: hp(50 / BASE_HEIGHT),
     // marginTop: hp(8 / BASE_HEIGHT),
@@ -334,13 +424,17 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   chartContainer1: {
-    // width: screenHeight - 40,
+    position: 'absolute',
+    right: wp(72 / BASE_WIDTH),
+    top: hp(100 / BASE_HEIGHT),
     width: '92%',
     height: hp(430 / BASE_HEIGHT),
     marginTop: hp(20 / BASE_HEIGHT),
     marginLeft: '4%',
     borderRadius: wp(20 / BASE_WIDTH),
     overflow: 'hidden',
+    width: wp(152 / BASE_WIDTH),
+    height: wp(152 / BASE_WIDTH),
   },
   chartContainer: {
     width: '92%',

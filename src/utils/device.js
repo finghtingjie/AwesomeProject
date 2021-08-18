@@ -14,13 +14,15 @@
 import { Dimensions, PixelRatio } from 'react-native';
 const designWidth = 1080;
 const designHeight = 1920;
-export const width = Dimensions.get('window').width;
-export const height = Dimensions.get('window').height;
+export const screenWidth = Dimensions.get('window').width;
+export const screenHeight = Dimensions.get('window').height;
+export const scale = Dimensions.get('screen').scale;
+
 export const p2dWidth = px => {
-  return px * (width / designWidth);
+  return px * (screenWidth / designWidth);
 };
 export const p2dHeight = px => {
-  return px * (height / designHeight);
+  return px * (screenHeight / designHeight);
 };
 export const px2dp = px => PixelRatio.roundToNearestPixel(px);
 export const dp2px = dp => PixelRatio.getPixelSizeForLayoutSize(dp);

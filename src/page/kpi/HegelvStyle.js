@@ -1,8 +1,23 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+import { screenWidth, screenHeight, scale } from '../../utils/device';
+
 const BASE_WIDTH = 10.8;
-const BASE_HEIGHT = 19.2;
+let BASE_HEIGHT = 19.2;
+if (scale === 2.75 && Number(screenHeight).toFixed(0) === 759) {
+  // 1080*2220
+  BASE_HEIGHT = 22.2;
+} else if (scale === 2.75 && Number(screenHeight).toFixed(0) === 802) {
+  // 1080*2340
+  BASE_HEIGHT = 23.4;
+}
+
+const currentHeight = StatusBar.currentHeight;
+
+console.log(screenWidth, screenHeight, scale, 111);
+console.log(screenWidth / screenHeight, 222);
+console.log(currentHeight);
 
 export default StyleSheet.create({
   container: {
@@ -58,10 +73,11 @@ export default StyleSheet.create({
   },
   tableContainer: {
     position: 'relative',
-    width: wp(1920 / BASE_WIDTH),
+    width: screenHeight + currentHeight,
     height: hp(500 / BASE_HEIGHT),
     // marginLeft: wp(92 / BASE_WIDTH),
     marginTop: hp(20 / BASE_HEIGHT),
+    overflow: 'hidden',
   },
   headContainer: {
     flexDirection: 'row',
@@ -99,11 +115,11 @@ export default StyleSheet.create({
   },
   nameStyle: {
     height: hp(100 / BASE_HEIGHT),
-    width: wp((182 * 3) / BASE_WIDTH),
+    width: screenHeight * 0.3,
   },
   commonnameStyle: {
     height: hp(100 / BASE_HEIGHT),
-    width: wp(182 / BASE_WIDTH),
+    width: screenHeight * 0.1,
   },
   commonColText: {
     color: '#fff',

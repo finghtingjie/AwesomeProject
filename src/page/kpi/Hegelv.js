@@ -152,36 +152,37 @@ class Hegelv extends React.PureComponent {
           </TouchableOpacity>
           <Text style={styles.content}>电压合格率</Text>
         </View>
-        <ScrollView style={styles.container} horizontal>
-          <View style={styles.tableContainer}>
-            {/* <Table borderStyle={styles.borderStyle}>
+        {/* <Table borderStyle={styles.borderStyle}>
             <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
             <Rows data={tableData} style={styles.rows} textStyle={styles.rowsText} />
           </Table> */}
-            <View style={styles.headContainer}>
-              {tableHead.map((item, index) => {
-                return (
-                  <View key={item} style={this.renderColStyle(item, index)}>
-                    <Text style={styles.commonColText}>{item}</Text>
-                  </View>
-                );
-              })}
-            </View>
-            {tableData.map(item => {
+        {/* <ScrollView style={styles.container} horizontal>
+
+        </ScrollView> */}
+        <View style={styles.tableContainer}>
+          <View style={styles.headContainer}>
+            {tableHead.map((item, index) => {
               return (
-                <View style={styles.rowContainer}>
-                  {item.map((items, index) => {
-                    return (
-                      <View key={items} style={this.renderColStyle(item, index)}>
-                        <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
-                      </View>
-                    );
-                  })}
+                <View key={item} style={this.renderColStyle(item, index)}>
+                  <Text style={styles.commonColText}>{item}</Text>
                 </View>
               );
             })}
           </View>
-        </ScrollView>
+          {tableData.map(item => {
+            return (
+              <View style={styles.rowContainer}>
+                {item.map((items, index) => {
+                  return (
+                    <View key={items} style={this.renderColStyle(item, index)}>
+                      <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+            );
+          })}
+        </View>
       </View>
     );
   }
