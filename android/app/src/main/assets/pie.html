@@ -28,7 +28,7 @@
         window.onload = function () {
             // window.ReactNativeWebView.postMessage('网页向rn发送的消息');
             document.addEventListener('message', function (msg) {
-                alert(JSON.parse(msg).data)
+                // alert(JSON.parse(msg).data)
             });
             init(40);
         }
@@ -98,8 +98,7 @@
         }
         window.receiveMessage = (msg) => {
             //在window上挂载一个receiveMessage方法，RN会调用
-            alert(msg)
-            console.log('来自rn的消息', msg)
+            // alert(msg)
             // 基于准备好的dom，初始化echarts实例
             init(msg);
         }
