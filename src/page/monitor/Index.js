@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
-// import { Toast, Button, PullPicker } from 'teaset';
+import { Toast, Button, PullPicker } from 'teaset';
 
 const rect = require('../../assets/monitor/rect.png');
 const changePic = require('../../assets/monitor/change.png');
@@ -17,6 +17,9 @@ class Index extends React.PureComponent {
     super(props);
     this.state = {
       activeIndex: 0,
+      actionIndex: 0,
+      actionIndex2: 0,
+      actionsheetShow: false,
       tableHead: ['名称', '有功功率(MW)', '无功功率(MVar)', '电流(A)'],
       tableData: [
         ['铁扎一线', '61.13', '26.86', '0.91'],
@@ -62,9 +65,19 @@ class Index extends React.PureComponent {
 
   componentDidMount() {}
 
+  handleTypeChange = (item, index) => {
+    if (item === 1) {
+      // 点击左侧条件,切换右侧数据
+      this.setState({ actionIndex: index });
+    } else {
+      // 点击右侧条件,关闭actionsheet
+      this.setState({ actionIndex2: index, actionsheetShow: false });
+    }
+  };
+
   render() {
     const tabArr = ['220kv', '110kv', '10kv', '主变'];
-    const { tableData, tableHead, activeIndex } = this.state;
+    const { tableData, tableHead, activeIndex, actionIndex, actionIndex2, actionsheetShow } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -75,7 +88,9 @@ class Index extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer}>
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
             <Image style={styles.rect} source={rect} />
             <Text style={styles.leftText}>源 端</Text>
           </TouchableOpacity>
@@ -84,6 +99,33 @@ class Index extends React.PureComponent {
             <Image style={styles.changePic} source={changePic} />
           </TouchableOpacity>
         </View>
+        {/* 筛选条件 */}
+        {actionsheetShow && (
+          <View style={styles.actionSheet}>
+            <View style={styles.storeTypeContainer}>
+              <View style={styles.leftBtnContainer}>
+                {['源端', '网侧'].map((item, index) => {
+                  return (
+                    <Button key={item} style={styles.leftBtn} onPress={() => this.handleTypeChange(1, index)}>
+                      <Text style={actionIndex === index ? styles.leftBtnTextActive : styles.leftBtnText}>{item}</Text>
+                    </Button>
+                  );
+                })}
+              </View>
+              <View>
+                {['220kV铁钢变电站', '220kV轧钢变电站', '110kV热电变电站'].map((item, index) => {
+                  return (
+                    <Button key={item} style={styles.rightBtn} onPress={() => this.handleTypeChange(2, index)}>
+                      <Text style={actionIndex2 === index ? styles.leftBtnTextActive : styles.leftBtnText}>{item}</Text>
+                    </Button>
+                  );
+                })}
+              </View>
+            </View>
+            <TouchableOpacity onPress={() => this.setState({ isType: false })} style={styles.typeBottom} />
+          </View>
+        )}
+
         <View style={styles.tabContainer}>
           {tabArr.map((item, index) => {
             return (
