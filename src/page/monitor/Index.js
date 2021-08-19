@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 const rect = require('../../assets/monitor/rect.png');
 const changePic = require('../../assets/monitor/change.png');
+const shuPic = require('../../assets/monitor/shu.png');
 
 // import IconFont from '@iconfont/index.js';
 // import { updateInfo } from '@api/profile';
@@ -16,6 +17,43 @@ class Index extends React.PureComponent {
     super(props);
     this.state = {
       activeIndex: 0,
+      tableHead: ['名称', '有功功率(MW)', '无功功率(MVar)', '电流(A)'],
+      tableData: [
+        ['铁扎一线', '61.13', '26.86', '0.91'],
+        ['铁扎二线', '61.13', '26.86', '0.91'],
+        ['曹铁一线', '61.13', '26.86', '0.91'],
+        ['曹铁二线', '61.13', '26.86', '0.91'],
+      ],
+      dataSource: [
+        {
+          id: 45,
+          name: '铁扎一线',
+          yougong: '100',
+          wugong: '100',
+          dianliu: 56,
+        },
+        {
+          id: 46,
+          name: '铁扎二线',
+          yougong: '100',
+          wugong: '100',
+          dianliu: 56,
+        },
+        {
+          id: 47,
+          name: '曹铁一线',
+          yougong: '100',
+          wugong: '100',
+          dianliu: 56,
+        },
+        {
+          id: 48,
+          name: '曹铁二线',
+          yougong: '100',
+          wugong: '100',
+          dianliu: 56,
+        },
+      ],
     };
   }
   static navigationOptions = {
@@ -25,8 +63,8 @@ class Index extends React.PureComponent {
   componentDidMount() {}
 
   render() {
-    const tableHead = ['220kv', '110kv', '10kv', '主变'];
-    const { activeIndex } = this.state;
+    const tabArr = ['220kv', '110kv', '10kv', '主变'];
+    const { tableData, tableHead, activeIndex } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -47,7 +85,7 @@ class Index extends React.PureComponent {
           </TouchableOpacity>
         </View>
         <View style={styles.tabContainer}>
-          {tableHead.map((item, index) => {
+          {tabArr.map((item, index) => {
             return (
               <TouchableOpacity
                 key={item}
@@ -58,6 +96,37 @@ class Index extends React.PureComponent {
               </TouchableOpacity>
             );
           })}
+        </View>
+        {/* table */}
+        <View style={styles.commonTableContainer}>
+          <View style={styles.tabTitleContainer}>
+            <Image style={styles.shuPic} source={shuPic} />
+            <Text style={styles.tabTitle}>进线/联络线</Text>
+          </View>
+          <View style={styles.tableContainer}>
+            <View style={styles.headContainer}>
+              {tableHead.map((item, index) => {
+                return (
+                  <View key={item} style={styles.nameStyle}>
+                    <Text style={styles.commonColText}>{item}</Text>
+                  </View>
+                );
+              })}
+            </View>
+            {tableData.map(item => {
+              return (
+                <View style={styles.rowContainer}>
+                  {item.map(items => {
+                    return (
+                      <View key={items} style={styles.nameStyle}>
+                        <Text style={styles.commonrowText}>{items}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              );
+            })}
+          </View>
         </View>
       </View>
     );
