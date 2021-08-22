@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
   centerContainer: {
     position: 'relative',
-    width: wp(978 / BASE_WIDTH),
+    width: 'auto',
     height: hp(1130 / BASE_HEIGHT),
     // backgroundColor: 'pink',
     marginLeft: wp(84 / BASE_WIDTH),
@@ -53,6 +53,7 @@ export default StyleSheet.create({
     borderRadius: wp(15 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
     shadowOffset: { width: 10, height: 10 },
+    elevation: 1,
   },
   commonPic: {
     marginTop: hp(57 / BASE_HEIGHT),

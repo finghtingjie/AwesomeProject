@@ -90,7 +90,7 @@ export default StyleSheet.create({
     shadowOffset: { width: 10, height: 10 },
   },
   commonText: {
-    width: '100%',
+    width: '40%',
     textAlign: 'left',
     color: '#3D447B',
     fontWeight: 'normal',

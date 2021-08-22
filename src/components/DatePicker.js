@@ -158,14 +158,6 @@ export default class DatePicker extends Component {
     let pickerData = [years, months, days, hours, minutes];
     let date = defaultValue ? moment(defaultValue, 'YYYY-MM-DD HH:mm:ss') : moment();
     let selectedValue = [date.year(), date.month() + 1, date.date(), date.hour(), date.minute()];
-    // alert(JSON.stringify(selectedValue))
-    // let selectedValue = [
-    //     date.getFullYear(),
-    //     date.getMonth()+1,
-    //     date.getDate(),
-    //     date.getHours(),
-    //     date.getMinutes()
-    // ];
     Picker.init({
       pickerData,
       selectedValue,
@@ -253,9 +245,13 @@ export default class DatePicker extends Component {
       <View style={styles.dateBox}>
         <TouchableOpacity style={touchBoxStyle} onPress={this._toggle.bind(this)}>
           {dateFormat ? (
-            <Text style={valueTextStyle ? valueTextStyle : styles.textValue}>{dateFormat}</Text>
+            <Text numberOfLines={1} style={valueTextStyle ? valueTextStyle : styles.textValue}>
+              {dateFormat}
+            </Text>
           ) : (
-            <Text style={placeholderStyle ? placeholderStyle : styles.textPlaceholder}>时间</Text>
+            <Text numberOfLines={1} style={placeholderStyle ? placeholderStyle : styles.textPlaceholder}>
+              时间
+            </Text>
           )}
           {this.props.suffix ? this.props.suffix : null}
         </TouchableOpacity>
@@ -280,12 +276,14 @@ const styles = StyleSheet.create({
   textValue: {
     color: '#333',
     fontWeight: '400',
+    width: wp(120 / BASE_WIDTH),
     fontSize: hp(32 / BASE_HEIGHT),
     lineHeight: hp(40 / BASE_HEIGHT),
   },
   textPlaceholder: {
     color: '#3D447B',
     fontWeight: '400',
+    width: wp(120 / BASE_WIDTH),
     marginLeft: wp(40 / BASE_WIDTH),
     fontSize: hp(32 / BASE_HEIGHT),
     lineHeight: hp(40 / BASE_HEIGHT),

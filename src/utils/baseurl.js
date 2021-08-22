@@ -1,3 +1,3 @@
-const BASE_URL = 'https://internalgw.mottuum.com/gw/';
+const BASE_URL = 'https://lf3gyfefwy.vaiwan.com/';
 
 export default BASE_URL;

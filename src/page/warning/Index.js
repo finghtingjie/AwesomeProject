@@ -191,7 +191,7 @@ class Index extends React.PureComponent {
         </View>
         <DashLine
           backgroundColor="#BABABC"
-          len={10}
+          len={5}
           width={hp(1282 / BASE_HEIGHT)}
           left={wp(70 / BASE_WIDTH)}
           top={hp(478 / BASE_HEIGHT)}

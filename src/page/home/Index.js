@@ -11,8 +11,6 @@ import { screenWidth, screenHeight, scale } from '../../utils/device';
 
 const BASE_WIDTH = 10.8;
 
-// const injectedJavaScriptCode = "document.body.style.backgroundColor = 'red';";
-
 let BASE_HEIGHT = 19.2;
 const formatVal = Number(screenHeight).toFixed(0);
 if (scale === 2.75 && formatVal === 759) {
@@ -79,33 +77,61 @@ class Index extends React.Component {
             lineStyle: {
               color: '#2B7CF4',
             },
+            itemStyle: {
+              normal: {
+                color: '#2B7CF4',
+              },
+            },
             label: {
               show: true,
               position: 'top',
               color: '#fff',
               // backgroundColor: 'red',
             },
-            markLine: {
-              symbol: ['none', 'none'], //去掉箭头
-              lineStyle: {
-                // color: 'red',
-              },
-              data: [
-                {
-                  yAxis: 12,
-                  label: {
-                    normal: {
-                      formatter: '最新值{c}',
-                    },
-                  },
-                },
-              ],
-            },
+            // markLine: {
+            //   symbol: ['none', 'none'], //去掉箭头
+            //   lineStyle: {
+            //     // color: 'red',
+            //   },
+            //   data: [
+            //     {
+            //       yAxis: 12,
+            //       label: {
+            //         normal: {
+            //           formatter: '最新值{c}',
+            //         },
+            //       },
+            //     },
+            //   ],
+            // },
             markPoint: {
               data: [
-                { type: 'max', name: '最大值', color: '#fff' },
-                { type: 'min', name: '最小值', color: '#fff' },
-                // { name: '最新值', value: 12, xAxis: 2, yAxis: 12 },
+                {
+                  type: 'max',
+                  name: '最大值',
+                  color: '#fff',
+                  symbol: 'roundRect',
+                  symbolSize: [40, 30],
+                  symbolOffset: [0, '-60%'],
+                },
+                {
+                  type: 'min',
+                  name: '最小值',
+                  color: '#fff',
+                  symbol: 'roundRect',
+                  symbolSize: [40, 30],
+                  symbolOffset: [0, '-60%'],
+                },
+                {
+                  name: '最新值',
+                  value: '最新值' + 12,
+                  color: '#fff',
+                  xAxis: 2,
+                  yAxis: 12,
+                  symbol: 'roundRect',
+                  symbolSize: [60, 30],
+                  symbolOffset: [0, '-60%'],
+                },
               ],
               label: {
                 // formatter: '{c}',
@@ -462,8 +488,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: hp(430 / BASE_HEIGHT),
     // width: '92%',
-    width: wp(1040 / BASE_WIDTH),
-    marginLeft: wp(20 / BASE_WIDTH),
+    width: wp(1050 / BASE_WIDTH),
+    marginLeft: wp(0 / BASE_WIDTH),
     // marginLeft: '4%',
     // width: (scrreenWidth * 1040) / 1080,
     marginTop: hp(24 / BASE_HEIGHT),
