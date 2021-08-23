@@ -28,10 +28,10 @@ class Index extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex1: null,
-      selectedIndex2: null,
-      levelName: '',
-      statusName: '',
+      selectedIndex1: 0,
+      selectedIndex2: 0,
+      levelName: '全部等级',
+      statusName: '全部状态',
       isDatePickerVisible: false,
       dateFormat: '', //时间
       dateStart: null,
@@ -117,14 +117,14 @@ class Index extends React.PureComponent {
 
   handleSelectLevel = () => {
     const items = ['全部等级', '遥测', '越限', '异常', '事故'];
-    PullPicker.show('请选择等级', items, this.state.selectedIndex, (item, index) =>
+    PullPicker.show('请选择等级', items, this.state.selectedIndex1, (item, index) =>
       this.setState({ selectedIndex1: index, levelName: item }, () => console.log(item)),
     );
   };
 
   handleSelectStatus = () => {
-    const items = ['状态1', '状态2', '状态3', '状态4'];
-    PullPicker.show('请选择状态', items, this.state.selectedIndex, (item, index) =>
+    const items = ['全部状态', '未确认', '已确认'];
+    PullPicker.show('请选择状态', items, this.state.selectedIndex2, (item, index) =>
       this.setState({ selectedIndex2: index, statusName: item }, () => console.log(item)),
     );
   };
@@ -163,7 +163,7 @@ class Index extends React.PureComponent {
               defaultValue={this.state.dateStart}
               onConfirm={this.handleConfirm}
               onCancel={this.hideDatePicker}
-              valueTextStyle={styles.commonText}
+              valueTextStyle={styles.commonText2}
             />
             <Image style={styles.arrowPic} source={arrowPic} />
           </TouchableOpacity>

@@ -5,6 +5,8 @@ import { Toast, ModalIndicator, Button } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+import { getUserInfo } from '@api/home';
+
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
@@ -30,12 +32,36 @@ class Index extends React.Component {
     super(props);
     this.state = {
       userName: '',
+      userInfo: {},
     };
   }
 
   componentDidMount() {
     this.setState({ userName: '测试用户名' });
+    this.getUserInfo();
   }
+
+  getUserInfo = async () => {
+    const user = await AsyncStorage.getItem('user');
+    if (user !== '') {
+      this.setState({ userInfo: JSON.parse(user).user });
+      const params = { userId: JSON.parse(user).userId };
+      console.log(params);
+      ModalIndicator.show();
+      getUserInfo(params).then(res => {
+        console.log(res);
+        ModalIndicator.hide();
+        if (res && res.status === 200) {
+          this.setState({
+            userInfo: res.body,
+            userName: res.body.userName,
+          });
+        } else if (res && res.status === 500) {
+          Toast.fail(res.msg);
+        }
+      });
+    }
+  };
 
   renderSource = id => {
     switch (id) {

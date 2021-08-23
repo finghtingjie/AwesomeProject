@@ -53,8 +53,8 @@ const instance = axios.create({
   headers: {
     'X-Custom-Header': 'foobar',
     'Content-Type': 'application/json',
-    'Device-Type': Platform.OS === 'ios' ? 'iOS' : 'Android',
   },
+  withCredentials: !__DEV__,
 });
 
 //请求拦截处理

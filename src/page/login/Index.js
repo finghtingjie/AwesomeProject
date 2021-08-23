@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TextInput, Text, Keyboard, StatusBar, Image } from 'react-native';
 
 import { Toast, ModalIndicator, Button } from 'teaset';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { login } from '@api/login';
 
@@ -28,6 +29,7 @@ class Index extends React.PureComponent {
   componentDidMount() {}
 
   handleLogin = () => {
+    Keyboard.dismiss();
     const { navigation } = this.props;
     const { userName, password } = this.state;
     if (!userName) {
@@ -37,13 +39,18 @@ class Index extends React.PureComponent {
     } else {
       ModalIndicator.show();
       const params = { userName, password };
-      // login(params).then(res => {
-      //   ModalIndicator.hide();
-      //   if (res && res.status === 200) {
-      //     // 登录成功
-      //     navigation.navigate('Home', { activeIndex: 1 });
-      //   }
-      // });
+      login(params).then(res => {
+        console.log(res);
+        ModalIndicator.hide();
+        if (res && res.status === 200) {
+          AsyncStorage.setItem('user', JSON.stringify(res.body));
+          AsyncStorage.setItem('Authorization', res.body.token);
+          // 登录成功
+          navigation.navigate('Home');
+        } else if (res && res.status === 300) {
+          Toast.fail(res.msg);
+        }
+      });
     }
   };
 
@@ -59,7 +66,7 @@ class Index extends React.PureComponent {
         />
         <Image style={styles.loginBg} source={loginBg} />
         <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={logo} />
+          <Image style={styles.logo} resizeMode="contain" source={logo} />
         </View>
         <Text style={styles.title}>首钢京唐智慧电网</Text>
         <View style={styles.userContainer}>

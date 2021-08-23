@@ -30,9 +30,6 @@ export async function getLastMonthList(params) {
   });
 }
 
-
-
-
 export async function saveAppEquipment(params) {
   return request('/platform/sys/app/saveAppEquipment', {
     method: 'POST',
@@ -48,8 +45,8 @@ export async function queryMessageInform(params) {
 }
 
 //获取当前用户信息
-export async function getCurrentUser(params) {
-  return request('platform/sys/user/getCurrentUser', {
+export async function getUserInfo(params) {
+  return request('/getUserInfo', {
     method: 'GET',
     params: params,
   });

@@ -90,7 +90,15 @@ export default StyleSheet.create({
     shadowOffset: { width: 10, height: 10 },
   },
   commonText: {
-    width: '40%',
+    textAlign: 'left',
+    color: '#3D447B',
+    fontWeight: 'normal',
+    // marginLeft: wp(40 / BASE_WIDTH),
+    fontSize: hp(32 / BASE_HEIGHT),
+    lineHeight: hp(82 / BASE_HEIGHT),
+  },
+  commonText2: {
+    width: '60%',
     textAlign: 'left',
     color: '#3D447B',
     fontWeight: 'normal',
@@ -101,7 +109,7 @@ export default StyleSheet.create({
   arrowPic: {
     position: 'absolute',
     top: hp(35 / BASE_HEIGHT),
-    right: wp(78 / BASE_WIDTH),
+    right: wp(28 / BASE_WIDTH),
     width: wp(20 / BASE_WIDTH),
     height: hp(12 / BASE_HEIGHT),
     // marginLeft: wp(30 / BASE_WIDTH),
