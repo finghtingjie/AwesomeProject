@@ -7,7 +7,7 @@ const arrowPic = require('../../assets/profile/xiala.png');
 const backIcon = require('../../assets/backicon.png');
 
 import IconFont from '@iconfont/index.js';
-import { addUser } from '@api/profile';
+import { addUser, reviseUser } from '@api/profile';
 
 import styles from './AddUserStyle';
 
@@ -29,13 +29,19 @@ class AddUser extends React.PureComponent {
 
   componentDidMount() {
     const { params } = this.props.navigation.state;
+    console.log(params, 32);
     if (params && params.type) {
       this.setState({ type: params.type });
+    }
+    if (params && params.item) {
+      const { userName, realName, password, groupingId } = item;
+      this.setState({ userName, realName, password, groupingId });
     }
   }
 
   handleSubmit = () => {
     const { userName, realName, password, groupingId } = this.state;
+    const { params } = this.props.navigation.state;
     if (!userName) {
       Toast.info('请输入用户名');
     } else if (!realName) {
@@ -45,19 +51,30 @@ class AddUser extends React.PureComponent {
     } else if (!groupingId) {
       Toast.info('请选择分组');
     } else {
-      const params = {
+      const param = {
         userName,
         realName,
         password,
         groupingId,
+        userId: params && params.item.userId,
       };
-      addUser(params).then(res => {
-        if (res && res.status === 0) {
-          Toast.success('保存成功');
-          const { navigation } = this.props;
-          navigation.navigate('UserConfig');
-        }
-      });
+      if (params && params.type === 'add') {
+        addUser(param).then(res => {
+          if (res && res.status === 0) {
+            Toast.success('保存成功');
+            const { navigation } = this.props;
+            navigation.navigate('UserConfig');
+          }
+        });
+      } else {
+        reviseUser(param).then(res => {
+          if (res && res.status === 0) {
+            Toast.success('保存成功');
+            const { navigation } = this.props;
+            navigation.navigate('UserConfig');
+          }
+        });
+      }
     }
   };
 

@@ -8,6 +8,14 @@ export async function addUser(params) {
   });
 }
 
+//搜索用户
+export async function reviseUser(params) {
+  return request('reviseUser', {
+    method: 'POST',
+    params,
+  });
+}
+
 //获取所有用户信息
 export async function getAllUserInfo(params) {
   return request('getAllUserInfo', {
