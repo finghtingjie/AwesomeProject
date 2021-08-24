@@ -5,7 +5,9 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { getActiveChildNavigationOptions } from 'react-navigation';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
 import Home from '@page/home/Index';
 
 import monitor from '@page/monitor/Index';
@@ -31,7 +33,7 @@ import AddUser from '@page/profile/AddUser';
 import GroupConfig from '@page/profile/GroupConfig';
 import AddGroup from '@page/profile/AddGroup';
 
-import { queryMenu } from '@api/login';
+import { getMenuData } from '@api/login';
 
 import IconWithBadge from '../components/IconWithBadge';
 import NavigationService from '../../NavigationService';
@@ -134,53 +136,18 @@ class customTabBar extends React.PureComponent {
   }
 
   componentDidMount() {
-    // queryMenu({}).then(res => {
-    //   if (res && res.status === 200) {
-    //     let arr = [];
-    //     arr.push(...res.body.map(item => item.name));
-    //     this.setState({ menuData: arr });
-    //   }
-    // });
+    getMenuData({}).then(res => {
+      if (res && res.status === 200) {
+        const arr = [];
+        AsyncStorage.setItem('subMenuData', JSON.stringify(res.body.menuData));
+        arr.push(...res.body.map(item => item.name));
+        console.log(arr);
+        // this.setState({ menuData: arr });
+      }
+    });
     this.setState({
       menuData: ['首页', '监控', 'kpi', '告警', '我的'],
     });
-
-    const menuData = [
-      {
-        menuId: 1,
-        menuName: '首页',
-      },
-      {
-        menuId: 2,
-        menuName: '监控',
-      },
-      {
-        menuId: 3,
-        menuName: 'kpi',
-        children: [
-          {
-            submenuId: 1,
-            submenu: '源端监视',
-          },
-          {
-            submenuId: 2,
-            submenu: '网侧监视',
-          },
-          {
-            submenuId: 3,
-            submenu: '电力潮流图',
-          },
-        ],
-      },
-      {
-        menuId: 4,
-        menuName: '告警',
-      },
-      {
-        menuId: 5,
-        menuName: '我的',
-      },
-    ];
   }
 
   // 根据接口返回渲染icon
@@ -255,13 +222,8 @@ class customTabBar extends React.PureComponent {
           }
           const activeColor = index === activeIndex ? '#4367FD' : '#999DB2'; //菜单激活颜色
           return (
-            <TouchableOpacity
-              style={styles.tabButton}
-              key={routeIndex}
-              onPress={() => this.handleClick(item, routeIndex)}>
+            <TouchableOpacity key={item} style={styles.tabButton} onPress={() => this.handleClick(item, routeIndex)}>
               {this.renderImage(item, activeColor)}
-              {/* <Image style={styles.userPic} source={iconMap[item].icon} /> */}
-              {/* <IconWithBadge icon={iconMap[item].icon} name={item} size={22} color={activeColor} /> */}
               <Text style={{ fontSize: hp(30 / BASE_HEIGHT), fontWeight: '400', color: activeColor }}>{item}</Text>
             </TouchableOpacity>
           );
