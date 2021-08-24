@@ -47,3 +47,27 @@ export async function revisePassword(params) {
     params,
   });
 }
+
+//获取分组列表
+export async function getGrouping(params) {
+  return request('getGrouping', {
+    method: 'GET',
+    params,
+  });
+}
+
+//新增分组
+export async function addGrouping(params) {
+  return request('addGrouping', {
+    method: 'POST',
+    params,
+  });
+}
+
+//修改分组
+export async function updateGrouping(params) {
+  return request('updateGrouping', {
+    method: 'POST',
+    params,
+  });
+}

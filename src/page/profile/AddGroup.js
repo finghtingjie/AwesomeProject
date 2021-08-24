@@ -3,11 +3,12 @@ import { View, Text, TouchableOpacity, StatusBar, TextInput, Keyboard, Image } f
 
 import { Toast, Button, Checkbox } from 'teaset';
 
-const arrowPic = require('../../assets/profile/xiala.png');
+// const arrowPic = require('../../assets/profile/xiala.png');
 const backIcon = require('../../assets/backicon.png');
 
 import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
+
+import { addGrouping } from '@api/profile';
 
 import styles from './AddGroupStyle';
 
