@@ -7,8 +7,8 @@ const backPic = require('../../assets/profile/back.png');
 const rank = require('../../assets/profile/xinghao.png');
 const backIcon = require('../../assets/backicon.png');
 
-import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
+// import IconFont from '@iconfont/index.js';
+import { revisePassword } from '@api/profile';
 
 import styles from './ChangePasswordStyle';
 
@@ -34,12 +34,12 @@ class ChangePassword extends React.PureComponent {
       Toast.info('两次输入的密码不一样,请重新输入');
       this.setState({ newPassword: '', verifyPassword: '' });
     } else {
-      // updateInfo({ password: newPassword }).then(res => {
-      //   if (res && res.status === 200) {
-      //     Toast.success('更新成功！');
-      //     navigation.navigate('Profile');
-      //   }
-      // });
+      revisePassword({ password: newPassword }).then(res => {
+        if (res && res.status === 200) {
+          Toast.success('更新成功！');
+          navigation.navigate('Profile');
+        }
+      });
     }
   };
 
@@ -77,6 +77,8 @@ class ChangePassword extends React.PureComponent {
             <Text style={styles.curPassword}>新密码</Text>
             <TextInput
               style={styles.inputBase}
+              password
+              secureTextEntry
               placeholder="请输入新密码"
               placeholderTextColor="#999"
               value={newPassword}
@@ -89,6 +91,8 @@ class ChangePassword extends React.PureComponent {
             <Text style={styles.curPassword}>确认密码</Text>
             <TextInput
               style={styles.inputBase}
+              password
+              secureTextEntry
               placeholder="请再次输入新密码"
               placeholderTextColor="#999"
               value={verifyPassword}

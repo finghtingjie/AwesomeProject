@@ -82,7 +82,7 @@ export default StyleSheet.create({
     position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     paddingVertical: 0,
     width: wp(1000 / BASE_WIDTH),
     height: hp(110 / BASE_HEIGHT),
@@ -91,6 +91,16 @@ export default StyleSheet.create({
     borderColor: '#fff',
     backgroundColor: '#fff',
     borderRadius: wp(20 / BASE_WIDTH),
+  },
+  leftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   pwdBtn: {
     paddingVertical: 0,
@@ -118,6 +128,7 @@ export default StyleSheet.create({
     borderColor: '#F31938',
     backgroundColor: '#F31938',
     borderRadius: wp(8 / BASE_WIDTH),
+    marginRight: wp(20 / BASE_WIDTH),
   },
   pwdBtnText: {
     width: wp(142 / BASE_WIDTH),

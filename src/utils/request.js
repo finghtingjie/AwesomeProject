@@ -62,10 +62,10 @@ instance.interceptors.request.use(
   async config => {
     const c_token = await AsyncStorage.getItem('Authorization');
     if (c_token) {
-      config.headers.Authorization = c_token;
+      config.headers.token = c_token;
     } else {
       //没有登录状态时，跳转到登录页
-      config.headers.Authorization = c_token;
+      config.headers.token = c_token;
     }
     if (config.method === 'get') {
       config.data = true;

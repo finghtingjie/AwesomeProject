@@ -7,7 +7,7 @@ const arrowPic = require('../../assets/profile/xiala.png');
 const backIcon = require('../../assets/backicon.png');
 
 import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
+import { addUser } from '@api/profile';
 
 import styles from './AddUserStyle';
 
@@ -16,10 +16,10 @@ class AddUser extends React.PureComponent {
     super(props);
     this.state = {
       userName: '',
-      fullName: '',
-      verifyPassword: '',
+      realName: '',
+      password: '',
       type: 'add',
-      selectedIndex: null,
+      groupingId: null,
       groupName: '',
     };
   }
@@ -35,19 +35,41 @@ class AddUser extends React.PureComponent {
   }
 
   handleSubmit = () => {
-    const { navigation } = this.props;
-    const { fullName, verifyPassword } = this.state;
+    const { userName, realName, password, groupingId } = this.state;
+    if (!userName) {
+      Toast.info('请输入用户名');
+    } else if (!realName) {
+      Toast.info('请输入真实姓名');
+    } else if (!password) {
+      Toast.info('请输入密码');
+    } else if (!groupingId) {
+      Toast.info('请选择分组');
+    } else {
+      const params = {
+        userName,
+        realName,
+        password,
+        groupingId,
+      };
+      addUser(params).then(res => {
+        if (res && res.status === 0) {
+          Toast.success('保存成功');
+          const { navigation } = this.props;
+          navigation.navigate('UserConfig');
+        }
+      });
+    }
   };
 
   handleSelect = () => {
     const items = ['分组1', '分组2', '分组3'];
-    PullPicker.show('请选择分组', items, this.state.selectedIndex, (item, index) =>
-      this.setState({ selectedIndex: index, groupName: item }, () => console.log(item)),
+    PullPicker.show('请选择分组', items, this.state.groupingId, (item, index) =>
+      this.setState({ groupingId: index, groupName: item }, () => console.log(index)),
     );
   };
 
   render() {
-    const { userName, fullName, verifyPassword, type, groupName } = this.state;
+    const { userName, realName, password, type, groupName } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -81,9 +103,9 @@ class AddUser extends React.PureComponent {
               style={styles.inputBase}
               placeholder="请输入真实姓名"
               placeholderTextColor="#999"
-              value={fullName}
+              value={realName}
               onBlur={() => Keyboard.dismiss()}
-              onChangeText={val => this.setState({ fullName: val })}
+              onChangeText={val => this.setState({ realName: val })}
             />
           </View>
           <View style={styles.inputBox}>
@@ -92,9 +114,9 @@ class AddUser extends React.PureComponent {
               style={styles.inputBase}
               placeholder="至少6个字符，包含字母和数字"
               placeholderTextColor="#999"
-              value={verifyPassword}
+              value={password}
               onBlur={() => Keyboard.dismiss()}
-              onChangeText={val => this.setState({ verifyPassword: val })}
+              onChangeText={val => this.setState({ password: val })}
             />
           </View>
           <TouchableOpacity style={styles.inputBox} onPress={() => this.handleSelect()}>

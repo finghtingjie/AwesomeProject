@@ -1,33 +1,62 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
+import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image, Alert } from 'react-native';
 
-import { Toast, Button, Overlay } from 'teaset';
+import { Toast, Button, Overlay, ModalIndicator } from 'teaset';
 
-import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
+// import IconFont from '@iconfont/index.js';
+import { getAllUserInfo, userSearch } from '@api/profile';
 
 const orderPic = require('../../assets/profile/order.png');
 const backIcon = require('../../assets/backicon.png');
 
 import styles from './UserConfigStyle';
 import overlayStyles from '../style/overlayStyle';
+import BASE_URL from '../../utils/baseurl';
 
-const fakeData = [
-  { userId: 1, userName: '张珊山/zhangshanshan', password: 'ceshimima' },
-  { userId: 2, userName: '张珊山/zhangshanshan', password: 'ceshimima2' },
-];
-
-class WarningConfig extends React.PureComponent {
+class UserConfig extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       keyWord: null,
+      fakeData: [
+        { userId: 1, userName: '张珊山/zhangshanshan', password: 'ceshimima' },
+        { userId: 2, userName: '张珊山/zhangshanshan', password: 'ceshimima2' },
+      ],
     };
   }
   static navigationOptions = {
     headerShown: false,
   };
 
+  // 获取用户信息
+  getAllUserInfo = () => {
+    ModalIndicator.show();
+    getAllUserInfo({}).then(res => {
+      ModalIndicator.hide();
+      if (res && res.status === 200) {
+        console.log('用户信息', res.body);
+        this.setState({ fakeData: res.body });
+      } else {
+        Toast.fail(res.msg);
+      }
+    });
+  };
+
+  handleSearch = val => {
+    ModalIndicator.show();
+    const params = { userName: val };
+    userSearch(params).then(res => {
+      ModalIndicator.hide();
+      if (res && res.status === 200) {
+        this.setState({ fakeData: res.body });
+      } else {
+        Toast.fail(res.msg);
+      }
+    });
+  };
+
+  // 查看密码
   handleLookPwd = item => {
     const overlayView = (
       <Overlay.View style={overlayStyles.overlay} modal overlayOpacity={null} ref={v => (this.overlayView = v)}>
@@ -44,20 +73,48 @@ class WarningConfig extends React.PureComponent {
     Overlay.show(overlayView);
   };
 
+  // 新增用户
   handleAddUser = () => {
     const { navigation } = this.props;
     navigation.navigate('AddUser', { type: 'add' });
   };
 
+  // 编辑用户
   handleEditUser = item => {
     const { navigation } = this.props;
     navigation.navigate('AddUser', { type: 'edit', item });
   };
 
-  handleDeleteUser = item => {};
+  // 删除用户
+  handleDeleteUser = item => {
+    Alert.alert('确定删除此用户吗？', '', [
+      {
+        text: '取消',
+        onPress: () => console.log('Cancel Pressed'),
+      },
+      { text: '确定', onPress: () => this.handleOk(item) },
+      ,
+    ]);
+  };
+
+  handleOk = item => {
+    ModalIndicator.show();
+    fetch(`${BASE_URL}deleteUser/${item}`)
+      .then(response => response.json())
+      .then(res => {
+        ModalIndicator.hide();
+        if (res && res.status === 200) {
+          console.log(res);
+          Toast.success('删除成功');
+          this.getAllUserInfo();
+        } else {
+          Toast.fail(res.msg);
+        }
+      });
+  };
 
   render() {
-    const { keyWord } = this.state;
+    const { keyWord, fakeData } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -67,6 +124,7 @@ class WarningConfig extends React.PureComponent {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
+        <NavigationEvents onDidFocus={() => this.getAllUserInfo()} />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
             <Image style={styles.backIcon} source={backIcon} />
@@ -80,23 +138,27 @@ class WarningConfig extends React.PureComponent {
             style={styles.inputBase}
             placeholderTextColor="#999"
             onBlur={() => Keyboard.dismiss()}
-            onChangeText={val => this.setState({ keyWord: val })}
+            onChangeText={val => this.handleSearch(val)}
           />
         </View>
         {fakeData.map(item => {
           return (
             <View key={item.userId} style={styles.userBtn}>
-              <Image style={styles.orderPic} source={orderPic} />
-              <Text style={styles.userBtnText}>{item.userName}</Text>
-              <Button style={styles.pwdBtn} onPress={() => this.handleLookPwd(item)}>
-                <Text style={styles.pwdBtnText}>查看密码</Text>
-              </Button>
-              <Button style={styles.editBtn} onPress={() => this.handleEditUser(item)}>
-                <Text style={styles.pwdBtnText}>编辑</Text>
-              </Button>
-              <Button style={styles.deleteBtn} onPress={() => this.handleDeleteUser(item.userId)}>
-                <Text style={styles.pwdBtnText}>删除</Text>
-              </Button>
+              <View style={styles.leftContainer}>
+                <Image style={styles.orderPic} source={orderPic} />
+                <Text style={styles.userBtnText}>{item.userName}</Text>
+              </View>
+              <View style={styles.btnContainer}>
+                <Button style={styles.pwdBtn} onPress={() => this.handleLookPwd(item)}>
+                  <Text style={styles.pwdBtnText}>查看密码</Text>
+                </Button>
+                <Button style={styles.editBtn} onPress={() => this.handleEditUser(item)}>
+                  <Text style={styles.pwdBtnText}>编辑</Text>
+                </Button>
+                <Button style={styles.deleteBtn} onPress={() => this.handleDeleteUser(item.userId)}>
+                  <Text style={styles.pwdBtnText}>删除</Text>
+                </Button>
+              </View>
             </View>
           );
         })}
@@ -108,4 +170,4 @@ class WarningConfig extends React.PureComponent {
   }
 }
 
-export default WarningConfig;
+export default UserConfig;

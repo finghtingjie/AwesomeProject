@@ -55,14 +55,18 @@ class GroupConfig extends React.PureComponent {
         {fakeData.map(item => {
           return (
             <View key={item.userId} style={styles.userBtn}>
-              <Image style={styles.orderPic} source={orderPic} />
-              <Text style={styles.userBtnText}>{item.groupName}</Text>
-              <Button style={styles.editBtn} onPress={() => this.handleEditGroup(item)}>
-                <Text style={styles.pwdBtnText}>编辑</Text>
-              </Button>
-              <Button style={styles.deleteBtn} onPress={() => this.handleDeleteGroup(item.userId)}>
-                <Text style={styles.pwdBtnText}>删除</Text>
-              </Button>
+              <View style={styles.leftContainer}>
+                <Image style={styles.orderPic} source={orderPic} />
+                <Text style={styles.userBtnText}>{item.groupName}</Text>
+              </View>
+              <View style={styles.btnContainer}>
+                <Button style={styles.editBtn} onPress={() => this.handleEditGroup(item)}>
+                  <Text style={styles.pwdBtnText}>编辑</Text>
+                </Button>
+                <Button style={styles.deleteBtn} onPress={() => this.handleDeleteGroup(item.userId)}>
+                  <Text style={styles.pwdBtnText}>删除</Text>
+                </Button>
+              </View>
             </View>
           );
         })}
