@@ -147,15 +147,21 @@ export default StyleSheet.create({
     height: wp(33 / BASE_WIDTH),
   },
   warningContent: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     width: wp(866 / BASE_WIDTH),
     marginLeft: wp(127 / BASE_WIDTH),
     height: 'auto',
     marginTop: hp(36 / BASE_HEIGHT),
     marginBottom: hp(28 / BASE_HEIGHT),
   },
+  ScrollView: {
+    width: 'auto',
+    height: 'auto',
+    marginLeft: wp(40 / BASE_WIDTH),
+  },
   warningText: {
     color: '#888',
-    width: '90%',
     textAlign: 'left',
     fontSize: hp(28 / BASE_HEIGHT),
     lineHeight: hp(36 / BASE_HEIGHT),

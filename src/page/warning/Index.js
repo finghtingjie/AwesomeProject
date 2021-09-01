@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image, ScrollView } from 'react-native';
 
 import moment from 'moment';
 import { Toast, Button, PullPicker } from 'teaset';
@@ -135,7 +135,7 @@ class Index extends React.PureComponent {
   };
 
   render() {
-    const { keyWord, fakeData, levelName, statusName } = this.state;
+    const { keyWord, fakeData, levelName, statusName, dateEnd } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -189,6 +189,11 @@ class Index extends React.PureComponent {
             <Text style={styles.redText}> {12} </Text>
             条告警数据...
           </Text>
+          <ScrollView horizontal style={styles.ScrollView}>
+            <Text style={styles.warningText}>{`${levelName}/${statusName}/${
+              dateEnd.includes('请') ? '' : dateEnd
+            }`}</Text>
+          </ScrollView>
         </View>
         <DashLine
           backgroundColor="#BABABC"
