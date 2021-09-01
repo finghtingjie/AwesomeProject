@@ -71,6 +71,11 @@ export default StyleSheet.create({
     borderRightWidth: 1,
     borderColor: '#ccc',
   },
+  ScrollView: {
+    position: 'relative',
+    width: 'auto',
+    height: hp(400 / BASE_HEIGHT),
+  },
   leftBtn: {
     width: wp(160 / BASE_WIDTH),
     height: hp(100 / BASE_HEIGHT),
@@ -88,6 +93,10 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: hp(32 / BASE_HEIGHT),
     fontWeight: 'bold',
+  },
+  typeBottom: {
+    height: '100%',
+    width: wp(100),
   },
   leftBtnTextActive: {
     color: '#3D447B',
