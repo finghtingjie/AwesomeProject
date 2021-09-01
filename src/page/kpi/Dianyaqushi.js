@@ -26,7 +26,7 @@ class Index extends React.Component {
           trigger: 'axis',
         },
         legend: {
-          data: ['油温1', '油温2'],
+          data: ['4#母线', '5#母线'],
           left: '3%',
         },
         grid: {
@@ -60,9 +60,17 @@ class Index extends React.Component {
             show: false,
           },
         },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none',
+            },
+            restore: {},
+          },
+        },
         series: [
           {
-            name: '油温1',
+            name: '4#母线',
             type: 'line',
             lineStyle: {
               color: '#3CBE1E',
@@ -71,7 +79,7 @@ class Index extends React.Component {
             data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
           },
           {
-            name: '油温2',
+            name: '5#母线',
             type: 'line',
             lineStyle: {
               color: '#1C6DDA',
@@ -105,6 +113,10 @@ class Index extends React.Component {
 
   render() {
     const { option } = this.state;
+    // 电压趋势图中共3级：
+    // 第一级为场站（场站支持切换），
+    // 第二级为电压等级（220kV场站有3种电压等级，110kV场站有2种电压等级），
+    // 第三级为具体母线电压
     return (
       <View style={styles.container}>
         <StatusBar

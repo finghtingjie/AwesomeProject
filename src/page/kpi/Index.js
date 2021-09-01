@@ -3,7 +3,7 @@ import { NavigationEvents } from 'react-navigation';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 import Orientation from 'react-native-orientation-locker';
-// import { Toast, Button, PullPicker } from 'teaset';
+import { ModalIndicator } from 'teaset';
 
 const yuanduan = require('../../assets/kpi/yuanduan.png');
 const wangce = require('../../assets/kpi/wangce.png');
@@ -14,9 +14,6 @@ const fuzailv = require('../../assets/kpi/fadianji.png');
 const youwen = require('../../assets/kpi/zhubianyouwen.png');
 const zhubianfuzailv = require('../../assets/kpi/zhubian.png');
 const zhiliu = require('../../assets/kpi/zhiliu.png');
-
-// import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
 
 import styles from './KpiStyle';
 

@@ -87,6 +87,7 @@ class Index extends React.PureComponent {
     if (params && params.type) {
       this.setState({ type: params.type });
     }
+    // 排序：最新告警（默认）、最早告警、状态（待确认优先）。
   }
 
   handleSubmit = () => {
