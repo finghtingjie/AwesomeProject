@@ -136,7 +136,7 @@ class Index extends React.PureComponent {
             <Image style={styles.rect} source={rect} />
             <Text style={styles.leftText}>源 端</Text>
           </TouchableOpacity>
-          <Text style={styles.content}>{''}</Text>
+          <Text style={styles.content}>{arr2[actionIndex2]}</Text>
           <TouchableOpacity style={styles.iconContainerRight} onPress={() => this.handleChangZhan()}>
             <Image style={styles.changePic} source={changePic} />
           </TouchableOpacity>
