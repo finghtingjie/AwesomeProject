@@ -36,6 +36,8 @@ class Index extends React.PureComponent {
       Toast.info('请输入用户名');
     } else if (!password) {
       Toast.info('请输入密码');
+    } else if (!/^\S*(?=\S{6,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/.test(password)) {
+      Toast.info('请输入正确格式的密码');
     } else {
       ModalIndicator.show();
       const params = { userName, password };
