@@ -70,6 +70,14 @@ class Index extends React.Component {
             show: false,
           },
         },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none',
+            },
+            restore: {},
+          },
+        },
         series: [
           {
             data: [7, 10, 12, 24, 20.3, 17, 6],
@@ -77,11 +85,11 @@ class Index extends React.Component {
             lineStyle: {
               color: '#2B7CF4',
             },
-            itemStyle: {
-              normal: {
-                color: '#2B7CF4',
-              },
-            },
+            // itemStyle: {
+            //   normal: {
+            //     color: '#2B7CF4',
+            //   },
+            // },
             label: {
               show: true,
               position: 'top',
@@ -157,9 +165,9 @@ class Index extends React.Component {
         { id: 9, val: '直流系统', source: zhiliu, routeName: 'Zhiliu' },
       ],
       fakeData2: [
-        { id: 1, val: '总用电', yougong: 61.23, wugong: 26.86, source: yuanduan, routeName: 'Yuanduan' },
-        { id: 2, val: '总发电', yougong: 61.23, wugong: 26.86, source: wangce, routeName: 'Wangce' },
-        { id: 3, val: '总进线', yougong: 61.23, wugong: 26.86, source: dianlichaoliu, routeName: 'Dianlichaoliu' },
+        { id: 1, val: '总用电', yougong: 61.23, wugong: 26.86, source: yuanduan, routeName: 'Wangce' },
+        { id: 2, val: '总发电', yougong: 61.23, wugong: 26.86, source: wangce, routeName: 'Yuanduan' },
+        { id: 3, val: '总进线', yougong: 61.23, wugong: 26.86, source: dianlichaoliu, routeName: 'Yuanduan' },
         { id: 4, val: '自供电率', percent: 96, source: dianyaqushi, routeName: 'Dianyaqushi' },
       ],
       pieOption: {
@@ -236,6 +244,20 @@ class Index extends React.Component {
     // this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
   };
 
+  handleClickCard = item => {
+    const { navigation } = this.props;
+    if (item.id === 1) {
+      // 总用电（有功功率、无功功率）：点击后跳转至KPI-网侧监视模块中
+      navigation.navigate(item.routeName);
+    } else if (item.id === 2) {
+      // 总发电（有功功率、无功功率）：点击后跳转至KPI-源端监视-用电tab中。
+      navigation.navigate(item.routeName, { activeIndex: 2 });
+    } else if (item.id === 3) {
+      // 总进线（有功功率、无功功率）、自供电率：点击后跳转至KPI-源端监视-电网购电tab中。
+      navigation.navigate(item.routeName, { activeIndex: 1 });
+    }
+  };
+
   render() {
     const { option, fakeData, fakeData2, pieOption } = this.state;
     return (
@@ -254,7 +276,7 @@ class Index extends React.Component {
               <View style={styles.card} key={item.id}>
                 <Image style={styles.commonPic} source={commonPic} />
                 {item.yougong ? (
-                  <View style={styles.commonWrap}>
+                  <TouchableOpacity style={styles.commonWrap} onPress={() => this.handleClickCard(item)}>
                     <Text style={styles.yougong}>{item.yougong}</Text>
                     <Text style={styles.yougong2}>{item.yougong ? '有功功率(Mw)' : ''}</Text>
                     <View style={styles.lightContainer}>
@@ -262,7 +284,7 @@ class Index extends React.Component {
                     </View>
                     <Text style={styles.wugong}>{item.wugong}</Text>
                     <Text style={styles.yougong2}>{item.wugong ? '无功功率(Mvar)' : ''}</Text>
-                  </View>
+                  </TouchableOpacity>
                 ) : (
                   <View style={styles.lightContainer2}>
                     {/* <ECharts option={pieOption} backgroundColor="red" /> */}

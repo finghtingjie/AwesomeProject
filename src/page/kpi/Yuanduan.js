@@ -24,7 +24,11 @@ class Yuanduan extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { params } = this.props.navigation.state;
+    const { activeIndex } = params;
+    console.log(activeIndex);
+  }
 
   handleTabChange = val => {};
 
