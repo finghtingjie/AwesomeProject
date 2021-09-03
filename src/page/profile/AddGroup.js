@@ -19,8 +19,10 @@ class AddGroup extends React.PureComponent {
       userName: '',
       type: 'add', //操作类型
       groupName: '',
-      checked: false, //父节点是否选中
-      isOpen: true, //子节点是否展开
+      checked: true, //父节点是否选中
+      checked1: true, //父节点是否选中
+      checked2: true, //父节点是否选中
+      isOpen: false, //子节点是否展开
       fakeData: [
         { id: 1, val: '源端监视', checked: false },
         { id: 2, val: '网侧监视', checked: false },
@@ -36,6 +38,7 @@ class AddGroup extends React.PureComponent {
   };
 
   componentDidMount() {
+    this.handleSetAll();
     const { params } = this.props.navigation.state;
     if (params && params.type) {
       this.setState({ type: params.type });
@@ -61,6 +64,14 @@ class AddGroup extends React.PureComponent {
     } else {
       this.setState({ checked: true });
     }
+  };
+
+  handleCheck1 = val => {
+    this.setState({ checked1: val });
+  };
+
+  handleCheck2 = val => {
+    this.setState({ checked2: val });
   };
 
   handleCheckAll = val => {
@@ -95,7 +106,7 @@ class AddGroup extends React.PureComponent {
   };
 
   render() {
-    const { type, groupName, fakeData, checked, isOpen } = this.state;
+    const { type, groupName, fakeData, checked1, checked2, checked, isOpen } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -130,6 +141,13 @@ class AddGroup extends React.PureComponent {
               <Text style={styles.placeholderText}>请配置分组权限</Text>
             </View>
             <View style={styles.arrowPic} />
+          </View>
+          {/* 监控 */}
+          <View style={styles.kpi}>
+            <Checkbox size="lg" title="监控" checked={checked1} onChange={val => this.handleCheck1(val)} />
+          </View>
+          <View style={styles.kpi}>
+            <Checkbox size="lg" title="告警" checked={checked2} onChange={val => this.handleCheck2(val)} />
           </View>
           <View style={styles.kpi}>
             <Checkbox size="lg" title="kpi" checked={checked} onChange={val => this.handleCheckAll(val)} />
