@@ -5,10 +5,8 @@ import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 
 const backIcon = require('../../assets/backicon.png');
-const leftTab = require('../../assets/kpi/lefttab.png');
-const rightTab = require('../../assets/kpi/righttab.png');
 
-// import { updateInfo } from '@api/profile';
+import { netSideMonitor } from '@api/kpi';
 
 import styles from './WangceStyle';
 
@@ -40,7 +38,20 @@ class Yuanduan extends React.PureComponent {
 
   componentDidMount() {}
 
-  handleTabChange = val => {};
+  netSideMonitor = () => {
+    netSideMonitor({}).then(res => {
+      if (res && res.status === 200) {
+        const resData = res.body;
+        let newArr = [];
+        resData.map((item, index) => {
+          newArr[index] = [item.name, item.dianliu, item.power, item.youGong, item.wuGong];
+        });
+        this.setState({
+          tableData: newArr,
+        });
+      }
+    });
+  };
 
   render() {
     const { tableData, tableHead } = this.state;

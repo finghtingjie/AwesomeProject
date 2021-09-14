@@ -9,6 +9,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import { screenWidth, screenHeight, scale } from '../../utils/device';
 
+import { getHeadInfo } from '@api/home';
+
 const BASE_WIDTH = 10.8;
 
 let BASE_HEIGHT = 19.2;
@@ -42,7 +44,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      percent: 89,
+      percent: 10,
       option: {
         title: {
           text: '自供电率统计图',
@@ -227,14 +229,75 @@ class Index extends React.Component {
           },
         ],
       },
+      headInfo: {
+        selfPowerSupplyRate: 30,
+        totalElectricityConsumption: {
+          name: '',
+          wuGong: 0,
+          youGong: 0,
+        },
+        totalElectricityGeneration: {
+          name: '',
+          wuGong: 0,
+          youGong: 0,
+        },
+        totalIncomingLine: {
+          name: '',
+          wuGong: 0,
+          youGong: 0,
+        },
+      }, //顶部信息
     };
   }
 
   componentDidMount() {}
 
+  getHeadInfo = () => {
+    const params = {};
+    getHeadInfo(params).then(res => {
+      if (res && res.status === 200) {
+        const {
+          totalElectricityConsumption,
+          totalElectricityGeneration,
+          totalIncomingLine,
+          selfPowerSupplyRate,
+        } = res.body;
+        this.setState({
+          fakeData2: [
+            {
+              id: 1,
+              val: '总用电',
+              yougong: totalElectricityConsumption.youGong,
+              wugong: totalElectricityConsumption.wuGong,
+              source: yuanduan,
+              routeName: 'Wangce',
+            },
+            {
+              id: 2,
+              val: '总发电',
+              yougong: totalElectricityGeneration.youGong,
+              wugong: totalElectricityGeneration.wuGong,
+              source: wangce,
+              routeName: 'Yuanduan',
+            },
+            {
+              id: 3,
+              val: '总进线',
+              yougong: totalIncomingLine.youGong,
+              wugong: totalIncomingLine.wuGong,
+              source: dianlichaoliu,
+              routeName: 'Yuanduan',
+            },
+            { id: 4, val: '自供电率', percent: selfPowerSupplyRate, source: dianyaqushi, routeName: 'Dianyaqushi' },
+          ],
+          percent: res.body.selfPowerSupplyRate,
+        });
+      }
+    });
+  };
+
   onLoadEnd = () => {
     this.webView.postMessage('rn啊');
-    // rn 注入调用（执行） web的 window.alert 方法
     this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
   };
 
@@ -310,9 +373,7 @@ class Index extends React.Component {
             );
           })}
         </View>
-        <View style={styles.chartContainer1}>
-          <ECharts option={pieOption} backgroundColor="transparent" />
-        </View>
+        <View style={styles.chartContainer1}>{/* <ECharts option={pieOption} backgroundColor="transparent" /> */}</View>
         <View style={styles.chartContainer}>
           <ECharts option={option} backgroundColor="#fff" />
         </View>

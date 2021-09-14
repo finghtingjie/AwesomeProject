@@ -8,7 +8,7 @@ const backIcon = require('../../assets/backicon.png');
 const leftTab = require('../../assets/kpi/lefttab.png');
 const rightTab = require('../../assets/kpi/righttab.png');
 
-// import { updateInfo } from '@api/profile';
+import { sourceEndMonitor } from '@api/kpi';
 
 import styles from './YuanduanStyle';
 
@@ -30,7 +30,28 @@ class Yuanduan extends React.PureComponent {
     // console.log(activeIndex);
   }
 
-  handleTabChange = val => {};
+  sourceEndMonitor = val => {
+    const params = {};
+    if (val) {
+      params.type = val;
+    }
+    sourceEndMonitor(params).then(res => {
+      if (res && res.status === 200) {
+        const resData = res.body;
+        let newArr = [];
+        resData.map((item, index) => {
+          newArr[index] = [item.name, item.dianliu, item.power, item.youGong, item.wuGong];
+        });
+        this.setState({
+          tableData: newArr,
+        });
+      }
+    });
+  };
+
+  handleTabChange = val => {
+    this.sourceEndMonitor(val);
+  };
 
   render() {
     const { tableData, tableHead } = this.state;

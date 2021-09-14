@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 const backIcon = require('../../assets/backicon.png');
 
-// import { updateInfo } from '@api/profile';
+import { generatorLoadRate } from '@api/kpi';
 
 import styles from './FuzailvStyle';
 
@@ -25,6 +25,7 @@ class Hegelv extends React.PureComponent {
         {
           id: 45,
           name: '热电110kV站',
+          data: [{ key: '25MW机组', value: 100.23 }, { key: '4#25MW机组', value: 100.04 }],
           fadian: ['3#25MW机组', '4#25MW机组'],
           fvzailv: ['100.23', '100.04'],
         },
@@ -110,7 +111,7 @@ class Hegelv extends React.PureComponent {
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
             <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
-          <Text style={styles.content}>发电机负载率</Text>
+          <Text style={styles.content}>发电机负荷率</Text>
         </View>
         <View style={styles.tableContainer}>
           <View style={styles.headContainer}>
