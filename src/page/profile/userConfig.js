@@ -3,6 +3,7 @@ import { NavigationEvents } from 'react-navigation';
 import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image, Alert } from 'react-native';
 
 import { Toast, Button, Overlay, ModalIndicator } from 'teaset';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import IconFont from '@iconfont/index.js';
 import { getAllUserInfo, userSearch } from '@api/profile';
@@ -45,7 +46,7 @@ class UserConfig extends React.PureComponent {
 
   handleSearch = val => {
     ModalIndicator.show();
-    const params = { userName: val };
+    const params = { name: val };
     userSearch(params).then(res => {
       ModalIndicator.hide();
       if (res && res.status === 200) {
@@ -90,16 +91,23 @@ class UserConfig extends React.PureComponent {
     Alert.alert('确定删除此用户吗？', '', [
       {
         text: '取消',
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => {},
       },
       { text: '确定', onPress: () => this.handleOk(item) },
       ,
     ]);
   };
 
-  handleOk = item => {
+  handleOk = async item => {
+    const c_token = await AsyncStorage.getItem('Authorization');
     ModalIndicator.show();
-    fetch(`${BASE_URL}deleteUser/${item}`)
+    fetch(`${BASE_URL}deleteUser/${item}`, {
+      headers: {
+        token: c_token,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
       .then(response => response.json())
       .then(res => {
         ModalIndicator.hide();

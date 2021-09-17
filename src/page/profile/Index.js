@@ -44,7 +44,7 @@ class Index extends React.Component {
   getUserInfo = async () => {
     const user = await AsyncStorage.getItem('user');
     if (user !== '') {
-      this.setState({ userInfo: JSON.parse(user).user });
+      this.setState({ userInfo: JSON.parse(user) });
       const params = { userId: JSON.parse(user).userId };
       console.log(params);
       ModalIndicator.show();
@@ -54,7 +54,6 @@ class Index extends React.Component {
         if (res && res.status === 200) {
           this.setState({
             userInfo: res.body,
-            userName: res.body.userName,
           });
         } else if (res && res.status === 500) {
           Toast.fail(res.msg);
@@ -100,7 +99,7 @@ class Index extends React.Component {
   };
 
   render() {
-    const { userName } = this.state;
+    const { userInfo } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -114,8 +113,8 @@ class Index extends React.Component {
         <View style={styles.userContainer}>
           <Image style={styles.userPic} source={userPic} />
           <View style={styles.userInfo}>
-            <Text style={styles.title}>{userName}</Text>
-            <Text style={styles.subtitle}>首钢京唐钢铁联合有限责任公司</Text>
+            <Text style={styles.title}>{userInfo.userName}</Text>
+            <Text style={styles.subtitle}>{userInfo.companyName}</Text>
           </View>
         </View>
         <View style={styles.centerContainer}>

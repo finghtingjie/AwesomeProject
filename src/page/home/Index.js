@@ -250,7 +250,9 @@ class Index extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getHeadInfo();
+  }
 
   getHeadInfo = () => {
     const params = {};
@@ -267,30 +269,36 @@ class Index extends React.Component {
             {
               id: 1,
               val: '总用电',
-              yougong: totalElectricityConsumption.youGong,
-              wugong: totalElectricityConsumption.wuGong,
+              yougong: Number(totalElectricityConsumption.youGong).toFixed(1),
+              wugong: Number(totalElectricityConsumption.wuGong).toFixed(1),
               source: yuanduan,
               routeName: 'Wangce',
             },
             {
               id: 2,
               val: '总发电',
-              yougong: totalElectricityGeneration.youGong,
-              wugong: totalElectricityGeneration.wuGong,
+              yougong: Number(totalElectricityGeneration.youGong).toFixed(1),
+              wugong: Number(totalElectricityGeneration.wuGong).toFixed(1),
               source: wangce,
               routeName: 'Yuanduan',
             },
             {
               id: 3,
               val: '总进线',
-              yougong: totalIncomingLine.youGong,
-              wugong: totalIncomingLine.wuGong,
+              yougong: Number(totalIncomingLine.youGong).toFixed(1),
+              wugong: Number(totalIncomingLine.wuGong).toFixed(1),
               source: dianlichaoliu,
               routeName: 'Yuanduan',
             },
-            { id: 4, val: '自供电率', percent: selfPowerSupplyRate, source: dianyaqushi, routeName: 'Dianyaqushi' },
+            {
+              id: 4,
+              val: '自供电率',
+              percent: Number(selfPowerSupplyRate).toFixed(1),
+              source: dianyaqushi,
+              routeName: 'Dianyaqushi',
+            },
           ],
-          percent: res.body.selfPowerSupplyRate,
+          percent: Number(res.body.selfPowerSupplyRate).toFixed(1),
         });
       }
     });

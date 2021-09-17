@@ -8,7 +8,7 @@ const backIcon = require('../../assets/backicon.png');
 
 import IconFont from '@iconfont/index.js';
 
-import { addGrouping } from '@api/profile';
+import { getGroupingMenu } from '@api/profile';
 
 import styles from './AddGroupStyle';
 
@@ -16,7 +16,6 @@ class AddGroup extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
       type: 'add', //操作类型
       groupName: '',
       checked: true, //父节点是否选中
@@ -42,6 +41,15 @@ class AddGroup extends React.PureComponent {
     const { params } = this.props.navigation.state;
     if (params && params.type) {
       this.setState({ type: params.type });
+    }
+    if (params && params.item) {
+      this.setState({ groupName: params.item.name });
+      getGroupingMenu({ groupId: params.item.id }).then(res => {
+        if (res && res.status === 200) {
+          console.log(res);
+          // this.setState({ fakeData: res.body });
+        }
+      });
     }
   }
 
@@ -127,11 +135,11 @@ class AddGroup extends React.PureComponent {
             <Text style={styles.curPassword}>分组名</Text>
             <TextInput
               style={styles.inputBase}
-              placeholder="请输入用户名"
+              placeholder="请输入分组名"
               placeholderTextColor="#999"
               value={groupName}
               onBlur={() => Keyboard.dismiss()}
-              onChangeText={val => this.setState({ userName: val })}
+              onChangeText={val => this.setState({ groupName: val })}
             />
             <View style={styles.arrowPic} />
           </View>

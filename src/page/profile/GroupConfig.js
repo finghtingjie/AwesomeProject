@@ -4,25 +4,33 @@ import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 import { Toast, Button } from 'teaset';
 
 import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
+import { getGrouping } from '@api/profile';
 
 const orderPic = require('../../assets/profile/order.png');
 const backIcon = require('../../assets/backicon.png');
 
 import styles from './GroupConfigStyle';
 
-const fakeData = [{ groupId: 1, groupName: '分组A' }, { groupId: 2, groupName: '分组B' }];
-
 class GroupConfig extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       keyWord: null,
+      fakeData: [],
     };
   }
   static navigationOptions = {
     headerShown: false,
   };
+
+  componentDidMount() {
+    const params = {};
+    getGrouping(params).then(res => {
+      if (res && res.status === 200) {
+        this.setState({ fakeData: res.body });
+      }
+    });
+  }
 
   handleAddGroup = () => {
     const { navigation } = this.props;
@@ -37,6 +45,7 @@ class GroupConfig extends React.PureComponent {
   handleDeleteGroup = item => {};
 
   render() {
+    const { fakeData } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -54,16 +63,16 @@ class GroupConfig extends React.PureComponent {
         </View>
         {fakeData.map(item => {
           return (
-            <View key={item.userId} style={styles.userBtn}>
+            <View key={item.id} style={styles.userBtn}>
               <View style={styles.leftContainer}>
-                <Image style={styles.orderPic} source={orderPic} />
-                <Text style={styles.userBtnText}>{item.groupName}</Text>
+                <Image style={styles.orderPic} source={orderPic} resizeMode="contain" />
+                <Text style={styles.userBtnText}>{item.name}</Text>
               </View>
               <View style={styles.btnContainer}>
                 <Button style={styles.editBtn} onPress={() => this.handleEditGroup(item)}>
                   <Text style={styles.pwdBtnText}>编辑</Text>
                 </Button>
-                <Button style={styles.deleteBtn} onPress={() => this.handleDeleteGroup(item.userId)}>
+                <Button style={styles.deleteBtn} onPress={() => this.handleDeleteGroup(item.id)}>
                   <Text style={styles.pwdBtnText}>删除</Text>
                 </Button>
               </View>

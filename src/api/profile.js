@@ -71,3 +71,11 @@ export async function updateGrouping(params) {
     params,
   });
 }
+
+//根据分组id获取分组菜单列表
+export async function getGroupingMenu(params) {
+  return request(`getGroupingMenu/${params.groupId}`, {
+    method: 'GET',
+    params,
+  });
+}

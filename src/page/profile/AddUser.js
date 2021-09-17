@@ -6,7 +6,6 @@ import { Toast, Button, PullPicker } from 'teaset';
 const arrowPic = require('../../assets/profile/xiala.png');
 const backIcon = require('../../assets/backicon.png');
 
-import IconFont from '@iconfont/index.js';
 import { addUser, reviseUser } from '@api/profile';
 
 import styles from './AddUserStyle';
@@ -29,12 +28,11 @@ class AddUser extends React.PureComponent {
 
   componentDidMount() {
     const { params } = this.props.navigation.state;
-    console.log(params, 32);
     if (params && params.type) {
       this.setState({ type: params.type });
     }
     if (params && params.item) {
-      const { userName, realName, password, groupingId } = item;
+      const { userName, realName, password, groupingId } = params.item;
       this.setState({ userName, realName, password, groupingId });
     }
   }
@@ -141,7 +139,7 @@ class AddUser extends React.PureComponent {
             <View style={styles.inputBase}>
               <Text style={styles.placeholderText}>{groupName || '请选择分组'}</Text>
             </View>
-            <Image style={styles.arrowPic} source={arrowPic} />
+            <Image style={styles.arrowPic} source={arrowPic} resizeMode="contain" />
           </TouchableOpacity>
           <Button style={styles.submitBtn} onPress={this.handleSubmit}>
             <Text style={styles.submitBtnText}>保&nbsp;&nbsp;&nbsp;存</Text>
