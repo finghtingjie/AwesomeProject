@@ -227,7 +227,7 @@ export default StyleSheet.create({
     borderRightColor: '#fff', //左箭头颜色
   },
   confirmBtn: {
-    width: wp(140 / BASE_WIDTH),
+    width: wp(160 / BASE_WIDTH),
     position: 'absolute',
     top: hp(44 / BASE_HEIGHT),
     right: wp(32 / BASE_WIDTH),
@@ -250,8 +250,38 @@ export default StyleSheet.create({
     borderRadius: wp(10 / BASE_WIDTH),
   },
   confirmBtnText: {
+    width: '100%',
+    paddingHorizontal: 0,
     color: '#fff',
-    fontSize: hp(28 / BASE_HEIGHT),
+    textAlign: 'center',
+    fontSize: hp(24 / BASE_HEIGHT),
+    lineHeight: hp(36 / BASE_HEIGHT),
+  },
+  loadMoreView: {
+    alignItems: 'center',
+    paddingTop: hp(2),
+    paddingBottom: hp(2),
+  },
+  loadMoreText: {
+    color: '#333',
+    fontSize: hp(24 / BASE_HEIGHT),
+    lineHeight: hp(36 / BASE_HEIGHT),
+  },
+  emptyText: {
+    color: '#333',
+    fontSize: hp(24 / BASE_HEIGHT),
+    lineHeight: hp(36 / BASE_HEIGHT),
+  },
+  noDataView: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: hp(2),
+    paddingBottom: hp(2),
+    justifyContent: 'center',
+  },
+  noRelust: {
+    color: '#333',
+    fontSize: hp(24 / BASE_HEIGHT),
     lineHeight: hp(36 / BASE_HEIGHT),
   },
 });
