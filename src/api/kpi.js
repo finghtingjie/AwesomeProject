@@ -16,6 +16,14 @@ export async function sourceEndMonitor(params) {
   });
 }
 
+// 获取电压趋势图
+export async function voltageTrend(params) {
+  return request(`/voltageTrend/${params.station}/${params.voltage}`, {
+    method: 'GET',
+    params,
+  });
+}
+
 // 获取发电机负荷率
 export async function generatorLoadRate(params) {
   return request('/generatorLoadRate', {

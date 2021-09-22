@@ -1,16 +1,17 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 
-import { Toast, Button, PullPicker } from 'teaset';
-import { WebView } from 'react-native-webview';
+import { Toast, Button } from 'teaset';
+// import { WebView } from 'react-native-webview';
 import { ECharts } from 'react-native-echarts-wrapper';
 
 import Orientation from 'react-native-orientation-locker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const backIcon = require('../../assets/backicon.png');
-const arrowPic = require('../../assets/profile/xiala.png');
+// const arrowPic = require('../../assets/profile/xiala.png');
 import IconFont from '@iconfont/index.js';
+import { voltageTrend } from '@api/kpi';
 
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
@@ -52,9 +53,9 @@ class Index extends React.Component {
         },
         grid: {
           left: '3%',
-          right: '0%',
+          right: '5%',
           bottom: '0%',
-          width: '94%',
+          width: '90%',
           containLabel: true,
         },
         xAxis: {
@@ -108,15 +109,28 @@ class Index extends React.Component {
             stack: '总量',
             data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
             markLine: {
-              lineStyle: {
-                color: 'red',
+              itemStyle: {
+                normal: {
+                  lineStyle: {
+                    color: 'red',
+                  },
+                  label: {
+                    formatter: function(item) {
+                      if (item.value === 30) {
+                        return `上限:${item.value}kv`;
+                      } else {
+                        return `下限:${item.value}kv`;
+                      }
+                    },
+                  },
+                },
               },
               data: [
                 {
-                  yAxis: 90,
+                  yAxis: 30,
                 },
                 {
-                  yAxis: 40,
+                  yAxis: 10,
                 },
               ],
             },
@@ -133,7 +147,24 @@ class Index extends React.Component {
 
   componentDidMount() {
     Orientation.lockToLandscapeLeft();
+    this.voltageTrend();
   }
+
+  voltageTrend = () => {
+    const params = {
+      station: '220kV铁钢变电站',
+      voltage: '220kv',
+    };
+    voltageTrend(params).then(res => {
+      if (res && res.status === 200) {
+        const resData = res.body;
+        console.log(resData);
+        // this.setState({
+        //   tableData: newArr,
+        // });
+      }
+    });
+  };
 
   handleTypeChange = (item, index) => {
     // const { actionIndex2, actionIndex } = this.state;
@@ -223,7 +254,7 @@ class Index extends React.Component {
           <Button style={[styles.commonBtn, styles.commonColor]} onPress={this.handleChange(2)}>
             <Text style={styles.submitBtnText}>110kv</Text>
           </Button>
-          <Button style={[[styles.commonBtn, styles.commonColor]]} onPress={this.handleChange(3)}>
+          <Button style={[styles.commonBtn, styles.commonColor]} onPress={this.handleChange(3)}>
             <Text style={styles.submitBtnText}>10kv</Text>
           </Button>
         </View>
