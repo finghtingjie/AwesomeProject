@@ -80,6 +80,37 @@ export default StyleSheet.create({
     marginLeft: wp(60 / BASE_WIDTH),
     marginTop: hp(33 / BASE_HEIGHT),
   },
+  headContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#6972CC',
+  },
+  nameStyle: {
+    height: hp(100 / BASE_HEIGHT),
+    width: wp(240 / BASE_WIDTH),
+  },
+  commonnameStyle: {
+    height: hp(100 / BASE_HEIGHT),
+    width: wp(240 / BASE_WIDTH),
+  },
+  colorWhite: {
+    color: '#fff',
+  },
+  commonColText: {
+    color: '#000',
+    textAlign: 'center',
+    fontSize: hp(24 / BASE_HEIGHT),
+    height: hp(100 / BASE_HEIGHT),
+    lineHeight: hp(100 / BASE_HEIGHT),
+    fontWeight: 'normal',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
   borderStyle: {
     borderWidth: 1,
     borderColor: '#BAD2ED',

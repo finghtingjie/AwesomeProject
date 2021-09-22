@@ -9,7 +9,7 @@ const backIcon = require('../../assets/backicon.png');
 const yes = require('../../assets/kpi/yes.png');
 const no = require('../../assets/kpi/no.png');
 
-// import { updateInfo } from '@api/profile';
+import { getVoltageQualificationRate } from '@api/kpi';
 
 import styles from './HegelvStyle';
 
@@ -87,7 +87,32 @@ class Hegelv extends React.PureComponent {
 
   componentDidMount() {
     Orientation.lockToLandscapeLeft();
+    this.getVoltageQualificationRate();
   }
+
+  getVoltageQualificationRate = () => {
+    getVoltageQualificationRate({}).then(res => {
+      if (res && res.status === 200) {
+        const resData = res.body;
+        let newArr = [];
+        resData.map((item, index) => {
+          newArr[index] = [
+            item.name,
+            item.ureal,
+            item.urateLimitUp,
+            item.urateLimitDn,
+            item.dayRate,
+            item.monthRate,
+            item.yearRate,
+            item.vqc || false,
+          ];
+        });
+        this.setState({
+          tableData: newArr,
+        });
+      }
+    });
+  };
 
   renderColStyle = (item, index) => {
     if (index === 0) {
@@ -122,21 +147,7 @@ class Hegelv extends React.PureComponent {
   };
 
   render() {
-    const { tableData, tableHead, dataSource } = this.state;
-    // let newArr = [];
-    // dataSource.map((item, index) => {
-    //   newArr[index] = [
-    //     item.name,
-    //     item.power,
-    //     item.shangxian,
-    //     item.xiaxian,
-    //     item.dayPercent,
-    //     item.monthPercent,
-    //     item.yearPercent,
-    //     item.isLight,
-    //   ];
-    // });
-    // console.log(newArr);
+    const { tableData, tableHead } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -169,19 +180,21 @@ class Hegelv extends React.PureComponent {
               );
             })}
           </View>
-          {tableData.map(item => {
-            return (
-              <View style={styles.rowContainer}>
-                {item.map((items, index) => {
-                  return (
-                    <View key={items} style={this.renderColStyle(item, index)}>
-                      <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
-                    </View>
-                  );
-                })}
-              </View>
-            );
-          })}
+          <ScrollView>
+            {tableData.map(item => {
+              return (
+                <View style={styles.rowContainer} key={item[1]}>
+                  {item.map((items, index) => {
+                    return (
+                      <View key={index} style={this.renderColStyle(item, index)}>
+                        <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
       </View>
     );

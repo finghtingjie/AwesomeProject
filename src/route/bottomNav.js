@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { getActiveChildNavigationOptions } from 'react-navigation';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import Home from '@page/home/Index';
@@ -141,7 +140,7 @@ class customTabBar extends React.PureComponent {
         const arr = [];
         // AsyncStorage.setItem('subMenuData', JSON.stringify(res.body.menuData));
         arr.push(...res.body.map(item => item.name));
-        console.log(arr);
+        // console.log(arr);
         this.setState({ menuData: arr });
       }
     });

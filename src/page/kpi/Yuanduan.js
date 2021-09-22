@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
 import { Table, Row, Rows } from 'react-native-table-component';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ModalIndicator, Toast } from 'teaset';
 
 const backIcon = require('../../assets/backicon.png');
 const leftTab = require('../../assets/kpi/lefttab.png');
@@ -11,6 +13,7 @@ const rightTab = require('../../assets/kpi/righttab.png');
 import { sourceEndMonitor } from '@api/kpi';
 
 import styles from './YuanduanStyle';
+import BASE_URL from '../../utils/baseurl';
 
 class Yuanduan extends React.PureComponent {
   constructor(props) {
@@ -24,23 +27,20 @@ class Yuanduan extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { params } = this.props.navigation.state;
     // const { activeIndex } = params;
     // console.log(activeIndex);
+    this.sourceEndMonitor('电网购电');
   }
 
   sourceEndMonitor = val => {
-    const params = {};
-    if (val) {
-      params.type = val;
-    }
-    sourceEndMonitor(params).then(res => {
+    sourceEndMonitor({ type: val }).then(res => {
       if (res && res.status === 200) {
         const resData = res.body;
         let newArr = [];
         resData.map((item, index) => {
-          newArr[index] = [item.name, item.dianliu, item.power, item.youGong, item.wuGong];
+          newArr[index] = [item.name, item.youGong, item.wuGong, item.dianLiu];
         });
         this.setState({
           tableData: newArr,
@@ -51,6 +51,14 @@ class Yuanduan extends React.PureComponent {
 
   handleTabChange = val => {
     this.sourceEndMonitor(val);
+  };
+
+  renderColStyle = (item, index) => {
+    if (index === 0) {
+      return styles.nameStyle;
+    } else {
+      return styles.commonnameStyle;
+    }
   };
 
   render() {
@@ -71,20 +79,42 @@ class Yuanduan extends React.PureComponent {
           <Text style={styles.content}>源端监视</Text>
         </View>
         <View style={styles.tabContainer}>
-          <TouchableOpacity style={styles.commonBtn} onPress={this.handleTabChange(1)}>
-            <Image style={styles.leftTab} source={leftTab} />
+          <TouchableOpacity style={styles.commonBtn} onPress={() => this.handleTabChange('电网购电')}>
+            <Image style={styles.leftTab} source={leftTab} resizeMode="contain" />
             <Text style={styles.commonText}>电网购电</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.commonBtn} onPress={this.handleTabChange(2)}>
-            <Image style={styles.leftTab} source={rightTab} />
+          <TouchableOpacity style={styles.commonBtn} onPress={() => this.handleTabChange('发电')}>
+            <Image style={styles.leftTab} source={rightTab} resizeMode="contain" />
             <Text style={styles.commonText}>发电</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.tableContainer}>
-          <Table borderStyle={styles.borderStyle}>
+          {/* <Table borderStyle={styles.borderStyle}>
             <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
             <Rows data={tableData} style={styles.rows} textStyle={styles.headText} />
-          </Table>
+          </Table> */}
+          <View style={styles.headContainer}>
+            {tableHead.map((item, index) => {
+              return (
+                <View key={item} style={this.renderColStyle(item, index)}>
+                  <Text style={styles.commonColText}>{item}</Text>
+                </View>
+              );
+            })}
+          </View>
+          {tableData.map(item => {
+            return (
+              <View style={styles.rowContainer} key={item}>
+                {item.map((items, index) => {
+                  return (
+                    <View key={items} style={this.renderColStyle(item, index)}>
+                      <Text style={styles.commonColText}>{items}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+            );
+          })}
         </View>
       </View>
     );

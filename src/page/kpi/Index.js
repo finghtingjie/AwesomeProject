@@ -3,7 +3,7 @@ import { NavigationEvents } from 'react-navigation';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
 import Orientation from 'react-native-orientation-locker';
-import { ModalIndicator } from 'teaset';
+import { ModalIndicator, Toast } from 'teaset';
 
 const yuanduan = require('../../assets/kpi/yuanduan.png');
 const wangce = require('../../assets/kpi/wangce.png');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
 import { Table, Row, Rows } from 'react-native-table-component';
@@ -36,7 +36,9 @@ class Yuanduan extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.netSideMonitor();
+  }
 
   netSideMonitor = () => {
     netSideMonitor({}).then(res => {
@@ -44,13 +46,21 @@ class Yuanduan extends React.PureComponent {
         const resData = res.body;
         let newArr = [];
         resData.map((item, index) => {
-          newArr[index] = [item.name, item.dianliu, item.power, item.youGong, item.wuGong];
+          newArr[index] = [item.name, item.youGong, item.wuGong, item.dianLiu];
         });
         this.setState({
           tableData: newArr,
         });
       }
     });
+  };
+
+  renderColStyle = (item, index) => {
+    if (index === 0) {
+      return styles.nameStyle;
+    } else {
+      return styles.commonnameStyle;
+    }
   };
 
   render() {
@@ -71,10 +81,34 @@ class Yuanduan extends React.PureComponent {
           <Text style={styles.content}>网侧监视</Text>
         </View>
         <View style={styles.tableContainer}>
-          <Table borderStyle={styles.borderStyle}>
+          {/* <Table borderStyle={styles.borderStyle}>
             <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
             <Rows data={tableData} style={styles.rows} textStyle={styles.rowsText} />
-          </Table>
+          </Table> */}
+          <View style={styles.headContainer}>
+            {tableHead.map((item, index) => {
+              return (
+                <View key={item} style={this.renderColStyle(item, index)}>
+                  <Text style={[styles.commonColText, styles.colorWhite]}>{item}</Text>
+                </View>
+              );
+            })}
+          </View>
+          <ScrollView>
+            {tableData.map(item => {
+              return (
+                <View style={styles.rowContainer}>
+                  {item.map((items, index) => {
+                    return (
+                      <View key={items} style={this.renderColStyle(item, index)}>
+                        <Text style={styles.commonColText}>{items}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
       </View>
     );

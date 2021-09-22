@@ -21,34 +21,31 @@ class Hegelv extends React.PureComponent {
         ['CDQ机组', ['1#CDQ ', '2#CDQ ', '3#CDQ '], ['100.34', '100.19', '0']],
         ['CCPP机组', ['CPP燃机', 'CCPP汽机'], ['100.34', '100.19']],
       ],
-      dataSource: [
-        {
-          id: 45,
-          name: '热电110kV站',
-          data: [{ key: '25MW机组', value: 100.23 }, { key: '4#25MW机组', value: 100.04 }],
-          fadian: ['3#25MW机组', '4#25MW机组'],
-          fvzailv: ['100.23', '100.04'],
-        },
-        {
-          id: 46,
-          name: '热电110kV站',
-          fadian: ['3#25MW机组', '4#25MW机组'],
-          fvzailv: ['100.23', '100.04'],
-        },
-        {
-          id: 47,
-          name: '热电110kV站',
-          fadian: ['3#25MW机组', '4#25MW机组'],
-          fvzailv: ['100.23', '100.04'],
-        },
-      ],
     };
   }
   static navigationOptions = {
     headerShown: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.generatorLoadRate();
+  }
+
+  generatorLoadRate = () => {
+    generatorLoadRate({}).then(res => {
+      if (res && res.status === 200) {
+        const resData = res.body;
+        let newArr = [];
+        resData.map((item, index) => {
+          newArr[index] = [item.name, Object.keys(item.data), Object.values(item.data)];
+        });
+        console.log(newArr);
+        this.setState({
+          tableData: newArr,
+        });
+      }
+    });
+  };
 
   renderColStyle = (item, items, index) => {
     if (index === 0) {
@@ -83,21 +80,7 @@ class Hegelv extends React.PureComponent {
   };
 
   render() {
-    const { tableData, tableHead, dataSource } = this.state;
-    // let newArr = [];
-    // dataSource.map((item, index) => {
-    //   newArr[index] = [
-    //     item.name,
-    //     item.power,
-    //     item.shangxian,
-    //     item.xiaxian,
-    //     item.dayPercent,
-    //     item.monthPercent,
-    //     item.yearPercent,
-    //     item.isLight,
-    //   ];
-    // });
-    // console.log(newArr);
+    const { tableData, tableHead } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -125,7 +108,7 @@ class Hegelv extends React.PureComponent {
           </View>
           {tableData.map(item => {
             return (
-              <View style={styles.rowContainer}>
+              <View style={styles.rowContainer} key={item}>
                 {item.map((items, index) => {
                   return (
                     <View key={items} style={this.renderRowStyle(item, index)}>

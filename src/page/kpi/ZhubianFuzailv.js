@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
 
 const backIcon = require('../../assets/backicon.png');
 
-// import { updateInfo } from '@api/profile';
+import { loadRateOfMainTransformer } from '@api/kpi';
 
 import styles from './FuzailvStyle';
 
@@ -20,33 +20,35 @@ class Hegelv extends React.PureComponent {
         ['1#110kV站', ['1#主变', '2#主变', '3#主变'], ['25.09', '4.84', '14.11']],
         ['2#110kV站', ['1#主变', '2#主变', '3#主变', '4#主变'], ['19.78', '0.00', '5.67', '39.88']],
       ],
-      dataSource: [
-        {
-          id: 45,
-          name: '热电110kV站',
-          fadian: ['3#25MW机组', '4#25MW机组'],
-          fvzailv: ['100.23', '100.04'],
-        },
-        {
-          id: 46,
-          name: '热电110kV站',
-          fadian: ['3#25MW机组', '4#25MW机组'],
-          fvzailv: ['100.23', '100.04'],
-        },
-        {
-          id: 47,
-          name: '热电110kV站',
-          fadian: ['3#25MW机组', '4#25MW机组'],
-          fvzailv: ['100.23', '100.04'],
-        },
-      ],
     };
   }
   static navigationOptions = {
     headerShown: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.loadRateOfMainTransformer();
+  }
+
+  loadRateOfMainTransformer = () => {
+    loadRateOfMainTransformer({}).then(res => {
+      if (res && res.status === 200) {
+        const resData = res.body;
+        let newArr = [];
+        resData.map((item, index) => {
+          newArr[index] = [
+            item.name,
+            item.data !== undefined && Object.keys(item.data),
+            item.data !== undefined && Object.values(item.data),
+          ];
+        });
+        console.log(newArr);
+        this.setState({
+          tableData: newArr,
+        });
+      }
+    });
+  };
 
   renderColStyle = (item, items, index) => {
     if (index === 0) {
@@ -93,21 +95,7 @@ class Hegelv extends React.PureComponent {
   };
 
   render() {
-    const { tableData, tableHead, dataSource } = this.state;
-    // let newArr = [];
-    // dataSource.map((item, index) => {
-    //   newArr[index] = [
-    //     item.name,
-    //     item.power,
-    //     item.shangxian,
-    //     item.xiaxian,
-    //     item.dayPercent,
-    //     item.monthPercent,
-    //     item.yearPercent,
-    //     item.isLight,
-    //   ];
-    // });
-    // console.log(newArr);
+    const { tableData, tableHead } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -133,23 +121,25 @@ class Hegelv extends React.PureComponent {
               );
             })}
           </View>
-          {tableData.map(item => {
-            return (
-              <View style={styles.rowContainer}>
-                {item.map((items, index) => {
-                  return (
-                    <View key={items} style={this.renderRowStyle(item, index)}>
-                      {Array.isArray(items) ? (
-                        this.renderArrayText(items, index)
-                      ) : (
-                        <Text style={this.renderTextStyle(items, index)}>{items}</Text>
-                      )}
-                    </View>
-                  );
-                })}
-              </View>
-            );
-          })}
+          <ScrollView>
+            {tableData.map(item => {
+              return (
+                <View style={styles.rowContainer}>
+                  {item.map((items, index) => {
+                    return (
+                      <View key={items} style={this.renderRowStyle(item, index)}>
+                        {Array.isArray(items) ? (
+                          this.renderArrayText(items, index)
+                        ) : (
+                          <Text style={this.renderTextStyle(items, index)}>{items}</Text>
+                        )}
+                      </View>
+                    );
+                  })}
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
       </View>
     );
