@@ -109,6 +109,7 @@ class Index extends React.Component {
             stack: '总量',
             data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
             markLine: {
+              symbol: ['none', 'none'], //去掉箭头
               itemStyle: {
                 normal: {
                   lineStyle: {
@@ -210,7 +211,7 @@ class Index extends React.Component {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
+            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.content} onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
             <Text style={styles.contentText}>{`(${arr2[actionIndex2]}) 电压趋势图`}</Text>
