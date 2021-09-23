@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import moment from 'moment';
-import { Toast, Button, PullPicker } from 'teaset';
+import { Toast, Button, PullPicker, ModalIndicator } from 'teaset';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const BASE_WIDTH = 10.8;
@@ -89,7 +89,7 @@ class Index extends React.PureComponent {
       pageSize: 10,
       total: 0,
       dataFlag: false,
-      sort: '最新告警',
+      sort: 'desc',
     };
   }
   static navigationOptions = {
@@ -105,18 +105,21 @@ class Index extends React.PureComponent {
   }
 
   getGiveAnAlarm = () => {
-    let { pageNum, pageSize, alarmContent, levelName } = this.state;
+    let { pageNum, pageSize, alarmContent, selectedIndex1, sort } = this.state;
     const params = {
+      sort,
       pageNum,
       pageSize,
       alarmContent,
-      eventLevel: levelName,
+      eventLevel: selectedIndex1 + 1,
     };
+    ModalIndicator.show();
     getGiveAnAlarm(params).then(res => {
+      ModalIndicator.hide();
       if (res && res.status === 200) {
         this.setState({ total: res.body.totalAmount });
         const renderPic = item => {
-          const actions = new Map([[1, yao], [2, yue], [3, yi], [4, shi], ['default', yao]]);
+          const actions = new Map([[1, yao], [2, yi], [3, yue], [4, shi], ['default', '']]);
           const action = actions.get(item) || actions.get('default');
           return action;
         };
@@ -142,12 +145,13 @@ class Index extends React.PureComponent {
         //是否可以下拉
         const allLen = res.body.totalAmount;
         const nowLen = pageNum * pageSize;
-        console.log(allLen, nowLen);
         if (allLen > nowLen) {
           this.setState({ dataFlag: true });
         } else {
           this.setState({ dataFlag: false });
         }
+      } else {
+        Toast.fail(res.msg);
       }
     });
   };
@@ -168,7 +172,10 @@ class Index extends React.PureComponent {
   handleSelectLevel = () => {
     const items = ['全部类型', '异常信号', '越限监视', '重要信号', '保护动作'];
     PullPicker.show('请选择告警类型', items, this.state.selectedIndex1, (item, index) =>
-      this.setState({ selectedIndex1: index, levelName: item }, () => console.log(item)),
+      this.setState({ selectedIndex1: index, levelName: item }, () => {
+        console.log(item);
+        this.getGiveAnAlarm();
+      }),
     );
   };
 
@@ -180,16 +187,34 @@ class Index extends React.PureComponent {
   // };
 
   handleChangeOrder = () => {
-    const items = ['最新告警', '最早告警'];
-    PullPicker.show('请选择排序类型', items, this.state.selectedIndex3, (item, index) =>
-      this.setState({ selectedIndex3: index, sort: item }, () => console.log(item)),
-    );
+    this.setState({ sort: this.state.sort === 'desc' ? 'asc' : 'desc' }, () => {
+      this.getGiveAnAlarm();
+    });
+  };
+
+  renderLevel = item => {
+    const actions = new Map([
+      [1, '全部类型'],
+      [2, '异常信号'],
+      [3, '越限监视'],
+      [4, '重要信号'],
+      [5, '保护动作'],
+      ['default', ''],
+    ]);
+    const action = actions.get(item) || actions.get('default');
+    return action;
   };
 
   handleSearch = val => {
-    const { levelName, dateEnd, dateStart, sort } = this.state;
+    const { selectedIndex1, dateEnd, dateStart, sort } = this.state;
     this.setState({ alarmContent: val }, () => {
-      const params = { sort, alarmContent: val, startTime: dateStart, endTime: dateEnd, eventLevel: levelName };
+      const params = {
+        sort,
+        alarmContent: val,
+        startTime: dateStart,
+        endTime: dateEnd,
+        eventLevel: selectedIndex1 + 1,
+      };
       this.getGiveAnAlarm(params);
     });
   };
@@ -203,7 +228,8 @@ class Index extends React.PureComponent {
         </View>
         <View style={styles.rightPart}>
           <Text style={styles.commonLine}>
-            告警类型：<Text style={[styles.contents, { color: item.contentColor }]}>{item.eventLevel}</Text>
+            告警类型：
+            <Text style={[styles.contents, { color: item.contentColor }]}>{this.renderLevel(item.eventLevel)}</Text>
           </Text>
           <Text style={styles.commonLine}>
             告警时间：
@@ -215,10 +241,10 @@ class Index extends React.PureComponent {
             告警内容：<Text style={[styles.contents, { color: item.contentColor }]}>{item.alarmContent}</Text>
           </Text>
         </View>
-        <Text style={styles.confirmBtnText}>{item.actingDesc}</Text>
-        {/* <Button style={item.isConfirm ? styles.isConfirm : styles.confirmBtn}>
+        {/* <Text style={styles.confirmBtnText}>{item.actingDesc}</Text> */}
+        <Button style={item.isConfirm ? styles.isConfirm : styles.confirmBtn}>
           <Text style={styles.confirmBtnText}>{item.actingDesc}</Text>
-        </Button> */}
+        </Button>
       </View>
     );
   };

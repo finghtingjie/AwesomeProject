@@ -227,12 +227,12 @@ export default StyleSheet.create({
     borderRightColor: '#fff', //左箭头颜色
   },
   confirmBtn: {
-    width: wp(160 / BASE_WIDTH),
+    width: 'auto',
     position: 'absolute',
     top: hp(44 / BASE_HEIGHT),
     right: wp(32 / BASE_WIDTH),
-    borderColor: '#28920C',
-    backgroundColor: '#28920C',
+    borderColor: '#fff',
+    backgroundColor: '#fff',
     paddingVertical: 0,
     padding: 0,
     height: hp(64 / BASE_HEIGHT),
@@ -252,7 +252,7 @@ export default StyleSheet.create({
   confirmBtnText: {
     width: '100%',
     paddingHorizontal: 0,
-    color: '#fff',
+    color: '#000',
     textAlign: 'center',
     fontSize: hp(24 / BASE_HEIGHT),
     lineHeight: hp(36 / BASE_HEIGHT),

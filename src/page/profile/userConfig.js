@@ -6,7 +6,7 @@ import { Toast, Button, Overlay, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import IconFont from '@iconfont/index.js';
-import { getAllUserInfo, userSearch } from '@api/profile';
+import { getAllUserInfo, userSearch, deleteUser } from '@api/profile';
 
 const orderPic = require('../../assets/profile/order.png');
 const backIcon = require('../../assets/backicon.png');
@@ -99,26 +99,15 @@ class UserConfig extends React.PureComponent {
   };
 
   handleOk = async item => {
-    const c_token = await AsyncStorage.getItem('Authorization');
-    ModalIndicator.show();
-    fetch(`${BASE_URL}deleteUser/${item}`, {
-      headers: {
-        token: c_token,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(res => {
-        ModalIndicator.hide();
-        if (res && res.status === 200) {
-          console.log(res);
-          Toast.success('删除成功');
-          this.getAllUserInfo();
-        } else {
-          Toast.fail(res.msg);
-        }
-      });
+    // ModalIndicator.show();
+    deleteUser({ userId: item }).then(res => {
+      if (res && res.status === 200) {
+        Toast.success('删除成功');
+        this.getAllUserInfo();
+      } else {
+        Toast.fail(res.msg);
+      }
+    });
   };
 
   render() {

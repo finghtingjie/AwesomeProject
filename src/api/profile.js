@@ -95,3 +95,35 @@ export async function getUserInfo(params) {
     params,
   });
 }
+
+// 获取告警配置用户
+export async function getTGiveAnAlarmUser(params) {
+  return request('getTGiveAnAlarmUser', {
+    method: 'GET',
+    params,
+  });
+}
+
+// 新增告警人员
+export async function addTGiveAnAlarmUser(params) {
+  return request('addTGiveAnAlarmUser', {
+    method: 'GET',
+    params,
+  });
+}
+
+// 获取告警配置列表
+export async function getTGiveAnAlarm(params) {
+  return request('getTGiveAnAlarm', {
+    method: 'GET',
+    params,
+  });
+}
+
+// 删除告警人员
+export async function deleteTGiveAnAlarmr(params) {
+  return request('deleteTGiveAnAlarmr', {
+    method: 'POST',
+    params,
+  });
+}

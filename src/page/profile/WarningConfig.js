@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, Alert } from 'react-native';
 
-import { Toast, Button } from 'teaset';
+import { Toast, Button, PullPicker } from 'teaset';
 
 import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
+import { addTGiveAnAlarmUser, getTGiveAnAlarmUser, getAllUserInfo, deleteTGiveAnAlarmr } from '@api/profile';
 
 import styles from './WarningStyle';
 
@@ -12,34 +12,51 @@ const backIcon = require('../../assets/backicon.png');
 
 const WarningArr = ['异常信号', '越限监视', '重要信号', '保护动作'];
 
-const fakeData = [{ userId: 1, userName: '张珊山/zhangshanshan' }, { userId: 2, userName: '张珊山/zhangshanshan' }];
+const arr = [{ userId: 1, userName: '张珊山/zhangshanshan' }, { userId: 2, userName: '张珊山/zhangshanshan' }];
 
 class WarningConfig extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tabActiveIndex: 0, //tab激活下标
+      tabActiveIndex: 0, //tab激活下
+      fakeData: [],
+      userList: [],
+      selectedIndex: null,
     };
   }
   static navigationOptions = {
     headerShown: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getTGiveAnAlarmUser();
+    this.getAllUserInfo();
+  }
 
-  handleSubmit = () => {
-    const { navigation } = this.props;
-    // updateInfo({ password: newPassword }).then(res => {
-    //   if (res && res.status === 200) {
-    //     Toast.success('更新成功！');
-    //     navigation.navigate('Profile');
-    //   }
-    // });
+  // 获取用户信息
+  getAllUserInfo = () => {
+    getAllUserInfo({}).then(res => {
+      if (res && res.status === 200) {
+        this.setState({ userList: res.body });
+      } else {
+        Toast.fail(res.msg);
+      }
+    });
+  };
+
+  getTGiveAnAlarmUser = () => {
+    getTGiveAnAlarmUser({ tGiveAnAlarmId: this.state.tabActiveIndex + 2 }).then(res => {
+      if (res && res.status === 200) {
+        this.setState({ fakeData: res.body });
+      }
+    });
   };
 
   // 处理tab切换
   handleTabChange = (item, index) => {
-    this.setState({ tabActiveIndex: index });
+    this.setState({ tabActiveIndex: index }, () => {
+      this.getTGiveAnAlarmUser();
+    });
   };
 
   renderTabStyle = (item, index) => {
@@ -83,8 +100,53 @@ class WarningConfig extends React.PureComponent {
     }
   };
 
+  handleAdd = () => {
+    const items = this.state.userList.map(item => item.userName);
+    PullPicker.show('请选择用户', items, this.state.selectedIndex, (item, index) =>
+      this.setState(
+        {
+          userId: this.state.userList.find(i => i.userName === item).userId,
+          selectedIndex: index,
+        },
+        () => {
+          const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2, userIdArray: [this.state.userId].toString() };
+          addTGiveAnAlarmUser(params).then(res => {
+            if (res && res.status === 200) {
+              Toast.success('新增成功');
+            } else {
+              Toast.fail(res.msg);
+            }
+          });
+        },
+      ),
+    );
+  };
+
+  handleDelete = item => {
+    Alert.alert('确定删除此用户吗？', '', [
+      {
+        text: '取消',
+        onPress: () => {},
+      },
+      { text: '确定', onPress: () => this.handleOk(item) },
+      ,
+    ]);
+  };
+
+  handleOk = item => {
+    const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2, userId: this.state.userId };
+    deleteTGiveAnAlarmr(params).then(res => {
+      if (res && res.status === 200) {
+        Toast.success('删除成功');
+        this.setState({ fakeData: this.state.fakeData.filter(items => items.userId !== item.userId) });
+      } else {
+        Toast.sad(res.msg);
+      }
+    });
+  };
+
   render() {
-    const { curPassword, newPassword, verifyPassword } = this.state;
+    const { fakeData } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -122,7 +184,7 @@ class WarningConfig extends React.PureComponent {
             );
           })}
         </View>
-        <Button style={styles.submitBtn} onPress={this.handleSubmit}>
+        <Button style={styles.submitBtn} onPress={this.handleAdd}>
           <Text style={styles.submitBtnText}>新增通知人员</Text>
         </Button>
       </View>
