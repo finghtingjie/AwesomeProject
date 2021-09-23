@@ -15,9 +15,9 @@ if (scale === 2.75 && Number(screenHeight).toFixed(0) === 759) {
 
 const currentHeight = StatusBar.currentHeight;
 
-console.log(screenWidth, screenHeight, scale, 111);
-console.log(screenWidth / screenHeight, 222);
-console.log(currentHeight);
+// console.log(screenWidth, screenHeight, scale, 111);
+// console.log(screenWidth / screenHeight, 222);
+// console.log(currentHeight);
 
 export default StyleSheet.create({
   container: {

@@ -8,7 +8,7 @@ const backIcon = require('../../assets/backicon.png');
 
 import IconFont from '@iconfont/index.js';
 
-import { getGroupingMenu } from '@api/profile';
+import { getGroupingMenu, addGrouping, updateGrouping } from '@api/profile';
 
 import styles from './AddGroupStyle';
 
@@ -18,17 +18,21 @@ class AddGroup extends React.PureComponent {
     this.state = {
       type: 'add', //操作类型
       groupName: '',
+      groupId: null,
       checked: true, //父节点是否选中
       checked1: true, //父节点是否选中
       checked2: true, //父节点是否选中
       isOpen: false, //子节点是否展开
       fakeData: [
-        { id: 1, val: '源端监视', checked: false },
-        { id: 2, val: '网侧监视', checked: false },
-        { id: 3, val: '电力潮流图', checked: false },
-        { id: 4, val: '电压趋势图', checked: false },
-        { id: 5, val: '电压合格率', checked: false },
-        { id: 6, val: '发电机负载率', checked: false },
+        { id: 8, val: '源端监视', checked: false },
+        { id: 9, val: '网侧监视', checked: false },
+        { id: 10, val: '电力潮流图', checked: false },
+        { id: 11, val: '电压趋势图', checked: false },
+        { id: 12, val: '电压合格率', checked: false },
+        { id: 13, val: '发电机负载率', checked: false },
+        { id: 14, val: '主变油温', checked: false },
+        { id: 15, val: '主变负载率', checked: false },
+        { id: 16, val: '直流系统', checked: false },
       ],
     };
   }
@@ -37,29 +41,41 @@ class AddGroup extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.handleSetAll();
     const { params } = this.props.navigation.state;
-    if (params && params.type) {
-      this.setState({ type: params.type });
-    }
-    if (params && params.item) {
-      this.setState({ groupName: params.item.name });
+    if (params && params.item && params.type) {
+      this.setState({ groupName: params.item.name, type: params.type, groupId: params.item.id });
       getGroupingMenu({ groupId: params.item.id }).then(res => {
         if (res && res.status === 200) {
-          console.log(res);
-          // this.setState({ fakeData: res.body });
+          this.setState({ fakeData: res.body.menuData.filter(item => item.parentId === 3) });
+          if (params.type === 'edit') {
+            this.setState({ type: params.type });
+            // 处理回显逻辑
+            // 监控
+            if (res.body.menuData.find(item => item.id === 2).select === 1) {
+              this.setState({ checked1: true });
+            } else {
+              this.setState({ checked1: false });
+            }
+            if (res.body.menuData.find(item => item.id === 4).select === 1) {
+              this.setState({ checked2: true });
+            } else {
+              this.setState({ checked2: false });
+            }
+            if (res.body.menuData.find(item => item.id === 3).select === 1) {
+              this.handleSetAll();
+              this.setState({ checked: true });
+            } else {
+              this.setState({ checked: false });
+            }
+          } else {
+            this.handleSetAll();
+          }
         }
       });
     }
   }
 
-  handleSubmit = () => {
-    const { navigation } = this.props;
-    const { fullName, verifyPassword } = this.state;
-  };
-
   handleChecked = (items, val) => {
-    console.log(val);
     const fakeData = [...this.state.fakeData];
     fakeData.map(item => {
       if (items.id === item.id) {
@@ -111,6 +127,56 @@ class AddGroup extends React.PureComponent {
   handleOpen = () => {
     const { isOpen } = this.state;
     this.setState({ isOpen: !isOpen });
+  };
+
+  handleSubmit = () => {
+    const { navigation } = this.props;
+    const { groupName, fakeData, checked1, checked2, checked, type, groupId } = this.state;
+    let arr = [];
+    let newArr = [];
+    if (checked) {
+      // kpi 3
+      arr = fakeData.map(item => item.id);
+      newArr = [...arr, 3];
+    }
+    if (checked1) {
+      // 监控 2
+      newArr.push(2);
+    }
+    if (checked2) {
+      // 告警 4
+      newArr.push(4);
+    }
+    const params = {
+      menuId: newArr.toString(),
+      name: groupName,
+    };
+    if (!groupName) {
+      Toast.info('请输入分组名');
+    } else if (!newArr.length) {
+      Toast.info('请配置分组');
+    } else {
+      if (type === 'edit') {
+        params.id = groupId;
+        updateGrouping(params).then(res => {
+          if (res && res.status === 200) {
+            Toast.success('修改成功');
+            navigation.goBack();
+          } else {
+            Toast.sad(res.msg);
+          }
+        });
+      } else {
+        addGrouping(params).then(res => {
+          if (res && res.status === 200) {
+            Toast.success('新增成功');
+            navigation.goBack();
+          } else {
+            Toast.sad(res.msg);
+          }
+        });
+      }
+    }
   };
 
   render() {
@@ -172,10 +238,10 @@ class AddGroup extends React.PureComponent {
             fakeData.map(item => {
               return (
                 <View key={item.id} style={styles.checkboxGroup}>
-                  <Text style={styles.userBtnText}>{item.userName}</Text>
+                  {/* <Text style={styles.userBtnText}>{item.val}</Text> */}
                   <Checkbox
                     size="lg"
-                    title={item.val}
+                    title={item.name}
                     checked={item.checked}
                     onChange={val => this.handleChecked(item, val)}
                   />

@@ -27,14 +27,14 @@ class ChangePassword extends React.PureComponent {
 
   handleSubmit = () => {
     const { navigation } = this.props;
-    const { newPassword, verifyPassword } = this.state;
+    const { newPassword, verifyPassword, curPassword } = this.state;
     if (!newPassword || !verifyPassword) {
       Toast.info('请输入旧密码');
     } else if (newPassword !== verifyPassword) {
       Toast.info('两次输入的密码不一样,请重新输入');
       this.setState({ newPassword: '', verifyPassword: '' });
     } else {
-      revisePassword({ password: newPassword }).then(res => {
+      revisePassword({ password: curPassword, newPassword }).then(res => {
         if (res && res.status === 200) {
           Toast.success('更新成功！');
           navigation.navigate('Profile');
@@ -76,9 +76,9 @@ class ChangePassword extends React.PureComponent {
           <View style={styles.inputBox}>
             <Text style={styles.curPassword}>新密码</Text>
             <TextInput
-              style={styles.inputBase}
               password
               secureTextEntry
+              style={styles.inputBase}
               placeholder="请输入新密码"
               placeholderTextColor="#999"
               value={newPassword}

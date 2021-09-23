@@ -15,3 +15,19 @@ export async function getUserInfo(params) {
     params,
   });
 }
+
+//月供电率
+export async function selfDowerSupplyRate(params) {
+  return request('/selfDowerSupplyRate', {
+    method: 'GET',
+    params,
+  });
+}
+
+//总负荷曲线统计图
+export async function totalLoadCurve(params) {
+  return request('/totalLoadCurve', {
+    method: 'GET',
+    params,
+  });
+}

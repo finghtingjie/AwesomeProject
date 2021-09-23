@@ -40,14 +40,13 @@ class Index extends React.PureComponent {
     this.state = {
       selectedIndex1: 0,
       selectedIndex2: 0,
-      levelName: '全部等级',
+      selectedIndex3: 0,
+      levelName: '全部类型',
       statusName: '全部状态',
       isDatePickerVisible: false,
-      dateFormat: '', //时间
-      dateStart: null,
+      dateStart: '请选择日期',
       dateEnd: '请选择日期',
       alarmContent: '',
-      order: 0,
       fakeData: [
         {
           id: 1,
@@ -80,7 +79,7 @@ class Index extends React.PureComponent {
           id: 4,
           isConfirm: false,
           warningPic: shi,
-          contentColor: '  #CE0606',
+          contentColor: '#CE0606',
           warningType: '事故',
           warningTime: '2021-07-21 10:09:03 ',
           warningContent: '7=110kV变电站 电气室一PCS9616D3115装置报警',
@@ -88,6 +87,9 @@ class Index extends React.PureComponent {
       ],
       pageNum: 1,
       pageSize: 10,
+      total: 0,
+      dataFlag: false,
+      sort: '最新告警',
     };
   }
   static navigationOptions = {
@@ -100,25 +102,26 @@ class Index extends React.PureComponent {
     if (params && params.type) {
       this.setState({ type: params.type });
     }
-    // 排序：最新告警（默认）、最早告警、状态（待确认优先）。
   }
 
   getGiveAnAlarm = () => {
-    let { pageNum, pageSize } = this.state;
+    let { pageNum, pageSize, alarmContent, levelName } = this.state;
     const params = {
       pageNum,
       pageSize,
+      alarmContent,
+      eventLevel: levelName,
     };
     getGiveAnAlarm(params).then(res => {
       if (res && res.status === 200) {
-        // this.setState({ total: res.body.count });
+        this.setState({ total: res.body.totalAmount });
         const renderPic = item => {
           const actions = new Map([[1, yao], [2, yue], [3, yi], [4, shi], ['default', yao]]);
           const action = actions.get(item) || actions.get('default');
           return action;
         };
         if (pageNum === 1) {
-          const tempArr = res.body;
+          const tempArr = res.body.data || [];
           let newArr = [];
           tempArr.map(item => {
             const items = item;
@@ -131,14 +134,15 @@ class Index extends React.PureComponent {
           });
         } else {
           let tempArr = this.state.fakeData;
-          tempArr = tempArr.concat(res.body);
+          tempArr = tempArr.concat(res.body.data);
           this.setState({
-            orderList: tempArr,
+            fakeData: tempArr,
           });
         }
         //是否可以下拉
-        const allLen = res.body.count || 20;
+        const allLen = res.body.totalAmount;
         const nowLen = pageNum * pageSize;
+        console.log(allLen, nowLen);
         if (allLen > nowLen) {
           this.setState({ dataFlag: true });
         } else {
@@ -153,7 +157,6 @@ class Index extends React.PureComponent {
   };
 
   handleConfirm = date => {
-    console.log('A date has been picked: ', date);
     const dateFormat = moment(date).format('YYYY-MM-DD HH:mm:ss');
     this.setState({
       date: dateFormat,
@@ -163,27 +166,30 @@ class Index extends React.PureComponent {
   };
 
   handleSelectLevel = () => {
-    const items = ['全部等级', '遥测', '越限', '异常', '事故'];
-    PullPicker.show('请选择等级', items, this.state.selectedIndex1, (item, index) =>
+    const items = ['全部类型', '异常信号', '越限监视', '重要信号', '保护动作'];
+    PullPicker.show('请选择告警类型', items, this.state.selectedIndex1, (item, index) =>
       this.setState({ selectedIndex1: index, levelName: item }, () => console.log(item)),
     );
   };
 
-  handleSelectStatus = () => {
-    const items = ['全部状态', '未确认', '已确认'];
-    PullPicker.show('请选择状态', items, this.state.selectedIndex2, (item, index) =>
-      this.setState({ selectedIndex2: index, statusName: item }, () => console.log(item)),
+  // handleSelectStatus = () => {
+  //   const items = ['全部状态', '未确认', '已确认'];
+  //   PullPicker.show('请选择状态', items, this.state.selectedIndex2, (item, index) =>
+  //     this.setState({ selectedIndex2: index, statusName: item }, () => console.log(item)),
+  //   );
+  // };
+
+  handleChangeOrder = () => {
+    const items = ['最新告警', '最早告警'];
+    PullPicker.show('请选择排序类型', items, this.state.selectedIndex3, (item, index) =>
+      this.setState({ selectedIndex3: index, sort: item }, () => console.log(item)),
     );
   };
 
-  handleChangeOrder = () => {
-    const { order } = this.state;
-  };
-
   handleSearch = val => {
-    const { levelName, dateEnd } = this.state;
+    const { levelName, dateEnd, dateStart, sort } = this.state;
     this.setState({ alarmContent: val }, () => {
-      const params = { alarmContent: val, endTime: dateEnd, eventLevel: levelName };
+      const params = { sort, alarmContent: val, startTime: dateStart, endTime: dateEnd, eventLevel: levelName };
       this.getGiveAnAlarm(params);
     });
   };
@@ -197,7 +203,7 @@ class Index extends React.PureComponent {
         </View>
         <View style={styles.rightPart}>
           <Text style={styles.commonLine}>
-            告警等级：<Text style={[styles.contents, { color: item.contentColor }]}>{item.eventLevel}</Text>
+            告警类型：<Text style={[styles.contents, { color: item.contentColor }]}>{item.eventLevel}</Text>
           </Text>
           <Text style={styles.commonLine}>
             告警时间：
@@ -209,9 +215,10 @@ class Index extends React.PureComponent {
             告警内容：<Text style={[styles.contents, { color: item.contentColor }]}>{item.alarmContent}</Text>
           </Text>
         </View>
-        <Button style={item.isConfirm ? styles.isConfirm : styles.confirmBtn}>
+        <Text style={styles.confirmBtnText}>{item.actingDesc}</Text>
+        {/* <Button style={item.isConfirm ? styles.isConfirm : styles.confirmBtn}>
           <Text style={styles.confirmBtnText}>{item.actingDesc}</Text>
-        </Button>
+        </Button> */}
       </View>
     );
   };
@@ -243,10 +250,11 @@ class Index extends React.PureComponent {
   };
 
   onEndReached = () => {
+    console.log('end');
     let { pageNum } = this.state;
     if (this.state.dataFlag) {
       pageNum += 1;
-      this.setState({ pageNum: pageNum }, () => {
+      this.setState({ pageNum }, () => {
         this.getGiveAnAlarm();
       });
     }
@@ -259,7 +267,7 @@ class Index extends React.PureComponent {
   };
 
   render() {
-    const { alarmContent, fakeData, levelName, statusName, dateEnd } = this.state;
+    const { alarmContent, fakeData, levelName, statusName, dateEnd, total } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -274,7 +282,7 @@ class Index extends React.PureComponent {
         </View>
         <View style={styles.conditionContainer}>
           <TouchableOpacity style={styles.levelContainer} onPress={() => this.handleSelectLevel()}>
-            <Text style={styles.commonText}>{levelName || '等级'}</Text>
+            <Text style={styles.commonText}>{levelName || '告警类型'}</Text>
             <Image style={styles.arrowPic} source={arrowPic} resizeMode="contain" />
           </TouchableOpacity>
           {/* <TouchableOpacity style={styles.statusContainer} onPress={() => this.handleSelectStatus()}>
@@ -299,7 +307,7 @@ class Index extends React.PureComponent {
         <View style={styles.inputBox}>
           <TextInput
             value={alarmContent}
-            placeholder="搜索用户"
+            placeholder="搜索告警内容"
             style={styles.inputBase}
             placeholderTextColor="#999"
             onBlur={() => Keyboard.dismiss()}
@@ -310,13 +318,11 @@ class Index extends React.PureComponent {
         <View style={styles.warningContent}>
           <Text style={styles.warningText}>
             为您找到
-            <Text style={styles.redText}> {12} </Text>
+            <Text style={styles.redText}> {total} </Text>
             条告警数据...
           </Text>
           <ScrollView horizontal style={styles.ScrollView}>
-            <Text style={styles.warningText}>{`${levelName}/${statusName}/${
-              dateEnd.includes('请') ? '' : dateEnd
-            }`}</Text>
+            <Text style={styles.warningText}>{`${levelName}/${dateEnd.includes('请') ? '' : dateEnd}`}</Text>
           </ScrollView>
         </View>
         <DashLine
@@ -330,7 +336,6 @@ class Index extends React.PureComponent {
           data={fakeData}
           windowSize={300}
           refreshing={false}
-          style={styles.lists}
           onEndReachedThreshold={0.1}
           onRefresh={this.onRefresh}
           renderItem={this.renderItem}

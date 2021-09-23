@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView, Dimensions, StatusBar } from 'react-native';
 
+import moment from 'moment';
 import { WebView } from 'react-native-webview';
 import { ECharts } from 'react-native-echarts-wrapper';
 import { Toast, ModalIndicator, Button } from 'teaset';
@@ -9,7 +10,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import { screenWidth, screenHeight, scale } from '../../utils/device';
 
-import { getHeadInfo } from '@api/home';
+import { getHeadInfo, selfDowerSupplyRate, totalLoadCurve } from '@api/home';
 
 const BASE_WIDTH = 10.8;
 
@@ -172,6 +173,7 @@ class Index extends React.Component {
         { id: 3, val: '总进线', yougong: 61.23, wugong: 26.86, source: dianlichaoliu, routeName: 'Yuanduan' },
         { id: 4, val: '自供电率', percent: 96, source: dianyaqushi, routeName: 'Dianyaqushi' },
       ],
+      newArr: [],
       pieOption: {
         title: {
           show: false,
@@ -252,8 +254,150 @@ class Index extends React.Component {
 
   componentDidMount() {
     this.getHeadInfo();
+    this.selfDowerSupplyRate();
+    this.totalLoadCurve();
   }
 
+  // 总负荷曲线统计图
+  totalLoadCurve = () => {
+    totalLoadCurve({}).then(res => {
+      if (res && res.status === 200) {
+        //
+      }
+    });
+  };
+
+  // 获取月供电率
+  selfDowerSupplyRate = () => {
+    selfDowerSupplyRate({}).then(res => {
+      if (res && res.status === 200) {
+        const resData = res.body[0].time;
+        let newArr = [];
+        resData.map(item => {
+          item = moment(item).format('mm:ss');
+          newArr.push(item);
+        });
+        let { option } = this.state;
+        option.xAxis.data = newArr;
+        option.series.data = res.body[0].value;
+        this.setState({
+          newArr,
+          option: {
+            title: {
+              text: '自供电率统计图',
+              left: 'center',
+              textStyle: {
+                fontSize: hp(36 / BASE_HEIGHT),
+                fontWeight: 'bold',
+              },
+            },
+            grid: {
+              left: '2%',
+              right: '10%',
+              bottom: '0%',
+              width: '80%',
+              containLabel: true,
+            },
+            xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: newArr,
+            },
+            yAxis: {
+              type: 'value',
+              splitLine: {
+                show: false,
+              },
+            },
+            toolbox: {
+              feature: {
+                dataZoom: {
+                  yAxisIndex: 'none',
+                },
+                restore: {},
+              },
+            },
+            series: [
+              {
+                data: res.body[0].value,
+                type: 'line',
+                lineStyle: {
+                  color: '#2B7CF4',
+                },
+                // itemStyle: {
+                //   normal: {
+                //     color: '#2B7CF4',
+                //   },
+                // },
+                label: {
+                  show: true,
+                  position: 'top',
+                  color: '#fff',
+                  // backgroundColor: 'red',
+                },
+                // markLine: {
+                //   symbol: ['none', 'none'], //去掉箭头
+                //   lineStyle: {
+                //     // color: 'red',
+                //   },
+                //   data: [
+                //     {
+                //       yAxis: 12,
+                //       label: {
+                //         normal: {
+                //           formatter: '最新值{c}',
+                //         },
+                //       },
+                //     },
+                //   ],
+                // },
+                markPoint: {
+                  data: [
+                    {
+                      type: 'max',
+                      name: '最大值',
+                      color: '#fff',
+                      symbol: 'roundRect',
+                      symbolSize: [40, 30],
+                      symbolOffset: [0, '-60%'],
+                    },
+                    {
+                      type: 'min',
+                      name: '最小值',
+                      color: '#fff',
+                      symbol: 'roundRect',
+                      symbolSize: [40, 30],
+                      symbolOffset: [0, '-60%'],
+                    },
+                    {
+                      name: '最新值',
+                      value: `最新值${12}`,
+                      color: '#fff',
+                      xAxis: 2,
+                      yAxis: 12,
+                      symbol: 'roundRect',
+                      symbolSize: [60, 30],
+                      symbolOffset: [0, '-60%'],
+                    },
+                  ],
+                  label: {
+                    // formatter: '{c}',
+                    formatter: function(item) {
+                      if (item === 12) {
+                        return '最新{c}';
+                      }
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        });
+      }
+    });
+  };
+
+  // 获取头部信息
   getHeadInfo = () => {
     const params = {};
     getHeadInfo(params).then(res => {
@@ -330,7 +474,7 @@ class Index extends React.Component {
   };
 
   render() {
-    const { option, fakeData, fakeData2, pieOption } = this.state;
+    const { option, fakeData, fakeData2, pieOption, newArr } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -381,9 +525,13 @@ class Index extends React.Component {
             );
           })}
         </View>
-        <View style={styles.chartContainer1}>{/* <ECharts option={pieOption} backgroundColor="transparent" /> */}</View>
+        <View style={styles.chartContainer1}>
+          <ECharts option={pieOption} backgroundColor="transparent" />
+        </View>
         <View style={styles.chartContainer}>
-          <ECharts option={option} backgroundColor="#fff" />
+          {newArr.length >= 10 && (
+            <ECharts option={option} backgroundColor="#fff" onData={() => this.selfDowerSupplyRate()} />
+          )}
         </View>
         <ScrollView horizontal style={styles.horizontalContainer}>
           <View style={styles.topContainer}>

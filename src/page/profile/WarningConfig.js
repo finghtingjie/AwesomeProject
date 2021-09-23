@@ -10,7 +10,7 @@ import styles from './WarningStyle';
 
 const backIcon = require('../../assets/backicon.png');
 
-const WarningArr = [1, 2, 3, 4];
+const WarningArr = ['异常信号', '越限监视', '重要信号', '保护动作'];
 
 const fakeData = [{ userId: 1, userName: '张珊山/zhangshanshan' }, { userId: 2, userName: '张珊山/zhangshanshan' }];
 
@@ -18,12 +18,14 @@ class WarningConfig extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tabActiveIndex: 1, //tab激活下标
+      tabActiveIndex: 0, //tab激活下标
     };
   }
   static navigationOptions = {
     headerShown: false,
   };
+
+  componentDidMount() {}
 
   handleSubmit = () => {
     const { navigation } = this.props;
@@ -36,33 +38,33 @@ class WarningConfig extends React.PureComponent {
   };
 
   // 处理tab切换
-  handleTabChange = index => {
+  handleTabChange = (item, index) => {
     this.setState({ tabActiveIndex: index });
   };
 
-  renderTabStyle = item => {
+  renderTabStyle = (item, index) => {
     const { tabActiveIndex } = this.state;
-    switch (item) {
-      case 1:
-        if (tabActiveIndex === item) {
+    switch (index) {
+      case 0:
+        if (tabActiveIndex === index) {
           return styles.leftBtnActive;
         } else {
           return styles.leftBtn;
         }
-      case 2:
-        if (tabActiveIndex === item) {
+      case 1:
+        if (tabActiveIndex === index) {
           return styles.centerLeftActive;
         } else {
           return styles.centerLeft;
         }
-      case 3:
-        if (tabActiveIndex === item) {
+      case 2:
+        if (tabActiveIndex === index) {
           return styles.centerRightActive;
         } else {
           return styles.centerRight;
         }
-      case 4:
-        if (tabActiveIndex === item) {
+      case 3:
+        if (tabActiveIndex === index) {
           return styles.rightBtnActive;
         } else {
           return styles.rightBtn;
@@ -72,17 +74,14 @@ class WarningConfig extends React.PureComponent {
     }
   };
 
-  renderTabTextStyle = item => {
+  renderTabTextStyle = (item, index) => {
     const { tabActiveIndex } = this.state;
-    if (tabActiveIndex === item) {
+    if (tabActiveIndex === index) {
       return styles.tabTextActive;
     } else {
       return styles.tabText;
     }
   };
-
-  //  删除通知人员
-  handleDelete = item => {};
 
   render() {
     const { curPassword, newPassword, verifyPassword } = this.state;
@@ -102,10 +101,13 @@ class WarningConfig extends React.PureComponent {
           <Text style={styles.content}>告警配置</Text>
         </View>
         <View style={styles.tabContainer}>
-          {WarningArr.map(item => {
+          {WarningArr.map((item, index) => {
             return (
-              <Button key={item} style={this.renderTabStyle(item)} onPress={() => this.handleTabChange(item)}>
-                <Text style={this.renderTabTextStyle(item)}>告警类型{item}</Text>
+              <Button
+                key={item}
+                style={this.renderTabStyle(item, index)}
+                onPress={() => this.handleTabChange(item, index)}>
+                <Text style={this.renderTabTextStyle(item, index)}>{item}</Text>
               </Button>
             );
           })}

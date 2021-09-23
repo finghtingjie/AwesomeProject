@@ -64,12 +64,6 @@ export default class DatePicker extends Component {
 
   _showDatePicker() {
     let { dateFormat } = this.state;
-    // let date = dateFormat? new Date(dateFormat): new Date();
-    // let selectedValue = [
-    //     date.getFullYear(),
-    //     date.getMonth()+1,
-    //     date.getDate(),
-    // ];
     let selectedValue = [];
     let iosDefaultVal;
     if (Platform.OS === 'android') {
@@ -114,7 +108,7 @@ export default class DatePicker extends Component {
           dateFormat: moment(dateStr, 'YYYY-MM-DD').format('YYYY-MM-DD'),
           modalVisible: false,
         });
-        this.props.onConfirm(dateStr);
+        dateStr && this.props.onConfirm(dateStr);
       },
       onPickerCancel: (pickedValue, pickedIndex) => {
         this.setState({ modalVisible: false });

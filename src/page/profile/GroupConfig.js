@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { View, Text, TouchableOpacity, StatusBar, Image, Alert } from 'react-native';
 
 import { Toast, Button } from 'teaset';
 
 import IconFont from '@iconfont/index.js';
-import { getGrouping } from '@api/profile';
+import { getGrouping, deleteGrouping } from '@api/profile';
 
 const orderPic = require('../../assets/profile/order.png');
 const backIcon = require('../../assets/backicon.png');
@@ -15,7 +16,6 @@ class GroupConfig extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      keyWord: null,
       fakeData: [],
     };
   }
@@ -24,11 +24,14 @@ class GroupConfig extends React.PureComponent {
   };
 
   componentDidMount() {
-    const params = {};
-    getGrouping(params).then(res => {
-      if (res && res.status === 200) {
-        this.setState({ fakeData: res.body });
-      }
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      const params = {};
+      getGrouping(params).then(res => {
+        if (res && res.status === 200) {
+          this.setState({ fakeData: res.body });
+        }
+      });
     });
   }
 
@@ -42,7 +45,27 @@ class GroupConfig extends React.PureComponent {
     navigation.navigate('AddGroup', { type: 'edit', item });
   };
 
-  handleDeleteGroup = item => {};
+  handleDeleteGroup = item => {
+    Alert.alert('确定删除此分组吗？', '', [
+      {
+        text: '取消',
+        onPress: () => {},
+      },
+      { text: '确定', onPress: () => this.handleOk(item) },
+      ,
+    ]);
+  };
+
+  handleOk = item => {
+    deleteGrouping({ id: item }).then(res => {
+      if (res && res.status === 200) {
+        Toast.success('删除成功');
+        this.setState({ fakeData: this.state.fakeData.filter(items => items.id !== item) });
+      } else {
+        Toast.sad(res.msg);
+      }
+    });
+  };
 
   render() {
     const { fakeData } = this.state;
@@ -87,4 +110,4 @@ class GroupConfig extends React.PureComponent {
   }
 }
 
-export default GroupConfig;
+export default withNavigation(GroupConfig);

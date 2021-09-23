@@ -72,9 +72,25 @@ export async function updateGrouping(params) {
   });
 }
 
+//删除分组
+export async function deleteGrouping(params) {
+  return request('deleteGrouping', {
+    method: 'GET',
+    params,
+  });
+}
+
 //根据分组id获取分组菜单列表
 export async function getGroupingMenu(params) {
-  return request(`getGroupingMenu/${params.groupId}`, {
+  return request('getGroupingMenu', {
+    method: 'GET',
+    params,
+  });
+}
+
+// 获取用户信息
+export async function getUserInfo(params) {
+  return request('getUserInfo', {
     method: 'GET',
     params,
   });

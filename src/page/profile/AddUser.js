@@ -6,7 +6,7 @@ import { Toast, Button, PullPicker } from 'teaset';
 const arrowPic = require('../../assets/profile/xiala.png');
 const backIcon = require('../../assets/backicon.png');
 
-import { addUser, reviseUser } from '@api/profile';
+import { addUser, reviseUser, getGrouping, getUserInfo } from '@api/profile';
 
 import styles from './AddUserStyle';
 
@@ -20,6 +20,8 @@ class AddUser extends React.PureComponent {
       type: 'add',
       groupingId: null,
       groupName: '',
+      groupArr: [],
+      selectedIndex: 0,
     };
   }
   static navigationOptions = {
@@ -27,19 +29,37 @@ class AddUser extends React.PureComponent {
   };
 
   componentDidMount() {
+    getGrouping({}).then(res => {
+      if (res && res.status === 200) {
+        this.setState({ groupArr: res.body });
+      }
+    });
     const { params } = this.props.navigation.state;
     if (params && params.type) {
       this.setState({ type: params.type });
     }
     if (params && params.item) {
       const { userName, realName, password, groupingId } = params.item;
-      this.setState({ userName, realName, password, groupingId });
+      this.setState({ userName, realName, password });
+      getGrouping({}).then(res => {
+        if (res && res.status === 200) {
+          this.setState({ groupArr: res.body }, () => {
+            const obj = this.state.groupArr.find(item => item.id === groupingId);
+            this.setState({
+              groupingId,
+              groupName: obj.name,
+              selectedIndex: this.state.groupArr.findIndex(item => item.id === groupingId),
+            });
+          });
+        }
+      });
     }
   }
 
   handleSubmit = () => {
     const { userName, realName, password, groupingId } = this.state;
     const { params } = this.props.navigation.state;
+    const { navigation } = this.props;
     if (!userName) {
       Toast.info('请输入用户名');
     } else if (!realName) {
@@ -54,21 +74,19 @@ class AddUser extends React.PureComponent {
         realName,
         password,
         groupingId,
-        userId: params && params.item.userId,
       };
       if (params && params.type === 'add') {
         addUser(param).then(res => {
-          if (res && res.status === 0) {
+          if (res && res.status === 200) {
             Toast.success('保存成功');
-            const { navigation } = this.props;
             navigation.navigate('UserConfig');
           }
         });
       } else {
+        param.userId = params && params.item.userId;
         reviseUser(param).then(res => {
-          if (res && res.status === 0) {
+          if (res && res.status === 200) {
             Toast.success('保存成功');
-            const { navigation } = this.props;
             navigation.navigate('UserConfig');
           }
         });
@@ -77,9 +95,16 @@ class AddUser extends React.PureComponent {
   };
 
   handleSelect = () => {
-    const items = ['分组1', '分组2', '分组3'];
-    PullPicker.show('请选择分组', items, this.state.groupingId, (item, index) =>
-      this.setState({ groupingId: index, groupName: item }, () => console.log(index)),
+    const items = this.state.groupArr.map(item => item.name);
+    PullPicker.show('请选择分组', items, this.state.selectedIndex, (item, index) =>
+      this.setState(
+        {
+          groupingId: this.state.groupArr.find(i => i.name === item).id,
+          groupName: item,
+          selectedIndex: index,
+        },
+        () => console.log(index),
+      ),
     );
   };
 
@@ -96,7 +121,7 @@ class AddUser extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
+            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
           </TouchableOpacity>
           <Text style={styles.content}>{type === 'add' ? '新增' : '编辑'}用户</Text>
         </View>
