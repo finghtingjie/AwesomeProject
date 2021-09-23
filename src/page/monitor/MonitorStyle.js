@@ -126,9 +126,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRadius: wp(20 / BASE_WIDTH),
     borderColor: '#333',
-    borderWidth: wp(1 / BASE_WIDTH),
+    // borderWidth: wp(1 / BASE_WIDTH),
     // shadowColor: 'rgba(0, 0, 0, 0.15)',
-    // shadowOffset: { width: 2, height: 2 },
+    // shadowOffset: {
+    //   width: 1,
+    //   height: 1,
+    // },
     // elevation: 1,
   },
   commonBtn: {

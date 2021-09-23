@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
-import { Toast, Button, PullPicker } from 'teaset';
+import { Toast, Button } from 'teaset';
 
 const rect = require('../../assets/monitor/rect.png');
 const changePic = require('../../assets/monitor/change.png');
 const shuPic = require('../../assets/monitor/shu.png');
 
 // import IconFont from '@iconfont/index.js';
-// import { updateInfo } from '@api/profile';
+import { getMonitor } from '@api/monitor';
 
 import styles from './MonitorStyle';
 
@@ -40,13 +40,17 @@ class Index extends React.PureComponent {
       actionIndex: 0,
       actionIndex2: 0,
       actionsheetShow: false,
-      tableHead: ['名称', '有功功率(MW)', '无功功率(MVar)', '电流(A)'],
-      tableData: [
+      tableHead1: ['名称', '有功功率(MW)', '无功功率(MVar)', '电流(A)'],
+      tableHead2: ['名称', '电压'],
+      tableData1: [
         ['铁扎一线', '61.13', '26.86', '0.91'],
         ['铁扎二线', '61.13', '26.86', '0.91'],
         ['曹铁一线', '61.13', '26.86', '0.91'],
         ['曹铁二线', '61.13', '26.86', '0.91'],
       ],
+      tableData2: [],
+      tableData3: [],
+      tableData4: [],
       dataSource: [
         {
           id: 45,
@@ -77,38 +81,98 @@ class Index extends React.PureComponent {
           dianliu: 56,
         },
       ],
-      arr2: ['220kV铁钢变电站', '220kV轧钢变电站', '110kV热电变电站', 'CCPP110kV变电站'],
-      tabArr: ['220kv', '110kv', '10kv', '主变'],
+      arr2: ['220kV铁钢站', '220kV轧钢站', '1#110kV站', ' 2#110kV站', ' 3#110kV站', ' 4#110kV站'],
+      tabArr: ['220kV', '110kV', '10kV', '主变'],
     };
   }
   static navigationOptions = {
     headerShown: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getMonitor();
+  }
+
+  getMonitor = () => {
+    const { actionIndex, actionIndex2, arr2, tabArr, activeIndex } = this.state;
+    const params = {
+      genus: actionIndex + 1,
+      name: arr2[actionIndex2],
+      type: tabArr[activeIndex],
+    };
+    getMonitor(params).then(res => {
+      if (res && res.status === 200) {
+        const resData1 = res.body.incomingLineAndTieLine || [];
+        const resData2 = res.body.generatrix || [];
+        const resData3 = res.body.busCouplerSwitch || [];
+        const resData4 = res.body.outgoingLine || [];
+        let newArr = [];
+        let newArr2 = [];
+        let newArr3 = [];
+        let newArr4 = [];
+        resData1.map((item, index) => {
+          newArr[index] = [
+            item.name,
+            Number(item.youGong).toFixed(2),
+            Number(item.wuGong).toFixed(2),
+            Number(item.dianLiu).toFixed(2),
+          ];
+        });
+        resData2.map((item, index) => {
+          newArr2[index] = [item.name, Number(item.dianLiu).toFixed(2)];
+        });
+        resData3.map((item, index) => {
+          newArr3[index] = [
+            item.name,
+            Number(item.youGong).toFixed(2),
+            Number(item.wuGong).toFixed(2),
+            Number(item.dianLiu).toFixed(2),
+          ];
+        });
+        resData4.map((item, index) => {
+          newArr4[index] = [
+            item.name,
+            Number(item.youGong).toFixed(2),
+            Number(item.wuGong).toFixed(2),
+            Number(item.dianLiu).toFixed(2),
+          ];
+        });
+        this.setState({
+          tableData1: newArr,
+          tableData2: newArr2,
+          tableData3: newArr3,
+          tableData4: newArr4,
+        });
+      } else {
+        Toast.fail(res.msg);
+      }
+    });
+  };
 
   handleTypeChange = (item, index) => {
     // const { actionIndex2, actionIndex } = this.state;
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
-      this.setState({ arr2: ['220kV铁钢变电站', '220kV轧钢变电站', '110kV热电变电站', 'CCPP110kV变电站'] });
+      this.setState({ arr2: ['220kV铁钢站', '220kV轧钢站', '1#110kV站', ' 2#110kV站', ' 3#110kV站', ' 4#110kV站'] });
     } else {
       this.setState({ arr2: arr });
     }
   };
 
   handleTypeChange2 = (item, index) => {
+    console.log(item, index);
     // const { actionIndex2, actionIndex } = this.state;
     // 点击右侧条件,关闭actionsheet
-    this.setState({ actionIndex2: index, actionsheetShow: false });
+    this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
+      this.getMonitor();
+    });
     if ([0, 1].includes(index)) {
       // 220kv场站，有四个tab
       console.log('eg1');
-      this.setState({ tabArr: ['220kv', '110kv', '10kv', '主变'] });
+      this.setState({ tabArr: ['220kV', '110kV', '10kV', '主变'] });
     } else if (index === 2) {
       // 110kv场站，有三个tab，无220kv tab
-      console.log('eg2');
-      this.setState({ tabArr: ['110kv', '10kv', '主变'] });
+      this.setState({ tabArr: ['110kV', '10kV', '主变'] });
     }
   };
 
@@ -118,8 +182,27 @@ class Index extends React.PureComponent {
     navigation.navigate('');
   };
 
+  handleTabChange = (item, index) => {
+    this.setState({ activeIndex: index }, () => {
+      this.getMonitor();
+    });
+  };
+
   render() {
-    const { tableData, tableHead, activeIndex, actionIndex, actionIndex2, actionsheetShow, tabArr, arr2 } = this.state;
+    const {
+      tableData1,
+      tableData2,
+      tableData3,
+      tableData4,
+      tableHead1,
+      tableHead2,
+      activeIndex,
+      actionIndex,
+      actionIndex2,
+      actionsheetShow,
+      tabArr,
+      arr2,
+    } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -133,12 +216,12 @@ class Index extends React.PureComponent {
           <TouchableOpacity
             style={styles.iconContainer}
             onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
-            <Image style={styles.rect} source={rect} />
-            <Text style={styles.leftText}>源 端</Text>
+            <Image style={styles.rect} source={rect} resizeMode="contain" />
+            <Text style={styles.leftText}>{actionIndex === 0 ? '源端' : '网侧'}</Text>
           </TouchableOpacity>
           <Text style={styles.content}>{arr2[actionIndex2]}</Text>
           <TouchableOpacity style={styles.iconContainerRight} onPress={() => this.handleChangZhan()}>
-            <Image style={styles.changePic} source={changePic} />
+            <Image style={styles.changePic} source={changePic} resizeMode="contain" />
           </TouchableOpacity>
         </View>
         {/* 筛选条件 */}
@@ -175,10 +258,7 @@ class Index extends React.PureComponent {
         <View style={styles.tabContainer}>
           {tabArr.map((item, index) => {
             return (
-              <TouchableOpacity
-                key={item}
-                style={styles.commonBtn}
-                onPress={() => this.setState({ activeIndex: index })}>
+              <TouchableOpacity key={item} style={styles.commonBtn} onPress={() => this.handleTabChange(item, index)}>
                 <Text style={styles.commonText}>{item}</Text>
                 {index === activeIndex && <View style={styles.commonBorder} />}
               </TouchableOpacity>
@@ -186,36 +266,143 @@ class Index extends React.PureComponent {
           })}
         </View>
         {/* table */}
-        <View style={styles.commonTableContainer}>
-          <View style={styles.tabTitleContainer}>
-            <Image style={styles.shuPic} source={shuPic} />
-            <Text style={styles.tabTitle}>进线/联络线</Text>
-          </View>
-          <View style={styles.tableContainer}>
-            <View style={styles.headContainer}>
-              {tableHead.map((item, index) => {
+        <ScrollView>
+          <View style={styles.commonTableContainer}>
+            {tableData1.length >= 1 && (
+              <View style={styles.tabTitleContainer}>
+                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                <Text style={styles.tabTitle}>进线/联络线</Text>
+              </View>
+            )}
+            <View style={styles.tableContainer}>
+              <View style={styles.headContainer}>
+                {tableData1.length >= 1 &&
+                  tableHead1.map((item, index) => {
+                    return (
+                      <View key={item} style={styles.nameStyle}>
+                        <Text style={styles.commonColText}>{item}</Text>
+                      </View>
+                    );
+                  })}
+              </View>
+              {tableData1.map(item => {
                 return (
-                  <View key={item} style={styles.nameStyle}>
-                    <Text style={styles.commonColText}>{item}</Text>
+                  <View style={styles.rowContainer}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={index} style={styles.nameStyle}>
+                          <Text style={styles.commonrowText}>{items}</Text>
+                        </View>
+                      );
+                    })}
                   </View>
                 );
               })}
             </View>
-            {tableData.map(item => {
-              return (
-                <View style={styles.rowContainer}>
-                  {item.map(items => {
+          </View>
+          {/* 母线 */}
+          <View style={styles.commonTableContainer}>
+            {tableData2.length >= 1 && (
+              <View style={styles.tabTitleContainer}>
+                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                <Text style={styles.tabTitle}>母线</Text>
+              </View>
+            )}
+            <View style={styles.tableContainer}>
+              <View style={styles.headContainer}>
+                {tableData2.length >= 1 &&
+                  tableHead2.map((item, index) => {
                     return (
-                      <View key={items} style={styles.nameStyle}>
-                        <Text style={styles.commonrowText}>{items}</Text>
+                      <View key={item} style={styles.nameStyle}>
+                        <Text style={styles.commonColText}>{item}</Text>
                       </View>
                     );
                   })}
-                </View>
-              );
-            })}
+              </View>
+              {tableData2.map(item => {
+                return (
+                  <View style={styles.rowContainer}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={index} style={styles.nameStyle}>
+                          <Text style={styles.commonrowText}>{items}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
           </View>
-        </View>
+          {/* 母联开关 */}
+          <View style={styles.commonTableContainer}>
+            {tableData3.length >= 1 && (
+              <View style={styles.tabTitleContainer}>
+                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                <Text style={styles.tabTitle}>母联开关</Text>
+              </View>
+            )}
+            <View style={styles.tableContainer}>
+              <View style={styles.headContainer}>
+                {tableData3.length >= 1 &&
+                  tableHead1.map((item, index) => {
+                    return (
+                      <View key={item} style={styles.nameStyle}>
+                        <Text style={styles.commonColText}>{item}</Text>
+                      </View>
+                    );
+                  })}
+              </View>
+              {tableData3.map(item => {
+                return (
+                  <View style={styles.rowContainer}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={index} style={styles.nameStyle}>
+                          <Text style={styles.commonrowText}>{items}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+          {/* 出线 */}
+          <View style={styles.commonTableContainer}>
+            {tableData4.length >= 1 && (
+              <View style={styles.tabTitleContainer}>
+                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                <Text style={styles.tabTitle}>出线</Text>
+              </View>
+            )}
+            <View style={styles.tableContainer}>
+              <View style={styles.headContainer}>
+                {tableData4.length >= 1 &&
+                  tableHead1.map((item, index) => {
+                    return (
+                      <View key={item} style={styles.nameStyle}>
+                        <Text style={styles.commonColText}>{item}</Text>
+                      </View>
+                    );
+                  })}
+              </View>
+              {tableData4.map(item => {
+                return (
+                  <View style={styles.rowContainer}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={index} style={styles.nameStyle}>
+                          <Text style={styles.commonrowText}>{items}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        </ScrollView>
       </View>
     );
   }
