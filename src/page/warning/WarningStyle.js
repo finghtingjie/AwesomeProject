@@ -57,7 +57,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: wp(264 / BASE_WIDTH),
+    width: wp(40),
     height: hp(82 / BASE_HEIGHT),
     backgroundColor: '#fff',
     marginLeft: wp(30 / BASE_WIDTH),

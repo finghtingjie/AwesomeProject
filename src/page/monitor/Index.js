@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
-import { Toast, Button } from 'teaset';
+import { Toast, Button, ModalIndicator } from 'teaset';
 
 const rect = require('../../assets/monitor/rect.png');
 const changePic = require('../../assets/monitor/change.png');
@@ -21,6 +21,7 @@ const arr = [
   '6#110kV站',
   '7#110kV站',
   '制氧二期110kV站',
+  'CCPP110kV变电站',
   '4#高炉鼓风110kV站',
   'MCCR110kV站',
   '2230冷轧110kV站',
@@ -81,8 +82,8 @@ class Index extends React.PureComponent {
           dianliu: 56,
         },
       ],
-      arr2: ['220kV铁钢站', '220kV轧钢站', '1#110kV站', ' 2#110kV站', ' 3#110kV站', ' 4#110kV站'],
-      tabArr: ['220kV', '110kV', '10kV', '主变'],
+      arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+      tabArr: ['220kV', '110kV', '10kV'],
     };
   }
   static navigationOptions = {
@@ -100,7 +101,10 @@ class Index extends React.PureComponent {
       name: arr2[actionIndex2],
       type: tabArr[activeIndex],
     };
+    console.log(params);
+    ModalIndicator.show();
     getMonitor(params).then(res => {
+      ModalIndicator.hide();
       if (res && res.status === 200) {
         const resData1 = res.body.incomingLineAndTieLine || [];
         const resData2 = res.body.generatrix || [];
@@ -153,26 +157,31 @@ class Index extends React.PureComponent {
     // const { actionIndex2, actionIndex } = this.state;
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
-      this.setState({ arr2: ['220kV铁钢站', '220kV轧钢站', '1#110kV站', ' 2#110kV站', ' 3#110kV站', ' 4#110kV站'] });
+      this.setState({
+        arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+      });
     } else {
       this.setState({ arr2: arr });
     }
   };
 
   handleTypeChange2 = (item, index) => {
-    console.log(item, index);
-    // const { actionIndex2, actionIndex } = this.state;
+    const { actionIndex } = this.state;
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
       this.getMonitor();
     });
-    if ([0, 1].includes(index)) {
-      // 220kv场站，有四个tab
-      console.log('eg1');
-      this.setState({ tabArr: ['220kV', '110kV', '10kV', '主变'] });
-    } else if (index === 2) {
-      // 110kv场站，有三个tab，无220kv tab
-      this.setState({ tabArr: ['110kV', '10kV', '主变'] });
+    // 源端
+    if (actionIndex === 0 && [0, 1].includes(index)) {
+      this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
+    } else if (actionIndex === 0 && index >= 2) {
+      this.setState({ tabArr: ['110kV'], activeIndex: 0 });
+    } else if (actionIndex === 1 && [0, 2, 3, 4].includes(index)) {
+      this.setState({ tabArr: ['110kV', '10kV'], activeIndex: 0 });
+    } else if (actionIndex === 1 && [1, 5, 6].includes(index)) {
+      this.setState({ tabArr: ['110kV', '35kV', '10kV'], activeIndex: 0 });
+    } else if (actionIndex === 1 && index > 6) {
+      this.setState({ tabArr: ['110kV'], activeIndex: 0 });
     }
   };
 
@@ -231,7 +240,7 @@ class Index extends React.PureComponent {
               <View style={styles.leftBtnContainer}>
                 {['源端', '网侧'].map((item, index) => {
                   return (
-                    <Button key={item} style={styles.leftBtn} onPress={() => this.handleTypeChange(1, index)}>
+                    <Button key={item} style={styles.leftBtn} onPress={() => this.handleTypeChange(item, index)}>
                       <Text style={actionIndex === index ? styles.leftBtnTextActive : styles.leftBtnText}>{item}</Text>
                     </Button>
                   );
@@ -241,7 +250,7 @@ class Index extends React.PureComponent {
                 <ScrollView style={styles.ScrollView}>
                   {arr2.map((item, index) => {
                     return (
-                      <Button key={item} style={styles.rightBtn} onPress={() => this.handleTypeChange2(2, index)}>
+                      <Button key={item} style={styles.rightBtn} onPress={() => this.handleTypeChange2(item, index)}>
                         <Text style={actionIndex2 === index ? styles.leftBtnTextActive : styles.leftBtnText}>
                           {item}
                         </Text>

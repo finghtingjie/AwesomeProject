@@ -10,7 +10,7 @@ export async function netSideMonitor(params) {
 
 //获取源端监视
 export async function sourceEndMonitor(params) {
-  return request(`/sourceEndMonitor/${params.type}`, {
+  return request('/sourceEndMonitor', {
     method: 'GET',
     params,
   });
@@ -18,7 +18,7 @@ export async function sourceEndMonitor(params) {
 
 // 获取电压趋势图
 export async function voltageTrend(params) {
-  return request(`/voltageTrend/${params.station}/${params.voltage}`, {
+  return request('/voltageTrend', {
     method: 'GET',
     params,
   });

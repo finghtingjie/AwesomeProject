@@ -159,11 +159,11 @@ class Index extends React.Component {
     if ([0, 1].includes(index)) {
       // 220kv场站，有四个tab
       console.log('eg1');
-      this.setState({ tabArr: ['220kv', '110kv', '10kv', '主变'] });
+      this.setState({ tabArr: ['220kV', '110kV', '10kV', '主变'] });
     } else if (index === 2) {
       // 110kv场站，有三个tab，无220kv tab
       console.log('eg2');
-      this.setState({ tabArr: ['110kv', '10kv', '主变'] });
+      this.setState({ tabArr: ['110kV', '10kV', '主变'] });
     }
   };
 

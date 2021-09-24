@@ -137,10 +137,9 @@ class customTabBar extends React.PureComponent {
   componentDidMount() {
     getMenuData({}).then(res => {
       if (res && res.status === 200) {
+        console.log(res);
         const arr = [];
-        // AsyncStorage.setItem('subMenuData', JSON.stringify(res.body.menuData));
         arr.push(...res.body.map(item => item.name));
-        // console.log(arr);
         this.setState({ menuData: arr });
       }
     });
@@ -294,7 +293,7 @@ const styles = StyleSheet.create({
       width: wp(5 / BASE_WIDTH),
       height: hp(10 / BASE_HEIGHT),
     },
-    shadowOpacity: 0.75,
+    shadowOpacity: 1,
     elevation: 1,
     backgroundColor: '#fff',
   },
@@ -302,7 +301,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: wp(160 / BASE_WIDTH),
+    height: hp(160 / BASE_HEIGHT),
   },
   userPic: {
     width: wp(60 / BASE_WIDTH),

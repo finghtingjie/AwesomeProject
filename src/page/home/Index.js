@@ -255,7 +255,7 @@ class Index extends React.Component {
   componentDidMount() {
     this.getHeadInfo();
     this.selfDowerSupplyRate();
-    this.totalLoadCurve();
+    // this.totalLoadCurve();
   }
 
   // 总负荷曲线统计图
@@ -335,22 +335,6 @@ class Index extends React.Component {
                   color: '#fff',
                   // backgroundColor: 'red',
                 },
-                // markLine: {
-                //   symbol: ['none', 'none'], //去掉箭头
-                //   lineStyle: {
-                //     // color: 'red',
-                //   },
-                //   data: [
-                //     {
-                //       yAxis: 12,
-                //       label: {
-                //         normal: {
-                //           formatter: '最新值{c}',
-                //         },
-                //       },
-                //     },
-                //   ],
-                // },
                 markPoint: {
                   data: [
                     {
@@ -383,7 +367,7 @@ class Index extends React.Component {
                   label: {
                     // formatter: '{c}',
                     formatter: function(item) {
-                      if (item === 12) {
+                      if (item.value === 12) {
                         return '最新{c}';
                       }
                     },
@@ -459,15 +443,15 @@ class Index extends React.Component {
     // this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
   };
 
-  handleClickCard = item => {
+  handleClickCard = (item, index) => {
     const { navigation } = this.props;
-    if (item.id === 1) {
+    if (index === 1) {
       // 总用电（有功功率、无功功率）：点击后跳转至KPI-网侧监视模块中
       navigation.navigate(item.routeName);
-    } else if (item.id === 2) {
+    } else if (index === 2) {
       // 总发电（有功功率、无功功率）：点击后跳转至KPI-源端监视-用电tab中。
       navigation.navigate(item.routeName, { activeIndex: 2 });
-    } else if (item.id === 3) {
+    } else if (index === 3) {
       // 总进线（有功功率、无功功率）、自供电率：点击后跳转至KPI-源端监视-电网购电tab中。
       navigation.navigate(item.routeName, { activeIndex: 1 });
     }
@@ -486,12 +470,12 @@ class Index extends React.Component {
         />
         <View style={styles.topcardContainer} />
         <View style={styles.centerContainer}>
-          {fakeData2.map(item => {
+          {fakeData2.map((item, index) => {
             return (
               <View style={styles.card} key={item.id}>
                 <Image style={styles.commonPic} source={commonPic} />
                 {item.yougong ? (
-                  <TouchableOpacity style={styles.commonWrap} onPress={() => this.handleClickCard(item)}>
+                  <TouchableOpacity style={styles.commonWrap} onPress={() => this.handleClickCard(item, index)}>
                     <Text style={styles.yougong}>{item.yougong}</Text>
                     <Text style={styles.yougong2}>{item.yougong ? '有功功率(Mw)' : ''}</Text>
                     <View style={styles.lightContainer}>
@@ -752,9 +736,9 @@ const styles = StyleSheet.create({
     height: hp(185 / BASE_HEIGHT),
   },
   menuItem: {
-    fontSize: hp(32 / BASE_HEIGHT),
-    fontWeight: '400',
     color: '#333',
+    fontWeight: '400',
+    fontSize: hp(32 / BASE_HEIGHT),
     marginTop: hp(25 / BASE_HEIGHT),
   },
 });

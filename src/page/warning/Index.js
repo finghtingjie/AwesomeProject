@@ -29,8 +29,9 @@ const shi = require('../../assets/warning/shi.png');
 // import IconFont from '@iconfont/index.js';
 import { getGiveAnAlarm } from '@api/warning';
 
-import DatePicker from '@components/DatePicker';
+// import DatePicker from '@components/DatePicker';
 import DashLine from '@components/DashLine';
+import DoubleDatePicker from '@components/DoubleDatePicker';
 
 import styles from './WarningStyle';
 
@@ -44,52 +45,56 @@ class Index extends React.PureComponent {
       levelName: '全部类型',
       statusName: '全部状态',
       isDatePickerVisible: false,
-      dateStart: '请选择日期',
-      dateEnd: '请选择日期',
+      dateStart: moment()
+        .add(-7, 'days')
+        .format('YYYY-MM-DD'),
+      dateEnd: moment().format('YYYY-MM-DD'),
       alarmContent: '',
       fakeData: [
-        {
-          id: 1,
-          isConfirm: false,
-          warningType: '遥测',
-          contentColor: '#999',
-          warningPic: yao,
-          warningTime: '2021-07-21 10:09:03 ',
-          warningContent: '7=110kV变电站 35kV3115间隔PCS963D过负荷报警',
-        },
-        {
-          id: 2,
-          isConfirm: true,
-          warningPic: yue,
-          warningType: '越限',
-          contentColor: '#28920C',
-          warningTime: '2021-07-21 10:09:03 ',
-          warningContent: '7=110kV变电站 35kV1母11分段PCS963D3115装置报警',
-        },
-        {
-          id: 3,
-          isConfirm: true,
-          warningPic: yi,
-          warningType: '异常',
-          contentColor: '#FCA001',
-          warningTime: '2021-07-21 10:09:03 ',
-          warningContent: '7=110kV变电站 35kV1母11分段PCS963D3115负荷报警',
-        },
-        {
-          id: 4,
-          isConfirm: false,
-          warningPic: shi,
-          contentColor: '#CE0606',
-          warningType: '事故',
-          warningTime: '2021-07-21 10:09:03 ',
-          warningContent: '7=110kV变电站 电气室一PCS9616D3115装置报警',
-        },
+        // {
+        //   id: 1,
+        //   isConfirm: false,
+        //   warningType: '遥测',
+        //   contentColor: '#999',
+        //   warningPic: yao,
+        //   warningTime: '2021-07-21 10:09:03 ',
+        //   warningContent: '7=110kV变电站 35kV3115间隔PCS963D过负荷报警',
+        // },
+        // {
+        //   id: 2,
+        //   isConfirm: true,
+        //   warningPic: yue,
+        //   warningType: '越限',
+        //   contentColor: '#28920C',
+        //   warningTime: '2021-07-21 10:09:03 ',
+        //   warningContent: '7=110kV变电站 35kV1母11分段PCS963D3115装置报警',
+        // },
+        // {
+        //   id: 3,
+        //   isConfirm: true,
+        //   warningPic: yi,
+        //   warningType: '异常',
+        //   contentColor: '#FCA001',
+        //   warningTime: '2021-07-21 10:09:03 ',
+        //   warningContent: '7=110kV变电站 35kV1母11分段PCS963D3115负荷报警',
+        // },
+        // {
+        //   id: 4,
+        //   isConfirm: false,
+        //   warningPic: shi,
+        //   contentColor: '#CE0606',
+        //   warningType: '事故',
+        //   warningTime: '2021-07-21 10:09:03 ',
+        //   warningContent: '7=110kV变电站 电气室一PCS9616D3115装置报警',
+        // },
       ],
       pageNum: 1,
       pageSize: 10,
       total: 0,
       dataFlag: false,
       sort: 'desc',
+      dateModalVisible: false,
+      dateArr: [],
     };
   }
   static navigationOptions = {
@@ -97,6 +102,10 @@ class Index extends React.PureComponent {
   };
 
   componentDidMount() {
+    const { dateStart, dateEnd } = this.state;
+    this.setState({
+      dateArr: [dateStart, dateEnd],
+    });
     this.getGiveAnAlarm();
     const { params } = this.props.navigation.state;
     if (params && params.type) {
@@ -105,12 +114,14 @@ class Index extends React.PureComponent {
   }
 
   getGiveAnAlarm = () => {
-    let { pageNum, pageSize, alarmContent, selectedIndex1, sort } = this.state;
+    let { pageNum, pageSize, alarmContent, selectedIndex1, sort, dateStart, dateEnd } = this.state;
     const params = {
       sort,
       pageNum,
       pageSize,
       alarmContent,
+      startTime: moment(dateStart).valueOf(),
+      endTime: moment(dateEnd).valueOf(),
       eventLevel: selectedIndex1 + 1,
     };
     ModalIndicator.show();
@@ -153,19 +164,6 @@ class Index extends React.PureComponent {
       } else {
         Toast.fail(res.msg);
       }
-    });
-  };
-
-  hideDatePicker = () => {
-    this.setState({ isDatePickerVisible: false });
-  };
-
-  handleConfirm = date => {
-    const dateFormat = moment(date).format('YYYY-MM-DD HH:mm:ss');
-    this.setState({
-      date: dateFormat,
-      dateEnd: dateFormat,
-      isDatePickerVisible: false,
     });
   };
 
@@ -276,7 +274,6 @@ class Index extends React.PureComponent {
   };
 
   onEndReached = () => {
-    console.log('end');
     let { pageNum } = this.state;
     if (this.state.dataFlag) {
       pageNum += 1;
@@ -292,8 +289,23 @@ class Index extends React.PureComponent {
     });
   };
 
+  handleConfirm = dateArr => {
+    this.setState(
+      {
+        dateArr,
+        dateStart: dateArr[0],
+        dateEnd: dateArr[1],
+        dateModalVisible: false,
+      },
+      () => {
+        this.getGiveAnAlarm();
+      },
+    );
+  };
+
   render() {
-    const { alarmContent, fakeData, levelName, statusName, dateEnd, total } = this.state;
+    const { alarmContent, fakeData, levelName, statusName, dateEnd, total, dateStart } = this.state;
+    const dateShow = dateStart.substr(2) + '-' + dateEnd.substr(2);
     return (
       <View style={styles.container}>
         <StatusBar
@@ -315,16 +327,22 @@ class Index extends React.PureComponent {
             <Text style={styles.commonText}>{statusName || '状态'}</Text>
             <Image style={styles.arrowPic} source={arrowPic} resizeMode="contain" />
           </TouchableOpacity> */}
-          <TouchableOpacity style={styles.statusContainer}>
-            {/* <Text style={styles.commonText}>时间</Text> */}
-            <DatePicker
+          <TouchableOpacity style={styles.statusContainer} onPress={() => this.setState({ dateModalVisible: true })}>
+            <Text style={styles.commonText}>{dateShow}</Text>
+            <Image style={styles.arrowPic} source={arrowPic} resizeMode="contain" />
+            {/* <DatePicker
               mode="datetime"
               defaultValue={this.state.dateStart}
               onConfirm={this.handleConfirm}
               onCancel={this.hideDatePicker}
               valueTextStyle={styles.commonText2}
+            /> */}
+            <DoubleDatePicker
+              visible={this.state.dateModalVisible}
+              defaultValue={this.state.dateArr}
+              onConfirm={this.handleConfirm}
+              onCancle={() => this.setState({ dateModalVisible: false })}
             />
-            <Image style={styles.arrowPic} source={arrowPic} resizeMode="contain" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.orderContainer} onPress={() => this.handleChangeOrder()}>
             <Image style={styles.orderPic} source={orderPic} resizeMode="contain" />
@@ -348,7 +366,7 @@ class Index extends React.PureComponent {
             条告警数据...
           </Text>
           <ScrollView horizontal style={styles.ScrollView}>
-            <Text style={styles.warningText}>{`${levelName}/${dateEnd.includes('请') ? '' : dateEnd}`}</Text>
+            <Text style={styles.warningText}>{`${levelName}/${dateEnd.includes('请') ? '' : dateShow}`}</Text>
           </ScrollView>
         </View>
         <DashLine
@@ -365,7 +383,7 @@ class Index extends React.PureComponent {
           onEndReachedThreshold={0.1}
           onRefresh={this.onRefresh}
           renderItem={this.renderItem}
-          onEndReached={this.onEndReached}
+          onEndReached={() => this.onEndReached()}
           ListFooterComponent={this.renderFooter}
           ListEmptyComponent={this.renderEmpty}
           keyExtractor={(item, index) => index.toString()}
