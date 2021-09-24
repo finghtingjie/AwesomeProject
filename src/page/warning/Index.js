@@ -130,7 +130,7 @@ class Index extends React.PureComponent {
       if (res && res.status === 200) {
         this.setState({ total: res.body.totalAmount });
         const renderPic = item => {
-          const actions = new Map([[1, yao], [2, yi], [3, yue], [4, shi], ['default', '']]);
+          const actions = new Map([[5, yao], [2, yi], [3, yue], [4, shi], ['default', '']]);
           const action = actions.get(item) || actions.get('default');
           return action;
         };

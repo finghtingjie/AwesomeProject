@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 
+import moment from 'moment';
 import { Toast, Button } from 'teaset';
 // import { WebView } from 'react-native-webview';
 import { ECharts } from 'react-native-echarts-wrapper';
@@ -25,14 +26,10 @@ const arr = [
   '6#110kV站',
   '7#110kV站',
   '制氧二期110kV站',
-  '4#高炉鼓风110kV站',
+  'CCPP110kV变电站',
   'MCCR110kV站',
   '2230冷轧110kV站',
-  '高炉鼓风110kV站',
   '制氧110kV站',
-  '2250热轧110kV站',
-  '1580热轧110kV站',
-  '1700冷轧110kV站',
   '1420冷轧110kV站',
 ];
 class Index extends React.Component {
@@ -117,7 +114,7 @@ class Index extends React.Component {
                   },
                   label: {
                     formatter: function(item) {
-                      if (item.value === 30) {
+                      if (item.value === 500) {
                         return `上限:${item.value}kv`;
                       } else {
                         return `下限:${item.value}kv`;
@@ -128,10 +125,10 @@ class Index extends React.Component {
               },
               data: [
                 {
-                  yAxis: 30,
+                  yAxis: 500,
                 },
                 {
-                  yAxis: 10,
+                  yAxis: 100,
                 },
               ],
             },
@@ -142,7 +139,9 @@ class Index extends React.Component {
       actionIndex: 0,
       actionIndex2: 0,
       actionsheetShow: false,
-      arr2: ['220kV铁钢变电站', '220kV轧钢变电站', '110kV热电变电站', 'CCPP110kV变电站'],
+      arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+      tabArr: ['220kV', '110kV', '10kV'],
+      newArr: [],
     };
   }
 
@@ -152,17 +151,28 @@ class Index extends React.Component {
   }
 
   voltageTrend = () => {
+    const { tabArr, activeIndex, actionIndex2, arr2 } = this.state;
     const params = {
-      station: '220kV铁钢变电站',
-      voltage: '220kv',
+      station: arr2[actionIndex2],
+      voltage: tabArr[activeIndex],
     };
     voltageTrend(params).then(res => {
       if (res && res.status === 200) {
-        const resData = res.body;
-        console.log(resData);
-        // this.setState({
-        //   tableData: newArr,
-        // });
+        let newArr = [];
+        if (arr2[actionIndex2] === '220kV铁钢站' && tabArr[activeIndex] === '220kV') {
+          const resData = res.body['220kV4#母线'];
+          const resData2 = res.body['220kV5#母线'];
+          res.body['220kV4#母线'][0].time.map(item => {
+            item = moment(item).format('mm:ss');
+            newArr.push(item);
+          });
+          let { option } = this.state;
+          option.xAxis.data = newArr;
+          option.series[0].data = resData[0].value;
+          option.series[1].data = resData2[0].value;
+          console.log(option);
+          this.setState({ option, newArr });
+        }
       }
     });
   };
@@ -171,31 +181,60 @@ class Index extends React.Component {
     // const { actionIndex2, actionIndex } = this.state;
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
-      this.setState({ arr2: ['220kV铁钢变电站', '220kV轧钢变电站', '110kV热电变电站', 'CCPP110kV变电站'] });
+      this.setState({
+        arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+      });
     } else {
       this.setState({ arr2: arr });
     }
   };
 
   handleTypeChange2 = (item, index) => {
-    // const { actionIndex2, actionIndex } = this.state;
-    // 点击右侧条件,关闭actionsheet
-    this.setState({ actionIndex2: index, actionsheetShow: false });
-    if ([0, 1].includes(index)) {
-      // 220kv场站，有四个tab
-      console.log('eg1');
-      this.setState({ tabArr: ['220kv', '110kv', '10kv', '主变'] });
-    } else if (index === 2) {
-      // 110kv场站，有三个tab，无220kv tab
-      console.log('eg2');
-      this.setState({ tabArr: ['110kv', '10kv', '主变'] });
+    const { actionIndex } = this.state;
+    // 源端场站
+    // 220kV铁钢站 4#母线 5#母线 220 110 10
+    // 220kV轧钢站 4#母线 5#母线 220 110 10
+    // 热电110kV站 4甲母线 4乙母线 5甲母线 5乙母线 110
+    // CCPP110kV变电站 4#母线 220 110 10
+    if (actionIndex === 0 && [0, 1, 2].includes(index)) {
+      this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
+    } else if (actionIndex === 0 && index === 2) {
+      this.setState({ tabArr: ['110kV'], activeIndex: 0 });
+      // 网侧
+      // 1#110kV站 4#母线 5#母线 110 10
+      // 2#110kV站 4#母线 5#母线 110 35 10
+      // 3#110kV站 4#母线 5#母线 110 10
+      // 4#110kV站 4#母线 5#母线 110 10
+      // 5#110kV站 4#母线 5#母线 110 10
+      // 6#110kV站 4甲母线 4乙母线 5甲母线 5乙母线 110 35 10
+      // 7#110kV站 4#母线 5#母线 110 35 10
+      // 制氧二期110kV站 4#母线 5#母线 110
+      // CCPP110kV变电站 4#母线 110
+      // MCCR110kV站 4#母线 110
+      // 2230冷轧110kV站 4#母线 110
+      // 制氧110kV站 4#母线 110
+      // 1420冷轧110kV站 4#母线 5#母线 110
+    } else if (actionIndex === 1 && [0, 2, 3, 4].includes(index)) {
+      this.setState({ tabArr: ['110kV', '10kV'], activeIndex: 0 });
+    } else if (actionIndex === 1 && [1, 5, 6].includes(index)) {
+      this.setState({ tabArr: ['110kV', '35kV', '10kV'], activeIndex: 0 });
+    } else if (actionIndex === 1 && index > 6) {
+      this.setState({ tabArr: ['110kV'], activeIndex: 0 });
     }
+    // 点击右侧条件,关闭actionsheet
+    this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
+      this.voltageTrend();
+    });
   };
 
-  handleChange = item => {};
+  handleTabChange = (item, index) => {
+    this.setState({ activeIndex: index }, () => {
+      this.voltageTrend();
+    });
+  };
 
   render() {
-    const { option, activeIndex, actionIndex, actionIndex2, actionsheetShow, arr2 } = this.state;
+    const { option, activeIndex, actionIndex, actionIndex2, actionsheetShow, arr2, tabArr, newArr } = this.state;
     // 电压趋势图中共3级：
     // 第一级为场站（场站支持切换），
     // 第二级为电压等级（220kV场站有3种电压等级，110kV场站有2种电压等级），
@@ -249,7 +288,17 @@ class Index extends React.Component {
           </View>
         )}
         <View style={styles.btnContainer}>
-          <Button style={styles.commonBtn} onPress={this.handleChange(1)}>
+          {tabArr.map((item, index) => {
+            return (
+              <Button
+                key={item}
+                style={index === activeIndex ? styles.commonBtn : styles.commonColor}
+                onPress={() => this.handleTabChange(item, index)}>
+                <Text style={styles.submitBtnText}>{item}</Text>
+              </Button>
+            );
+          })}
+          {/* <Button style={styles.commonBtn} onPress={this.handleChange(1)}>
             <Text style={styles.submitBtnText}>220kv</Text>
           </Button>
           <Button style={[styles.commonBtn, styles.commonColor]} onPress={this.handleChange(2)}>
@@ -257,9 +306,9 @@ class Index extends React.Component {
           </Button>
           <Button style={[styles.commonBtn, styles.commonColor]} onPress={this.handleChange(3)}>
             <Text style={styles.submitBtnText}>10kv</Text>
-          </Button>
+          </Button> */}
         </View>
-        <ECharts option={option} backgroundColor="#fff" />
+        {newArr.length >= 10 && <ECharts option={option} backgroundColor="#fff" onData={() => this.voltageTrend()} />}
       </View>
     );
   }
@@ -302,6 +351,13 @@ const styles = StyleSheet.create({
   commonColor: {
     backgroundColor: '#3D447B',
     borderColor: '#3D447B',
+    paddingVertical: 0,
+    width: hp(140 / BASE_WIDTH),
+    height: hp(80 / BASE_HEIGHT),
+    borderRadius: wp(20 / BASE_WIDTH),
+    marginRight: wp(20 / BASE_WIDTH),
+    marginTop: hp(82 / BASE_HEIGHT),
+    marginBottom: hp(42 / BASE_HEIGHT),
   },
   iconContainer: {
     position: 'absolute',

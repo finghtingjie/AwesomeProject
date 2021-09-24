@@ -82,7 +82,7 @@ class Index extends React.PureComponent {
           dianliu: 56,
         },
       ],
-      arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+      arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV变电站'],
       tabArr: ['220kV', '110kV', '10kV'],
     };
   }
@@ -158,7 +158,7 @@ class Index extends React.PureComponent {
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
       this.setState({
-        arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+        arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV变电站'],
       });
     } else {
       this.setState({ arr2: arr });
@@ -167,10 +167,6 @@ class Index extends React.PureComponent {
 
   handleTypeChange2 = (item, index) => {
     const { actionIndex } = this.state;
-    // 点击右侧条件,关闭actionsheet
-    this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
-      this.getMonitor();
-    });
     // 源端
     if (actionIndex === 0 && [0, 1].includes(index)) {
       this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
@@ -183,6 +179,10 @@ class Index extends React.PureComponent {
     } else if (actionIndex === 1 && index > 6) {
       this.setState({ tabArr: ['110kV'], activeIndex: 0 });
     }
+    // 点击右侧条件,关闭actionsheet
+    this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
+      this.getMonitor();
+    });
   };
 
   handleChangZhan = () => {

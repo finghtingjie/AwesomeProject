@@ -133,16 +133,16 @@ class Index extends React.Component {
                   symbolSize: [40, 30],
                   symbolOffset: [0, '-60%'],
                 },
-                // {
-                //   name: '最新值',
-                //   value: '最新值' + 12,
-                //   color: '#fff',
-                //   xAxis: 2,
-                //   yAxis: 12,
-                //   symbol: 'roundRect',
-                //   symbolSize: [60, 30],
-                //   symbolOffset: [0, '-60%'],
-                // },
+                {
+                  name: '最新值',
+                  value: `最新值${12}`,
+                  color: '#fff',
+                  xAxis: 2,
+                  yAxis: 12,
+                  symbol: 'roundRect',
+                  symbolSize: [60, 30],
+                  symbolOffset: [0, '-60%'],
+                },
               ],
               label: {
                 // formatter: '{c}',
@@ -279,103 +279,10 @@ class Index extends React.Component {
         });
         let { option } = this.state;
         option.xAxis.data = newArr;
-        option.series.data = res.body[0].value;
+        option.series[0].data = res.body[0].value;
         this.setState({
           newArr,
-          option: {
-            title: {
-              text: '自供电率统计图',
-              left: 'center',
-              textStyle: {
-                fontSize: hp(36 / BASE_HEIGHT),
-                fontWeight: 'bold',
-              },
-            },
-            grid: {
-              left: '2%',
-              right: '10%',
-              bottom: '0%',
-              width: '80%',
-              containLabel: true,
-            },
-            xAxis: {
-              type: 'category',
-              boundaryGap: false,
-              data: newArr,
-            },
-            yAxis: {
-              type: 'value',
-              splitLine: {
-                show: false,
-              },
-            },
-            toolbox: {
-              feature: {
-                dataZoom: {
-                  yAxisIndex: 'none',
-                },
-                restore: {},
-              },
-            },
-            series: [
-              {
-                data: res.body[0].value,
-                type: 'line',
-                lineStyle: {
-                  color: '#2B7CF4',
-                },
-                // itemStyle: {
-                //   normal: {
-                //     color: '#2B7CF4',
-                //   },
-                // },
-                label: {
-                  show: true,
-                  position: 'top',
-                  color: '#fff',
-                  // backgroundColor: 'red',
-                },
-                markPoint: {
-                  data: [
-                    {
-                      type: 'max',
-                      name: '最大值',
-                      color: '#fff',
-                      symbol: 'roundRect',
-                      symbolSize: [40, 30],
-                      symbolOffset: [0, '-60%'],
-                    },
-                    {
-                      type: 'min',
-                      name: '最小值',
-                      color: '#fff',
-                      symbol: 'roundRect',
-                      symbolSize: [40, 30],
-                      symbolOffset: [0, '-60%'],
-                    },
-                    // {
-                    //   name: '最新值',
-                    //   value: `最新值${12}`,
-                    //   color: '#fff',
-                    //   xAxis: 2,
-                    //   yAxis: 12,
-                    //   symbol: 'roundRect',
-                    //   symbolSize: [60, 30],
-                    //   symbolOffset: [0, '-60%'],
-                    // },
-                  ],
-                  label: {
-                    // formatter: '{c}',
-                    formatter: function(item) {
-                      if (item.value === 12) {
-                        return '最新{c}';
-                      }
-                    },
-                  },
-                },
-              },
-            ],
-          },
+          option,
         });
       }
     });
