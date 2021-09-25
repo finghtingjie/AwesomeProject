@@ -105,33 +105,6 @@ class Index extends React.Component {
             },
             stack: '总量',
             data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
-            markLine: {
-              symbol: ['none', 'none'], //去掉箭头
-              itemStyle: {
-                normal: {
-                  lineStyle: {
-                    color: 'red',
-                  },
-                  label: {
-                    formatter: function(item) {
-                      if (item.value === 500) {
-                        return `上限:${item.value}kv`;
-                      } else {
-                        return `下限:${item.value}kv`;
-                      }
-                    },
-                  },
-                },
-              },
-              data: [
-                {
-                  yAxis: 500,
-                },
-                {
-                  yAxis: 100,
-                },
-              ],
-            },
           },
         ],
       },
@@ -157,21 +130,57 @@ class Index extends React.Component {
       voltage: tabArr[activeIndex],
     };
     voltageTrend(params).then(res => {
+      const station = arr2[actionIndex2];
+      const voltage = tabArr[activeIndex];
       if (res && res.status === 200) {
-        let newArr = [];
-        if (arr2[actionIndex2] === '220kV铁钢站' && tabArr[activeIndex] === '220kV') {
+        if (station === '220kV铁钢站' && voltage === '220kV') {
           const resData = res.body['220kV4#母线'];
           const resData2 = res.body['220kV5#母线'];
-          res.body['220kV4#母线'][0].time.map(item => {
-            item = moment(item).format('mm:ss');
+          let newArr = [];
+          resData[0].time.map(item => {
+            item = moment(item).format('hh:mm');
             newArr.push(item);
           });
           let { option } = this.state;
-          option.xAxis.data = newArr;
+          // option.xAxis.data = newArr;
+          option.series[0].name = '4#母线';
+          option.series[1].name = '5#母线';
+          option.legend.data = ['4#母线', '5#母线'];
           option.series[0].data = resData[0].value;
           option.series[1].data = resData2[0].value;
+          if (option.series.length >= 3) {
+            option.series[option.series.length - 1].data = [];
+          }
           console.log(option);
-          this.setState({ option, newArr });
+          this.setState({ option, newArr }, () => {
+            this.ECharts.setOption(this.state.option);
+          });
+        } else if (station === '220kV铁钢站' && voltage === '10kV') {
+          const resData = res.body['10kVⅠ段母线'];
+          let newArr = [];
+          resData[0].time.map(item => {
+            item = moment(item).format('hh:mm');
+            newArr.push(item);
+          });
+          const resData2 = res.body['10kVⅡ段母线'];
+          const resData3 = res.body['10kVⅢ段母线'];
+          let { option } = this.state;
+          option.series.push({});
+          option.series[0].name = 'Ⅰ段母线';
+          option.series[1].name = 'Ⅱ段母线';
+          option.series[2].name = 'Ⅲ段母线';
+          option.series[2].type = option.series[1].type;
+          option.series[2].lineStyle = option.series[1].lineStyle;
+          option.series[2].stack = option.series[1].stack;
+          option.legend.data = ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'];
+          option.series[0].data = resData[0].value;
+          option.series[1].data = resData2[0].value;
+          option.series[2].data = resData3[0].value;
+          console.log(option);
+          this.ECharts.clear();
+          this.setState({ option, newArr }, () => {
+            this.ECharts.setOption(option);
+          });
         }
       }
     });
@@ -235,10 +244,6 @@ class Index extends React.Component {
 
   render() {
     const { option, activeIndex, actionIndex, actionIndex2, actionsheetShow, arr2, tabArr, newArr } = this.state;
-    // 电压趋势图中共3级：
-    // 第一级为场站（场站支持切换），
-    // 第二级为电压等级（220kV场站有3种电压等级，110kV场站有2种电压等级），
-    // 第三级为具体母线电压
     return (
       <View style={styles.container}>
         <StatusBar
@@ -298,17 +303,15 @@ class Index extends React.Component {
               </Button>
             );
           })}
-          {/* <Button style={styles.commonBtn} onPress={this.handleChange(1)}>
-            <Text style={styles.submitBtnText}>220kv</Text>
-          </Button>
-          <Button style={[styles.commonBtn, styles.commonColor]} onPress={this.handleChange(2)}>
-            <Text style={styles.submitBtnText}>110kv</Text>
-          </Button>
-          <Button style={[styles.commonBtn, styles.commonColor]} onPress={this.handleChange(3)}>
-            <Text style={styles.submitBtnText}>10kv</Text>
-          </Button> */}
         </View>
-        {newArr.length >= 10 && <ECharts option={option} backgroundColor="#fff" onData={() => this.voltageTrend()} />}
+        {newArr.length >= 10 && (
+          <ECharts
+            option={option}
+            backgroundColor="#fff"
+            ref={ref => (this.ECharts = ref)}
+            onData={() => this.voltageTrend()}
+          />
+        )}
       </View>
     );
   }

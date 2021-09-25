@@ -14,7 +14,7 @@ import IconFont from '@iconfont/index.js';
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
-const source = { uri: 'file:///android_asset/zhubianyouwen.html' };
+const webViewsource = { uri: 'file:///android_asset/zhubianyouwen.html' };
 
 const arr = [
   '1#110kV站',
@@ -142,6 +142,11 @@ class Index extends React.Component {
     Orientation.lockToLandscapeLeft();
   }
 
+  onLoadEnd = () => {
+    this.webView.postMessage('rn啊');
+    // this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
+  };
+
   handleTypeChange = (item, index) => {
     // const { actionIndex2, actionIndex } = this.state;
     this.setState({ actionIndex: index, actionIndex2: 0 });
@@ -219,16 +224,6 @@ class Index extends React.Component {
             <TouchableOpacity onPress={() => this.setState({ actionsheetShow: false })} style={styles.typeBottom} />
           </View>
         )}
-        {/* <WebView
-          useWebKit
-          javaScriptEnabled
-          source={source}
-          originWhitelist={['*']}
-          style={styles.webview}
-          mixedContentMode="compatibility"
-          ref={ref => (this.webView = ref)}
-          onError={e => console.log(e)}
-        /> */}
         <View style={styles.btnContainer}>
           <Button style={styles.commonBtn} onPress={this.handleChange(1)}>
             <Text style={styles.submitBtnText}>1#主变油温</Text>
@@ -240,7 +235,20 @@ class Index extends React.Component {
             <Text style={styles.submitBtnText}>3#主变油温</Text>
           </Button>
         </View>
-        <ECharts option={option} backgroundColor="#fff" />
+        <ECharts ref={ref => (this.ECharts = ref)} option={option} backgroundColor="#fff" />
+        {/* <WebView
+          useWebKit
+          scrollEnabled={false}
+          javaScriptEnabled
+          source={webViewsource}
+          originWhitelist={['*']}
+          style={styles.webview}
+          mixedContentMode="compatibility"
+          ref={ref => (this.webView = ref)}
+          onError={e => console.log(e)}
+          onMessage={event => console.log(event.nativeEvent.data)}
+          onLoadEnd={this.onLoadEnd}
+        /> */}
       </View>
     );
   }
