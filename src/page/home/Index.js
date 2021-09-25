@@ -174,62 +174,394 @@ class Index extends React.Component {
         { id: 4, val: '自供电率', percent: 96, source: dianyaqushi, routeName: 'Dianyaqushi' },
       ],
       newArr: [],
+      newArr1: [],
       pieOption: {
         title: {
-          show: false,
-          x: 'center',
+          text: '总负荷曲线统计图',
+          left: 'center',
           textStyle: {
-            fontWeight: 'normal',
-            fontSize: 16,
+            fontSize: hp(36 / BASE_HEIGHT),
+            fontWeight: 'bold',
           },
         },
-        animation: true,
+        grid: {
+          left: '2%',
+          right: '10%',
+          bottom: '0%',
+          width: '80%',
+          containLabel: true,
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: [
+            '00:00',
+            '01:00',
+            '02:00',
+            '03:00',
+            '04:00',
+            '05:00',
+            '06:00',
+            '07:00',
+            '08:00',
+            '09:00',
+            '10:00',
+            '11:00',
+            '12:00',
+            '13:00',
+            '14:00',
+            '15:00',
+            '16:00',
+            '17:00',
+            '18:00',
+            '19:00',
+            '20:00',
+            '21:00',
+            '22:00',
+            '23:00',
+            '24:00',
+          ],
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: {
+            show: false,
+          },
+          boundaryGap: [0, '100%'],
+          axisPointer: {
+            snap: true,
+          },
+        },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none',
+            },
+            restore: {},
+          },
+        },
+        // dataZoom: [
+        //   {
+        //     type: 'inside',
+        //     start: 0, //数据窗口范围的起始百分比,表示30%
+        //     end: 10, //数据窗口范围的结束百分比,表示70%
+        //   },
+        //   {
+        //     start: 0,
+        //     end: 10,
+        //   },
+        // ],
+        color: ['#BED7F9', '#1575F6', '#6972CC'],
+        legend: {
+          data: ['谷', '平', '峰'],
+          icon: 'stack',
+          right: '10%',
+          top: '12%',
+        },
         series: [
           {
-            name: '',
-            type: 'pie',
-            radius: ['50%', '64%'],
-            avoidLabelOverlap: false,
-            hoverAnimation: false,
-            startAngle: 150,
-            silent: true,
-            labelLine: {
-              normal: {
-                show: false,
-              },
-            },
-            data: [
+            type: 'line',
+            symbol: 'none',
+            sampling: 'lttb',
+            dataZoom: [
               {
-                value: 89,
-                name: '',
-                selected: false,
-                label: {
-                  normal: {
-                    show: true,
-                    position: 'center',
-                    fontSize: hp(32 / BASE_HEIGHT),
-                    color: '#1575F6',
-                    formatter: '{d}%',
-                  },
-                },
-                itemStyle: {
-                  color: '#1575F6',
-                },
+                type: 'inside',
+                start: 0,
+                end: 10,
               },
               {
-                value: 11,
-                label: {
-                  normal: {
-                    show: false,
-                  },
-                },
-                itemStyle: {
-                  color: '#b3daee',
-                },
+                start: 0,
+                end: 10,
               },
             ],
+            itemStyle: {
+              color: '#FA0208',
+            },
+            data: [
+              1182.79,
+              1142.81,
+              1204.12,
+              1195.2,
+              1143.72,
+              1151.36,
+              1123.63,
+              1118.02,
+              1143.68,
+              1150.09,
+              1198.9,
+              1185.3,
+              1144.35,
+              1171.68,
+              1205.56,
+              1235.27,
+              1164.05,
+              1160.71,
+              1189.54,
+              1160.21,
+              1172.1,
+              1174.27,
+              1205.97,
+              1173.85,
+              1108.69,
+              1177.07,
+              1168.14,
+              1203.7,
+              1173.28,
+              1148.15,
+              1112.45,
+              1120.55,
+              1221.88,
+              1093.82,
+              1081.72,
+              1112.69,
+              1064.91,
+              1137.33,
+              1111.73,
+              1178.46,
+              1173.85,
+              1079.84,
+              1076.95,
+              1159.51,
+              1136.01,
+              1203.16,
+              1168.39,
+              1165.39,
+              1114.4,
+              1038.04,
+              1178.94,
+              1165.78,
+              1027.81,
+              1131.62,
+              1215.87,
+              1121.55,
+              1093.49,
+              1158.61,
+              1119.71,
+              1148.45,
+              1180.65,
+              1146.64,
+              1176.41,
+              1140.81,
+              1091.38,
+              1073.19,
+              1024.93,
+              1095.47,
+              1062.86,
+              1002.32,
+              1094.54,
+              1091.4,
+              1069.02,
+              1038.77,
+              1108.42,
+              1068.9,
+              1068.01,
+              1103.57,
+              1146.73,
+              1135.42,
+              967.363,
+              1063.74,
+              961.094,
+              1053.03,
+              1025.27,
+              1133.96,
+              1091.74,
+              965.851,
+              990.484,
+              998.754,
+              1006.45,
+              1066.44,
+              1064.64,
+              1024.5,
+              1046.88,
+              1040.38,
+              1037.01,
+              1081.48,
+              948.773,
+              957.363,
+              962.158,
+              966.981,
+              1023.01,
+              967.752,
+              977.145,
+            ],
+          },
+          {
+            name: '谷',
+            data: [7, 10, 12, 24, 20.3, 17, 6],
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            lineStyle: {
+              color: '#2B7CF4',
+            },
+            label: {
+              show: true,
+              position: 'top',
+              color: '#fff',
+            },
+            markArea: {
+              itemStyle: {
+                color: '#BED7F9',
+              },
+              data: [
+                [
+                  {
+                    // name: '谷',
+                    xAxis: '00:00',
+                  },
+                  {
+                    xAxis: '06:00',
+                  },
+                ],
+                [
+                  {
+                    // name: '谷',
+                    xAxis: '22:00',
+                  },
+                  {
+                    xAxis: '24:00',
+                  },
+                ],
+              ],
+            },
+          },
+          {
+            name: '平',
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            lineStyle: {
+              width: 0,
+              color: 'rgba(0,0,0,0)',
+            },
+            data: [100, 40, 230, 120, 200, 100, 200, 250, 400, 390, 380, 390, 400],
+            markArea: {
+              itemStyle: {
+                color: '#1575F6',
+              },
+              data: [
+                [
+                  {
+                    // name: '平',
+                    xAxis: '06:00',
+                  },
+                  {
+                    xAxis: '10:00',
+                  },
+                ],
+                [
+                  {
+                    // name: '平',
+                    xAxis: '12:00',
+                  },
+                  {
+                    xAxis: '13:00',
+                  },
+                ],
+                [
+                  {
+                    // name: '平',
+                    xAxis: '19:00',
+                  },
+                  {
+                    xAxis: '22:00',
+                  },
+                ],
+              ],
+            },
+          },
+          {
+            name: '峰',
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            lineStyle: {
+              width: 0,
+              color: 'rgba(0,0,0,0)',
+            },
+            data: [100, 40, 230, 120, 200, 100, 200, 250, 400, 390, 380, 390, 400],
+            markArea: {
+              itemStyle: {
+                color: '#6972CC',
+              },
+              data: [
+                [
+                  {
+                    // name: '峰',
+                    xAxis: '10:00',
+                  },
+                  {
+                    xAxis: '12:00',
+                  },
+                ],
+                [
+                  {
+                    // name: '峰',
+                    xAxis: '13:00',
+                  },
+                  {
+                    xAxis: '19:00',
+                  },
+                ],
+              ],
+            },
           },
         ],
+        // title: {
+        //   show: false,
+        //   x: 'center',
+        //   textStyle: {
+        //     fontWeight: 'normal',
+        //     fontSize: 16,
+        //   },
+        // },
+        // animation: true,
+        // series: [
+        //   {
+        //     name: '',
+        //     type: 'pie',
+        //     radius: ['50%', '64%'],
+        //     avoidLabelOverlap: false,
+        //     hoverAnimation: false,
+        //     startAngle: 150,
+        //     silent: true,
+        //     labelLine: {
+        //       normal: {
+        //         show: false,
+        //       },
+        //     },
+        //     data: [
+        //       {
+        //         value: 89,
+        //         name: '',
+        //         selected: false,
+        //         label: {
+        //           normal: {
+        //             show: true,
+        //             position: 'center',
+        //             fontSize: hp(32 / BASE_HEIGHT),
+        //             color: '#1575F6',
+        //             formatter: '{d}%',
+        //           },
+        //         },
+        //         itemStyle: {
+        //           color: '#1575F6',
+        //         },
+        //       },
+        //       {
+        //         value: 11,
+        //         label: {
+        //           normal: {
+        //             show: false,
+        //           },
+        //         },
+        //         itemStyle: {
+        //           color: '#b3daee',
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ],
       },
       headInfo: {
         selfPowerSupplyRate: 30,
@@ -255,14 +587,29 @@ class Index extends React.Component {
   componentDidMount() {
     this.getHeadInfo();
     this.selfDowerSupplyRate();
-    // this.totalLoadCurve();
+    this.totalLoadCurve();
   }
 
   // 总负荷曲线统计图
   totalLoadCurve = () => {
     totalLoadCurve({}).then(res => {
       if (res && res.status === 200) {
-        //
+        const resData = res.body.all.time;
+        let newArr = [];
+        resData.map(item => {
+          item = moment(item).format('mm:ss');
+          newArr.push(item);
+        });
+        let { pieOption } = this.state;
+        // pieOption.xAxis.data = newArr;
+        pieOption.series[0].data = res.body.all.value;
+        pieOption.series[1].data = res.body.valley.value;
+        pieOption.series[1].data = res.body.flat.value;
+        pieOption.series[2].data = res.body.peak.value;
+        this.setState({
+          newArr1: newArr,
+          pieOption,
+        });
       }
     });
   };
@@ -278,7 +625,7 @@ class Index extends React.Component {
           newArr.push(item);
         });
         let { option } = this.state;
-        option.xAxis.data = newArr;
+        // option.xAxis.data = newArr;
         option.series[0].data = res.body[0].value;
         this.setState({
           newArr,
@@ -365,7 +712,7 @@ class Index extends React.Component {
   };
 
   render() {
-    const { option, fakeData, fakeData2, pieOption, newArr } = this.state;
+    const { option, fakeData, fakeData2, pieOption, newArr, newArr1 } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -417,7 +764,9 @@ class Index extends React.Component {
           })}
         </View>
         <View style={styles.chartContainer1}>
-          <ECharts option={pieOption} backgroundColor="transparent" />
+          {newArr1.length >= 10 && (
+            <ECharts option={pieOption} backgroundColor="#fff" onData={() => this.totalLoadCurve()} />
+          )}
         </View>
         <View style={styles.chartContainer}>
           {newArr.length >= 10 && (
