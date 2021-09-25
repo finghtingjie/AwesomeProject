@@ -155,50 +155,54 @@ class Index extends React.Component {
 
   setOption2 = (res, val) => {
     this.ECharts.clear();
-    const resData = res.body[0][`${val}#主变110YW1`];
-    const resData2 = res.body[1][`${val}#主变110YW2`];
-    const option = {
-      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
-      tooltip: {
-        trigger: 'axis',
-      },
-      legend: {
-        data: ['油温1', '油温2', '油温3'],
-        left: '3%',
-      },
-      grid: commonGrid,
-      xAxis: commonxAxis,
-      yAxis: commonyAxis,
-      toolbox: commonToolbox,
-      series: [
-        {
-          name: '油温1',
-          type: 'line',
-          lineStyle: {
-            color: '#3CBE1E',
-          },
-          stack: '总量',
-          data: resData[0] ? resData[0].value : [],
+    if (!res.body.length) {
+      this.ECharts.setOption({});
+    } else {
+      const resData = res.body[0][`${val}#主变110YW1`];
+      const resData2 = res.body[1][`${val}#主变110YW2`];
+      const option = {
+        color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+        tooltip: {
+          trigger: 'axis',
         },
-        {
-          name: '油温2',
-          type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
-          data: resData2[0] ? resData2[0].value : [],
+        legend: {
+          data: ['油温1', '油温2'],
+          left: '3%',
         },
-      ],
-    };
-    this.ECharts.setOption(option);
+        grid: commonGrid,
+        xAxis: commonxAxis,
+        yAxis: commonyAxis,
+        toolbox: commonToolbox,
+        series: [
+          {
+            name: '油温1',
+            type: 'line',
+            lineStyle: {
+              color: '#3CBE1E',
+            },
+            stack: '总量',
+            data: resData[0] ? resData[0].value : [],
+          },
+          {
+            name: '油温2',
+            type: 'line',
+            lineStyle: {
+              color: '#1C6DDA',
+            },
+            stack: '总量',
+            data: resData2[0] ? resData2[0].value : [],
+          },
+        ],
+      };
+      this.ECharts.setOption(option);
+    }
   };
 
-  setOption33 = (res, val) => {
+  setOption33 = (res, val, voltage) => {
     this.ECharts.clear();
-    const resData = res.body[0][`${val}#主变220YW1`];
-    const resData2 = res.body[1][`${val}#主变220YW2`];
-    const resData3 = res.body[2][`${val}#主变220YW3`];
+    const resData = res.body[0][`${val}#主变${voltage}YW1`];
+    const resData2 = res.body[1][`${val}#主变${voltage}YW2`];
+    const resData3 = res.body[2][`${val}#主变${voltage}YW3`];
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -274,11 +278,11 @@ class Index extends React.Component {
               // this.setState({ option }, () => {
               //   this.ECharts.setOption(this.state.option);
               // });
-              this.setOption33(res, '1');
+              this.setOption33(res, '1', '220');
             } else if (voltage === '2#主变') {
-              this.setOption33(res, '2');
+              this.setOption33(res, '2', '220');
             } else if (voltage === '3#主变') {
-              this.setOption33(res, '3');
+              this.setOption33(res, '3', '220');
             }
             break;
           case '热电110kV站':
@@ -292,55 +296,75 @@ class Index extends React.Component {
               // this.setOption33(res, '3');
             }
             break;
-          // case 'CCPP110kV站':
-          //   if (voltage === '1#主变') {
-          //     this.setOption2(res, '1');
-          //   } else if (voltage === '2#主变') {
-          //     this.setOption2(res, '2');
-          //   }
-          //   break;
           case 'MCCR110kV站':
+            if (voltage === '1#主变') {
+              this.setOption33(res, '1', '110');
+            } else if (voltage === '2#主变') {
+              this.setOption33(res, '2', '110');
+            } else if (voltage === '3#主变') {
+              this.setOption33(res, '3', '110');
+            }
+            break;
           case '2230冷轧110kV站':
-          case '制氧110kV站':
-          case '1420冷轧110kV站':
-            this.setOption1(res);
+            if (voltage === '1#主变') {
+              this.setOption33(res, '1', '110');
+            } else if (voltage === '2#主变') {
+              this.setOption2(res, '2');
+            } else if (voltage === '3#主变') {
+              this.setOption33(res, '3', '110');
+            } else if (voltage === '4#主变') {
+              this.setOption2(res, '4');
+            }
             break;
           case '1#110kV站':
           case '3#110kV站':
           case '4#110kV站':
           case '5#110kV站':
-            if (voltage === '110kV') {
-              this.setOption2(res);
-            } else if (voltage === '10kV') {
-              this.setOption33(res);
+          case '制氧110kV站':
+          case '1420冷轧110kV站':
+            if (voltage === '1#主变') {
+              this.setOption2(res, '1');
+            } else if (voltage === '2#主变') {
+              this.setOption2(res, '2');
+            } else if (voltage === '3#主变') {
+              this.setOption2(res, '3');
             }
             break;
           case '2#110kV站':
-            if (voltage === '110kV') {
-              this.setOption2(res);
-            } else if (voltage === '35kV') {
-              this.setOption1(res, 'Ⅰ段母线');
-            } else if (voltage === '10kV') {
-              this.setOption33(res);
+            if (voltage === '1#主变') {
+              this.setOption2(res, '1');
+            } else if (voltage === '2#主变') {
+              this.setOption2(res, '2');
+            } else if (voltage === '3#主变') {
+              this.setOption2(res, '3');
+            } else if (voltage === '4#主变') {
+              this.setOption2(res, '4');
             }
             break;
           case '6#110kV站':
-            if (voltage === '110kV') {
-              this.setOption4(res);
-            } else if (voltage === '35kV') {
-              this.setOption33(res);
-            } else if (voltage === '10kV') {
-              this.setOption5(res);
+            if (voltage === '1#主变') {
+              this.setOption2(res, '1');
+            } else if (voltage === '2#主变') {
+              this.setOption2(res, '2');
+            } else if (voltage === '3#主变') {
+              this.setOption2(res, '3');
+            } else if (voltage === '4#主变') {
+              this.setOption2(res, '4');
+            } else if (voltage === '5#主变') {
+              this.setOption2(res, '5');
+            } else if (voltage === '6#主变') {
+              this.setOption2(res, '6');
             }
             break;
           case '7#110kV站':
-            if (voltage === '110kV') {
-              this.setOption2(res);
-            } else {
-              this.setOption33(res);
+            if (voltage === '1#主变') {
+              this.setOption33(res, '1', '110');
+            } else if (voltage === '2#主变') {
+              this.setOption2(res, '2');
+            } else if (voltage === '3#主变') {
+              this.setOption2(res, '3');
             }
             break;
-
           default:
             return '';
         }
