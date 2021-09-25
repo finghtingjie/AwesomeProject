@@ -117,7 +117,7 @@ class Index extends React.Component {
     this.voltageTrend();
   }
 
-  setOption1 = res => {
+  setOption1 = (res, val) => {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -127,7 +127,7 @@ class Index extends React.Component {
         trigger: 'axis',
       },
       legend: {
-        data: ['4#母线'],
+        data: [val],
         left: '3%',
       },
       grid: commonGrid,
@@ -136,7 +136,7 @@ class Index extends React.Component {
       toolbox: commonToolbox,
       series: [
         {
-          name: '4#母线',
+          name: val,
           type: 'line',
           lineStyle: {
             color: '#3CBE1E',
@@ -252,6 +252,58 @@ class Index extends React.Component {
     this.ECharts.setOption(option);
   };
 
+  setOption33 = res => {
+    this.ECharts.clear();
+    const resArr = Object.keys(res.body);
+    const resData = res.body[resArr[0]];
+    const resData2 = res.body[resArr[1]];
+    const resData3 = res.body[resArr[2]];
+    const option = {
+      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'],
+        left: '3%',
+      },
+      grid: commonGrid,
+      xAxis: commonxAxis,
+      yAxis: commonyAxis,
+      toolbox: commonToolbox,
+      series: [
+        {
+          name: 'Ⅰ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#3CBE1E',
+          },
+          stack: '总量',
+          data: resData[0].value,
+        },
+        {
+          name: 'Ⅱ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData2[0].value,
+        },
+        {
+          name: 'Ⅲ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData3[0].value,
+        },
+      ],
+    };
+    this.ECharts.setOption(option);
+  };
+
   setOption4 = res => {
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -270,7 +322,7 @@ class Index extends React.Component {
       grid: commonGrid,
       xAxis: commonxAxis,
       yAxis: commonyAxis,
-      toolbox: commonGrid,
+      toolbox: commonToolbox,
       series: [
         {
           name: '4乙母线',
@@ -307,6 +359,77 @@ class Index extends React.Component {
           },
           stack: '总量',
           data: resData4[0].value,
+        },
+      ],
+    };
+    this.ECharts.setOption(option);
+  };
+
+  setOption5 = res => {
+    const resArr = Object.keys(res.body);
+    const resData = res.body[resArr[0]];
+    const resData2 = res.body[resArr[1]];
+    const resData3 = res.body[resArr[2]];
+    const resData4 = res.body[resArr[3]];
+    const resData5 = res.body[resArr[4]];
+    const option = {
+      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: ['Ⅰ段母线', 'Ⅱ段A母线', 'Ⅱ段B母线', 'Ⅱ段母线', 'Ⅲ段母线'],
+        left: '3%',
+      },
+      grid: commonGrid,
+      xAxis: commonxAxis,
+      yAxis: commonyAxis,
+      toolbox: commonToolbox,
+      series: [
+        {
+          name: 'Ⅰ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#3CBE1E',
+          },
+          stack: '总量',
+          data: resData[0].value,
+        },
+        {
+          name: 'Ⅱ段A母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData2[0].value,
+        },
+        {
+          name: 'Ⅱ段B母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData3[0].value,
+        },
+        {
+          name: 'Ⅱ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData4[0].value,
+        },
+        {
+          name: 'Ⅲ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData5[0].value,
         },
       ],
     };
@@ -392,8 +515,49 @@ class Index extends React.Component {
             this.setOption4(res);
             break;
           case 'CCPP110kV站':
+          case '制氧二期110kV站':
+          case 'MCCR110kV站':
+          case '2230冷轧110kV站':
+          case '制氧110kV站':
+          case '1420冷轧110kV站':
             this.setOption1(res);
             break;
+          case '1#110kV站':
+          case '3#110kV站':
+          case '4#110kV站':
+          case '5#110kV站':
+            if (voltage === '110kV') {
+              this.setOption2(res);
+            } else if (voltage === '10kV') {
+              this.setOption33(res);
+            }
+            break;
+          case '2#110kV站':
+            if (voltage === '110kV') {
+              this.setOption2(res);
+            } else if (voltage === '35kV') {
+              this.setOption1(res, 'Ⅰ段母线');
+            } else if (voltage === '10kV') {
+              this.setOption33(res);
+            }
+            break;
+          case '6#110kV站':
+            if (voltage === '110kV') {
+              this.setOption4(res);
+            } else if (voltage === '35kV') {
+              this.setOption33(res);
+            } else if (voltage === '10kV') {
+              this.setOption5(res);
+            }
+            break;
+          case '7#110kV站':
+            if (voltage === '110kV') {
+              this.setOption2(res);
+            } else {
+              this.setOption33(res);
+            }
+            break;
+
           default:
             return '';
         }
