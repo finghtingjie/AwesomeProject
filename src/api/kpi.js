@@ -47,3 +47,10 @@ export async function loadRateOfMainTransformer(params) {
     params,
   });
 }
+// 获取油温
+export async function getOilTemperatureOfMainTransformer(params) {
+  return request('/getOilTemperatureOfMainTransformer', {
+    method: 'GET',
+    params,
+  });
+}
