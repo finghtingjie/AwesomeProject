@@ -675,12 +675,12 @@ class Index extends React.Component {
             {
               id: 4,
               val: '自供电率',
-              percent: Number(selfPowerSupplyRate).toFixed(2),
+              percent: Number(selfPowerSupplyRate).toFixed(0),
               source: dianyaqushi,
               routeName: 'Dianyaqushi',
             },
           ],
-          percent: Number(res.body.selfPowerSupplyRate).toFixed(2),
+          percent: Number(res.body.selfPowerSupplyRate).toFixed(0),
         });
       }
     });

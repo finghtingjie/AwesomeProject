@@ -37,7 +37,11 @@ class Hegelv extends React.PureComponent {
         const resData = res.body;
         let newArr = [];
         resData.map((item, index) => {
-          newArr[index] = [item.name, Object.keys(item.data), Object.values(item.data)];
+          newArr[index] = [
+            item.name,
+            Object.keys(item.data),
+            Object.values(item.data).map(items => Number(items).toFixed(2)),
+          ];
         });
         console.log(newArr);
         this.setState({

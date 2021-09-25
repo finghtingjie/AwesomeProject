@@ -79,6 +79,10 @@ class Hegelv extends React.PureComponent {
           isLight: false,
         },
       ],
+      pageNum: 1,
+      pageSize: 10,
+      total: 0,
+      dataFlag: false,
     };
   }
   static navigationOptions = {
@@ -91,25 +95,61 @@ class Hegelv extends React.PureComponent {
   }
 
   getVoltageQualificationRate = () => {
-    getVoltageQualificationRate({}).then(res => {
+    let { pageNum, pageSize } = this.state;
+    const params = {
+      pageNum,
+      pageSize,
+    };
+    getVoltageQualificationRate(params).then(res => {
       if (res && res.status === 200) {
+        this.setState({ total: res.body.totalAmount });
         const resData = res.body;
-        let newArr = [];
-        resData.map((item, index) => {
-          newArr[index] = [
-            item.name,
-            item.ureal,
-            item.urateLimitUp,
-            item.urateLimitDn,
-            item.dayRate,
-            item.monthRate,
-            item.yearRate,
-            item.vqc || false,
-          ];
-        });
-        this.setState({
-          tableData: newArr,
-        });
+        if (pageNum === 1) {
+          const tempArr = res.body.data || [];
+          let newArr = [];
+          tempArr.map((item, index) => {
+            newArr[index] = [
+              item.name,
+              item.ureal,
+              item.urateLimitUp,
+              item.urateLimitDn,
+              item.dayRate,
+              item.monthRate,
+              item.yearRate,
+              item.vqc || false,
+            ];
+          });
+          this.setState({
+            tableData: newArr,
+          });
+        } else {
+          let tempArr = this.state.fakeData;
+          let newArr = [];
+          tempArr.map((item, index) => {
+            newArr[index] = [
+              item.name,
+              item.ureal,
+              item.urateLimitUp,
+              item.urateLimitDn,
+              item.dayRate,
+              item.monthRate,
+              item.yearRate,
+              item.vqc || false,
+            ];
+          });
+          tempArr = tempArr.concat(newArr);
+          this.setState({
+            fakeData: tempArr,
+          });
+        }
+        //是否可以下拉
+        const allLen = res.body.totalAmount;
+        const nowLen = pageNum * pageSize;
+        if (allLen > nowLen) {
+          this.setState({ dataFlag: true });
+        } else {
+          this.setState({ dataFlag: false });
+        }
       }
     });
   };

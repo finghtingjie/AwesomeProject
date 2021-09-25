@@ -157,13 +157,16 @@ export default StyleSheet.create({
     borderBottomLeftRadius: 0,
   },
   submitBtn: {
+    position: 'absolute',
     paddingVertical: 0,
     backgroundColor: '#4367FD',
     width: wp(700 / BASE_WIDTH),
     height: hp(128 / BASE_HEIGHT),
     borderRadius: wp(30 / BASE_WIDTH),
-    marginLeft: wp(148 / BASE_WIDTH),
-    marginTop: hp(920 / BASE_HEIGHT),
+    // marginLeft: wp(148 / BASE_WIDTH),
+    // marginTop: hp(720 / BASE_HEIGHT),
+    bottom: hp(120 / BASE_HEIGHT),
+    left: hp(148 / BASE_HEIGHT),
   },
   tabTextActive: {
     width: '100%',
