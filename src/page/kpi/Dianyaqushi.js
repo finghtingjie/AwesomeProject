@@ -17,6 +17,36 @@ import { voltageTrend } from '@api/kpi';
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
+const commonGrid = {
+  left: '3%',
+  right: '5%',
+  bottom: '0%',
+  width: '90%',
+  containLabel: true,
+};
+
+const commonxAxis = {
+  type: 'category',
+  boundaryGap: false,
+  data: ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45'],
+};
+
+const commonyAxis = {
+  type: 'value',
+  splitLine: {
+    show: false,
+  },
+};
+
+const commonToolbox = {
+  feature: {
+    dataZoom: {
+      yAxisIndex: 'none',
+    },
+    restore: {},
+  },
+};
+
 const arr = [
   '1#110kV站',
   '2#110kV站',
@@ -26,7 +56,6 @@ const arr = [
   '6#110kV站',
   '7#110kV站',
   '制氧二期110kV站',
-  'CCPP110kV变电站',
   'MCCR110kV站',
   '2230冷轧110kV站',
   '制氧110kV站',
@@ -48,45 +77,10 @@ class Index extends React.Component {
           data: ['4#母线', '5#母线'],
           left: '3%',
         },
-        grid: {
-          left: '3%',
-          right: '5%',
-          bottom: '0%',
-          width: '90%',
-          containLabel: true,
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: [
-            '00:00',
-            '00:15',
-            '00:30',
-            '00:45',
-            '01:00',
-            '01:15',
-            '01:30',
-            '01:45',
-            '02:00',
-            '02:15',
-            '02:30',
-            '02:45',
-          ],
-        },
-        yAxis: {
-          type: 'value',
-          splitLine: {
-            show: false,
-          },
-        },
-        toolbox: {
-          feature: {
-            dataZoom: {
-              yAxisIndex: 'none',
-            },
-            restore: {},
-          },
-        },
+        grid: commonGrid,
+        xAxis: commonxAxis,
+        yAxis: commonyAxis,
+        toolbox: commonToolbox,
         series: [
           {
             name: '4#母线',
@@ -112,7 +106,7 @@ class Index extends React.Component {
       actionIndex: 0,
       actionIndex2: 0,
       actionsheetShow: false,
-      arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+      arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV站'],
       tabArr: ['220kV', '110kV', '10kV'],
       newArr: [],
     };
@@ -122,6 +116,202 @@ class Index extends React.Component {
     Orientation.lockToLandscapeLeft();
     this.voltageTrend();
   }
+
+  setOption1 = res => {
+    this.ECharts.clear();
+    const resArr = Object.keys(res.body);
+    const resData = res.body[resArr[0]];
+    const option = {
+      color: ['#3CBE1E'], //图例颜色
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: ['4#母线'],
+        left: '3%',
+      },
+      grid: commonGrid,
+      xAxis: commonxAxis,
+      yAxis: commonyAxis,
+      toolbox: commonToolbox,
+      series: [
+        {
+          name: '4#母线',
+          type: 'line',
+          lineStyle: {
+            color: '#3CBE1E',
+          },
+          stack: '总量',
+          data: resData[0].value,
+        },
+      ],
+    };
+    this.ECharts.setOption(option);
+  };
+
+  setOption2 = res => {
+    this.ECharts.clear();
+    const resArr = Object.keys(res.body);
+    const resData = res.body[resArr[0]];
+    const resData2 = res.body[resArr[1]];
+    const option = {
+      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: ['4#母线', '5#母线'],
+        left: '3%',
+      },
+      grid: commonGrid,
+      xAxis: commonxAxis,
+      yAxis: commonyAxis,
+      toolbox: commonToolbox,
+      series: [
+        {
+          name: '4#母线',
+          type: 'line',
+          lineStyle: {
+            color: '#3CBE1E',
+          },
+          stack: '总量',
+          data: resData[0].value,
+        },
+        {
+          name: '5#母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData2[0].value,
+        },
+      ],
+    };
+    this.ECharts.setOption(option);
+  };
+
+  setOption3 = res => {
+    this.ECharts.clear();
+    const resArr = Object.keys(res.body);
+    const resData = res.body[resArr[0]];
+    const resData2 = res.body[resArr[1]];
+    const resData3 = res.body[resArr[3]];
+    const option = {
+      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅱ段母线2', 'Ⅲ段母线'],
+        left: '3%',
+      },
+      grid: commonGrid,
+      xAxis: commonxAxis,
+      yAxis: commonyAxis,
+      toolbox: commonGrid,
+      series: [
+        {
+          name: 'Ⅰ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#3CBE1E',
+          },
+          stack: '总量',
+          data: resData[0].value,
+        },
+        {
+          name: 'Ⅱ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData2[0].value,
+        },
+        {
+          name: 'Ⅱ段母线2',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: [],
+        },
+        {
+          name: 'Ⅲ段母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData3[0].value,
+        },
+      ],
+    };
+    this.ECharts.setOption(option);
+  };
+
+  setOption4 = res => {
+    const resArr = Object.keys(res.body);
+    const resData = res.body[resArr[0]];
+    const resData2 = res.body[resArr[1]];
+    const resData3 = res.body[resArr[2]];
+    const resData4 = res.body[resArr[3]];
+    const option = {
+      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+      tooltip: {
+        trigger: 'axis',
+      },
+      legend: {
+        data: ['4乙母线', '4甲母线', '5乙母线', '5甲母线'],
+        left: '3%',
+      },
+      grid: commonGrid,
+      xAxis: commonxAxis,
+      yAxis: commonyAxis,
+      toolbox: commonGrid,
+      series: [
+        {
+          name: '4乙母线',
+          type: 'line',
+          lineStyle: {
+            color: '#3CBE1E',
+          },
+          stack: '总量',
+          data: resData[0].value,
+        },
+        {
+          name: '4甲母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData2[0].value,
+        },
+        {
+          name: '5乙母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData3[0].value,
+        },
+        {
+          name: '5甲母线',
+          type: 'line',
+          lineStyle: {
+            color: '#1C6DDA',
+          },
+          stack: '总量',
+          data: resData4[0].value,
+        },
+      ],
+    };
+    this.ECharts.setOption(option);
+  };
 
   voltageTrend = () => {
     const { tabArr, activeIndex, actionIndex2, arr2 } = this.state;
@@ -133,54 +323,79 @@ class Index extends React.Component {
       const station = arr2[actionIndex2];
       const voltage = tabArr[activeIndex];
       if (res && res.status === 200) {
-        if (station === '220kV铁钢站' && voltage === '220kV') {
-          const resData = res.body['220kV4#母线'];
-          const resData2 = res.body['220kV5#母线'];
-          let newArr = [];
-          resData[0].time.map(item => {
-            item = moment(item).format('hh:mm');
-            newArr.push(item);
-          });
-          let { option } = this.state;
-          // option.xAxis.data = newArr;
-          option.series[0].name = '4#母线';
-          option.series[1].name = '5#母线';
-          option.legend.data = ['4#母线', '5#母线'];
-          option.series[0].data = resData[0].value;
-          option.series[1].data = resData2[0].value;
-          if (option.series.length >= 3) {
-            option.series[option.series.length - 1].data = [];
-          }
-          console.log(option);
-          this.setState({ option, newArr }, () => {
-            this.ECharts.setOption(this.state.option);
-          });
-        } else if (station === '220kV铁钢站' && voltage === '10kV') {
-          const resData = res.body['10kVⅠ段母线'];
-          let newArr = [];
-          resData[0].time.map(item => {
-            item = moment(item).format('hh:mm');
-            newArr.push(item);
-          });
-          const resData2 = res.body['10kVⅡ段母线'];
-          const resData3 = res.body['10kVⅢ段母线'];
-          let { option } = this.state;
-          option.series.push({});
-          option.series[0].name = 'Ⅰ段母线';
-          option.series[1].name = 'Ⅱ段母线';
-          option.series[2].name = 'Ⅲ段母线';
-          option.series[2].type = option.series[1].type;
-          option.series[2].lineStyle = option.series[1].lineStyle;
-          option.series[2].stack = option.series[1].stack;
-          option.legend.data = ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'];
-          option.series[0].data = resData[0].value;
-          option.series[1].data = resData2[0].value;
-          option.series[2].data = resData3[0].value;
-          console.log(option);
-          this.ECharts.clear();
-          this.setState({ option, newArr }, () => {
-            this.ECharts.setOption(option);
-          });
+        switch (station) {
+          case '220kV铁钢站':
+            if (voltage === '220kV') {
+              const resData = res.body['220kV4#母线'];
+              const resData2 = res.body['220kV5#母线'];
+              let newArr = [];
+              resData[0].time.map(item => {
+                item = moment(item).format('hh:mm');
+                newArr.push(item);
+              });
+              let { option } = this.state;
+              // option.xAxis.data = newArr;
+              option.series[0].name = '4#母线';
+              option.series[1].name = '5#母线';
+              option.legend.data = ['4#母线', '5#母线'];
+              option.series[0].data = resData[0].value;
+              option.series[1].data = resData2[0].value;
+              if (option.series.length >= 3) {
+                option.series[option.series.length - 1].data = [];
+              }
+              this.setState({ option, newArr }, () => {
+                this.ECharts.setOption(this.state.option);
+              });
+            } else if (voltage === '110kV') {
+              this.setOption4(res);
+            } else if (voltage === '10kV') {
+              const resData = res.body['10kVⅠ段母线'];
+              let newArr = [];
+              resData[0].time.map(item => {
+                item = moment(item).format('hh:mm');
+                newArr.push(item);
+              });
+              const resData2 = res.body['10kVⅡ段母线'];
+              const resData3 = res.body['10kVⅢ段母线'];
+              let { option } = this.state;
+              option.series.push({});
+              option.series[0].name = 'Ⅰ段母线';
+              option.series[1].name = 'Ⅱ段母线';
+              option.series[2].name = 'Ⅲ段母线';
+              option.series[2].type = option.series[1].type;
+              option.series[2].lineStyle = option.series[1].lineStyle;
+              option.series[2].stack = option.series[1].stack;
+              option.legend.data = ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'];
+              option.series[0].data = resData[0].value;
+              option.series[1].data = resData2[0].value;
+              option.series[2].data = resData3[0].value;
+              this.ECharts.clear();
+              if (option.series.length >= 4) {
+                option.series[option.series.length - 1].data = [];
+              }
+              this.setState({ option, newArr }, () => {
+                this.ECharts.setOption(option);
+              });
+              // this.setOption3(res);
+            }
+            break;
+          case '220kV轧钢站':
+            if (voltage === '220kV') {
+              this.setOption2(res);
+            } else if (voltage === '110kV') {
+              this.setOption4(res);
+            } else if (voltage === '10kV') {
+              this.setOption3(res);
+            }
+            break;
+          case '热电110kV站':
+            this.setOption4(res);
+            break;
+          case 'CCPP110kV站':
+            this.setOption1(res);
+            break;
+          default:
+            return '';
         }
       }
     });
@@ -191,7 +406,7 @@ class Index extends React.Component {
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
       this.setState({
-        arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', ' CCPP110kV变电站'],
+        arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV站'],
       });
     } else {
       this.setState({ arr2: arr });
@@ -201,28 +416,27 @@ class Index extends React.Component {
   handleTypeChange2 = (item, index) => {
     const { actionIndex } = this.state;
     // 源端场站
-    // 220kV铁钢站 4#母线 5#母线 220 110 10
-    // 220kV轧钢站 4#母线 5#母线 220 110 10
-    // 热电110kV站 4甲母线 4乙母线 5甲母线 5乙母线 110
-    // CCPP110kV变电站 4#母线 220 110 10
-    if (actionIndex === 0 && [0, 1, 2].includes(index)) {
+    // 220kV铁钢站  220 110 10
+    // 220kV轧钢站  220 110 10
+    // 热电110kV站  110
+    // CCPP110kV站  110
+    if (actionIndex === 0 && [0, 1].includes(index)) {
       this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
-    } else if (actionIndex === 0 && index === 2) {
+    } else if (actionIndex === 0 && index >= 2) {
       this.setState({ tabArr: ['110kV'], activeIndex: 0 });
       // 网侧
-      // 1#110kV站 4#母线 5#母线 110 10
-      // 2#110kV站 4#母线 5#母线 110 35 10
-      // 3#110kV站 4#母线 5#母线 110 10
-      // 4#110kV站 4#母线 5#母线 110 10
-      // 5#110kV站 4#母线 5#母线 110 10
-      // 6#110kV站 4甲母线 4乙母线 5甲母线 5乙母线 110 35 10
-      // 7#110kV站 4#母线 5#母线 110 35 10
-      // 制氧二期110kV站 4#母线 5#母线 110
-      // CCPP110kV变电站 4#母线 110
-      // MCCR110kV站 4#母线 110
-      // 2230冷轧110kV站 4#母线 110
-      // 制氧110kV站 4#母线 110
-      // 1420冷轧110kV站 4#母线 5#母线 110
+      // 1#110kV站 110 10
+      // 2#110kV站  110 35 10
+      // 3#110kV站  110 10
+      // 4#110kV站  110 10
+      // 5#110kV站  110 10
+      // 6#110kV站  110 35 10
+      // 7#110kV站 110 35 10
+      // 制氧二期110kV站  110
+      // MCCR110kV站  110
+      // 2230冷轧110kV站  110
+      // 制氧110kV站 110
+      // 1420冷轧110kV站  110
     } else if (actionIndex === 1 && [0, 2, 3, 4].includes(index)) {
       this.setState({ tabArr: ['110kV', '10kV'], activeIndex: 0 });
     } else if (actionIndex === 1 && [1, 5, 6].includes(index)) {
