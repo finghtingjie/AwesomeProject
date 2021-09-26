@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView, FlatList } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
 import Orientation from 'react-native-orientation-locker';
@@ -28,10 +28,10 @@ class Hegelv extends React.PureComponent {
         '是否带电',
       ],
       tableData: [
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '是'],
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '否'],
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '否'],
-        ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '是'],
+        // ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '是'],
+        // ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '否'],
+        // ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '否'],
+        // ['220kV铁钢站220kV4#母线', '231.89', '215', '235', '100', '100', '100', '是'],
       ],
       dataSource: [
         {
@@ -79,6 +79,7 @@ class Hegelv extends React.PureComponent {
           isLight: false,
         },
       ],
+      fakeData: [],
       pageNum: 1,
       pageSize: 10,
       total: 0,
@@ -124,8 +125,12 @@ class Hegelv extends React.PureComponent {
           });
         } else {
           let tempArr = this.state.fakeData;
+          tempArr = tempArr.concat(res.body.data);
+          this.setState({
+            fakeData: tempArr,
+          });
           let newArr = [];
-          tempArr.map((item, index) => {
+          this.state.fakeData.map((item, index) => {
             newArr[index] = [
               item.name,
               item.ureal,
@@ -137,9 +142,8 @@ class Hegelv extends React.PureComponent {
               item.vqc || false,
             ];
           });
-          tempArr = tempArr.concat(newArr);
           this.setState({
-            fakeData: tempArr,
+            tableData: newArr,
           });
         }
         //是否可以下拉
@@ -186,6 +190,62 @@ class Hegelv extends React.PureComponent {
     }
   };
 
+  renderItem = ({ item }) => {
+    return (
+      <View style={styles.rowContainer}>
+        {item.map((items, index) => {
+          return (
+            <View key={index} style={this.renderColStyle(item, index)}>
+              <Text style={this.renderTextStyle(items, index)}>{this.renderText(items, index)}</Text>
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
+
+  renderFooter = () => {
+    if (this.state.dataFlag && this.state.tableData.length) {
+      return (
+        <View style={styles.loadMoreView}>
+          <Text style={styles.loadMoreText}>加载中...</Text>
+        </View>
+      );
+    } else if (!this.state.dataFlag && this.state.tableData.length && this.state.total > 10) {
+      return (
+        <View style={styles.loadMoreView}>
+          <Text style={styles.emptyText}>我是有底线的~</Text>
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  renderEmpty = () => {
+    return (
+      <View style={styles.noDataView}>
+        <Text style={styles.noRelust}>暂无数据</Text>
+      </View>
+    );
+  };
+
+  onEndReached = () => {
+    let { pageNum } = this.state;
+    if (this.state.dataFlag) {
+      pageNum += 1;
+      this.setState({ pageNum }, () => {
+        this.getVoltageQualificationRate();
+      });
+    }
+  };
+
+  onRefresh = () => {
+    this.setState({ pageNum: 1 }, () => {
+      this.getVoltageQualificationRate();
+    });
+  };
+
   render() {
     const { tableData, tableHead } = this.state;
     return (
@@ -199,7 +259,7 @@ class Hegelv extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
+            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
           </TouchableOpacity>
           <Text style={styles.content}>电压合格率</Text>
         </View>
@@ -220,7 +280,7 @@ class Hegelv extends React.PureComponent {
               );
             })}
           </View>
-          <ScrollView>
+          {/* <ScrollView>
             {tableData.map(item => {
               return (
                 <View style={styles.rowContainer} key={item[1]}>
@@ -234,7 +294,19 @@ class Hegelv extends React.PureComponent {
                 </View>
               );
             })}
-          </ScrollView>
+          </ScrollView> */}
+          <FlatList
+            data={tableData}
+            windowSize={300}
+            refreshing={false}
+            onEndReachedThreshold={0.1}
+            onRefresh={this.onRefresh}
+            renderItem={this.renderItem}
+            onEndReached={() => this.onEndReached()}
+            ListFooterComponent={this.renderFooter}
+            ListEmptyComponent={this.renderEmpty}
+            keyExtractor={(item, index) => index.toString()}
+          />
         </View>
       </View>
     );

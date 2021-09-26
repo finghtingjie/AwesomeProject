@@ -45,10 +45,12 @@ class Index extends React.PureComponent {
       levelName: '全部类型',
       statusName: '全部状态',
       isDatePickerVisible: false,
-      dateStart: moment()
-        .add(-7, 'days')
-        .format('YYYY-MM-DD'),
-      dateEnd: moment().format('YYYY-MM-DD'),
+      // dateStart: moment()
+      //   .add(-7, 'days')
+      //   .format('YYYY-MM-DD'),
+      // dateEnd: moment().format('YYYY-MM-DD'),
+      dateStart: null,
+      dateEnd: null,
       alarmContent: '',
       fakeData: [
         // {
@@ -120,10 +122,14 @@ class Index extends React.PureComponent {
       pageNum,
       pageSize,
       alarmContent,
-      startTime: moment(dateStart).valueOf(),
-      endTime: moment(dateEnd).valueOf(),
       eventLevel: selectedIndex1 + 1,
     };
+    if (dateStart) {
+      params.startTime = moment(dateStart).valueOf();
+    }
+    if (dateEnd) {
+      params.endTime = moment(dateEnd).valueOf();
+    }
     ModalIndicator.show();
     getGiveAnAlarm(params).then(res => {
       ModalIndicator.hide();
@@ -298,14 +304,27 @@ class Index extends React.PureComponent {
         dateModalVisible: false,
       },
       () => {
-        this.getGiveAnAlarm();
+        const diff = moment(dateArr[0]).diff(moment(dateArr[0]), 'days');
+        if (diff >= 7) {
+          Toast.info('只支持查询七天内的数据!');
+          this.setState({ dateStart: null, dateEnd: null });
+        } else {
+          this.getGiveAnAlarm();
+        }
       },
     );
   };
 
   render() {
     const { alarmContent, fakeData, levelName, statusName, dateEnd, total, dateStart } = this.state;
-    const dateShow = dateStart.substr(2) + '-' + dateEnd.substr(2);
+    const renderDate = (item1, item2) => {
+      if (item1 && item2) {
+        return `${item1.substr(2)}-${item2.substr(2)}`;
+      } else {
+        return '请选择时间';
+      }
+    };
+    const dateShow = renderDate(dateStart, dateEnd);
     return (
       <View style={styles.container}>
         <StatusBar
@@ -339,7 +358,7 @@ class Index extends React.PureComponent {
             /> */}
             <DoubleDatePicker
               visible={this.state.dateModalVisible}
-              defaultValue={this.state.dateArr}
+              // defaultValue={this.state.dateArr}
               onConfirm={this.handleConfirm}
               onCancle={() => this.setState({ dateModalVisible: false })}
             />
@@ -366,7 +385,7 @@ class Index extends React.PureComponent {
             条告警数据...
           </Text>
           <ScrollView horizontal style={styles.ScrollView}>
-            <Text style={styles.warningText}>{`${levelName}/${dateEnd.includes('请') ? '' : dateShow}`}</Text>
+            <Text style={styles.warningText}>{`${levelName}/${dateShow}`}</Text>
           </ScrollView>
         </View>
         <DashLine

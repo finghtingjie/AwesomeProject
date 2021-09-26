@@ -392,7 +392,8 @@ class Index extends React.Component {
             smooth: true,
             symbol: 'none',
             lineStyle: {
-              color: '#2B7CF4',
+              width: 0,
+              color: 'rgba(0,0,0,0)',
             },
             label: {
               show: true,

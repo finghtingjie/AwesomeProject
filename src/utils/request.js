@@ -136,8 +136,10 @@ const errorHandler = err => {
     let msg = '';
     if (err.message.includes('timeout')) {
       msg = '请求超时！请检查网络是否正常';
-    } else {
+    } else if (err.message.includes('Network')) {
       msg = '网络错误，请检查网络是否已连接！';
+    } else {
+      msg = '系统异常，请联系管理员';
     }
     Toast.sad(msg);
     if (__DEV__) {

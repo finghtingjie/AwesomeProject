@@ -74,7 +74,7 @@ export default StyleSheet.create({
   tableContainer: {
     position: 'relative',
     width: screenHeight + currentHeight,
-    height: hp(500 / BASE_HEIGHT),
+    height: hp(600 / BASE_HEIGHT),
     // marginLeft: wp(92 / BASE_WIDTH),
     marginTop: hp(20 / BASE_HEIGHT),
     overflow: 'hidden',
@@ -170,5 +170,32 @@ export default StyleSheet.create({
   yes: {
     width: wp(40 / BASE_WIDTH),
     height: wp(40 / BASE_WIDTH),
+  },
+  loadMoreView: {
+    alignItems: 'center',
+    paddingTop: hp(2),
+    paddingBottom: hp(2),
+  },
+  loadMoreText: {
+    color: '#333',
+    fontSize: hp(24 / BASE_HEIGHT),
+    lineHeight: hp(36 / BASE_HEIGHT),
+  },
+  emptyText: {
+    color: '#333',
+    fontSize: hp(24 / BASE_HEIGHT),
+    lineHeight: hp(36 / BASE_HEIGHT),
+  },
+  noDataView: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: hp(2),
+    paddingBottom: hp(2),
+    justifyContent: 'center',
+  },
+  noRelust: {
+    color: '#333',
+    fontSize: hp(24 / BASE_HEIGHT),
+    lineHeight: hp(36 / BASE_HEIGHT),
   },
 });
