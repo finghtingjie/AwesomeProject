@@ -23,7 +23,18 @@ export default StyleSheet.create({
   commonBtn: {
     width: wp(480 / BASE_WIDTH),
     height: wp(100 / BASE_WIDTH),
-    borderColor: '#fff',
+    borderColor: '#588CE4',
+    backgroundColor: ' #588CE4',
+    paddingVertical: 0,
+    borderTopLeftRadius: wp(20 / BASE_WIDTH),
+  },
+  commonColor: {
+    backgroundColor: '#3D447B',
+    borderColor: '#3D447B',
+    paddingVertical: 0,
+    width: wp(480 / BASE_WIDTH),
+    height: wp(100 / BASE_WIDTH),
+    borderTopLeftRadius: wp(20 / BASE_WIDTH),
   },
   iconContainer: {
     position: 'absolute',

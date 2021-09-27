@@ -81,7 +81,7 @@ class Yuanduan extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
+            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
           </TouchableOpacity>
           <Text style={styles.content}>网侧监视</Text>
         </View>

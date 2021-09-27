@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
-// import { Toast, Button, PullPicker } from 'teaset';
 import { Table, Row, Rows } from 'react-native-table-component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ModalIndicator, Toast } from 'teaset';
@@ -21,6 +20,7 @@ class Yuanduan extends React.PureComponent {
     this.state = {
       tableHead: ['系统', '有功功率(MW)', '无功功率(MVar)', '功率因数'],
       tableData: [['1', '2', '3', '4'], ['a', 'b', 'c', 'd'], ['1', '2', '3', '456'], ['a', 'b', 'c', 'd']],
+      activeTab: 0,
     };
   }
   static navigationOptions = {
@@ -54,8 +54,10 @@ class Yuanduan extends React.PureComponent {
     });
   };
 
-  handleTabChange = val => {
-    this.sourceEndMonitor(val);
+  handleTabChange = (item, index) => {
+    this.setState({ activeTab: index }, () => {
+      this.sourceEndMonitor(item);
+    });
   };
 
   renderColStyle = (item, index) => {
@@ -67,7 +69,7 @@ class Yuanduan extends React.PureComponent {
   };
 
   render() {
-    const { tableData, tableHead } = this.state;
+    const { tableData, tableHead, activeTab } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -79,17 +81,25 @@ class Yuanduan extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
+            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
           </TouchableOpacity>
           <Text style={styles.content}>源端监视</Text>
         </View>
         <View style={styles.tabContainer}>
+          {/* {['电网购电', '发电'].map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={item}
+                style={this.renderBtnStyle(item, index)}
+                onPress={() => this.handleTabChange(item)}>
+                <Text style={styles.commonText}>{item}</Text>
+              </TouchableOpacity>
+            );
+          })} */}
           <TouchableOpacity style={styles.commonBtn} onPress={() => this.handleTabChange('电网购电')}>
-            <Image style={styles.leftTab} source={leftTab} resizeMode="contain" />
             <Text style={styles.commonText}>电网购电</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.commonBtn} onPress={() => this.handleTabChange('发电')}>
-            <Image style={styles.leftTab} source={rightTab} resizeMode="contain" />
             <Text style={styles.commonText}>发电</Text>
           </TouchableOpacity>
         </View>

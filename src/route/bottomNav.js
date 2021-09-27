@@ -111,7 +111,7 @@ const iconMap = {
     icon: require('@assets/home/tabbar/jiankongicon2.png'),
     iconActive: require('@assets/home/tabbar/jiankongicon.png'),
   },
-  kpi: {
+  KPI: {
     icon: require('@assets/home/tabbar/kpiicon2.png'),
     iconActive: require('@assets/home/tabbar/kpiicon.png'),
   },
@@ -181,7 +181,7 @@ class customTabBar extends React.PureComponent {
       case '监控':
         NavigationService.navigate('Monitor');
         break;
-      case 'kpi':
+      case 'KPI':
         NavigationService.navigate('Kpi');
         break;
       case '告警':
@@ -248,7 +248,7 @@ const MainNavigator = createBottomTabNavigator(
     Kpi: {
       screen: KpiStack,
       navigationOptions: {
-        tabBarLabel: '门店',
+        tabBarLabel: 'KPI',
       },
     },
     Warning: {
