@@ -219,16 +219,22 @@ class Index extends React.PureComponent {
 
   handleSearch = val => {
     const { selectedIndex1, dateEnd, dateStart, sort } = this.state;
-    this.setState({ alarmContent: val }, () => {
-      const params = {
-        sort,
-        alarmContent: val,
-        startTime: dateStart,
-        endTime: dateEnd,
-        eventLevel: selectedIndex1 + 1,
-      };
-      this.getGiveAnAlarm(params);
-    });
+    setTimeout(() => {
+      this.setState({ alarmContent: val }, () => {
+        const params = {
+          sort,
+          alarmContent: val,
+          eventLevel: selectedIndex1 + 1,
+        };
+        if (dateStart) {
+          params.startTime = moment(dateStart).valueOf();
+        }
+        if (dateEnd) {
+          params.endTime = moment(dateEnd).valueOf();
+        }
+        this.getGiveAnAlarm(params);
+      });
+    }, 500);
   };
 
   renderItem = ({ item }) => {

@@ -121,6 +121,9 @@ export default StyleSheet.create({
     lineHeight: hp(100 / BASE_HEIGHT),
     fontWeight: 'normal',
   },
+  tableDataContainer: {
+    paddingBottom: hp(400 / BASE_HEIGHT),
+  },
   rowContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',

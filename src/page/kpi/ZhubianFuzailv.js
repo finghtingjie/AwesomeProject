@@ -16,10 +16,10 @@ class Hegelv extends React.PureComponent {
     this.state = {
       tableHead: ['场站', '主变', '负载率(%)'],
       tableData: [
-        ['220kV铁钢站', ['1#主变', '2#主变', '3#主变'], ['29.73', '30.27', '27.06']],
-        ['220kV轧钢站', ['1#主变', '2#主变', '3#主变'], ['1.70', '2.06', '1.88']],
-        ['1#110kV站', ['1#主变', '2#主变', '3#主变'], ['25.09', '4.84', '14.11']],
-        ['2#110kV站', ['1#主变', '2#主变', '3#主变', '4#主变'], ['19.78', '0.00', '5.67', '39.88']],
+        // ['220kV铁钢站', ['1#主变', '2#主变', '3#主变'], ['29.73', '30.27', '27.06']],
+        // ['220kV轧钢站', ['1#主变', '2#主变', '3#主变'], ['1.70', '2.06', '1.88']],
+        // ['1#110kV站', ['1#主变', '2#主变', '3#主变'], ['25.09', '4.84', '14.11']],
+        // ['2#110kV站', ['1#主变', '2#主变', '3#主变', '4#主变'], ['19.78', '0.00', '5.67', '39.88']],
       ],
     };
   }
@@ -34,7 +34,6 @@ class Hegelv extends React.PureComponent {
   loadRateOfMainTransformer = () => {
     loadRateOfMainTransformer({}).then(res => {
       if (res && res.status === 200) {
-        console.log(res, '主变负荷率');
         const resData = res.body;
         let newArr = [];
         resData.map((item, index) => {
@@ -44,7 +43,6 @@ class Hegelv extends React.PureComponent {
             item.data !== undefined && Object.values(item.data).map(items => Number(items).toFixed(2)),
           ];
         });
-        console.log(newArr, '主变负荷率');
         this.setState({
           tableData: newArr,
         });
@@ -126,23 +124,25 @@ class Hegelv extends React.PureComponent {
             })}
           </View>
           <ScrollView>
-            {tableData.map(item => {
-              return (
-                <View style={styles.rowContainer}>
-                  {item.map((items, index) => {
-                    return (
-                      <View key={items} style={this.renderRowStyle(item, index)}>
-                        {Array.isArray(items) ? (
-                          this.renderArrayText(items, index)
-                        ) : (
-                          <Text style={this.renderTextStyle(items, index)}>{items}</Text>
-                        )}
-                      </View>
-                    );
-                  })}
-                </View>
-              );
-            })}
+            <View style={styles.tableDataContainer}>
+              {tableData.map(item => {
+                return (
+                  <View style={styles.rowContainer}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={items} style={this.renderRowStyle(item, index)}>
+                          {Array.isArray(items) ? (
+                            this.renderArrayText(items, index)
+                          ) : (
+                            <Text style={this.renderTextStyle(items, index)}>{items}</Text>
+                          )}
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
           </ScrollView>
         </View>
       </View>

@@ -58,7 +58,7 @@ class Index extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <Text style={styles.content}>kpi</Text>
+          <Text style={styles.content}>KPI</Text>
         </View>
         <View style={styles.centerContainer}>
           {fakeData.map(item => {
