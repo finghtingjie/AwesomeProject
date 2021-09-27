@@ -20,7 +20,7 @@ class Yuanduan extends React.PureComponent {
     this.state = {
       tableHead: ['系统', '有功功率(MW)', '无功功率(MVar)', '功率因数'],
       tableData: [['1', '2', '3', '4'], ['a', 'b', 'c', 'd'], ['1', '2', '3', '456'], ['a', 'b', 'c', 'd']],
-      activeTab: 0,
+      activeTab: 1,
     };
   }
   static navigationOptions = {
@@ -54,10 +54,13 @@ class Yuanduan extends React.PureComponent {
     });
   };
 
-  handleTabChange = (item, index) => {
-    this.setState({ activeTab: index }, () => {
-      this.sourceEndMonitor(item);
-    });
+  handleTabChange = item => {
+    if (item === '电网购电') {
+      this.setState({ activeTab: 1 });
+    } else {
+      this.setState({ activeTab: 2 });
+    }
+    this.sourceEndMonitor(item);
   };
 
   renderColStyle = (item, index) => {
@@ -96,10 +99,14 @@ class Yuanduan extends React.PureComponent {
               </TouchableOpacity>
             );
           })} */}
-          <TouchableOpacity style={styles.commonBtn} onPress={() => this.handleTabChange('电网购电')}>
+          <TouchableOpacity
+            style={activeTab === 1 ? styles.leftBtnActive : styles.commonBtn}
+            onPress={() => this.handleTabChange('电网购电')}>
             <Text style={styles.commonText}>电网购电</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.commonBtn} onPress={() => this.handleTabChange('发电')}>
+          <TouchableOpacity
+            style={activeTab === 2 ? styles.rightBtnActive : styles.commonBtn2}
+            onPress={() => this.handleTabChange('发电')}>
             <Text style={styles.commonText}>发电</Text>
           </TouchableOpacity>
         </View>
