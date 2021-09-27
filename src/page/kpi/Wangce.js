@@ -16,19 +16,19 @@ class Yuanduan extends React.PureComponent {
     this.state = {
       tableHead: ['系统', '有功功率(MW)', '无功功率(MVar)', '功率因数'],
       tableData: [
-        ['铁钢系统', '61.13', '26.86', '0.91'],
-        ['轧钢系统', '61.13', '26.86', '0.91'],
-        ['1#100kv', '61.13', '26.86', '0.91'],
-        ['2#100kv', '61.13', '26.86', '0.91'],
-        ['3#100kv', '61.13', '26.86', '0.91'],
-        ['4#100kv', '61.13', '26.86', '0.91'],
-        ['5#100kv', '61.13', '26.86', '0.91'],
-        ['6#100kv', '61.13', '26.86', '0.91'],
-        ['7#100kv', '61.13', '26.86', '0.91'],
-        ['2250热轧', '61.13', '26.86', '0.91'],
-        ['1580热轧', '61.13', '26.86', '0.91'],
-        ['1700冷轧', '61.13', '26.86', '0.91'],
-        ['高炉鼓风', '61.13', '26.86', '0.91'],
+        // ['铁钢系统', '61.13', '26.86', '0.91'],
+        // ['轧钢系统', '61.13', '26.86', '0.91'],
+        // ['1#100kv', '61.13', '26.86', '0.91'],
+        // ['2#100kv', '61.13', '26.86', '0.91'],
+        // ['3#100kv', '61.13', '26.86', '0.91'],
+        // ['4#100kv', '61.13', '26.86', '0.91'],
+        // ['5#100kv', '61.13', '26.86', '0.91'],
+        // ['6#100kv', '61.13', '26.86', '0.91'],
+        // ['7#100kv', '61.13', '26.86', '0.91'],
+        // ['2250热轧', '61.13', '26.86', '0.91'],
+        // ['1580热轧', '61.13', '26.86', '0.91'],
+        // ['1700冷轧', '61.13', '26.86', '0.91'],
+        // ['高炉鼓风', '61.13', '26.86', '0.91'],
       ],
     };
   }
@@ -44,6 +44,7 @@ class Yuanduan extends React.PureComponent {
     netSideMonitor({}).then(res => {
       if (res && res.status === 200) {
         const resData = res.body;
+        console.log(resData);
         let newArr = [];
         resData.map((item, index) => {
           newArr[index] = [
@@ -53,9 +54,14 @@ class Yuanduan extends React.PureComponent {
             Number(item.dianLiu).toFixed(2),
           ];
         });
-        this.setState({
-          tableData: newArr,
-        });
+        this.setState(
+          {
+            tableData: newArr,
+          },
+          () => {
+            console.log('总数', newArr);
+          },
+        );
       }
     });
   };
@@ -100,19 +106,21 @@ class Yuanduan extends React.PureComponent {
             })}
           </View>
           <ScrollView>
-            {tableData.map(item => {
-              return (
-                <View style={styles.rowContainer}>
-                  {item.map((items, index) => {
-                    return (
-                      <View key={items} style={this.renderColStyle(item, index)}>
-                        <Text style={styles.commonColText}>{items}</Text>
-                      </View>
-                    );
-                  })}
-                </View>
-              );
-            })}
+            <View style={styles.bbb}>
+              {tableData.map(item => {
+                return (
+                  <View style={styles.rowContainer}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={items} style={this.renderColStyle(item, index)}>
+                          <Text style={styles.commonColText}>{items}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
           </ScrollView>
         </View>
       </View>

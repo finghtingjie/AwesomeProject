@@ -45,8 +45,11 @@ class WarningConfig extends React.PureComponent {
   };
 
   getTGiveAnAlarmUser = () => {
-    getTGiveAnAlarmUser({ tGiveAnAlarmId: this.state.tabActiveIndex + 2 }).then(res => {
+    const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2 };
+    console.log(params);
+    getTGiveAnAlarmUser(params).then(res => {
       if (res && res.status === 200) {
+        console.log(res);
         this.setState({ fakeData: res.body });
       }
     });
@@ -113,6 +116,7 @@ class WarningConfig extends React.PureComponent {
           addTGiveAnAlarmUser(params).then(res => {
             if (res && res.status === 200) {
               Toast.success('新增成功');
+              this.getTGiveAnAlarmUser();
             } else {
               Toast.fail(res.msg);
             }
@@ -134,11 +138,12 @@ class WarningConfig extends React.PureComponent {
   };
 
   handleOk = item => {
-    const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2, userId: this.state.userId };
+    const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2, userId: item.userId };
     deleteTGiveAnAlarmr(params).then(res => {
       if (res && res.status === 200) {
         Toast.success('删除成功');
         this.setState({ fakeData: this.state.fakeData.filter(items => items.userId !== item.userId) });
+        this.getTGiveAnAlarmUser();
       } else {
         Toast.sad(res.msg);
       }
@@ -158,7 +163,7 @@ class WarningConfig extends React.PureComponent {
         />
         <View style={styles.navigationBar}>
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
+            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
           </TouchableOpacity>
           <Text style={styles.content}>告警配置</Text>
         </View>

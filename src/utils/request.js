@@ -54,7 +54,7 @@ const instance = axios.create({
     'X-Custom-Header': 'foobar',
     'Content-Type': 'application/json',
   },
-  // withCredentials: !__DEV__,
+  withCredentials: !__DEV__,
   // withCredentials: true,
 });
 

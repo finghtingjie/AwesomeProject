@@ -123,7 +123,7 @@ export async function getTGiveAnAlarm(params) {
 // 删除告警人员
 export async function deleteTGiveAnAlarmr(params) {
   return request('deleteTGiveAnAlarmr', {
-    method: 'POST',
+    method: 'GET',
     params,
   });
 }

@@ -181,7 +181,7 @@ class customTabBar extends React.PureComponent {
       case '监控':
         NavigationService.navigate('Monitor');
         break;
-      case 'KPI':
+      case 'kpi':
         NavigationService.navigate('Kpi');
         break;
       case '告警':
@@ -222,7 +222,9 @@ class customTabBar extends React.PureComponent {
           return (
             <TouchableOpacity key={item} style={styles.tabButton} onPress={() => this.handleClick(item, routeIndex)}>
               {this.renderImage(item, activeColor)}
-              <Text style={{ fontSize: hp(30 / BASE_HEIGHT), fontWeight: '400', color: activeColor }}>{item}</Text>
+              <Text style={{ fontSize: hp(30 / BASE_HEIGHT), fontWeight: '400', color: activeColor }}>
+                {item === 'kpi' ? 'KPI' : item}
+              </Text>
             </TouchableOpacity>
           );
         })}

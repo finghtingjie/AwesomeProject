@@ -111,6 +111,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
+  bbb: {
+    paddingBottom: hp(400 / BASE_HEIGHT),
+  },
   borderStyle: {
     borderWidth: 1,
     borderColor: '#BAD2ED',
