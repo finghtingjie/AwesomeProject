@@ -111,7 +111,7 @@ const iconMap = {
     icon: require('@assets/home/tabbar/jiankongicon2.png'),
     iconActive: require('@assets/home/tabbar/jiankongicon.png'),
   },
-  KPI: {
+  kpi: {
     icon: require('@assets/home/tabbar/kpiicon2.png'),
     iconActive: require('@assets/home/tabbar/kpiicon.png'),
   },

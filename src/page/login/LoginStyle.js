@@ -25,7 +25,7 @@ export default StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: 'auto',
-    marginTop: '50%',
+    // marginTop: '50%',
     // marginBottom: '50%',
     // backgroundColor: 'pink',
   },
@@ -36,7 +36,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     // paddingTop: p2dHeight(247),
-    // paddingTop: hp(247 / BASE_HEIGHT),
+    paddingTop: hp(247 / BASE_HEIGHT),
     // backgroundColor: 'pink',
   },
   logo: {
