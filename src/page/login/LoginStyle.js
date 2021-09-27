@@ -7,8 +7,10 @@ const BASE_HEIGHT = 19.2;
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    position: 'relative',
     flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   loginBg: {
     position: 'absolute',
@@ -17,13 +19,20 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  logoContainer: {
+  centerContainer: {
+    position: 'absolute',
     width: '100%',
     height: 'auto',
+    marginTop: '50%',
+    // backgroundColor: 'pink',
+  },
+  logoContainer: {
+    // width: '100%',
+    // height: 'auto',
     justifyContent: 'center',
     flexDirection: 'row',
     // paddingTop: p2dHeight(247),
-    paddingTop: hp(247 / BASE_HEIGHT),
+    // paddingTop: hp(247 / BASE_HEIGHT),
     // backgroundColor: 'pink',
   },
   logo: {
@@ -62,13 +71,13 @@ export default StyleSheet.create({
     marginLeft: wp(20 / BASE_WIDTH),
   },
   inputBase: {
-    color: '#1967D9',
+    color: '#000',
     fontWeight: '400',
     width: '90%',
     paddingVertical: 0,
-    fontSize: hp(24 / BASE_HEIGHT),
+    fontSize: hp(30 / BASE_HEIGHT),
     height: hp(88 / BASE_HEIGHT),
-    lineHeight: hp((24 * 1.2) / BASE_HEIGHT),
+    lineHeight: hp((30 * 1.2) / BASE_HEIGHT),
     // backgroundColor: 'pink',
   },
   passwordContainer: {
@@ -96,5 +105,15 @@ export default StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: hp(40 / BASE_HEIGHT),
+  },
+  copyRight: {
+    position: 'absolute',
+    bottom: hp(40 / BASE_HEIGHT),
+    left: 0,
+    width: '100%',
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: 'normal',
+    fontSize: hp(30 / BASE_HEIGHT),
   },
 });
