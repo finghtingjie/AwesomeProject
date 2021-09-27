@@ -8,6 +8,7 @@ const backIcon = require('../../assets/backicon.png');
 import { loadRateOfMainTransformer } from '@api/kpi';
 
 import styles from './FuzailvStyle';
+import Toast from 'teaset/components/Toast/Toast';
 
 class Hegelv extends React.PureComponent {
   constructor(props) {
@@ -33,19 +34,22 @@ class Hegelv extends React.PureComponent {
   loadRateOfMainTransformer = () => {
     loadRateOfMainTransformer({}).then(res => {
       if (res && res.status === 200) {
+        console.log(res, '主变负荷率');
         const resData = res.body;
         let newArr = [];
         resData.map((item, index) => {
           newArr[index] = [
             item.name,
-            Object.keys(item.data),
-            Object.values(item.data).map(items => Number(items).toFixed(2)),
+            item.data !== undefined && Object.keys(item.data),
+            item.data !== undefined && Object.values(item.data).map(items => Number(items).toFixed(2)),
           ];
         });
-        console.log(newArr);
+        console.log(newArr, '主变负荷率');
         this.setState({
           tableData: newArr,
         });
+      } else {
+        Toast.fail(res.msg);
       }
     });
   };
@@ -109,7 +113,7 @@ class Hegelv extends React.PureComponent {
           <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
             <Image style={styles.backIcon} source={backIcon} />
           </TouchableOpacity>
-          <Text style={styles.content}>主变负载率</Text>
+          <Text style={styles.content}>主变负荷率</Text>
         </View>
         <View style={styles.tableContainer}>
           <View style={styles.headContainer}>

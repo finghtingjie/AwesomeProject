@@ -15,3 +15,11 @@ export async function getMenuData(params) {
     params,
   });
 }
+
+//登录-获取用户ID
+export async function sentences(params) {
+  return request('sentences', {
+    method: 'GET',
+    params,
+  });
+}

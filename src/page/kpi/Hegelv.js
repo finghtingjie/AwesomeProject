@@ -111,7 +111,7 @@ class Hegelv extends React.PureComponent {
           tempArr.map((item, index) => {
             newArr[index] = [
               item.name,
-              item.ureal,
+              Number(item.ureal).toFixed(2),
               item.urateLimitUp,
               item.urateLimitDn,
               item.dayRate,
@@ -133,7 +133,7 @@ class Hegelv extends React.PureComponent {
           this.state.fakeData.map((item, index) => {
             newArr[index] = [
               item.name,
-              item.ureal,
+              Number(item.ureal).toFixed(2),
               item.urateLimitUp,
               item.urateLimitDn,
               item.dayRate,

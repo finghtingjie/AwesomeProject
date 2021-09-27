@@ -46,7 +46,12 @@ class Yuanduan extends React.PureComponent {
         const resData = res.body;
         let newArr = [];
         resData.map((item, index) => {
-          newArr[index] = [item.name, item.youGong, item.wuGong, item.dianLiu];
+          newArr[index] = [
+            item.name,
+            Number(item.youGong).toFixed(2),
+            Number(item.wuGong).toFixed(2),
+            Number(item.dianLiu).toFixed(2),
+          ];
         });
         this.setState({
           tableData: newArr,

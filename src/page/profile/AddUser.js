@@ -32,6 +32,8 @@ class AddUser extends React.PureComponent {
     getGrouping({}).then(res => {
       if (res && res.status === 200) {
         this.setState({ groupArr: res.body });
+      } else {
+        Toast.fail(res.msg);
       }
     });
     const { params } = this.props.navigation.state;
@@ -41,18 +43,14 @@ class AddUser extends React.PureComponent {
     if (params && params.item) {
       const { userName, realName, password, groupingId } = params.item;
       this.setState({ userName, realName, password });
-      getGrouping({}).then(res => {
-        if (res && res.status === 200) {
-          this.setState({ groupArr: res.body }, () => {
-            const obj = this.state.groupArr.find(item => item.id === groupingId);
-            this.setState({
-              groupingId,
-              groupName: obj.name,
-              selectedIndex: this.state.groupArr.findIndex(item => item.id === groupingId),
-            });
-          });
-        }
-      });
+      if (this.state.groupArr.length >= 1) {
+        const obj = this.state.groupArr.find(item => item.id === groupingId);
+        this.setState({
+          groupingId,
+          groupName: obj.name,
+          selectedIndex: this.state.groupArr.findIndex(item => item.id === groupingId),
+        });
+      }
     }
   }
 

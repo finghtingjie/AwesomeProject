@@ -49,12 +49,13 @@ export const clearPending = () => {
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: 5000,
   headers: {
     'X-Custom-Header': 'foobar',
     'Content-Type': 'application/json',
   },
-  withCredentials: !__DEV__,
+  // withCredentials: !__DEV__,
+  // withCredentials: true,
 });
 
 //请求拦截处理
@@ -142,6 +143,7 @@ const errorHandler = err => {
       msg = '系统异常，请联系管理员';
     }
     Toast.sad(msg);
+    setTimeout(() => ModalIndicator.hide(), 2000);
     if (__DEV__) {
       NavigationService.navigate('Login');
     }

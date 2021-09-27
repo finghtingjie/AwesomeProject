@@ -2,9 +2,11 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView, Dimensions, StatusBar } from 'react-native';
 
 import moment from 'moment';
+import { NavigationEvents } from 'react-navigation';
 import { WebView } from 'react-native-webview';
 import { ECharts } from 'react-native-echarts-wrapper';
 import { Toast, ModalIndicator, Button } from 'teaset';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -585,11 +587,7 @@ class Index extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.getHeadInfo();
-    this.selfDowerSupplyRate();
-    this.totalLoadCurve();
-  }
+  componentDidMount() {}
 
   // 总负荷曲线统计图
   totalLoadCurve = () => {
@@ -611,6 +609,8 @@ class Index extends React.Component {
           newArr1: newArr,
           pieOption,
         });
+      } else {
+        Toast.fail(res.msg);
       }
     });
   };
@@ -700,13 +700,13 @@ class Index extends React.Component {
 
   handleClickCard = (item, index) => {
     const { navigation } = this.props;
-    if (index === 1) {
+    if (index === 0) {
       // 总用电（有功功率、无功功率）：点击后跳转至KPI-网侧监视模块中
       navigation.navigate(item.routeName);
-    } else if (index === 2) {
+    } else if (index === 1) {
       // 总发电（有功功率、无功功率）：点击后跳转至KPI-源端监视-用电tab中。
       navigation.navigate(item.routeName, { activeIndex: 2 });
-    } else if (index === 3) {
+    } else if (index === 2) {
       // 总进线（有功功率、无功功率）、自供电率：点击后跳转至KPI-源端监视-电网购电tab中。
       navigation.navigate(item.routeName, { activeIndex: 1 });
     }
@@ -722,6 +722,17 @@ class Index extends React.Component {
           backgroundColor="transparent"
           showHideTransition="fade"
           networkActivityIndicatorVisible
+        />
+        <NavigationEvents
+          onDidFocus={async payload => {
+            console.log('didfocus');
+            const user = await AsyncStorage.getItem('user');
+            if (user) {
+              this.getHeadInfo();
+              this.selfDowerSupplyRate();
+              this.totalLoadCurve();
+            }
+          }}
         />
         <View style={styles.topcardContainer} />
         <View style={styles.centerContainer}>
@@ -787,7 +798,7 @@ class Index extends React.Component {
               })}
             </View>
             <View style={styles.menuContainer2}>
-              <TouchableOpacity style={styles.tabButton} onPress={() => this.handleClick()}>
+              <TouchableOpacity style={styles.tabButton} onPress={() => this.props.navigation.navigate('Zhiliu')}>
                 <Image source={fakeData[8].source} style={styles.image} />
                 <Text style={styles.menuItem}>{fakeData[8].val}</Text>
               </TouchableOpacity>

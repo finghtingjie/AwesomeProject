@@ -21,7 +21,7 @@ const BASE_HEIGHT = 19.2;
 const arrowPic = require('../../assets/profile/xiala.png');
 const orderPic = require('../../assets/warning/paixu.png');
 const searchIcon = require('../../assets/warning/searchicon.png');
-const yao = require('../../assets/warning/yao.png');
+const hu = require('../../assets/warning/hu.png');
 const yue = require('../../assets/warning/yue.png');
 const yi = require('../../assets/warning/yi.png');
 const shi = require('../../assets/warning/shi.png');
@@ -132,11 +132,12 @@ class Index extends React.PureComponent {
     }
     ModalIndicator.show();
     getGiveAnAlarm(params).then(res => {
+      console.log(res, 135);
       ModalIndicator.hide();
       if (res && res.status === 200) {
         this.setState({ total: res.body.totalAmount });
         const renderPic = item => {
-          const actions = new Map([[5, yao], [2, yi], [3, yue], [4, shi], ['default', '']]);
+          const actions = new Map([[5, hu], [2, yi], [3, yue], [4, shi], ['default', '']]);
           const action = actions.get(item) || actions.get('default');
           return action;
         };
@@ -155,6 +156,13 @@ class Index extends React.PureComponent {
         } else {
           let tempArr = this.state.fakeData;
           tempArr = tempArr.concat(res.body.data);
+          let newArr = [];
+          tempArr.map(item => {
+            const items = item;
+            items.warningPic = renderPic(item.eventLevel);
+            newArr.push(items);
+            return items;
+          });
           this.setState({
             fakeData: tempArr,
           });
@@ -176,7 +184,7 @@ class Index extends React.PureComponent {
   handleSelectLevel = () => {
     const items = ['全部类型', '异常信号', '越限监视', '重要信号', '保护动作'];
     PullPicker.show('请选择告警类型', items, this.state.selectedIndex1, (item, index) =>
-      this.setState({ selectedIndex1: index, levelName: item }, () => {
+      this.setState({ selectedIndex1: index, levelName: item, pageNum: 1, pageSize: 10 }, () => {
         console.log(item);
         this.getGiveAnAlarm();
       }),
@@ -304,7 +312,7 @@ class Index extends React.PureComponent {
         dateModalVisible: false,
       },
       () => {
-        const diff = moment(dateArr[0]).diff(moment(dateArr[0]), 'days');
+        const diff = moment(dateArr[0]).diff(moment(dateArr[1]), 'days');
         if (diff >= 7) {
           Toast.info('只支持查询七天内的数据!');
           this.setState({ dateStart: null, dateEnd: null });
