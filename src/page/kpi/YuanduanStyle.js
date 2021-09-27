@@ -24,7 +24,7 @@ export default StyleSheet.create({
     width: wp(480 / BASE_WIDTH),
     height: wp(100 / BASE_WIDTH),
     borderColor: '#588CE4',
-    backgroundColor: ' #588CE4',
+    backgroundColor: '#588CE4',
     paddingVertical: 0,
     borderTopLeftRadius: wp(20 / BASE_WIDTH),
   },
