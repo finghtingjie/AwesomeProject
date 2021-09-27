@@ -68,7 +68,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#6972CC',
+    backgroundColor: '#3D447B',
     borderTopLeftRadius: wp(20 / BASE_WIDTH),
     borderTopRightRadius: wp(20 / BASE_WIDTH),
   },

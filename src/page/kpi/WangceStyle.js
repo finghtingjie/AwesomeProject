@@ -84,7 +84,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#6972CC',
+    backgroundColor: '#3D447B',
   },
   nameStyle: {
     height: hp(100 / BASE_HEIGHT),

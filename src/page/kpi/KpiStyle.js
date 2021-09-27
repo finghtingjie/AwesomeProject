@@ -67,8 +67,8 @@ export default StyleSheet.create({
     width: '100%',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: hp(36 / BASE_HEIGHT),
+    fontSize: hp(28 / BASE_HEIGHT),
     lineHeight: hp(46 / BASE_HEIGHT),
-    marginTop: hp(8 / BASE_HEIGHT),
+    marginTop: hp(40 / BASE_HEIGHT),
   },
 });

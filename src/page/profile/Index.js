@@ -124,7 +124,7 @@ class Index extends React.Component {
                 <Image style={styles.yonghuPic} source={this.renderSource(item.id)} />
                 <View style={styles.commonContent}>
                   <Text style={styles.commonTitle}>{item.name}</Text>
-                  <Image style={styles.backRight} source={backPic} />
+                  <Image style={styles.backRight} source={backPic} resizeMode="contain" />
                 </View>
               </TouchableOpacity>
             );
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     backgroundColor: '#4367FD',
     width: wp(700 / BASE_WIDTH),
-    height: hp(88 / BASE_HEIGHT),
+    height: hp(128 / BASE_HEIGHT),
     borderRadius: wp(30 / BASE_WIDTH),
     marginLeft: wp(148 / BASE_WIDTH),
     marginTop: hp(100 / BASE_HEIGHT),

@@ -636,7 +636,7 @@ class Index extends React.Component {
             <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.content} onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
-            <Text style={styles.contentText}>{`(${arr2[actionIndex2]}) 电压趋势图`}</Text>
+            <Text style={styles.contentText}>{`${arr2[actionIndex2]} 电压趋势图`}</Text>
             <IconFont name="xiala" size={24} color="#fff" />
           </TouchableOpacity>
         </View>

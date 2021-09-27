@@ -105,8 +105,8 @@ class ChangePassword extends React.PureComponent {
             <Image style={styles.backRight} source={backPic} />
           </View>
           <View style={styles.tipBox}>
-            <Image style={styles.backRight} source={rank} />
-            <Text style={styles.tipContent}>密码必须至少6个字符，而且同时包含字母和数字。 忘记密码，请联系管理员</Text>
+            <Image style={styles.backRight} source={rank} resizeMode="contain" />
+            <Text style={styles.tipContent}>密码必须至少6个字符，同时包含字母和数字。 忘记密码，请联系管理员</Text>
           </View>
           <Button style={styles.submitBtn} onPress={this.handleSubmit}>
             <Text style={styles.submitBtnText}>保&nbsp;&nbsp;&nbsp;存</Text>
