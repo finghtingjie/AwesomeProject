@@ -313,8 +313,8 @@ class Index extends React.PureComponent {
       },
       () => {
         const diff = moment(dateArr[0]).diff(moment(dateArr[1]), 'days');
-        if (diff >= 7) {
-          Toast.info('只支持查询七天内的数据!');
+        if (Math.abs(diff) >= 7) {
+          Toast.info('只支持查询七天内的数据，请重新选择查询范围');
           this.setState({ dateStart: null, dateEnd: null });
         } else {
           this.getGiveAnAlarm();
