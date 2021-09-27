@@ -114,9 +114,9 @@ class Hegelv extends React.PureComponent {
               Number(item.ureal).toFixed(2),
               item.urateLimitUp,
               item.urateLimitDn,
-              item.dayRate,
-              item.monthRate,
-              item.yearRate,
+              Number(item.dayRate).toFixed(2),
+              Number(item.monthRate).toFixed(2),
+              Number(item.yearRate).toFixed(2),
               item.vqc || false,
             ];
           });
@@ -136,9 +136,9 @@ class Hegelv extends React.PureComponent {
               Number(item.ureal).toFixed(2),
               item.urateLimitUp,
               item.urateLimitDn,
-              item.dayRate,
-              item.monthRate,
-              item.yearRate,
+              Number(item.dayRate).toFixed(2),
+              Number(item.monthRate).toFixed(2),
+              Number(item.yearRate).toFixed(2),
               item.vqc || false,
             ];
           });
