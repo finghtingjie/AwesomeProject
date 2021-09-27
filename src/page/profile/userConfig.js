@@ -21,8 +21,8 @@ class UserConfig extends React.PureComponent {
     this.state = {
       keyWord: null,
       fakeData: [
-        { userId: 1, userName: '张珊山/zhangshanshan', password: 'ceshimima' },
-        { userId: 2, userName: '张珊山/zhangshanshan', password: 'ceshimima2' },
+        // { userId: 1, userName: '张珊山/zhangshanshan', password: 'ceshimima' },
+        // { userId: 2, userName: '张珊山/zhangshanshan', password: 'ceshimima2' },
       ],
     };
   }

@@ -33,7 +33,7 @@ class ChangePassword extends React.PureComponent {
     } else if (newPassword !== verifyPassword) {
       Toast.info('两次输入的密码不一样,请重新输入');
       this.setState({ newPassword: '', verifyPassword: '' });
-    } else if (!/^\S*(?=\S{6,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/.test(newPassword)) {
+    } else if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(newPassword)) {
       Toast.info('请输入正确格式的密码');
       this.setState({ newPassword: '', verifyPassword: '' });
     } else {

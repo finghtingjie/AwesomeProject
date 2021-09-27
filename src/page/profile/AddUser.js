@@ -31,27 +31,28 @@ class AddUser extends React.PureComponent {
   componentDidMount() {
     getGrouping({}).then(res => {
       if (res && res.status === 200) {
-        this.setState({ groupArr: res.body });
+        this.setState({ groupArr: res.body }, () => {
+          const { params } = this.props.navigation.state;
+          if (params && params.type) {
+            this.setState({ type: params.type });
+          }
+          if (params && params.item) {
+            const { userName, realName, password, groupingId } = params.item;
+            this.setState({ userName, realName, password });
+            if (this.state.groupArr.length >= 1) {
+              const obj = this.state.groupArr.find(item => item.id === groupingId);
+              this.setState({
+                groupingId,
+                groupName: obj.name,
+                selectedIndex: this.state.groupArr.findIndex(item => item.id === groupingId),
+              });
+            }
+          }
+        });
       } else {
         Toast.fail(res.msg);
       }
     });
-    const { params } = this.props.navigation.state;
-    if (params && params.type) {
-      this.setState({ type: params.type });
-    }
-    if (params && params.item) {
-      const { userName, realName, password, groupingId } = params.item;
-      this.setState({ userName, realName, password });
-      if (this.state.groupArr.length >= 1) {
-        const obj = this.state.groupArr.find(item => item.id === groupingId);
-        this.setState({
-          groupingId,
-          groupName: obj.name,
-          selectedIndex: this.state.groupArr.findIndex(item => item.id === groupingId),
-        });
-      }
-    }
   }
 
   handleSubmit = () => {
@@ -64,6 +65,8 @@ class AddUser extends React.PureComponent {
       Toast.info('请输入真实姓名');
     } else if (!password) {
       Toast.info('请输入密码');
+    } else if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(password)) {
+      Toast.info('请输入正确格式的密码');
     } else if (!groupingId) {
       Toast.info('请选择分组');
     } else {
