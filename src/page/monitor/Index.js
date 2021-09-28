@@ -91,7 +91,7 @@ class Index extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.getMonitor();
+    // this.getMonitor();
   }
 
   getMonitor = () => {
@@ -181,7 +181,7 @@ class Index extends React.PureComponent {
     }
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
-      this.getMonitor();
+      // this.getMonitor();
     });
   };
 
@@ -193,7 +193,7 @@ class Index extends React.PureComponent {
 
   handleTabChange = (item, index) => {
     this.setState({ activeIndex: index }, () => {
-      this.getMonitor();
+      // this.getMonitor();
     });
   };
 
@@ -222,16 +222,18 @@ class Index extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity
-            style={styles.iconContainer}
-            onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
-            <Image style={styles.rect} source={rect} resizeMode="contain" />
-            <Text style={styles.leftText}>{actionIndex === 0 ? '源端' : '网侧'}</Text>
-          </TouchableOpacity>
-          <Text style={styles.content}>{arr2[actionIndex2]}</Text>
-          <TouchableOpacity style={styles.iconContainerRight} onPress={() => this.handleChangZhan()}>
-            <Image style={styles.changePic} source={changePic} resizeMode="contain" />
-          </TouchableOpacity>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity
+              style={styles.iconContainer}
+              onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
+              <Image style={styles.rect} source={rect} resizeMode="contain" />
+              <Text style={styles.leftText}>{actionIndex === 0 ? '源端' : '网侧'}</Text>
+            </TouchableOpacity>
+            <Text style={styles.content}>{arr2[actionIndex2]}</Text>
+            <TouchableOpacity style={styles.iconContainerRight} onPress={() => this.handleChangZhan()}>
+              <Image style={styles.changePic} source={changePic} resizeMode="contain" />
+            </TouchableOpacity>
+          </View>
         </View>
         {/* 筛选条件 */}
         {actionsheetShow && (
@@ -241,7 +243,9 @@ class Index extends React.PureComponent {
                 {['源端', '网侧'].map((item, index) => {
                   return (
                     <Button key={item} style={styles.leftBtn} onPress={() => this.handleTypeChange(item, index)}>
-                      <Text style={actionIndex === index ? styles.leftBtnTextActive : styles.leftBtnText}>{item}</Text>
+                      <Text style={actionIndex === index ? styles.leftBtnTextActive1 : styles.leftBtnText1}>
+                        {item}
+                      </Text>
                     </Button>
                   );
                 })}
@@ -263,7 +267,6 @@ class Index extends React.PureComponent {
             <TouchableOpacity onPress={() => this.setState({ actionsheetShow: false })} style={styles.typeBottom} />
           </View>
         )}
-
         <View style={styles.tabContainer}>
           {tabArr.map((item, index) => {
             return (
