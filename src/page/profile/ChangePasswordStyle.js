@@ -54,12 +54,13 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     marginLeft: wp(42 / BASE_WIDTH),
     marginTop: hp(33 / BASE_HEIGHT),
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: wp(20 / BASE_WIDTH),
-    borderBottomRightRadius: wp(20 / BASE_WIDTH),
+    borderRadius: wp(20 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
-    shadowOffset: { width: 20, height: 20 },
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    elevation: 10,
   },
   inputBox: {
     width: wp(902 / BASE_WIDTH),

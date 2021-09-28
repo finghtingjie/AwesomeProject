@@ -12,7 +12,12 @@ class Yuanduan extends React.PureComponent {
     super(props);
     this.state = {
       tableHead: ['系统', '有功功率(MW)', '无功功率(MVar)', '功率因数'],
-      tableData: [['1', '2', '3', '4'], ['a', 'b', 'c', 'd'], ['1', '2', '3', '456'], ['aa', 'b', 'c', 'd']],
+      tableData: [
+        // ['1', '2', '3', '4'],
+        // ['a', 'b', 'c', 'd'],
+        // ['1', '2', '3', '456'],
+        // ['aa', 'b', 'c', 'd']
+      ],
       activeTab: 1,
     };
   }

@@ -296,17 +296,14 @@ class Index extends React.PureComponent {
             justifyContent: 'flex-start',
             alignItems: 'center',
             borderRadius: wp(20 / BASE_WIDTH),
-            shadowColor: '#000',
-            borderWidth: wp(1 / BASE_WIDTH),
-            // shadowOffset: {
-            //   width: 0,
-            //   height: 0,
-            // },
-            // elevation: 1.5,
-            // shadowOpacity: 0.2,
-            // shadowRadius: 1.5,
-            // backgroundColor: 'pink',
+            shadowColor: 'rgba(0, 0, 0, 0.15)',
+            shadowOffset: {
+              width: 1,
+              height: 1,
+            },
+            elevation: 10,
             overflow: 'hidden',
+            opacity: actionsheetShow ? 0 : 1,
           }}>
           {tabArr.map((item, index) => {
             return (

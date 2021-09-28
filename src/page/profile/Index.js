@@ -191,7 +191,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: wp(20 / BASE_WIDTH),
     borderBottomRightRadius: wp(20 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
-    // shadowOffset: { width: 20, height: 20 },
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    elevation: 10,
   },
   commonRow: {
     width: wp(904 / BASE_WIDTH),

@@ -54,10 +54,10 @@ export default StyleSheet.create({
     borderRadius: wp(10 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 2,
+      height: 2,
     },
-    elevation: 1.5,
+    elevation: 10,
   },
   statusContainer: {
     position: 'relative',
@@ -71,10 +71,10 @@ export default StyleSheet.create({
     borderRadius: wp(10 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 2,
+      height: 2,
     },
-    elevation: 1.5,
+    elevation: 10,
   },
   orderContainer: {
     position: 'relative',
@@ -87,7 +87,11 @@ export default StyleSheet.create({
     marginLeft: wp(30 / BASE_WIDTH),
     borderRadius: wp(10 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
-    shadowOffset: { width: 10, height: 10 },
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    elevation: 10,
   },
   card: {
     alignItems: 'center',
@@ -98,7 +102,11 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: wp(15 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
-    shadowOffset: { width: 10, height: 10 },
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    elevation: 10,
   },
   commonText: {
     textAlign: 'left',
@@ -135,7 +143,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     width: wp(866 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
-    shadowOffset: { width: 1, height: 1 },
+    // shadowOffset: { width: 1, height: 1 },
     borderColor: '#ccc',
     borderWidth: 1,
     shadowOpacity: 0.9,

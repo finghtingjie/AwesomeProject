@@ -107,7 +107,7 @@ export default StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   centerLeft: {
-    width: wp(238 / BASE_WIDTH),
+    width: wp(237 / BASE_WIDTH),
     height: hp(98 / BASE_HEIGHT),
     borderColor: '#BABABC',
     backgroundColor: '#E6E7EB',
@@ -141,7 +141,7 @@ export default StyleSheet.create({
     borderRadius: 0,
   },
   centerRight: {
-    width: wp(238 / BASE_WIDTH),
+    width: wp(237 / BASE_WIDTH),
     height: hp(98 / BASE_HEIGHT),
     borderColor: '#BABABC',
     backgroundColor: '#E6E7EB',

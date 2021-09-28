@@ -53,8 +53,11 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: wp(15 / BASE_WIDTH),
     shadowColor: 'rgba(0, 0, 0, 0.15)',
-    shadowOffset: { width: 10, height: 10 },
-    elevation: 1,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    elevation: 10,
   },
   commonPic: {
     marginTop: hp(57 / BASE_HEIGHT),
