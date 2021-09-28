@@ -131,12 +131,22 @@ class Index extends React.Component {
           boundaryGap: false,
           data: ['00:00', '04:00', '08:00', '12:00', '16:00', '18:00', '24:00'],
         },
-        yAxis: {
-          type: 'value',
-          splitLine: {
-            show: false,
+        yAxis: [
+          {
+            type: 'value',
+            splitLine: {
+              show: false,
+            },
+            scale: false,
+            max: 100,
+            min: 70,
+            splitNumber: 6,
+            boundaryGap: [0, '100%'],
+            // axisPointer: {
+            //   snap: true,
+            // },
           },
-        },
+        ],
         toolbox: {
           feature: {
             dataZoom: {
@@ -276,16 +286,22 @@ class Index extends React.Component {
             '24:00',
           ],
         },
-        yAxis: {
-          type: 'value',
-          splitLine: {
-            show: true,
+        yAxis: [
+          {
+            scale: false,
+            type: 'value',
+            splitLine: {
+              show: true,
+            },
+            max: 1300,
+            min: 950,
+            splitNumber: 6,
+            boundaryGap: [0, '100%'],
+            axisPointer: {
+              snap: true,
+            },
           },
-          boundaryGap: [0, '100%'],
-          axisPointer: {
-            snap: true,
-          },
-        },
+        ],
         toolbox: {
           feature: {
             dataZoom: {
@@ -528,10 +544,19 @@ class Index extends React.Component {
   totalLoadCurve = () => {
     totalLoadCurve({}).then(res => {
       if (res && res.status === 200) {
+        const resData = res.body.all.time;
+        let newArr = [];
+        resData.map(item => {
+          item = moment(item).format('YYYY-MM-DD HH:mm');
+          newArr.push(item);
+        });
+        const val = newArr.map(item => item.slice(11, 16));
+        console.log(val);
         let { pieOption } = this.state;
         this.pieOption.clear();
         if (res.body.tip != null) {
           // 尖
+          pieOption.xAxis.data = val;
           pieOption.series[0].data = res.body.all.value;
           pieOption.series[1].data = res.body.valley.value;
           pieOption.series[2].data = res.body.flat.value;
@@ -539,6 +564,7 @@ class Index extends React.Component {
           pieOption.series[4].data = res.body.tip.value;
           pieOption.legend.data = ['谷', '平', '峰', '尖'];
         } else {
+          pieOption.xAxis.data = val;
           pieOption.series[0].data = res.body.all.value;
           pieOption.series[1].data = res.body.valley.value;
           pieOption.series[2].data = res.body.flat.value;
@@ -560,11 +586,13 @@ class Index extends React.Component {
         const resData = res.body[0].time;
         let newArr = [];
         resData.map(item => {
-          item = moment(item).format('hh:mm');
+          item = moment(item).format('YYYY-MM-DD HH:mm');
           newArr.push(item);
         });
+        const val = newArr.map(item => item.slice(11, 16));
+        console.log(val);
         let { option } = this.state;
-        // option.xAxis.data = newArr;
+        option.xAxis.data = val;
         option.series[0].data = res.body[0].value.map(item => Number(item.toFixed(2)));
         this.setState({
           newArr,
@@ -999,6 +1027,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: hp(32 / BASE_HEIGHT),
     marginTop: hp(25 / BASE_HEIGHT),
+    marginBottom: hp(8 / BASE_HEIGHT),
   },
   dotContainer: {
     position: 'absolute',

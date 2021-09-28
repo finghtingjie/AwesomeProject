@@ -722,9 +722,9 @@ const styles = StyleSheet.create({
   },
   EChartsContainer: {
     width: '100%',
-    height: hp(580 / BASE_HEIGHT),
+    height: hp(500 / BASE_HEIGHT),
     // backgroundColor: 'pink',
-    marginBottom: hp(32 / BASE_HEIGHT),
+    // marginBottom: hp(102 / BASE_HEIGHT),
   },
   commonBtn: {
     paddingVertical: 0,
