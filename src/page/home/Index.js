@@ -518,19 +518,21 @@ class Index extends React.Component {
       if (res && res.status === 200) {
         let { pieOption } = this.state;
         this.pieOption.clear();
-        if (res.body.tip) {
-          // 非678
+        if (res.body.tip != null) {
+          // 尖
           pieOption.series[0].data = res.body.all.value;
           pieOption.series[1].data = res.body.valley.value;
           pieOption.series[2].data = res.body.flat.value;
           pieOption.series[3].data = res.body.peak.value;
+          pieOption.series[4].data = res.body.tip.value;
+          pieOption.legend.data = ['谷', '平', '峰', '尖'];
         } else {
           pieOption.series[0].data = res.body.all.value;
           pieOption.series[1].data = res.body.valley.value;
           pieOption.series[2].data = res.body.flat.value;
           pieOption.series[3].data = res.body.peak.value;
-          pieOption.series[4].data = res.body.peak.value;
-          pieOption.legend.data = ['谷', '平', '峰', '尖'];
+          pieOption.series[4].data = [];
+          pieOption.series[4].markArea = {};
         }
         this.pieOption.setOption(pieOption);
       } else {
