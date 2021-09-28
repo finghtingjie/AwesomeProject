@@ -1,18 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
-import { Table, Row, Rows } from 'react-native-table-component';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ModalIndicator, Toast } from 'teaset';
-
 const backIcon = require('../../assets/backicon.png');
-const leftTab = require('../../assets/kpi/lefttab.png');
-const rightTab = require('../../assets/kpi/righttab.png');
 
 import { sourceEndMonitor } from '@api/kpi';
 
 import styles from './YuanduanStyle';
-import BASE_URL from '../../utils/baseurl';
 
 class Yuanduan extends React.PureComponent {
   constructor(props) {
@@ -27,8 +20,8 @@ class Yuanduan extends React.PureComponent {
     headerShown: false,
   };
 
-  async componentDidMount() {
-    const { params } = this.props.navigation.state;
+  componentDidMount() {
+    // const { params } = this.props.navigation.state;
     // const { activeIndex } = params;
     // console.log(activeIndex);
     this.sourceEndMonitor('电网购电');
@@ -89,16 +82,6 @@ class Yuanduan extends React.PureComponent {
           <Text style={styles.content}>源端监视</Text>
         </View>
         <View style={styles.tabContainer}>
-          {/* {['电网购电', '发电'].map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={item}
-                style={this.renderBtnStyle(item, index)}
-                onPress={() => this.handleTabChange(item)}>
-                <Text style={styles.commonText}>{item}</Text>
-              </TouchableOpacity>
-            );
-          })} */}
           <TouchableOpacity
             style={activeTab === 1 ? styles.leftBtnActive : styles.commonBtn}
             onPress={() => this.handleTabChange('电网购电')}>
@@ -111,10 +94,6 @@ class Yuanduan extends React.PureComponent {
           </TouchableOpacity>
         </View>
         <View style={styles.tableContainer}>
-          {/* <Table borderStyle={styles.borderStyle}>
-            <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
-            <Rows data={tableData} style={styles.rows} textStyle={styles.headText} />
-          </Table> */}
           <View style={styles.headContainer}>
             {tableHead.map((item, index) => {
               return (
