@@ -17,7 +17,7 @@ export default class DashSecondLine extends Component {
       <View style={[styles.dashLine, { height: this.props.width, marginLeft: this.props.left, top: this.props.top }]}>
         {arr.map((item, index) => {
           return (
-            <Text style={[styles.dashItem, { backgroundColor: this.props.backgroundColor }]} key={'dash' + index} />
+            <Text style={[this.props.dashItem, { backgroundColor: this.props.backgroundColor }]} key={'dash' + index} />
           );
         })}
       </View>

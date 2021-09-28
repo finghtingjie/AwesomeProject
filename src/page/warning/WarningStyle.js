@@ -296,4 +296,10 @@ export default StyleSheet.create({
     fontSize: hp(24 / BASE_HEIGHT),
     lineHeight: hp(36 / BASE_HEIGHT),
   },
+  dashItem: {
+    height: hp(1 / BASE_HEIGHT),
+    width: wp(1 / BASE_WIDTH),
+    marginTop: hp(10 / BASE_HEIGHT),
+    flex: 1,
+  },
 });

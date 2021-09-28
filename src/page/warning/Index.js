@@ -419,10 +419,11 @@ class Index extends React.PureComponent {
         </View>
         <DashLine
           backgroundColor="#BABABC"
-          len={5}
+          len={50}
           width={hp(1282 / BASE_HEIGHT)}
           left={wp(70 / BASE_WIDTH)}
           top={hp(478 / BASE_HEIGHT)}
+          dashItem={styles.dashItem}
         />
         <FlatList
           data={fakeData}
