@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   dashItem: {
     height: 2,
-    width: 1,
+    width: 2,
     marginTop: 2,
     flex: 1,
   },

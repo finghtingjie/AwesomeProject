@@ -109,12 +109,13 @@ class Index extends React.Component {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
-        <View style={styles.topBg} />
-        <View style={styles.userContainer}>
-          <Image style={styles.userPic} source={userPic} />
-          <View style={styles.userInfo}>
-            <Text style={styles.title}>{userInfo.userName}</Text>
-            <Text style={styles.subtitle}>首钢京唐钢铁联合有限责任公司</Text>
+        <View style={styles.topBg}>
+          <View style={styles.userContainer}>
+            <Image style={styles.userPic} source={userPic} />
+            <View style={styles.userInfo}>
+              <Text style={styles.title}>{userInfo.userName}</Text>
+              <Text style={styles.subtitle}>首钢京唐钢铁联合有限责任公司</Text>
+            </View>
           </View>
         </View>
         <View style={styles.centerContainer}>
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: wp(80),
     height: 'auto',
-    top: hp(160 / BASE_HEIGHT),
+    bottom: hp(72 / BASE_HEIGHT),
     marginLeft: wp(86 / BASE_WIDTH),
     flexDirection: 'row',
     overflow: 'hidden',
