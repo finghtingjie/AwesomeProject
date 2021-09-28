@@ -43,8 +43,14 @@ const commonToolbox = {
   feature: {
     dataZoom: {
       yAxisIndex: 'none',
+      title: {
+        zoom: '区域缩放',
+        back: '区域缩放还原',
+      },
     },
-    restore: {},
+    restore: {
+      title: '还原',
+    },
   },
 };
 
