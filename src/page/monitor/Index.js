@@ -1,7 +1,13 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
 import { Toast, Button, ModalIndicator } from 'teaset';
+import { BoxShadow } from 'react-native-shadow';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+const BASE_WIDTH = 10.8;
+const BASE_HEIGHT = 19.2;
 
 const rect = require('../../assets/monitor/rect.png');
 const changePic = require('../../assets/monitor/change.png');
@@ -91,7 +97,7 @@ class Index extends React.PureComponent {
   };
 
   componentDidMount() {
-    // this.getMonitor();
+    this.getMonitor();
   }
 
   getMonitor = () => {
@@ -181,7 +187,7 @@ class Index extends React.PureComponent {
     }
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
-      // this.getMonitor();
+      this.getMonitor();
     });
   };
 
@@ -193,7 +199,7 @@ class Index extends React.PureComponent {
 
   handleTabChange = (item, index) => {
     this.setState({ activeIndex: index }, () => {
-      // this.getMonitor();
+      this.getMonitor();
     });
   };
 
@@ -212,6 +218,17 @@ class Index extends React.PureComponent {
       tabArr,
       arr2,
     } = this.state;
+
+    const shadowOpt = {
+      width: wp((250 * tabArr.length) / BASE_WIDTH),
+      height: hp(78 / BASE_HEIGHT),
+      color: '#000',
+      border: wp(1 / BASE_WIDTH),
+      radius: wp(20 / BASE_WIDTH),
+      opacity: 0.2,
+      x: wp(40 / BASE_WIDTH),
+      y: hp(42 / BASE_HEIGHT),
+    };
     return (
       <View style={styles.container}>
         <StatusBar
@@ -267,16 +284,46 @@ class Index extends React.PureComponent {
             <TouchableOpacity onPress={() => this.setState({ actionsheetShow: false })} style={styles.typeBottom} />
           </View>
         )}
-        <View style={styles.tabContainer}>
+        <View
+          style={{
+            position: 'relative',
+            marginLeft: wp(40 / BASE_WIDTH),
+            marginTop: hp(40 / BASE_HEIGHT),
+            maxWidth: wp(750 / BASE_WIDTH),
+            width: wp((250 * tabArr.length) / BASE_WIDTH),
+            height: hp(78 / BASE_HEIGHT),
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            borderRadius: wp(20 / BASE_WIDTH),
+            shadowColor: '#000',
+            borderWidth: wp(1 / BASE_WIDTH),
+            // shadowOffset: {
+            //   width: 0,
+            //   height: 0,
+            // },
+            // elevation: 1.5,
+            // shadowOpacity: 0.2,
+            // shadowRadius: 1.5,
+            // backgroundColor: 'pink',
+            overflow: 'hidden',
+          }}>
           {tabArr.map((item, index) => {
             return (
-              <TouchableOpacity key={item} style={styles.commonBtn} onPress={() => this.handleTabChange(item, index)}>
+              <TouchableOpacity
+                activeOpacity={1}
+                key={item}
+                style={styles.commonBtn}
+                onPress={() => this.handleTabChange(item, index)}>
                 <Text style={styles.commonText}>{item}</Text>
                 {index === activeIndex && <View style={styles.commonBorder} />}
               </TouchableOpacity>
             );
           })}
         </View>
+        {/* <BoxShadow setting={shadowOpt}>
+
+        </BoxShadow> */}
         {/* table */}
         <ScrollView>
           <View style={styles.commonTableContainer}>
