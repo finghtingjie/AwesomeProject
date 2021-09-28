@@ -5,7 +5,7 @@ import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
 import { WebView } from 'react-native-webview';
 import { ECharts } from 'react-native-echarts-wrapper';
-import { Toast, ModalIndicator, Button } from 'teaset';
+import { Toast, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -48,6 +48,68 @@ class Index extends React.Component {
     super(props);
     this.state = {
       percent: 10,
+      activeTab: 1,
+      chartOption: {
+        title: {
+          show: false,
+          x: 'center',
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: 12,
+          },
+        },
+        animation: true,
+        grid: {
+          width: '100%',
+          containLabel: true,
+        },
+        series: [
+          {
+            name: '',
+            type: 'pie',
+            radius: ['50%', '64%'],
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            startAngle: 150,
+            silent: true,
+            labelLine: {
+              normal: {
+                show: false,
+              },
+            },
+            data: [
+              {
+                value: 0,
+                name: '',
+                selected: false,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'center',
+                    fontSize: 12,
+                    color: '#1575F6',
+                    formatter: '{d}%',
+                  },
+                },
+                itemStyle: {
+                  color: '#1575F6',
+                },
+              },
+              {
+                value: 0,
+                label: {
+                  normal: {
+                    show: false,
+                  },
+                },
+                itemStyle: {
+                  color: '#b3daee',
+                },
+              },
+            ],
+          },
+        ],
+      },
       option: {
         title: {
           text: '自供电率统计图',
@@ -59,9 +121,9 @@ class Index extends React.Component {
         },
         grid: {
           left: '2%',
-          right: '10%',
+          right: '0%',
           bottom: '0%',
-          width: '80%',
+          width: '90%',
           containLabel: true,
         },
         xAxis: {
@@ -101,22 +163,6 @@ class Index extends React.Component {
               color: '#fff',
               // backgroundColor: 'red',
             },
-            // markLine: {
-            //   symbol: ['none', 'none'], //去掉箭头
-            //   lineStyle: {
-            //     // color: 'red',
-            //   },
-            //   data: [
-            //     {
-            //       yAxis: 12,
-            //       label: {
-            //         normal: {
-            //           formatter: '最新值{c}',
-            //         },
-            //       },
-            //     },
-            //   ],
-            // },
             markPoint: {
               data: [
                 {
@@ -135,16 +181,16 @@ class Index extends React.Component {
                   symbolSize: [40, 30],
                   symbolOffset: [0, '-60%'],
                 },
-                {
-                  name: '最新值',
-                  value: `最新值${12}`,
-                  color: '#fff',
-                  xAxis: 2,
-                  yAxis: 12,
-                  symbol: 'roundRect',
-                  symbolSize: [60, 30],
-                  symbolOffset: [0, '-60%'],
-                },
+                // {
+                //   name: '最新值',
+                //   value: `最新值${12}`,
+                //   color: '#fff',
+                //   xAxis: 2,
+                //   yAxis: 12,
+                //   symbol: 'roundRect',
+                //   symbolSize: [60, 30],
+                //   symbolOffset: [0, '-60%'],
+                // },
               ],
               label: {
                 // formatter: '{c}',
@@ -188,9 +234,9 @@ class Index extends React.Component {
         },
         grid: {
           left: '2%',
-          right: '10%',
+          right: '0%',
           bottom: '0%',
-          width: '80%',
+          width: '90%',
           containLabel: true,
         },
         xAxis: {
@@ -227,7 +273,7 @@ class Index extends React.Component {
         yAxis: {
           type: 'value',
           splitLine: {
-            show: false,
+            show: true,
           },
           boundaryGap: [0, '100%'],
           axisPointer: {
@@ -279,113 +325,7 @@ class Index extends React.Component {
             itemStyle: {
               color: '#FA0208',
             },
-            data: [
-              1182.79,
-              1142.81,
-              1204.12,
-              1195.2,
-              1143.72,
-              1151.36,
-              1123.63,
-              1118.02,
-              1143.68,
-              1150.09,
-              1198.9,
-              1185.3,
-              1144.35,
-              1171.68,
-              1205.56,
-              1235.27,
-              1164.05,
-              1160.71,
-              1189.54,
-              1160.21,
-              1172.1,
-              1174.27,
-              1205.97,
-              1173.85,
-              1108.69,
-              1177.07,
-              1168.14,
-              1203.7,
-              1173.28,
-              1148.15,
-              1112.45,
-              1120.55,
-              1221.88,
-              1093.82,
-              1081.72,
-              1112.69,
-              1064.91,
-              1137.33,
-              1111.73,
-              1178.46,
-              1173.85,
-              1079.84,
-              1076.95,
-              1159.51,
-              1136.01,
-              1203.16,
-              1168.39,
-              1165.39,
-              1114.4,
-              1038.04,
-              1178.94,
-              1165.78,
-              1027.81,
-              1131.62,
-              1215.87,
-              1121.55,
-              1093.49,
-              1158.61,
-              1119.71,
-              1148.45,
-              1180.65,
-              1146.64,
-              1176.41,
-              1140.81,
-              1091.38,
-              1073.19,
-              1024.93,
-              1095.47,
-              1062.86,
-              1002.32,
-              1094.54,
-              1091.4,
-              1069.02,
-              1038.77,
-              1108.42,
-              1068.9,
-              1068.01,
-              1103.57,
-              1146.73,
-              1135.42,
-              967.363,
-              1063.74,
-              961.094,
-              1053.03,
-              1025.27,
-              1133.96,
-              1091.74,
-              965.851,
-              990.484,
-              998.754,
-              1006.45,
-              1066.44,
-              1064.64,
-              1024.5,
-              1046.88,
-              1040.38,
-              1037.01,
-              1081.48,
-              948.773,
-              957.363,
-              962.158,
-              966.981,
-              1023.01,
-              967.752,
-              977.145,
-            ],
+            data: [],
           },
           {
             name: '谷',
@@ -510,61 +450,6 @@ class Index extends React.Component {
             },
           },
         ],
-        // title: {
-        //   show: false,
-        //   x: 'center',
-        //   textStyle: {
-        //     fontWeight: 'normal',
-        //     fontSize: 16,
-        //   },
-        // },
-        // animation: true,
-        // series: [
-        //   {
-        //     name: '',
-        //     type: 'pie',
-        //     radius: ['50%', '64%'],
-        //     avoidLabelOverlap: false,
-        //     hoverAnimation: false,
-        //     startAngle: 150,
-        //     silent: true,
-        //     labelLine: {
-        //       normal: {
-        //         show: false,
-        //       },
-        //     },
-        //     data: [
-        //       {
-        //         value: 89,
-        //         name: '',
-        //         selected: false,
-        //         label: {
-        //           normal: {
-        //             show: true,
-        //             position: 'center',
-        //             fontSize: hp(32 / BASE_HEIGHT),
-        //             color: '#1575F6',
-        //             formatter: '{d}%',
-        //           },
-        //         },
-        //         itemStyle: {
-        //           color: '#1575F6',
-        //         },
-        //       },
-        //       {
-        //         value: 11,
-        //         label: {
-        //           normal: {
-        //             show: false,
-        //           },
-        //         },
-        //         itemStyle: {
-        //           color: '#b3daee',
-        //         },
-        //       },
-        //     ],
-        //   },
-        // ],
       },
       headInfo: {
         selfPowerSupplyRate: 30,
@@ -587,7 +472,9 @@ class Index extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // this.ScrollView.scrollTo({ x: 85, y: 0, animated: true });
+  }
 
   // 总负荷曲线统计图
   totalLoadCurve = () => {
@@ -622,12 +509,12 @@ class Index extends React.Component {
         const resData = res.body[0].time;
         let newArr = [];
         resData.map(item => {
-          item = moment(item).format('mm:ss');
+          item = moment(item).format('hh:mm');
           newArr.push(item);
         });
         let { option } = this.state;
         // option.xAxis.data = newArr;
-        option.series[0].data = res.body[0].value;
+        option.series[0].data = res.body[0].value.map(item => Number(item.toFixed(2)));
         this.setState({
           newArr,
           option,
@@ -647,42 +534,51 @@ class Index extends React.Component {
           totalIncomingLine,
           selfPowerSupplyRate,
         } = res.body;
-        this.setState({
-          fakeData2: [
-            {
-              id: 1,
-              val: '总用电',
-              yougong: Number(totalElectricityConsumption.youGong).toFixed(2),
-              wugong: Number(totalElectricityConsumption.wuGong).toFixed(2),
-              source: yuanduan,
-              routeName: 'Wangce',
-            },
-            {
-              id: 2,
-              val: '总发电',
-              yougong: Number(totalElectricityGeneration.youGong).toFixed(2),
-              wugong: Number(totalElectricityGeneration.wuGong).toFixed(2),
-              source: wangce,
-              routeName: 'Yuanduan',
-            },
-            {
-              id: 3,
-              val: '总进线',
-              yougong: Number(totalIncomingLine.youGong).toFixed(2),
-              wugong: Number(totalIncomingLine.wuGong).toFixed(2),
-              source: dianlichaoliu,
-              routeName: 'Yuanduan',
-            },
-            {
-              id: 4,
-              val: '自供电率',
-              percent: Number(selfPowerSupplyRate).toFixed(0),
-              source: dianyaqushi,
-              routeName: 'Dianyaqushi',
-            },
-          ],
-          percent: Number(res.body.selfPowerSupplyRate).toFixed(0),
-        });
+        let { chartOption } = this.state;
+        chartOption.series[0].data[0].value = Number(Number(selfPowerSupplyRate).toFixed(0));
+        chartOption.series[0].data[1].value = 100 - Number(selfPowerSupplyRate).toFixed(0);
+        console.log(chartOption);
+        this.setState(
+          {
+            fakeData2: [
+              {
+                id: 1,
+                val: '总用电',
+                yougong: Number(totalElectricityConsumption.youGong).toFixed(2),
+                wugong: Number(totalElectricityConsumption.wuGong).toFixed(2),
+                source: yuanduan,
+                routeName: 'Wangce',
+              },
+              {
+                id: 2,
+                val: '总发电',
+                yougong: Number(totalElectricityGeneration.youGong).toFixed(2),
+                wugong: Number(totalElectricityGeneration.wuGong).toFixed(2),
+                source: wangce,
+                routeName: 'Yuanduan',
+              },
+              {
+                id: 3,
+                val: '总进线',
+                yougong: Number(totalIncomingLine.youGong).toFixed(2),
+                wugong: Number(totalIncomingLine.wuGong).toFixed(2),
+                source: dianlichaoliu,
+                routeName: 'Yuanduan',
+              },
+              {
+                id: 4,
+                val: '自供电率',
+                percent: Number(selfPowerSupplyRate).toFixed(0),
+                source: dianyaqushi,
+                routeName: 'Dianyaqushi',
+              },
+            ],
+            percent: Number(res.body.selfPowerSupplyRate).toFixed(0),
+          },
+          () => {
+            this.ECharts.setOption(chartOption);
+          },
+        );
       }
     });
   };
@@ -712,8 +608,16 @@ class Index extends React.Component {
     }
   };
 
+  handleTabChange = item => {
+    if (item === 2) {
+      this.ScrollView.scrollTo({ x: 120, y: 0, animated: true });
+    } else {
+      this.ScrollView.scrollTo({ x: 0, y: 0, animated: true });
+    }
+  };
+
   render() {
-    const { option, fakeData, fakeData2, pieOption, newArr, newArr1 } = this.state;
+    const { option, fakeData, fakeData2, pieOption, newArr, newArr1, chartOption, activeTab } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -752,8 +656,8 @@ class Index extends React.Component {
                   </TouchableOpacity>
                 ) : (
                   <View style={styles.lightContainer2}>
-                    {/* <ECharts option={pieOption} backgroundColor="red" /> */}
-                    <WebView
+                    <ECharts option={chartOption} ref={ref => (this.ECharts = ref)} backgroundColor="transparent" />
+                    {/* <WebView
                       useWebKit
                       scrollEnabled={false}
                       javaScriptEnabled
@@ -765,7 +669,7 @@ class Index extends React.Component {
                       onError={e => console.log(e)}
                       onMessage={event => console.log(event.nativeEvent.data)}
                       onLoadEnd={this.onLoadEnd}
-                    />
+                    /> */}
                   </View>
                 )}
                 <View style={styles.commonTextbg}>
@@ -785,7 +689,18 @@ class Index extends React.Component {
             <ECharts option={option} backgroundColor="#fff" onData={() => this.selfDowerSupplyRate()} />
           )}
         </View>
-        <ScrollView horizontal style={styles.horizontalContainer}>
+        <ScrollView
+          horizontal
+          style={styles.horizontalContainer}
+          ref={ref => (this.ScrollView = ref)}
+          onScroll={event => {
+            const val = event.nativeEvent.contentOffset.x;
+            if (val >= 80) {
+              this.setState({ activeTab: 2 });
+            } else {
+              this.setState({ activeTab: 1 });
+            }
+          }}>
           <View style={styles.topContainer}>
             <View style={styles.menuContainer}>
               {fakeData.slice(0, 8).map(item => {
@@ -805,6 +720,17 @@ class Index extends React.Component {
             </View>
           </View>
         </ScrollView>
+        <View style={styles.dotContainer}>
+          <TouchableOpacity
+            style={activeTab === 1 ? styles.btnActive : styles.commonBtn}
+            onPress={() => this.handleTabChange(1)}
+          />
+          <View style={styles.border} />
+          <TouchableOpacity
+            style={activeTab === 2 ? styles.btnActive : styles.commonBtn}
+            onPress={() => this.handleTabChange(2)}
+          />
+        </View>
       </View>
     );
   }
@@ -834,9 +760,9 @@ const styles = StyleSheet.create({
     height: 'auto',
     // backgroundColor: 'pink',
     marginLeft: '4%',
-    marginTop: hp(80 / BASE_HEIGHT),
-    // marginBottom: hp(32 / BASE_HEIGHT),
-    paddingBottom: hp(32 / BASE_HEIGHT),
+    marginTop: hp(160 / BASE_HEIGHT),
+    marginBottom: hp(12 / BASE_HEIGHT),
+    // paddingBottom: hp(32 / BASE_HEIGHT),
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
@@ -870,7 +796,7 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     // marginTop: hp(6 / BASE_HEIGHT),
-    fontSize: hp(24 / BASE_HEIGHT),
+    fontSize: hp(20 / BASE_HEIGHT),
     fontWeight: 'bold',
   },
   wugong: {
@@ -892,12 +818,12 @@ const styles = StyleSheet.create({
     // left: '8%',
     // justifyContent: 'center',
     // alignItems: 'center',
-    top: hp(62 / BASE_HEIGHT),
-    left: wp(40 / BASE_WIDTH),
+    top: hp(42 / BASE_HEIGHT),
+    left: wp(10 / BASE_WIDTH),
     // height: hp(152 / BASE_HEIGHT),
     zIndex: 100,
-    width: wp(152 / BASE_WIDTH),
-    height: wp(152 / BASE_WIDTH),
+    width: wp(210 / BASE_WIDTH),
+    height: wp(210 / BASE_WIDTH),
   },
   percent: {
     position: 'absolute',
@@ -931,15 +857,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     width: '100%',
     textAlign: 'center',
-    fontSize: hp(32 / BASE_HEIGHT),
-    // lineHeight: hp(50 / BASE_HEIGHT),
-    // height: hp(50 / BASE_HEIGHT),
+    fontSize: hp(28 / BASE_HEIGHT),
+    lineHeight: hp(50 / BASE_HEIGHT),
+    height: hp(50 / BASE_HEIGHT),
     // marginTop: hp(8 / BASE_HEIGHT),
     fontWeight: 'bold',
   },
   horizontalContainer: {
-    flex: 1,
+    // flex: 1,
+    width: '92%',
+    marginLeft: '4%',
     backgroundColor: '#fff',
+    height: 'auto',
     marginTop: hp(24 / BASE_HEIGHT),
   },
   image: {
@@ -956,8 +885,8 @@ const styles = StyleSheet.create({
     // right: wp(72 / BASE_WIDTH),
     // top: hp(100 / BASE_HEIGHT),
     width: '92%',
-    height: hp(430 / BASE_HEIGHT),
-    marginTop: hp(20 / BASE_HEIGHT),
+    height: hp(380 / BASE_HEIGHT),
+    // marginTop: hp(20 / BASE_HEIGHT),
     marginLeft: '4%',
     borderRadius: wp(20 / BASE_WIDTH),
     overflow: 'hidden',
@@ -977,14 +906,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    height: hp(430 / BASE_HEIGHT),
+    height: 'auto',
     // width: '92%',
     width: wp(1050 / BASE_WIDTH),
     marginLeft: wp(0 / BASE_WIDTH),
     // marginLeft: '4%',
     // width: (scrreenWidth * 1040) / 1080,
     marginTop: hp(24 / BASE_HEIGHT),
-    backgroundColor: '#fff',
+    // marginBottom: hp(24 / BASE_HEIGHT),
+    // backgroundColor: 'pink',
     flexWrap: 'wrap',
     borderRadius: wp(20 / BASE_WIDTH),
   },
@@ -1008,6 +938,35 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: hp(32 / BASE_HEIGHT),
     marginTop: hp(25 / BASE_HEIGHT),
+  },
+  dotContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '92%',
+    marginLeft: '4%',
+    height: 'auto',
+    backgroundColor: '#fff',
+  },
+  commonBtn: {
+    width: wp(24 / BASE_WIDTH),
+    height: wp(24 / BASE_WIDTH),
+    borderColor: '#3D447B',
+    backgroundColor: '#3D447B',
+    paddingVertical: 0,
+    borderRadius: wp(12 / BASE_WIDTH),
+  },
+  border: {
+    width: wp(12 / BASE_WIDTH),
+    height: wp(24 / BASE_WIDTH),
+  },
+  btnActive: {
+    backgroundColor: '#588CE4',
+    borderColor: '#588CE4',
+    width: wp(24 / BASE_WIDTH),
+    height: wp(24 / BASE_WIDTH),
+    paddingVertical: 0,
+    borderRadius: wp(12 / BASE_WIDTH),
   },
 });
 

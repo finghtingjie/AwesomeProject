@@ -137,15 +137,12 @@ class customTabBar extends React.PureComponent {
   componentDidMount() {
     getMenuData({}).then(res => {
       if (res && res.status === 200) {
-        console.log(res);
+        // console.log(res);
         const arr = [];
         arr.push(...res.body.map(item => item.name));
         this.setState({ menuData: arr });
       }
     });
-    // this.setState({
-    //   menuData: ['首页', '监控', 'kpi', '告警', '我的'],
-    // });
   }
 
   // 根据接口返回渲染icon
