@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
     fontSize: hp(48 / BASE_HEIGHT),
     fontWeight: 'bold',
     top: hp(0 / BASE_HEIGHT),
-    height: hp(100 / BASE_HEIGHT),
-    lineHeight: hp(100 / BASE_HEIGHT),
-    // left: wp(70 / BASE_WIDTH),
+    height: hp(112 / BASE_HEIGHT),
+    lineHeight: hp(112 / BASE_HEIGHT),
+    left: -wp(20 / BASE_WIDTH),
   },
 });
 
