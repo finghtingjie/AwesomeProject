@@ -11,7 +11,7 @@ import { getAllUserInfo, userSearch, deleteUser } from '@api/profile';
 const orderPic = require('../../assets/profile/order.png');
 const backIcon = require('../../assets/backicon.png');
 
-import styles from './UserConfigStyle';
+import styles from './UserConfigStyles';
 import overlayStyles from '../style/overlayStyle';
 import BASE_URL from '../../utils/baseurl';
 

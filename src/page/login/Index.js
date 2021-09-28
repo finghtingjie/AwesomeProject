@@ -97,8 +97,8 @@ class Index extends React.PureComponent {
           <Button style={styles.loginBtn} onPress={this.handleLogin}>
             <Text style={styles.loginBtnText}>登&nbsp;&nbsp;&nbsp;录</Text>
           </Button>
+          <Text style={styles.copyRight}>天合云能源互联网技术（杭州）有限公司提供技术支持</Text>
         </View>
-        <Text style={styles.copyRight}>天合云能源互联网技术（杭州）有限公司提供技术支持</Text>
       </View>
     );
   }

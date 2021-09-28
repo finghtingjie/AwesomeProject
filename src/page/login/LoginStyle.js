@@ -24,7 +24,7 @@ export default StyleSheet.create({
   centerContainer: {
     position: 'absolute',
     width: '100%',
-    height: 'auto',
+    height: '100%',
     // marginTop: '50%',
     // marginBottom: '50%',
     // backgroundColor: 'pink',
@@ -111,13 +111,14 @@ export default StyleSheet.create({
     fontSize: hp(40 / BASE_HEIGHT),
   },
   copyRight: {
-    position: 'absolute',
+    // position: 'absolute',
     bottom: hp(40 / BASE_HEIGHT),
-    left: 0,
+    // left: 0,
     width: '100%',
     textAlign: 'center',
     color: '#fff',
     fontWeight: 'normal',
     fontSize: hp(30 / BASE_HEIGHT),
+    marginTop: hp(780 / BASE_HEIGHT),
   },
 });

@@ -28,7 +28,7 @@ import Warning from '@page/warning/Index';
 import Profile from '@page/profile/Index';
 import ChangePassword from '@page/profile/ChangePassword';
 import WarningConfig from '@page/profile/WarningConfig';
-import UserConfig from '@page/profile/UserConfig';
+import UserConfig from '@page/profile/UserConfigs';
 import AddUser from '@page/profile/AddUser';
 import GroupConfig from '@page/profile/GroupConfig';
 import AddGroup from '@page/profile/AddGroup';
