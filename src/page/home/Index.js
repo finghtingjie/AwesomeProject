@@ -742,20 +742,33 @@ class Index extends React.Component {
             <ECharts option={option} backgroundColor="#fff" onData={() => this.selfDowerSupplyRate()} />
           )}
         </View>
-        <ScrollView
-          horizontal
-          style={styles.horizontalContainer}
-          ref={ref => (this.ScrollView = ref)}
-          onScroll={event => {
-            const val = event.nativeEvent.contentOffset.x;
-            console.log(val);
-            if (val >= 60) {
-              this.setState({ activeTab: 2 });
-            } else {
-              this.setState({ activeTab: 1 });
-            }
-          }}>
-          <View style={styles.topContainer}>
+
+        <View style={styles.topContainer}>
+          <View style={styles.dotContainer}>
+            <TouchableOpacity
+              style={activeTab === 1 ? styles.btnActive : styles.commonBtn}
+              onPress={() => this.handleTabChange(1)}
+            />
+            <View style={styles.border} />
+            <TouchableOpacity
+              style={activeTab === 2 ? styles.btnActive : styles.commonBtn}
+              onPress={() => this.handleTabChange(2)}
+            />
+          </View>
+          <ScrollView
+            horizontal
+            style={styles.horizontalContainer}
+            contentContainerStyle={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}
+            ref={ref => (this.ScrollView = ref)}
+            onScroll={event => {
+              const val = event.nativeEvent.contentOffset.x;
+              console.log(val);
+              if (val >= 60) {
+                this.setState({ activeTab: 2 });
+              } else {
+                this.setState({ activeTab: 1 });
+              }
+            }}>
             <View style={styles.menuContainer}>
               {fakeData.slice(0, 8).map(item => {
                 return (
@@ -772,18 +785,7 @@ class Index extends React.Component {
                 <Text style={styles.menuItem}>{fakeData[8].val}</Text>
               </TouchableOpacity>
             </View>
-          </View>
-        </ScrollView>
-        <View style={styles.dotContainer}>
-          <TouchableOpacity
-            style={activeTab === 1 ? styles.btnActive : styles.commonBtn}
-            onPress={() => this.handleTabChange(1)}
-          />
-          <View style={styles.border} />
-          <TouchableOpacity
-            style={activeTab === 2 ? styles.btnActive : styles.commonBtn}
-            onPress={() => this.handleTabChange(2)}
-          />
+          </ScrollView>
         </View>
       </View>
     );
@@ -922,7 +924,7 @@ const styles = StyleSheet.create({
     width: wp(1040 / BASE_WIDTH),
     marginLeft: wp(20 / BASE_WIDTH),
     backgroundColor: '#fff',
-    height: 'auto',
+    height: hp(430 / BASE_HEIGHT),
     marginTop: hp(24 / BASE_HEIGHT),
     borderRadius: wp(20 / BASE_WIDTH),
   },
@@ -931,9 +933,11 @@ const styles = StyleSheet.create({
     height: wp(100 / BASE_WIDTH),
   },
   topContainer: {
+    position: 'relative',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    // height: hp(430 / BASE_HEIGHT),
   },
   chartContainer1: {
     // position: 'absolute',
@@ -961,7 +965,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 'auto',
+    // height: 'auto',
+    height: hp(230 / BASE_HEIGHT),
     // width: '92%',
     width: wp(1040 / BASE_WIDTH),
     marginLeft: wp(0 / BASE_WIDTH),
@@ -986,7 +991,7 @@ const styles = StyleSheet.create({
     // width: '18%',
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp(185 / BASE_HEIGHT),
+    height: 'auto',
     // backgroundColor: 'red',
   },
   menuItem: {
@@ -996,33 +1001,37 @@ const styles = StyleSheet.create({
     marginTop: hp(25 / BASE_HEIGHT),
   },
   dotContainer: {
+    position: 'absolute',
+    left: '0%',
+    bottom: hp(18 / BASE_HEIGHT),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     width: '92%',
     marginLeft: '4%',
     height: 'auto',
-    backgroundColor: '#fff',
+    // backgroundColor: 'pink',
+    zIndex: 999,
   },
   commonBtn: {
-    width: wp(24 / BASE_WIDTH),
-    height: wp(24 / BASE_WIDTH),
+    width: wp(32 / BASE_WIDTH),
+    height: wp(32 / BASE_WIDTH),
     borderColor: '#3D447B',
     backgroundColor: '#3D447B',
     paddingVertical: 0,
-    borderRadius: wp(12 / BASE_WIDTH),
+    borderRadius: wp(16 / BASE_WIDTH),
   },
   border: {
-    width: wp(12 / BASE_WIDTH),
-    height: wp(24 / BASE_WIDTH),
+    width: wp(16 / BASE_WIDTH),
+    height: wp(32 / BASE_WIDTH),
   },
   btnActive: {
     backgroundColor: '#588CE4',
     borderColor: '#588CE4',
-    width: wp(24 / BASE_WIDTH),
-    height: wp(24 / BASE_WIDTH),
+    width: wp(32 / BASE_WIDTH),
+    height: wp(32 / BASE_WIDTH),
     paddingVertical: 0,
-    borderRadius: wp(12 / BASE_WIDTH),
+    borderRadius: wp(16 / BASE_WIDTH),
   },
 });
 
