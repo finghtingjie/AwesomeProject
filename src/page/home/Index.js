@@ -588,7 +588,6 @@ class Index extends React.Component {
         let { chartOption } = this.state;
         chartOption.series[0].data[0].value = Number(Number(selfPowerSupplyRate).toFixed(0));
         chartOption.series[0].data[1].value = 100 - Number(selfPowerSupplyRate).toFixed(0);
-        console.log(chartOption);
         this.setState(
           {
             fakeData2: [
@@ -733,8 +732,8 @@ class Index extends React.Component {
         <View style={styles.chartContainer1}>
           <ECharts
             option={pieOption}
-            ref={ref => (this.pieOption = ref)}
             backgroundColor="#fff"
+            ref={ref => (this.pieOption = ref)}
             onData={() => this.totalLoadCurve()}
           />
         </View>
@@ -749,7 +748,8 @@ class Index extends React.Component {
           ref={ref => (this.ScrollView = ref)}
           onScroll={event => {
             const val = event.nativeEvent.contentOffset.x;
-            if (val >= 80) {
+            console.log(val);
+            if (val >= 60) {
               this.setState({ activeTab: 2 });
             } else {
               this.setState({ activeTab: 1 });
@@ -919,8 +919,8 @@ const styles = StyleSheet.create({
   },
   horizontalContainer: {
     // flex: 1,
-    width: '92%',
-    marginLeft: '4%',
+    width: '100%',
+    // marginLeft: '4%',
     backgroundColor: '#fff',
     height: 'auto',
     marginTop: hp(24 / BASE_HEIGHT),
@@ -962,7 +962,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 'auto',
     // width: '92%',
-    width: wp(1050 / BASE_WIDTH),
+    width: wp(1040 / BASE_WIDTH),
     marginLeft: wp(0 / BASE_WIDTH),
     // marginLeft: '4%',
     // width: (scrreenWidth * 1040) / 1080,
@@ -986,6 +986,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: hp(185 / BASE_HEIGHT),
+    // backgroundColor: 'red',
   },
   menuItem: {
     color: '#333',
