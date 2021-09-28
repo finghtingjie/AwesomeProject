@@ -86,10 +86,12 @@ class Yuanduan extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
-          </TouchableOpacity>
-          <Text style={styles.content}>网侧监视</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+            </TouchableOpacity>
+            <Text style={styles.content}>网侧监视</Text>
+          </View>
         </View>
         <View style={styles.tableContainer}>
           {/* <Table borderStyle={styles.borderStyle}>
@@ -107,9 +109,9 @@ class Yuanduan extends React.PureComponent {
           </View>
           <ScrollView>
             <View style={styles.bbb}>
-              {tableData.map(item => {
+              {tableData.map((item, i) => {
                 return (
-                  <View style={styles.rowContainer}>
+                  <View style={i % 2 === 0 ? styles.rowContainer : styles.rowContainer2}>
                     {item.map((items, index) => {
                       return (
                         <View key={items} style={this.renderColStyle(item, index)}>

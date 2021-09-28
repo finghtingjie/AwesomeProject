@@ -76,10 +76,12 @@ class Yuanduan extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
-          </TouchableOpacity>
-          <Text style={styles.content}>源端监视</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+            </TouchableOpacity>
+            <Text style={styles.content}>源端监视</Text>
+          </View>
         </View>
         <View style={styles.tabContainer}>
           <TouchableOpacity
