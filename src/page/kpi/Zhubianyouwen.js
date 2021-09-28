@@ -447,13 +447,17 @@ class Index extends React.Component {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.content} onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
-            <Text style={styles.contentText}>{`(${arr2[actionIndex2]}) 主变油温趋势图`}</Text>
-            <IconFont name="xiala" size={24} color="#fff" />
-          </TouchableOpacity>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.content}
+              onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
+              <Text style={styles.contentText}>{`${arr2[actionIndex2]} 主变油温趋势图`}</Text>
+              <IconFont name="xiala" size={24} color="#fff" />
+            </TouchableOpacity>
+          </View>
         </View>
         {/* 筛选条件 */}
         {actionsheetShow && (
@@ -497,7 +501,9 @@ class Index extends React.Component {
             );
           })}
         </View>
-        <ECharts ref={ref => (this.ECharts = ref)} option={option} backgroundColor="#fff" />
+        <View style={styles.EChartsContainer}>
+          <ECharts ref={ref => (this.ECharts = ref)} option={option} backgroundColor="#fff" />
+        </View>
         {/* <WebView
           useWebKit
           scrollEnabled={false}
@@ -535,7 +541,7 @@ const styles = StyleSheet.create({
     height: hp(80 / BASE_HEIGHT),
     borderRadius: wp(20 / BASE_WIDTH),
     marginRight: wp(20 / BASE_WIDTH),
-    marginTop: hp(82 / BASE_HEIGHT),
+    marginTop: hp(32 / BASE_HEIGHT),
     marginBottom: hp(42 / BASE_HEIGHT),
   },
   submitBtnText: {
@@ -560,6 +566,51 @@ const styles = StyleSheet.create({
     height: hp(215 / BASE_HEIGHT),
     backgroundColor: '#3D447B',
   },
+  navigationContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: hp(112 / BASE_HEIGHT),
+    bottom: 0,
+    left: wp(80 / BASE_WIDTH),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    position: 'relative',
+    width: 'auto',
+    // top: hp(108 / BASE_HEIGHT),
+    height: hp(112 / BASE_HEIGHT),
+    // left: wp(70 / BASE_WIDTH),
+    zIndex: 100,
+  },
+  backIcon: {
+    width: wp(24 / BASE_WIDTH),
+    height: hp(40 / BASE_HEIGHT),
+    marginTop: hp(36 / BASE_HEIGHT),
+  },
+  content: {
+    position: 'absolute',
+    width: '60%',
+    textAlign: 'center',
+    fontSize: hp(48 / BASE_HEIGHT),
+    fontWeight: 'bold',
+    top: hp(0 / BASE_HEIGHT),
+    height: hp(112 / BASE_HEIGHT),
+    left: '20%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contentText: {
+    // width: '100%',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: hp(48 / BASE_HEIGHT),
+    height: hp(112 / BASE_HEIGHT),
+    lineHeight: hp(112 / BASE_HEIGHT),
+    fontWeight: 'bold',
+  },
   commonColor: {
     backgroundColor: '#3D447B',
     borderColor: '#3D447B',
@@ -568,38 +619,8 @@ const styles = StyleSheet.create({
     height: hp(80 / BASE_HEIGHT),
     borderRadius: wp(20 / BASE_WIDTH),
     marginRight: wp(20 / BASE_WIDTH),
-    marginTop: hp(82 / BASE_HEIGHT),
+    marginTop: hp(32 / BASE_HEIGHT),
     marginBottom: hp(42 / BASE_HEIGHT),
-  },
-  iconContainer: {
-    position: 'absolute',
-    width: 'auto',
-    top: hp(130 / BASE_HEIGHT),
-    height: hp(215 / BASE_HEIGHT),
-    left: wp(70 / BASE_WIDTH),
-    zIndex: 100,
-  },
-  backIcon: {
-    width: wp(24 / BASE_WIDTH),
-    height: hp(40 / BASE_HEIGHT),
-  },
-  content: {
-    position: 'absolute',
-    width: '60%',
-    left: '20%',
-    top: hp(128 / BASE_HEIGHT),
-    // backgroundColor: 'pink',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    // left: wp(70 / BASE_WIDTH),
-  },
-  contentText: {
-    // width: '100%',
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: hp(48 / BASE_HEIGHT),
-    // height: hp(215 / BASE_HEIGHT),
-    fontWeight: 'bold',
   },
   actionSheet: {
     position: 'absolute',
@@ -671,6 +692,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 0,
+  },
+  EChartsContainer: {
+    width: '100%',
+    height: hp(580 / BASE_HEIGHT),
+    // backgroundColor: 'pink',
+    marginBottom: hp(32 / BASE_HEIGHT),
   },
 });
 

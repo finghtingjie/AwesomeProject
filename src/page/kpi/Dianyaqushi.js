@@ -632,13 +632,17 @@ class Index extends React.Component {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.content} onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
-            <Text style={styles.contentText}>{`${arr2[actionIndex2]} 电压趋势图`}</Text>
-            <IconFont name="xiala" size={24} color="#fff" />
-          </TouchableOpacity>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.content}
+              onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
+              <Text style={styles.contentText}>{`${arr2[actionIndex2]} 电压趋势图`}</Text>
+              <IconFont name="xiala" size={24} color="#fff" />
+            </TouchableOpacity>
+          </View>
         </View>
         {/* 筛选条件 */}
         {actionsheetShow && (
@@ -648,7 +652,9 @@ class Index extends React.Component {
                 {['源端', '网侧'].map((item, index) => {
                   return (
                     <Button key={item} style={styles.leftBtn} onPress={() => this.handleTypeChange(1, index)}>
-                      <Text style={actionIndex === index ? styles.leftBtnTextActive : styles.leftBtnText}>{item}</Text>
+                      <Text style={actionIndex === index ? styles.leftBtnTextActive1 : styles.leftBtnText1}>
+                        {item}
+                      </Text>
                     </Button>
                   );
                 })}
@@ -682,14 +688,16 @@ class Index extends React.Component {
             );
           })}
         </View>
-        {newArr.length >= 10 && (
-          <ECharts
-            option={option}
-            backgroundColor="#fff"
-            ref={ref => (this.ECharts = ref)}
-            onData={() => this.voltageTrend()}
-          />
-        )}
+        <View style={styles.EChartsContainer}>
+          {newArr.length >= 10 && (
+            <ECharts
+              option={option}
+              backgroundColor="#fff"
+              ref={ref => (this.ECharts = ref)}
+              onData={() => this.voltageTrend()}
+            />
+          )}
+        </View>
       </View>
     );
   }
@@ -706,6 +714,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: wp(126 / BASE_WIDTH),
   },
+  EChartsContainer: {
+    width: '100%',
+    height: hp(580 / BASE_HEIGHT),
+    // backgroundColor: 'pink',
+    marginBottom: hp(32 / BASE_HEIGHT),
+  },
   commonBtn: {
     paddingVertical: 0,
     backgroundColor: '#588CE4',
@@ -714,7 +728,7 @@ const styles = StyleSheet.create({
     height: hp(80 / BASE_HEIGHT),
     borderRadius: wp(20 / BASE_WIDTH),
     marginRight: wp(20 / BASE_WIDTH),
-    marginTop: hp(82 / BASE_HEIGHT),
+    marginTop: hp(32 / BASE_HEIGHT),
     marginBottom: hp(42 / BASE_HEIGHT),
   },
   submitBtnText: {
@@ -729,6 +743,51 @@ const styles = StyleSheet.create({
     height: hp(215 / BASE_HEIGHT),
     backgroundColor: '#3D447B',
   },
+  navigationContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: hp(112 / BASE_HEIGHT),
+    bottom: 0,
+    left: wp(80 / BASE_WIDTH),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    position: 'relative',
+    width: 'auto',
+    // top: hp(108 / BASE_HEIGHT),
+    height: hp(112 / BASE_HEIGHT),
+    // left: wp(70 / BASE_WIDTH),
+    zIndex: 100,
+  },
+  backIcon: {
+    width: wp(24 / BASE_WIDTH),
+    height: hp(40 / BASE_HEIGHT),
+    marginTop: hp(36 / BASE_HEIGHT),
+  },
+  content: {
+    position: 'absolute',
+    width: '60%',
+    textAlign: 'center',
+    fontSize: hp(48 / BASE_HEIGHT),
+    fontWeight: 'bold',
+    top: hp(0 / BASE_HEIGHT),
+    height: hp(112 / BASE_HEIGHT),
+    left: '20%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contentText: {
+    // width: '100%',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: hp(48 / BASE_HEIGHT),
+    height: hp(112 / BASE_HEIGHT),
+    lineHeight: hp(112 / BASE_HEIGHT),
+    fontWeight: 'bold',
+  },
   commonColor: {
     backgroundColor: '#3D447B',
     borderColor: '#3D447B',
@@ -737,38 +796,8 @@ const styles = StyleSheet.create({
     height: hp(80 / BASE_HEIGHT),
     borderRadius: wp(20 / BASE_WIDTH),
     marginRight: wp(20 / BASE_WIDTH),
-    marginTop: hp(82 / BASE_HEIGHT),
+    marginTop: hp(32 / BASE_HEIGHT),
     marginBottom: hp(42 / BASE_HEIGHT),
-  },
-  iconContainer: {
-    position: 'absolute',
-    width: 'auto',
-    top: hp(130 / BASE_HEIGHT),
-    height: hp(215 / BASE_HEIGHT),
-    left: wp(70 / BASE_WIDTH),
-    zIndex: 100,
-  },
-  backIcon: {
-    width: wp(24 / BASE_WIDTH),
-    height: hp(40 / BASE_HEIGHT),
-  },
-  content: {
-    position: 'absolute',
-    width: '60%',
-    left: '20%',
-    top: hp(128 / BASE_HEIGHT),
-    // backgroundColor: 'pink',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    // left: wp(70 / BASE_WIDTH),
-  },
-  contentText: {
-    // width: '100%',
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: hp(48 / BASE_HEIGHT),
-    // height: hp(215 / BASE_HEIGHT),
-    fontWeight: 'bold',
   },
   arrowPic: {
     position: 'relative',
@@ -776,7 +805,6 @@ const styles = StyleSheet.create({
     width: wp((30 * 2) / BASE_WIDTH),
     height: hp((16 * 2) / BASE_HEIGHT),
   },
-
   actionSheet: {
     position: 'absolute',
     zIndex: 999,
@@ -809,6 +837,10 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: hp(400 / BASE_HEIGHT),
   },
+  typeBottom: {
+    height: '100%',
+    width: wp(100),
+  },
   leftBtn: {
     width: wp(160 / BASE_WIDTH),
     height: hp(100 / BASE_HEIGHT),
@@ -820,18 +852,27 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   leftBtnText: {
+    marginLeft: wp(20 / BASE_WIDTH),
+    width: wp(300 / BASE_WIDTH),
     color: '#333',
     height: hp(100 / BASE_HEIGHT),
     lineHeight: hp(100 / BASE_HEIGHT),
-    textAlign: 'center',
+    textAlign: 'left',
     fontSize: hp(32 / BASE_HEIGHT),
     fontWeight: 'bold',
   },
-  typeBottom: {
-    height: '100%',
-    width: wp(100),
-  },
   leftBtnTextActive: {
+    marginLeft: wp(20 / BASE_WIDTH),
+    width: wp(300 / BASE_WIDTH),
+    color: '#3D447B',
+    height: hp(100 / BASE_HEIGHT),
+    lineHeight: hp(100 / BASE_HEIGHT),
+    textAlign: 'left',
+    fontSize: hp(32 / BASE_HEIGHT),
+    fontWeight: 'bold',
+  },
+  leftBtnTextActive1: {
+    width: wp(160 / BASE_WIDTH),
     color: '#3D447B',
     height: hp(100 / BASE_HEIGHT),
     lineHeight: hp(100 / BASE_HEIGHT),
@@ -839,8 +880,17 @@ const styles = StyleSheet.create({
     fontSize: hp(32 / BASE_HEIGHT),
     fontWeight: 'bold',
   },
+  leftBtnText1: {
+    width: wp(160 / BASE_WIDTH),
+    color: '#333',
+    height: hp(100 / BASE_HEIGHT),
+    lineHeight: hp(100 / BASE_HEIGHT),
+    textAlign: 'center',
+    fontSize: hp(32 / BASE_HEIGHT),
+    fontWeight: 'bold',
+  },
   rightBtn: {
-    width: 'auto',
+    width: wp(320 / BASE_WIDTH),
     height: hp(100 / BASE_HEIGHT),
     backgroundColor: '#fff',
     borderColor: '#fff',

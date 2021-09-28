@@ -41,10 +41,12 @@ class Index extends React.Component {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
-          </TouchableOpacity>
-          <Text style={styles.content}>直流系统</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+            </TouchableOpacity>
+            <Text style={styles.content}>直流系统</Text>
+          </View>
         </View>
       </View>
     );
@@ -70,27 +72,36 @@ const styles = StyleSheet.create({
     height: hp(215 / BASE_HEIGHT),
     backgroundColor: '#3D447B',
   },
-  iconContainer: {
+  navigationContainer: {
     position: 'absolute',
+    width: '100%',
+    height: hp(112 / BASE_HEIGHT),
+    bottom: 0,
+    left: wp(80 / BASE_WIDTH),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    position: 'relative',
     width: 'auto',
-    top: hp(130 / BASE_HEIGHT),
-    height: hp(215 / BASE_HEIGHT),
-    left: wp(70 / BASE_WIDTH),
+    height: hp(112 / BASE_HEIGHT),
     zIndex: 100,
   },
   backIcon: {
     width: wp(24 / BASE_WIDTH),
     height: hp(40 / BASE_HEIGHT),
+    marginTop: hp(36 / BASE_HEIGHT),
   },
   content: {
-    position: 'absolute',
     color: '#fff',
     width: '100%',
     textAlign: 'center',
     fontSize: hp(48 / BASE_HEIGHT),
     fontWeight: 'bold',
-    top: hp(128 / BASE_HEIGHT),
-    height: hp(215 / BASE_HEIGHT),
+    top: hp(0 / BASE_HEIGHT),
+    height: hp(100 / BASE_HEIGHT),
+    lineHeight: hp(100 / BASE_HEIGHT),
     // left: wp(70 / BASE_WIDTH),
   },
 });
