@@ -919,11 +919,12 @@ const styles = StyleSheet.create({
   },
   horizontalContainer: {
     // flex: 1,
-    width: '100%',
-    // marginLeft: '4%',
+    width: wp(1040 / BASE_WIDTH),
+    marginLeft: wp(20 / BASE_WIDTH),
     backgroundColor: '#fff',
     height: 'auto',
     marginTop: hp(24 / BASE_HEIGHT),
+    borderRadius: wp(20 / BASE_WIDTH),
   },
   image: {
     width: wp(100 / BASE_WIDTH),
