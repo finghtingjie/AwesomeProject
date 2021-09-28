@@ -79,10 +79,12 @@ class GroupConfig extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
-          </TouchableOpacity>
-          <Text style={styles.content}>分组管理</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} />
+            </TouchableOpacity>
+            <Text style={styles.content}>分组管理</Text>
+          </View>
         </View>
         {fakeData.map(item => {
           return (

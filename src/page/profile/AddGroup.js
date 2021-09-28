@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, TextInput, Keyboard, Image } from 'react-native';
 
 import { Toast, Button, Checkbox } from 'teaset';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const arrowPic = require('../../assets/profile/xiala.png');
 const backIcon = require('../../assets/backicon.png');
@@ -40,13 +41,19 @@ class AddGroup extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { params } = this.props.navigation.state;
     if (params && params.item && params.type) {
       this.setState({ groupName: params.item.name, type: params.type, groupId: params.item.id });
       getGroupingMenu({ groupId: params.item.id }).then(res => {
         if (res && res.status === 200) {
-          this.setState({ fakeData: res.body.menuData.filter(item => item.parentId === 3) });
+          const arr = res.body.menuData.filter(item => item.parentId === 3);
+          arr.map(item => {
+            if (item.select === 1) {
+              item.checked = true;
+            }
+          });
+          this.setState({ fakeData: arr });
           if (params.type === 'edit') {
             this.setState({ type: params.type });
             // 处理回显逻辑
@@ -67,11 +74,16 @@ class AddGroup extends React.PureComponent {
             } else {
               this.setState({ checked: false });
             }
-          } else {
-            this.handleSetAll();
           }
         }
       });
+    } else {
+      const groupArr = await AsyncStorage.getItem('groupArr');
+      const newArr = JSON.parse(groupArr);
+      newArr.map(item => {
+        item.checked = true;
+      });
+      this.setState({ fakeData: newArr });
     }
   }
 
@@ -100,11 +112,19 @@ class AddGroup extends React.PureComponent {
 
   handleCheckAll = val => {
     if (val) {
-      this.handleSetAll();
-      this.setState({ checked: true });
+      // this.handleSetAll();
+      const fakeData = [...this.state.fakeData];
+      fakeData.map(item => {
+        item.checked = true;
+      });
+      this.setState({ fakeData, checked: true });
     } else {
-      this.handleSetAllNot();
-      this.setState({ checked: false });
+      // this.handleSetAllNot();
+      const fakeData = [...this.state.fakeData];
+      fakeData.map(item => {
+        item.checked = false;
+      });
+      this.setState({ fakeData, checked: false });
     }
   };
 
@@ -113,7 +133,7 @@ class AddGroup extends React.PureComponent {
     fakeData.map(item => {
       item.checked = true;
     });
-    this.setState({ fakeData, checked: true });
+    this.setState({ fakeData, checked: true, checked1: true, checked2: true });
   };
 
   handleSetAllNot = () => {
@@ -121,7 +141,7 @@ class AddGroup extends React.PureComponent {
     fakeData.map(item => {
       item.checked = false;
     });
-    this.setState({ fakeData, checked: false });
+    this.setState({ fakeData, checked: false, checked1: false, checked2: false });
   };
 
   handleOpen = () => {
@@ -138,6 +158,10 @@ class AddGroup extends React.PureComponent {
       // kpi 3
       arr = fakeData.map(item => item.id);
       newArr = [...arr, 3];
+    } else {
+      // 半选
+      arr = fakeData.filter(item => item.checked).map(item => item.id);
+      newArr = [...arr];
     }
     if (checked1) {
       // 监控 2
@@ -147,6 +171,7 @@ class AddGroup extends React.PureComponent {
       // 告警 4
       newArr.push(4);
     }
+    console.log(newArr);
     const params = {
       menuId: newArr.toString(),
       name: groupName,
@@ -191,10 +216,12 @@ class AddGroup extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
-          </TouchableOpacity>
-          <Text style={styles.content}>{type === 'add' ? '新增' : '编辑'}分组</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+            </TouchableOpacity>
+            <Text style={styles.content}>{type === 'add' ? '新增' : '编辑'}分组</Text>
+          </View>
         </View>
         <View style={styles.centerContainer}>
           <View style={styles.inputBox}>
@@ -218,13 +245,13 @@ class AddGroup extends React.PureComponent {
           </View>
           {/* 监控 */}
           <View style={styles.kpi}>
-            <Checkbox size="lg" title="监控" checked={checked1} onChange={val => this.handleCheck1(val)} />
+            <Checkbox size="md" title="监控" checked={checked1} onChange={val => this.handleCheck1(val)} />
           </View>
           <View style={styles.kpi}>
-            <Checkbox size="lg" title="告警" checked={checked2} onChange={val => this.handleCheck2(val)} />
+            <Checkbox size="md" title="告警" checked={checked2} onChange={val => this.handleCheck2(val)} />
           </View>
           <View style={styles.kpi}>
-            <Checkbox size="lg" title="kpi" checked={checked} onChange={val => this.handleCheckAll(val)} />
+            <Checkbox size="md" title="KPI" checked={checked} onChange={val => this.handleCheckAll(val)} />
             <TouchableOpacity onPress={() => this.handleOpen()}>
               {/* <Image style={styles.arrowPic} source={arrowPic} /> */}
               {isOpen ? (
@@ -238,10 +265,9 @@ class AddGroup extends React.PureComponent {
             fakeData.map(item => {
               return (
                 <View key={item.id} style={styles.checkboxGroup}>
-                  {/* <Text style={styles.userBtnText}>{item.val}</Text> */}
                   <Checkbox
-                    size="lg"
-                    title={item.name}
+                    size="md"
+                    title={item.name || item.val}
                     checked={item.checked}
                     onChange={val => this.handleChecked(item, val)}
                   />

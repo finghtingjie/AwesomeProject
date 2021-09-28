@@ -121,10 +121,12 @@ class AddUser extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
-          </TouchableOpacity>
-          <Text style={styles.content}>{type === 'add' ? '新增' : '编辑'}用户</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+            </TouchableOpacity>
+            <Text style={styles.content}>{type === 'add' ? '新增' : '编辑'}用户</Text>
+          </View>
         </View>
         <View style={styles.centerContainer}>
           <View style={styles.inputBox}>
@@ -163,7 +165,7 @@ class AddUser extends React.PureComponent {
           <TouchableOpacity style={styles.inputBox} onPress={() => this.handleSelect()}>
             <Text style={styles.curPassword}>分组</Text>
             <View style={styles.inputBase}>
-              <Text style={styles.placeholderText}>{groupName || '请选择分组'}</Text>
+              <Text style={groupName ? styles.valueText : styles.placeholderText}>{groupName || '请选择分组'}</Text>
             </View>
             <Image style={styles.arrowPic} source={arrowPic} resizeMode="contain" />
           </TouchableOpacity>

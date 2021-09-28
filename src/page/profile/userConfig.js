@@ -123,10 +123,12 @@ class UserConfig extends React.PureComponent {
         />
         <NavigationEvents onDidFocus={() => this.getAllUserInfo()} />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
-          </TouchableOpacity>
-          <Text style={styles.content}>用户管理</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} />
+            </TouchableOpacity>
+            <Text style={styles.content}>用户管理</Text>
+          </View>
         </View>
         <View style={styles.inputBox}>
           <TextInput

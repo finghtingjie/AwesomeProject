@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { getActiveChildNavigationOptions } from 'react-navigation';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import Home from '@page/home/Index';
@@ -137,7 +138,9 @@ class customTabBar extends React.PureComponent {
   componentDidMount() {
     getMenuData({}).then(res => {
       if (res && res.status === 200) {
-        // console.log(res);
+        const groupArr = res.body.find(item => item.id === 3).menuData.filter(item => item.parentId === 3);
+        // console.log(groupArr);
+        AsyncStorage.setItem('groupArr', JSON.stringify(groupArr));
         const arr = [];
         arr.push(...res.body.map(item => item.name));
         this.setState({ menuData: arr });

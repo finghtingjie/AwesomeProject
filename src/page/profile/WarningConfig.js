@@ -162,10 +162,12 @@ class WarningConfig extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
-          </TouchableOpacity>
-          <Text style={styles.content}>告警配置</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} />
+            </TouchableOpacity>
+            <Text style={styles.content}>告警配置</Text>
+          </View>
         </View>
         <View style={styles.tabContainer}>
           {WarningArr.map((item, index) => {

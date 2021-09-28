@@ -237,6 +237,19 @@ class Index extends React.PureComponent {
     }, 500);
   };
 
+  renderColor = item => {
+    const actions = new Map([
+      [1, '#000'],
+      [2, '#FCA001'],
+      [3, '#28920C'],
+      [4, '#CE0606'],
+      [5, '#999999'],
+      ['default', '#000'],
+    ]);
+    const action = actions.get(item.eventLevel) || actions.get('default');
+    return action;
+  };
+
   renderItem = ({ item }) => {
     return (
       <View style={styles.commonContainer}>
@@ -247,16 +260,18 @@ class Index extends React.PureComponent {
         <View style={styles.rightPart}>
           <Text style={styles.commonLine}>
             告警类型：
-            <Text style={[styles.contents, { color: item.contentColor }]}>{this.renderLevel(item.eventLevel)}</Text>
+            <Text style={[styles.contents, { color: this.renderColor(item) }]}>
+              {this.renderLevel(item.eventLevel)}
+            </Text>
           </Text>
           <Text style={styles.commonLine}>
             告警时间：
-            <Text style={[styles.contents, { color: item.contentColor }]}>
+            <Text style={[styles.contents, { color: this.renderColor(item) }]}>
               {moment(item.actingTime).format('YYYY-MM-DD HH:mm:ss')}
             </Text>
           </Text>
           <Text style={styles.commonLine}>
-            告警内容：<Text style={[styles.contents, { color: item.contentColor }]}>{item.alarmContent}</Text>
+            告警内容：<Text style={[styles.contents, { color: this.renderColor(item) }]}>{item.alarmContent}</Text>
           </Text>
         </View>
         {/* <Text style={styles.confirmBtnText}>{item.actingDesc}</Text> */}
@@ -319,7 +334,7 @@ class Index extends React.PureComponent {
       },
       () => {
         const diff = moment(dateArr[0]).diff(moment(dateArr[1]), 'days');
-        if (Math.abs(diff) >= 7) {
+        if (Math.abs(diff) >= 8) {
           Toast.info('只支持查询七天内的数据，请重新选择查询范围');
           this.setState({ dateStart: null, dateEnd: null });
         } else {

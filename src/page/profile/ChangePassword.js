@@ -58,10 +58,12 @@ class ChangePassword extends React.PureComponent {
           networkActivityIndicatorVisible
         />
         <View style={styles.navigationBar}>
-          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backIcon} source={backIcon} />
-          </TouchableOpacity>
-          <Text style={styles.content}>修改密码</Text>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.backIcon} source={backIcon} />
+            </TouchableOpacity>
+            <Text style={styles.content}>修改密码</Text>
+          </View>
         </View>
         <View style={styles.centerContainer}>
           <View style={styles.inputBox}>
@@ -74,7 +76,7 @@ class ChangePassword extends React.PureComponent {
               onBlur={() => Keyboard.dismiss()}
               onChangeText={val => this.setState({ curPassword: val })}
             />
-            <Image style={styles.backRight} source={backPic} />
+            {/* <Image style={styles.backRight} source={backPic} /> */}
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.curPassword}>新密码</Text>
@@ -88,7 +90,7 @@ class ChangePassword extends React.PureComponent {
               onBlur={() => Keyboard.dismiss()}
               onChangeText={val => this.setState({ newPassword: val })}
             />
-            <Image style={styles.backRight} source={backPic} />
+            {/* <Image style={styles.backRight} source={backPic} /> */}
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.curPassword}>确认密码</Text>
@@ -102,11 +104,14 @@ class ChangePassword extends React.PureComponent {
               onBlur={() => Keyboard.dismiss()}
               onChangeText={val => this.setState({ verifyPassword: val })}
             />
-            <Image style={styles.backRight} source={backPic} />
+            {/* <Image style={styles.backRight} source={backPic} /> */}
           </View>
           <View style={styles.tipBox}>
             <Image style={styles.backRight} source={rank} resizeMode="contain" />
-            <Text style={styles.tipContent}>密码必须至少6个字符，同时包含字母和数字。 忘记密码，请联系管理员</Text>
+            <View>
+              <Text style={styles.tipContent}>密码必须至少6个字符，同时包含字母和数字。</Text>
+              <Text style={[styles.tipContent, styles.commonTop]}>忘记密码，请联系管理员</Text>
+            </View>
           </View>
           <Button style={styles.submitBtn} onPress={this.handleSubmit}>
             <Text style={styles.submitBtnText}>保&nbsp;&nbsp;&nbsp;存</Text>

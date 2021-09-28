@@ -114,7 +114,7 @@ class Index extends React.Component {
           <Image style={styles.userPic} source={userPic} />
           <View style={styles.userInfo}>
             <Text style={styles.title}>{userInfo.userName}</Text>
-            <Text style={styles.subtitle}>{userInfo.companyName}</Text>
+            <Text style={styles.subtitle}>首钢京唐钢铁联合有限责任公司</Text>
           </View>
         </View>
         <View style={styles.centerContainer}>
@@ -205,8 +205,8 @@ const styles = StyleSheet.create({
     marginRight: wp(46 / BASE_WIDTH),
   },
   yonghuPic: {
-    width: wp(40 / BASE_WIDTH),
-    height: wp(40 / BASE_WIDTH),
+    width: wp(48 / BASE_WIDTH),
+    height: wp(48 / BASE_WIDTH),
     marginLeft: wp(82 / BASE_WIDTH),
   },
   commonContent: {
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     fontWeight: 'normal',
-    fontSize: hp(42 / BASE_HEIGHT),
+    fontSize: hp(36 / BASE_HEIGHT),
   },
 });
 
