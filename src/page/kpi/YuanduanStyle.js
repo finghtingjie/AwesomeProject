@@ -135,6 +135,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
+  rowContainer2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'rgba(186, 210, 237, 0.2)',
+  },
   borderStyle: {
     borderWidth: 1,
     borderColor: '#BAD2ED',

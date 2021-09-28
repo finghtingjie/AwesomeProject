@@ -105,9 +105,9 @@ class Yuanduan extends React.PureComponent {
           </View>
           <ScrollView>
             <View style={styles.bbb}>
-              {tableData.map(item => {
+              {tableData.map((item, i) => {
                 return (
-                  <View style={styles.rowContainer} key={item}>
+                  <View style={i % 2 === 0 ? styles.rowContainer : styles.rowContainer2} key={item}>
                     {item.map((items, index) => {
                       return (
                         <View key={items + index} style={this.renderColStyle(item, index)}>
