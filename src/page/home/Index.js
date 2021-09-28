@@ -449,6 +449,42 @@ class Index extends React.Component {
               ],
             },
           },
+          {
+            name: '尖',
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            lineStyle: {
+              width: 0,
+              color: 'rgba(0,0,0,0)',
+            },
+            data: [],
+            markArea: {
+              itemStyle: {
+                color: '#F69A7F',
+              },
+              data: [
+                [
+                  {
+                    // name: '峰',
+                    xAxis: '10:00',
+                  },
+                  {
+                    xAxis: '12:00',
+                  },
+                ],
+                [
+                  {
+                    // name: '峰',
+                    xAxis: '17:00',
+                  },
+                  {
+                    xAxis: '18:00',
+                  },
+                ],
+              ],
+            },
+          },
         ],
       },
       headInfo: {
@@ -480,22 +516,23 @@ class Index extends React.Component {
   totalLoadCurve = () => {
     totalLoadCurve({}).then(res => {
       if (res && res.status === 200) {
-        const resData = res.body.all.time;
-        let newArr = [];
-        resData.map(item => {
-          item = moment(item).format('mm:ss');
-          newArr.push(item);
-        });
         let { pieOption } = this.state;
-        // pieOption.xAxis.data = newArr;
-        pieOption.series[0].data = res.body.all.value;
-        pieOption.series[1].data = res.body.valley.value;
-        pieOption.series[1].data = res.body.flat.value;
-        pieOption.series[2].data = res.body.peak.value;
-        this.setState({
-          newArr1: newArr,
-          pieOption,
-        });
+        this.pieOption.clear();
+        if (res.body.tip) {
+          // 非678
+          pieOption.series[0].data = res.body.all.value;
+          pieOption.series[1].data = res.body.valley.value;
+          pieOption.series[2].data = res.body.flat.value;
+          pieOption.series[3].data = res.body.peak.value;
+        } else {
+          pieOption.series[0].data = res.body.all.value;
+          pieOption.series[1].data = res.body.valley.value;
+          pieOption.series[2].data = res.body.flat.value;
+          pieOption.series[3].data = res.body.peak.value;
+          pieOption.series[4].data = res.body.peak.value;
+          pieOption.legend.data = ['谷', '平', '峰', '尖'];
+        }
+        this.pieOption.setOption(pieOption);
       } else {
         Toast.fail(res.msg);
       }
@@ -680,9 +717,12 @@ class Index extends React.Component {
           })}
         </View>
         <View style={styles.chartContainer1}>
-          {newArr1.length >= 10 && (
-            <ECharts option={pieOption} backgroundColor="#fff" onData={() => this.totalLoadCurve()} />
-          )}
+          <ECharts
+            option={pieOption}
+            ref={ref => (this.pieOption = ref)}
+            backgroundColor="#fff"
+            onData={() => this.totalLoadCurve()}
+          />
         </View>
         <View style={styles.chartContainer}>
           {newArr.length >= 10 && (

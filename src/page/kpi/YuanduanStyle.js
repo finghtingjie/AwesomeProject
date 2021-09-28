@@ -154,4 +154,7 @@ export default StyleSheet.create({
     fontSize: hp(32 / BASE_HEIGHT),
     fontWeight: 'normal',
   },
+  bbb: {
+    paddingBottom: hp(200 / BASE_HEIGHT),
+  },
 });

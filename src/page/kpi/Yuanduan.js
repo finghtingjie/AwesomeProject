@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
 const backIcon = require('../../assets/backicon.png');
 
@@ -12,7 +12,7 @@ class Yuanduan extends React.PureComponent {
     super(props);
     this.state = {
       tableHead: ['系统', '有功功率(MW)', '无功功率(MVar)', '功率因数'],
-      tableData: [['1', '2', '3', '4'], ['a', 'b', 'c', 'd'], ['1', '2', '3', '456'], ['a', 'b', 'c', 'd']],
+      tableData: [['1', '2', '3', '4'], ['a', 'b', 'c', 'd'], ['1', '2', '3', '456'], ['aa', 'b', 'c', 'd']],
       activeTab: 1,
     };
   }
@@ -35,9 +35,9 @@ class Yuanduan extends React.PureComponent {
         resData.map((item, index) => {
           newArr[index] = [
             item.name,
-            Number(item.youGong).toFixed(2),
-            Number(item.wuGong).toFixed(2),
-            Number(item.dianLiu).toFixed(2),
+            item.youGong ? Number(item.youGong).toFixed(2) : '--',
+            item.wuGong ? Number(item.wuGong).toFixed(2) : '--',
+            item.dianLiu ? Number(item.dianLiu).toFixed(2) : '--',
           ];
         });
         this.setState({
@@ -103,19 +103,23 @@ class Yuanduan extends React.PureComponent {
               );
             })}
           </View>
-          {tableData.map(item => {
-            return (
-              <View style={styles.rowContainer} key={item}>
-                {item.map((items, index) => {
-                  return (
-                    <View key={items} style={this.renderColStyle(item, index)}>
-                      <Text style={styles.commonColText}>{items}</Text>
-                    </View>
-                  );
-                })}
-              </View>
-            );
-          })}
+          <ScrollView>
+            <View style={styles.bbb}>
+              {tableData.map(item => {
+                return (
+                  <View style={styles.rowContainer} key={item}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={items + index} style={this.renderColStyle(item, index)}>
+                          <Text style={styles.commonColText}>{items}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
+          </ScrollView>
         </View>
       </View>
     );
