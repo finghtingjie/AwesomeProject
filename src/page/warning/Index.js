@@ -27,7 +27,7 @@ const yi = require('../../assets/warning/yi.png');
 const shi = require('../../assets/warning/shi.png');
 
 // import IconFont from '@iconfont/index.js';
-import { getGiveAnAlarm } from '@api/warning';
+import { getGiveAnAlarm, getTGiveAnAlarm } from '@api/warning';
 
 // import DatePicker from '@components/DatePicker';
 import DashLine from '@components/DashLine';
@@ -39,10 +39,10 @@ class Index extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex1: 0,
+      selectedIndex1: null,
       selectedIndex2: 0,
       selectedIndex3: 0,
-      levelName: '全部类型',
+      levelName: '',
       statusName: '全部状态',
       isDatePickerVisible: false,
       // dateStart: moment()
@@ -97,6 +97,8 @@ class Index extends React.PureComponent {
       sort: 'desc',
       dateModalVisible: false,
       dateArr: [],
+      levelArr: [],
+      typeId: null,
     };
   }
   static navigationOptions = {
@@ -109,21 +111,32 @@ class Index extends React.PureComponent {
       dateArr: [dateStart, dateEnd],
     });
     this.getGiveAnAlarm();
+    this.getTGiveAnAlarm();
     const { params } = this.props.navigation.state;
     if (params && params.type) {
       this.setState({ type: params.type });
     }
   }
 
+  getTGiveAnAlarm = () => {
+    getTGiveAnAlarm({}).then(res => {
+      if (res && res.status === 200) {
+        this.setState({ levelArr: res.body });
+      }
+    });
+  };
+
   getGiveAnAlarm = () => {
-    let { pageNum, pageSize, alarmContent, selectedIndex1, sort, dateStart, dateEnd } = this.state;
+    let { pageNum, pageSize, alarmContent, typeId, sort, dateStart, dateEnd } = this.state;
     const params = {
       sort,
       pageNum,
       pageSize,
       alarmContent,
-      eventLevel: selectedIndex1 + 1,
     };
+    if (typeId) {
+      params.typeId = typeId;
+    }
     if (dateStart) {
       params.startTime = moment(dateStart).valueOf();
     }
@@ -132,12 +145,17 @@ class Index extends React.PureComponent {
     }
     ModalIndicator.show();
     getGiveAnAlarm(params).then(res => {
-      console.log(res, 135);
       ModalIndicator.hide();
       if (res && res.status === 200) {
         this.setState({ total: res.body.totalAmount });
         const renderPic = item => {
-          const actions = new Map([[5, hu], [2, yi], [3, yue], [4, shi], ['default', '']]);
+          const actions = new Map([
+            ['异常信号', yi],
+            ['越限监视', yue],
+            ['重要信号', shi],
+            ['保护动作', hu],
+            ['default', ''],
+          ]);
           const action = actions.get(item) || actions.get('default');
           return action;
         };
@@ -146,7 +164,7 @@ class Index extends React.PureComponent {
           let newArr = [];
           tempArr.map(item => {
             const items = item;
-            items.warningPic = renderPic(item.eventLevel);
+            items.warningPic = renderPic(item.alarmGroup);
             newArr.push(items);
             return items;
           });
@@ -159,7 +177,7 @@ class Index extends React.PureComponent {
           let newArr = [];
           tempArr.map(item => {
             const items = item;
-            items.warningPic = renderPic(item.eventLevel);
+            items.warningPic = renderPic(item.alarmGroup);
             newArr.push(items);
             return items;
           });
@@ -182,13 +200,27 @@ class Index extends React.PureComponent {
   };
 
   handleSelectLevel = () => {
-    const items = ['全部类型', '异常信号', '越限监视', '重要信号', '保护动作'];
-    PullPicker.show('请选择告警类型', items, this.state.selectedIndex1, (item, index) =>
-      this.setState({ selectedIndex1: index, levelName: item, pageNum: 1, pageSize: 10 }, () => {
-        console.log(item);
-        this.getGiveAnAlarm();
-      }),
-    );
+    const { levelArr } = this.state;
+    const items = levelArr.map(item => item.name);
+    if (!levelArr.length) {
+      Toast.info('请先配置告警类型');
+    } else {
+      // const items = ['全部类型', '异常信号', '越限监视', '重要信号', '保护动作'];
+      PullPicker.show('请选择告警类型', items, this.state.selectedIndex1, (item, index) =>
+        this.setState(
+          {
+            pageNum: 1,
+            pageSize: 10,
+            selectedIndex1: index,
+            levelName: item,
+            typeId: levelArr.find(i => i.name === item).id,
+          },
+          () => {
+            this.getGiveAnAlarm();
+          },
+        ),
+      );
+    }
   };
 
   // handleSelectStatus = () => {
@@ -205,14 +237,7 @@ class Index extends React.PureComponent {
   };
 
   renderLevel = item => {
-    const actions = new Map([
-      [1, '全部类型'],
-      [2, '异常信号'],
-      [3, '越限监视'],
-      [4, '重要信号'],
-      [5, '保护动作'],
-      ['default', ''],
-    ]);
+    const actions = new Map([[2, '异常信号'], [3, '越限监视'], [4, '重要信号'], [5, '保护动作'], ['default', '']]);
     const action = actions.get(item) || actions.get('default');
     return action;
   };
@@ -239,14 +264,13 @@ class Index extends React.PureComponent {
 
   renderColor = item => {
     const actions = new Map([
-      [1, '#000'],
-      [2, '#FCA001'],
-      [3, '#28920C'],
-      [4, '#CE0606'],
-      [5, '#999999'],
+      ['异常信号', '#FCA001'],
+      ['越限监视', '#28920C'],
+      ['重要信号', '#CE0606'],
+      ['保护动作', '#999999'],
       ['default', '#000'],
     ]);
-    const action = actions.get(item.eventLevel) || actions.get('default');
+    const action = actions.get(item) || actions.get('default');
     return action;
   };
 
@@ -260,18 +284,20 @@ class Index extends React.PureComponent {
         <View style={styles.rightPart}>
           <Text style={styles.commonLine}>
             告警类型：
-            <Text style={[styles.contents, { color: this.renderColor(item) }]}>
-              {this.renderLevel(item.eventLevel)}
+            <Text style={[styles.contents, { color: this.renderColor(item.alarmGroup) }]}>
+              {/* {this.renderLevel(item.eventLevel)} */}
+              {item.alarmGroup}
             </Text>
           </Text>
           <Text style={styles.commonLine}>
             告警时间：
-            <Text style={[styles.contents, { color: this.renderColor(item) }]}>
+            <Text style={[styles.contents, { color: this.renderColor(item.alarmGroup) }]}>
               {moment(item.actingTime).format('YYYY-MM-DD HH:mm:ss')}
             </Text>
           </Text>
           <Text style={styles.commonLine}>
-            告警内容：<Text style={[styles.contents, { color: this.renderColor(item) }]}>{item.alarmContent}</Text>
+            告警内容：
+            <Text style={[styles.contents, { color: this.renderColor(item.alarmGroup) }]}>{item.alarmContent}</Text>
           </Text>
         </View>
         {/* <Text style={styles.confirmBtnText}>{item.actingDesc}</Text> */}
@@ -338,7 +364,9 @@ class Index extends React.PureComponent {
           Toast.info('只支持查询七天内的数据，请重新选择查询范围');
           this.setState({ dateStart: null, dateEnd: null });
         } else {
-          this.getGiveAnAlarm();
+          this.setState({ pageNum: 1, pageSize: 10 }, () => {
+            this.getGiveAnAlarm();
+          });
         }
       },
     );
@@ -378,13 +406,6 @@ class Index extends React.PureComponent {
           <TouchableOpacity style={styles.statusContainer} onPress={() => this.setState({ dateModalVisible: true })}>
             <Text style={styles.commonText}>{dateShow}</Text>
             <Image style={styles.arrowPic} source={arrowPic} resizeMode="contain" />
-            {/* <DatePicker
-              mode="datetime"
-              defaultValue={this.state.dateStart}
-              onConfirm={this.handleConfirm}
-              onCancel={this.hideDatePicker}
-              valueTextStyle={styles.commonText2}
-            /> */}
             <DoubleDatePicker
               visible={this.state.dateModalVisible}
               // defaultValue={this.state.dateArr}
@@ -418,8 +439,8 @@ class Index extends React.PureComponent {
           </ScrollView>
         </View>
         <DashLine
-          backgroundColor="#BABABC"
           len={50}
+          backgroundColor="#BABABC"
           width={hp(1282 / BASE_HEIGHT)}
           left={wp(70 / BASE_WIDTH)}
           top={hp(478 / BASE_HEIGHT)}

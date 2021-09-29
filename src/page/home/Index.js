@@ -296,7 +296,7 @@ class Index extends React.Component {
             max: 1300,
             min: 950,
             splitNumber: 6,
-            boundaryGap: [0, '100%'],
+            // boundaryGap: [0, '100%'],
             axisPointer: {
               snap: true,
             },

@@ -7,3 +7,11 @@ export async function getGiveAnAlarm(params) {
     params,
   });
 }
+
+//获取告警类型
+export async function getTGiveAnAlarm(params) {
+  return request('/getTGiveAnAlarm', {
+    method: 'GET',
+    params,
+  });
+}
