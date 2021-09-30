@@ -28,7 +28,7 @@ class ChangePassword extends React.PureComponent {
   handleSubmit = () => {
     const { navigation } = this.props;
     const { newPassword, verifyPassword, curPassword } = this.state;
-    if (!newPassword || !verifyPassword) {
+    if (!curPassword) {
       Toast.info('请输入旧密码');
     } else if (newPassword !== verifyPassword) {
       Toast.info('两次输入的密码不一样,请重新输入');
