@@ -2,8 +2,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
+import { NavigationEvents } from 'react-navigation';
 import { Toast, Button, ModalIndicator } from 'teaset';
-import { BoxShadow } from 'react-native-shadow';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const BASE_WIDTH = 10.8;
@@ -13,7 +13,7 @@ const rect = require('../../assets/monitor/rect.png');
 const changePic = require('../../assets/monitor/change.png');
 const shuPic = require('../../assets/monitor/shu.png');
 
-// import IconFont from '@iconfont/index.js';
+import IconFont from '@iconfont/index.js';
 import { getMonitor } from '@api/monitor';
 
 import styles from './MonitorStyle';
@@ -96,9 +96,7 @@ class Index extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {
-    this.getMonitor();
-  }
+  componentDidMount() {}
 
   getMonitor = () => {
     const { actionIndex, actionIndex2, arr2, tabArr, activeIndex } = this.state;
@@ -203,6 +201,21 @@ class Index extends React.PureComponent {
     });
   };
 
+  renderBtnStyle = (item, index) => {
+    const { tabArr } = this.state;
+    if (tabArr.length === 1) {
+      return styles.commonBtn;
+    } else if (tabArr.length === 2 && index === 0) {
+      return styles.commonBtn2;
+    } else if (tabArr.length === 2 && index === 1) {
+      return styles.commonBtn;
+    } else if (tabArr.length === 3 && index < 2) {
+      return styles.commonBtn2;
+    } else {
+      return styles.commonBtn;
+    }
+  };
+
   render() {
     const {
       tableData1,
@@ -218,17 +231,6 @@ class Index extends React.PureComponent {
       tabArr,
       arr2,
     } = this.state;
-
-    const shadowOpt = {
-      width: wp((250 * tabArr.length) / BASE_WIDTH),
-      height: hp(78 / BASE_HEIGHT),
-      color: '#000',
-      border: wp(1 / BASE_WIDTH),
-      radius: wp(20 / BASE_WIDTH),
-      opacity: 0.2,
-      x: wp(40 / BASE_WIDTH),
-      y: hp(42 / BASE_HEIGHT),
-    };
     return (
       <View style={styles.container}>
         <StatusBar
@@ -238,6 +240,7 @@ class Index extends React.PureComponent {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
+        <NavigationEvents onDidFocus={() => this.getMonitor()} />
         <View style={styles.navigationBar}>
           <View style={styles.navigationContainer}>
             <TouchableOpacity
@@ -246,7 +249,12 @@ class Index extends React.PureComponent {
               <Image style={styles.rect} source={rect} resizeMode="contain" />
               <Text style={styles.leftText}>{actionIndex === 0 ? '源端' : '网侧'}</Text>
             </TouchableOpacity>
-            <Text style={styles.content}>{arr2[actionIndex2]}</Text>
+            <TouchableOpacity
+              style={styles.content}
+              onPress={() => this.setState({ actionsheetShow: !actionsheetShow })}>
+              <Text style={styles.contentText}>{arr2[actionIndex2]}</Text>
+              <IconFont name="xiala" size={24} color="#fff" />
+            </TouchableOpacity>
             <TouchableOpacity style={styles.iconContainerRight} onPress={() => this.handleChangZhan()}>
               <Image style={styles.changePic} source={changePic} resizeMode="contain" />
             </TouchableOpacity>
@@ -308,9 +316,9 @@ class Index extends React.PureComponent {
           {tabArr.map((item, index) => {
             return (
               <TouchableOpacity
-                activeOpacity={1}
                 key={item}
-                style={styles.commonBtn}
+                activeOpacity={1}
+                style={this.renderBtnStyle(item, index)}
                 onPress={() => this.handleTabChange(item, index)}>
                 <Text style={styles.commonText}>{item}</Text>
                 {index === activeIndex && <View style={styles.commonBorder} />}
@@ -318,9 +326,6 @@ class Index extends React.PureComponent {
             );
           })}
         </View>
-        {/* <BoxShadow setting={shadowOpt}>
-
-        </BoxShadow> */}
         {/* table */}
         <ScrollView>
           <View style={styles.commonTableContainer}>

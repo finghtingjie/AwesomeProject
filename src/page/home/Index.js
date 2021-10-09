@@ -87,12 +87,12 @@ class Index extends React.Component {
                     show: true,
                     position: 'center',
                     fontSize: 12,
-                    color: '#1575F6',
+                    color: '#3D447B',
                     formatter: '{d}%',
                   },
                 },
                 itemStyle: {
-                  color: '#1575F6',
+                  color: '#3D447B',
                 },
               },
               {
@@ -226,9 +226,9 @@ class Index extends React.Component {
         { id: 3, val: '电力潮流图', source: dianlichaoliu, routeName: 'Dianlichaoliu' },
         { id: 4, val: '电压趋势图', source: dianyaqushi, routeName: 'Dianyaqushi' },
         { id: 5, val: '电压合格率', source: hegelv, routeName: 'Hegelv' },
-        { id: 6, val: '发电机负载率', source: fuzailv, routeName: 'Fuzailv' },
+        { id: 6, val: '发电机负荷率', source: fuzailv, routeName: 'Fuzailv' },
         { id: 7, val: '主变油温', source: youwen, routeName: 'Zhubianyouwen' },
-        { id: 8, val: '主变负载率', source: zhubianfuzailv, routeName: 'ZhubianFuzailv' },
+        { id: 8, val: '主变负荷率', source: zhubianfuzailv, routeName: 'ZhubianFuzailv' },
         { id: 9, val: '直流系统', source: zhiliu, routeName: 'Zhiliu' },
       ],
       fakeData2: [
@@ -291,7 +291,7 @@ class Index extends React.Component {
             scale: false,
             type: 'value',
             splitLine: {
-              show: true,
+              show: false,
             },
             max: 1300,
             min: 950,

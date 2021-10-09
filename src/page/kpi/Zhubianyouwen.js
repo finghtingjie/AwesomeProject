@@ -33,9 +33,12 @@ const commonxAxis = {
 };
 
 const commonyAxis = {
-  type: 'value',
+  type: 'log',
   splitLine: {
     show: false,
+  },
+  minorSplitLine: {
+    show: true,
   },
 };
 
@@ -94,8 +97,7 @@ class Index extends React.Component {
             lineStyle: {
               color: '#3CBE1E',
             },
-            stack: '总量',
-            data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
+            data: [],
           },
           {
             name: '油温2',
@@ -103,8 +105,7 @@ class Index extends React.Component {
             lineStyle: {
               color: '#1C6DDA',
             },
-            stack: '总量',
-            data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
+            data: [],
             // markLine: {
             //   symbol: ['none', 'none'], //去掉箭头
             //   itemStyle: {
@@ -139,8 +140,7 @@ class Index extends React.Component {
             lineStyle: {
               color: '#3CBE1E',
             },
-            stack: '总量',
-            data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
+            data: [],
           },
         ],
       },
@@ -691,11 +691,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   rightBtn: {
-    width: 'auto',
+    width: wp(1540 / BASE_WIDTH),
     height: hp(100 / BASE_HEIGHT),
     backgroundColor: '#fff',
     borderColor: '#fff',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 0,
   },

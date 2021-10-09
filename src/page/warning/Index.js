@@ -9,9 +9,11 @@ import {
   Image,
   ScrollView,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 
 import moment from 'moment';
+import { NavigationEvents } from 'react-navigation';
 import { Toast, Button, PullPicker, ModalIndicator } from 'teaset';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -105,18 +107,7 @@ class Index extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {
-    const { dateStart, dateEnd } = this.state;
-    this.setState({
-      dateArr: [dateStart, dateEnd],
-    });
-    this.getGiveAnAlarm();
-    this.getTGiveAnAlarm();
-    const { params } = this.props.navigation.state;
-    if (params && params.type) {
-      this.setState({ type: params.type });
-    }
-  }
+  componentDidMount() {}
 
   getTGiveAnAlarm = () => {
     getTGiveAnAlarm({}).then(res => {
@@ -376,7 +367,11 @@ class Index extends React.PureComponent {
     const { alarmContent, fakeData, levelName, statusName, dateEnd, total, dateStart } = this.state;
     const renderDate = (item1, item2) => {
       if (item1 && item2) {
-        return `${item1.substr(2)}-${item2.substr(2)}`;
+        return `${moment(item1)
+          .format('YYYY.MM.DD')
+          .substr(2)}-${moment(item2)
+          .format('YYYY.MM.DD')
+          .substr(2)}`;
       } else {
         return '请选择时间';
       }
@@ -390,6 +385,15 @@ class Index extends React.PureComponent {
           backgroundColor="transparent"
           showHideTransition="fade"
           networkActivityIndicatorVisible
+        />
+        <NavigationEvents
+          onDidFocus={() => {
+            this.setState({
+              dateArr: [dateStart, dateEnd],
+            });
+            this.getGiveAnAlarm();
+            this.getTGiveAnAlarm();
+          }}
         />
         <View style={styles.navigationBar}>
           <Text style={styles.content}>告警</Text>
@@ -450,6 +454,7 @@ class Index extends React.PureComponent {
           data={fakeData}
           windowSize={300}
           refreshing={false}
+          refreshControl={<RefreshControl refreshing={false} onRefresh={this.onRefresh} tintColor="#fff" />}
           onEndReachedThreshold={0.1}
           onRefresh={this.onRefresh}
           renderItem={this.renderItem}

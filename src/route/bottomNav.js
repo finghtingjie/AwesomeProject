@@ -289,8 +289,6 @@ const MainNavigator = createBottomTabNavigator(
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    // borderWidth: wp(1 / BASE_WIDTH),
-    // borderColor: '#EEE',
     shadowColor: 'rgba(0, 0, 0, 0.15)',
     shadowOffset: {
       width: 1,

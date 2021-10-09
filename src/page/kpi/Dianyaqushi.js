@@ -32,9 +32,12 @@ const commonxAxis = {
 };
 
 const commonyAxis = {
-  type: 'value',
+  type: 'log',
   splitLine: {
     show: false,
+  },
+  minorSplitLine: {
+    show: true,
   },
 };
 
@@ -94,8 +97,7 @@ class Index extends React.Component {
             lineStyle: {
               color: '#3CBE1E',
             },
-            stack: '总量',
-            data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
+            data: [],
           },
           {
             name: '5#母线',
@@ -103,8 +105,7 @@ class Index extends React.Component {
             lineStyle: {
               color: '#1C6DDA',
             },
-            stack: '总量',
-            data: [10, 12, 14, 16, 20, 26, 28, 24, 20, 16, 14, 9],
+            data: [],
           },
         ],
       },
@@ -463,12 +464,14 @@ class Index extends React.Component {
                 newArr.push(item);
               });
               let { option } = this.state;
-              // option.xAxis.data = newArr;
+              option.xAxis.data = newArr;
               option.series[0].name = '4#母线';
               option.series[1].name = '5#母线';
               option.legend.data = ['4#母线', '5#母线'];
               option.series[0].data = resData[0].value;
               option.series[1].data = resData2[0].value;
+              // option.series[0].data = [10, 11, 12, 15, 6, 8, 2];
+              // option.series[1].data = [-100, 4, 30, 10, 4, 1, 2];
               if (option.series.length >= 3) {
                 option.series[option.series.length - 1].data = [];
               }
@@ -896,11 +899,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   rightBtn: {
-    width: wp(320 / BASE_WIDTH),
+    width: wp(1540 / BASE_WIDTH),
     height: hp(100 / BASE_HEIGHT),
     backgroundColor: '#fff',
     borderColor: '#fff',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 0,
   },

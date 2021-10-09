@@ -39,8 +39,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: hp(44 / BASE_HEIGHT),
     width: wp(976 / BASE_WIDTH),
-    // backgroundColor: 'pink',
     marginLeft: wp(52 / BASE_WIDTH),
+    marginRight: wp(52 / BASE_WIDTH),
   },
   levelContainer: {
     position: 'relative',
@@ -64,7 +64,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: wp(570 / BASE_WIDTH),
+    width: wp(546 / BASE_WIDTH),
     height: hp(82 / BASE_HEIGHT),
     backgroundColor: '#fff',
     marginLeft: wp(30 / BASE_WIDTH),
