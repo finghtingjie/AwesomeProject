@@ -41,10 +41,10 @@ class Index extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex1: null,
+      selectedIndex1: 0,
       selectedIndex2: 0,
       selectedIndex3: 0,
-      levelName: '',
+      levelName: '全部类型',
       statusName: '全部状态',
       isDatePickerVisible: false,
       // dateStart: moment()
@@ -192,25 +192,25 @@ class Index extends React.PureComponent {
 
   handleSelectLevel = () => {
     const { levelArr } = this.state;
-    const items = levelArr.map(item => item.name);
+    const items = ['全部类型'].concat(levelArr.map(item => item.name));
     if (!levelArr.length) {
       Toast.info('请先配置告警类型');
     } else {
       // const items = ['全部类型', '异常信号', '越限监视', '重要信号', '保护动作'];
-      PullPicker.show('请选择告警类型', items, this.state.selectedIndex1, (item, index) =>
+      PullPicker.show('请选择告警类型', items, this.state.selectedIndex1, (item, index) => {
         this.setState(
           {
             pageNum: 1,
             pageSize: 10,
             selectedIndex1: index,
             levelName: item,
-            typeId: levelArr.find(i => i.name === item).id,
+            typeId: index > 0 ? levelArr.find(i => i.name === item).id : null,
           },
           () => {
             this.getGiveAnAlarm();
           },
-        ),
-      );
+        );
+      });
     }
   };
 
