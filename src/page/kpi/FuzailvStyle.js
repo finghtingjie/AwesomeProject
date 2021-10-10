@@ -194,6 +194,6 @@ export default StyleSheet.create({
     height: hp(100 / BASE_HEIGHT),
     lineHeight: hp(100 / BASE_HEIGHT),
     fontWeight: 'bold',
-    backgroundColor: '#E0EDFB',
+    // backgroundColor: '#E0EDFB',
   },
 });

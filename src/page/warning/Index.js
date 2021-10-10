@@ -134,9 +134,9 @@ class Index extends React.PureComponent {
     if (dateEnd) {
       params.endTime = moment(dateEnd).valueOf();
     }
-    ModalIndicator.show();
+    // ModalIndicator.show();
     getGiveAnAlarm(params).then(res => {
-      ModalIndicator.hide();
+      // ModalIndicator.hide();
       if (res && res.status === 200) {
         this.setState({ total: res.body.totalAmount });
         const renderPic = item => {

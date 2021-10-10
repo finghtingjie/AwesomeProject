@@ -76,7 +76,7 @@ class Hegelv extends React.PureComponent {
   renderArrayText = (items, index) => {
     return items.map(item => {
       return (
-        <View style={styles.itemsStyle}>
+        <View style={styles.itemsStyle} key={item}>
           <Text style={index === 2 ? styles.greenTextStyle : styles.darkTextStyle}>{item}</Text>
         </View>
       );
