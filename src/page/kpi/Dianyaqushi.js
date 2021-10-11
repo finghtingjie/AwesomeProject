@@ -28,13 +28,14 @@ const commonGrid = {
 const commonxAxis = {
   type: 'category',
   boundaryGap: false,
-  data: ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45'],
+  data: [],
 };
 
 const commonyAxis = {
   type: 'value',
   min: 90,
   max: 150,
+  // splitNumber: 0.5,
   minInterval: 0.5,
   splitLine: {
     show: false,
@@ -134,6 +135,12 @@ class Index extends React.Component {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
+    let newArr = [];
+    resData[0].time.map(item => {
+      item = moment(item).format('YYYY-MM-DD HH:mm');
+      newArr.push(item);
+    });
+    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E'], //图例颜色
       tooltip: {
@@ -147,7 +154,11 @@ class Index extends React.Component {
         left: '3%',
       },
       grid: commonGrid,
-      xAxis: commonxAxis,
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: formatVal,
+      },
       yAxis: {
         type: 'value',
         min: type === '35kV' ? 20 : 90,
@@ -180,6 +191,12 @@ class Index extends React.Component {
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
     const resData2 = res.body[resArr[1]];
+    let newArr = [];
+    resData[0].time.map(item => {
+      item = moment(item).format('YYYY-MM-DD HH:mm');
+      newArr.push(item);
+    });
+    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -193,7 +210,11 @@ class Index extends React.Component {
         left: '3%',
       },
       grid: commonGrid,
-      xAxis: commonxAxis,
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: formatVal,
+      },
       yAxis: {
         type: 'value',
         min: type === '220kV' ? 209 : 90,
@@ -235,6 +256,12 @@ class Index extends React.Component {
     const resData = res.body[resArr[0]];
     const resData2 = res.body[resArr[1]];
     const resData3 = res.body[resArr[3]];
+    let newArr = [];
+    resData[0].time.map(item => {
+      item = moment(item).format('YYYY-MM-DD HH:mm');
+      newArr.push(item);
+    });
+    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -248,7 +275,11 @@ class Index extends React.Component {
         left: '3%',
       },
       grid: commonGrid,
-      xAxis: commonxAxis,
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: formatVal,
+      },
       yAxis: {
         type: 'value',
         min: 5,
@@ -297,6 +328,12 @@ class Index extends React.Component {
     const resData = res.body[resArr[0]];
     const resData2 = res.body[resArr[1]];
     const resData3 = res.body[resArr[2]];
+    let newArr = [];
+    resData[0].time.map(item => {
+      item = moment(item).format('YYYY-MM-DD HH:mm');
+      newArr.push(item);
+    });
+    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -310,7 +347,11 @@ class Index extends React.Component {
         left: '3%',
       },
       grid: commonGrid,
-      xAxis: commonxAxis,
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: formatVal,
+      },
       yAxis: {
         type: 'value',
         min: type === '10kV' ? 5 : 20,
@@ -358,6 +399,12 @@ class Index extends React.Component {
     const resData2 = res.body[resArr[1]];
     const resData3 = res.body[resArr[2]];
     const resData4 = res.body[resArr[3]];
+    let newArr = [];
+    resData[0].time.map(item => {
+      item = moment(item).format('YYYY-MM-DD HH:mm');
+      newArr.push(item);
+    });
+    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -371,7 +418,11 @@ class Index extends React.Component {
         left: '3%',
       },
       grid: commonGrid,
-      xAxis: commonxAxis,
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: formatVal,
+      },
       yAxis: {
         type: 'value',
         min: 90,
@@ -425,6 +476,12 @@ class Index extends React.Component {
     const resData3 = res.body[resArr[2]];
     const resData4 = res.body[resArr[3]];
     const resData5 = res.body[resArr[4]];
+    let newArr = [];
+    resData[0].time.map(item => {
+      item = moment(item).format('YYYY-MM-DD HH:mm');
+      newArr.push(item);
+    });
+    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -438,7 +495,11 @@ class Index extends React.Component {
         left: '3%',
       },
       grid: commonGrid,
-      xAxis: commonxAxis,
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: formatVal,
+      },
       yAxis: {
         type: 'value',
         min: 5,
@@ -506,13 +567,15 @@ class Index extends React.Component {
               const resData2 = res.body['220kV5#母线'];
               let newArr = [];
               resData[0].time.map(item => {
-                item = moment(item).format('hh:mm');
+                item = moment(item).format('YYYY-MM-DD HH:mm');
                 newArr.push(item);
               });
+              const formatVal = newArr.map(item => item.slice(11, 16));
               let { option } = this.state;
-              option.xAxis.data = newArr;
+              option.xAxis.data = formatVal;
               option.yAxis.min = 209;
               option.yAxis.max = 231;
+              option.yAxis.minInterval = 2;
               option.series[0].name = '4#母线';
               option.series[1].name = '5#母线';
               option.legend.data = ['4#母线', '5#母线'];

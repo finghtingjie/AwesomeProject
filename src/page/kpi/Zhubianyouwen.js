@@ -29,13 +29,17 @@ const commonGrid = {
 const commonxAxis = {
   type: 'category',
   boundaryGap: false,
-  data: ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45'],
+  data: [],
 };
 
 const commonyAxis = {
   type: 'value',
-  min: -20,
-  max: 85,
+  min: function(value) {
+    return Math.floor(value.min);
+  },
+  max: function(value) {
+    return Math.floor(value.max);
+  },
   splitNumber: 4,
   minInterval: 4,
   splitLine: {
@@ -170,6 +174,12 @@ class Index extends React.Component {
     } else {
       const resData = res.body[0][`${val}#主变110YW1`];
       const resData2 = res.body[1][`${val}#主变110YW2`];
+      let newArr = [];
+      resData[0].time.map(item => {
+        item = moment(item).format('YYYY-MM-DD HH:mm');
+        newArr.push(item);
+      });
+      const formatVal = newArr.map(item => item.slice(11, 16));
       const option = {
         color: ['#3CBE1E', '#1C6DDA'], //图例颜色
         tooltip: {
@@ -180,7 +190,11 @@ class Index extends React.Component {
           left: '3%',
         },
         grid: commonGrid,
-        xAxis: commonxAxis,
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: formatVal,
+        },
         yAxis: commonyAxis,
         toolbox: commonToolbox,
         series: [
@@ -190,7 +204,6 @@ class Index extends React.Component {
             lineStyle: {
               color: '#3CBE1E',
             },
-            stack: '总量',
             data: resData[0] ? resData[0].value : [],
           },
           {
@@ -199,7 +212,6 @@ class Index extends React.Component {
             lineStyle: {
               color: '#1C6DDA',
             },
-            stack: '总量',
             data: resData2[0] ? resData2[0].value : [],
           },
         ],
@@ -213,6 +225,12 @@ class Index extends React.Component {
     const resData = res.body[0][`${val}#主变${voltage}YW1`];
     const resData2 = res.body[1][`${val}#主变${voltage}YW2`];
     const resData3 = res.body[2][`${val}#主变${voltage}YW3`];
+    let newArr = [];
+    resData[0].time.map(item => {
+      item = moment(item).format('YYYY-MM-DD HH:mm');
+      newArr.push(item);
+    });
+    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -223,7 +241,11 @@ class Index extends React.Component {
         left: '3%',
       },
       grid: commonGrid,
-      xAxis: commonxAxis,
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: formatVal,
+      },
       yAxis: commonyAxis,
       toolbox: commonToolbox,
       series: [

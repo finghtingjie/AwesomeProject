@@ -53,20 +53,20 @@ class App extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    JPush.init();
+  async componentDidMount() {
+    await JPush.init();
     //连接状态
     this.connectListener = result => {
       console.log('connectListener:' + JSON.stringify(result));
+      JPush.getRegistrationID(res => {
+        console.log('registerID:' + JSON.stringify(res));
+        if (result) {
+          console.log(res.registerID);
+          AsyncStorage.setItem('registrationId', res.registerID);
+        }
+      });
     };
     JPush.addConnectEventListener(this.connectListener);
-    JPush.getRegistrationID(result => {
-      console.log('registerID:' + JSON.stringify(result));
-      if (result) {
-        console.log(result.registerID);
-        AsyncStorage.setItem('registrationId', result.registerID);
-      }
-    });
     //通知回调
     this.notificationListener = result => {
       console.log('notificationListener:' + JSON.stringify(result));
