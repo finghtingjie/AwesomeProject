@@ -191,8 +191,7 @@ class Index extends React.PureComponent {
 
   handleChangZhan = () => {
     const { navigation } = this.props;
-    // 跳转至场站接线图界面
-    navigation.navigate('');
+    navigation.navigate('Dianlichaoliu');
   };
 
   handleTabChange = (item, index) => {

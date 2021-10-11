@@ -33,6 +33,9 @@ const commonxAxis = {
 
 const commonyAxis = {
   type: 'value',
+  min: 90,
+  max: 150,
+  minInterval: 0.5,
   splitLine: {
     show: false,
   },
@@ -81,6 +84,9 @@ class Index extends React.Component {
         color: ['#3CBE1E', '#1C6DDA'], //图例颜色
         tooltip: {
           trigger: 'axis',
+          textStyle: {
+            fontSize: 10,
+          },
         },
         legend: {
           data: ['4#母线', '5#母线'],
@@ -124,7 +130,7 @@ class Index extends React.Component {
     this.voltageTrend();
   }
 
-  setOption1 = (res, val) => {
+  setOption1 = (res, val, type) => {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -132,6 +138,9 @@ class Index extends React.Component {
       color: ['#3CBE1E'], //图例颜色
       tooltip: {
         trigger: 'axis',
+        textStyle: {
+          fontSize: 10,
+        },
       },
       legend: {
         data: [val],
@@ -139,7 +148,18 @@ class Index extends React.Component {
       },
       grid: commonGrid,
       xAxis: commonxAxis,
-      yAxis: commonyAxis,
+      yAxis: {
+        type: 'value',
+        min: type === '35kV' ? 20 : 90,
+        max: type === '35kV' ? 50 : 150,
+        minInterval: 0.5,
+        splitLine: {
+          show: false,
+        },
+        minorSplitLine: {
+          show: true,
+        },
+      },
       toolbox: commonToolbox,
       series: [
         {
@@ -155,7 +175,7 @@ class Index extends React.Component {
     this.ECharts.setOption(option);
   };
 
-  setOption2 = res => {
+  setOption2 = (res, type) => {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -164,6 +184,9 @@ class Index extends React.Component {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
         trigger: 'axis',
+        textStyle: {
+          fontSize: 10,
+        },
       },
       legend: {
         data: ['4#母线', '5#母线'],
@@ -171,7 +194,18 @@ class Index extends React.Component {
       },
       grid: commonGrid,
       xAxis: commonxAxis,
-      yAxis: commonyAxis,
+      yAxis: {
+        type: 'value',
+        min: type === '220kV' ? 209 : 90,
+        max: type === '220kV' ? 231 : 150,
+        minInterval: 0.5,
+        splitLine: {
+          show: false,
+        },
+        minorSplitLine: {
+          show: true,
+        },
+      },
       toolbox: commonToolbox,
       series: [
         {
@@ -205,6 +239,9 @@ class Index extends React.Component {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
         trigger: 'axis',
+        textStyle: {
+          fontSize: 10,
+        },
       },
       legend: {
         data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅱ段母线2', 'Ⅲ段母线'],
@@ -212,7 +249,18 @@ class Index extends React.Component {
       },
       grid: commonGrid,
       xAxis: commonxAxis,
-      yAxis: commonyAxis,
+      yAxis: {
+        type: 'value',
+        min: 5,
+        max: 15,
+        minInterval: 0.5,
+        splitLine: {
+          show: false,
+        },
+        minorSplitLine: {
+          show: true,
+        },
+      },
       toolbox: commonGrid,
       series: [
         {
@@ -243,7 +291,7 @@ class Index extends React.Component {
     this.ECharts.setOption(option);
   };
 
-  setOption33 = res => {
+  setOption33 = (res, type) => {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -253,6 +301,9 @@ class Index extends React.Component {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
         trigger: 'axis',
+        textStyle: {
+          fontSize: 10,
+        },
       },
       legend: {
         data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'],
@@ -260,7 +311,18 @@ class Index extends React.Component {
       },
       grid: commonGrid,
       xAxis: commonxAxis,
-      yAxis: commonyAxis,
+      yAxis: {
+        type: 'value',
+        min: type === '10kV' ? 5 : 20,
+        max: type === '10kV' ? 15 : 50,
+        minInterval: 0.5,
+        splitLine: {
+          show: false,
+        },
+        minorSplitLine: {
+          show: true,
+        },
+      },
       toolbox: commonToolbox,
       series: [
         {
@@ -290,6 +352,7 @@ class Index extends React.Component {
   };
 
   setOption4 = res => {
+    this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
     const resData2 = res.body[resArr[1]];
@@ -299,6 +362,9 @@ class Index extends React.Component {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
         trigger: 'axis',
+        textStyle: {
+          fontSize: 10,
+        },
       },
       legend: {
         data: ['4乙母线', '4甲母线', '5乙母线', '5甲母线'],
@@ -306,7 +372,18 @@ class Index extends React.Component {
       },
       grid: commonGrid,
       xAxis: commonxAxis,
-      yAxis: commonyAxis,
+      yAxis: {
+        type: 'value',
+        min: 90,
+        max: 150,
+        minInterval: 0.5,
+        splitLine: {
+          show: false,
+        },
+        minorSplitLine: {
+          show: true,
+        },
+      },
       toolbox: commonToolbox,
       series: [
         {
@@ -337,6 +414,7 @@ class Index extends React.Component {
         },
       ],
     };
+    console.log(option);
     this.ECharts.setOption(option);
   };
 
@@ -351,6 +429,9 @@ class Index extends React.Component {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
         trigger: 'axis',
+        textStyle: {
+          fontSize: 8,
+        },
       },
       legend: {
         data: ['Ⅰ段母线', 'Ⅱ段A母线', 'Ⅱ段B母线', 'Ⅱ段母线', 'Ⅲ段母线'],
@@ -358,7 +439,18 @@ class Index extends React.Component {
       },
       grid: commonGrid,
       xAxis: commonxAxis,
-      yAxis: commonyAxis,
+      yAxis: {
+        type: 'value',
+        min: 5,
+        max: 15,
+        minInterval: 0.5,
+        splitLine: {
+          show: false,
+        },
+        minorSplitLine: {
+          show: true,
+        },
+      },
       toolbox: commonToolbox,
       series: [
         {
@@ -419,20 +511,20 @@ class Index extends React.Component {
               });
               let { option } = this.state;
               option.xAxis.data = newArr;
+              option.yAxis.min = 209;
+              option.yAxis.max = 231;
               option.series[0].name = '4#母线';
               option.series[1].name = '5#母线';
               option.legend.data = ['4#母线', '5#母线'];
               option.series[0].data = resData[0].value;
               option.series[1].data = resData2[0].value;
-              // option.series[0].data = [10, 11, 12, 15, 6, 8, 2];
-              // option.series[1].data = [-100, 4, 30, 10, 4, 1, 2];
               if (option.series.length >= 3) {
                 option.series[option.series.length - 1].data = [];
               }
               this.setState({ option, newArr }, () => {
                 this.ECharts.setOption(this.state.option);
               });
-            } else if (voltage === '110kV') {
+            } else if (voltage.includes('110')) {
               this.setOption4(res);
             } else if (voltage === '10kV') {
               const resData = res.body['10kVⅠ段母线'];
@@ -448,6 +540,8 @@ class Index extends React.Component {
               option.series[0].name = 'Ⅰ段母线';
               option.series[1].name = 'Ⅱ段母线';
               option.series[2].name = 'Ⅲ段母线';
+              option.yAxis.min = 5;
+              option.yAxis.max = 15;
               option.series[2].type = option.series[1].type;
               option.series[2].lineStyle = option.series[1].lineStyle;
               option.legend.data = ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'];
@@ -461,16 +555,15 @@ class Index extends React.Component {
               this.setState({ option, newArr }, () => {
                 this.ECharts.setOption(option);
               });
-              // this.setOption3(res);
             }
             break;
           case '220kV轧钢站':
             if (voltage === '220kV') {
-              this.setOption2(res);
+              this.setOption2(res, '220kV');
             } else if (voltage === '110kV') {
               this.setOption4(res);
             } else if (voltage === '10kV') {
-              this.setOption3(res);
+              this.setOption3(res, '10kV');
             }
             break;
           case '热电110kV站':
@@ -482,41 +575,43 @@ class Index extends React.Component {
           case '2230冷轧110kV站':
           case '制氧110kV站':
           case '1420冷轧110kV站':
-            this.setOption1(res, 'Ⅰ段母线');
+            this.setOption1(res, 'Ⅰ段母线', '110kV');
             break;
           case '1#110kV站':
           case '3#110kV站':
           case '4#110kV站':
           case '5#110kV站':
             if (voltage === '110kV') {
-              this.setOption2(res);
+              this.setOption2(res, '110kV');
             } else if (voltage === '10kV') {
-              this.setOption33(res);
+              this.setOption33(res, '10kV');
             }
             break;
           case '2#110kV站':
             if (voltage === '110kV') {
-              this.setOption2(res);
+              this.setOption2(res, '110kV');
             } else if (voltage === '35kV') {
-              this.setOption1(res, 'Ⅰ段母线');
+              this.setOption1(res, 'Ⅰ段母线', '35kV');
             } else if (voltage === '10kV') {
-              this.setOption33(res);
+              this.setOption33(res, '10kV');
             }
             break;
           case '6#110kV站':
             if (voltage === '110kV') {
               this.setOption4(res);
             } else if (voltage === '35kV') {
-              this.setOption33(res);
+              this.setOption33(res, '35kV');
             } else if (voltage === '10kV') {
               this.setOption5(res);
             }
             break;
           case '7#110kV站':
             if (voltage === '110kV') {
-              this.setOption2(res);
-            } else {
-              this.setOption33(res);
+              this.setOption2(res, '110kV');
+            } else if (voltage === '35kV') {
+              this.setOption33(res, '35kV');
+            } else if (voltage === '10kV') {
+              this.setOption33(res, '10kV');
             }
             break;
 
@@ -717,13 +812,15 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: 'relative',
-    width: 'auto',
+    width: '10%',
+    marginLeft: -wp(80 / BASE_WIDTH),
     // top: hp(108 / BASE_HEIGHT),
     height: hp(112 / BASE_HEIGHT),
     // left: wp(70 / BASE_WIDTH),
-    zIndex: 100,
+    // zIndex: 100,
   },
   backIcon: {
+    marginLeft: wp(80 / BASE_WIDTH),
     width: wp(24 / BASE_WIDTH),
     height: hp(40 / BASE_HEIGHT),
     marginTop: hp(36 / BASE_HEIGHT),

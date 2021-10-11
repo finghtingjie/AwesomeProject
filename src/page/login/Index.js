@@ -44,7 +44,8 @@ class Index extends React.PureComponent {
     // });
   }
 
-  handleLogin = () => {
+  handleLogin = async () => {
+    const registrationId = await AsyncStorage.getItem('registrationId');
     // disconnect()
     //   .then(() => console.log('disconnect: '))
     //   .catch(console.log);
@@ -62,9 +63,8 @@ class Index extends React.PureComponent {
       Toast.info('请输入密码');
     } else {
       ModalIndicator.show();
-      const params = { userName, password };
+      const params = { userName, password, registrationId };
       login(params).then(res => {
-        console.log(res);
         ModalIndicator.hide();
         if (res && res.status === 200) {
           AsyncStorage.setItem('user', JSON.stringify(res.body));

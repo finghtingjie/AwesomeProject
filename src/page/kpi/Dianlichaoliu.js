@@ -95,16 +95,19 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: 'relative',
-    width: 'auto',
+    width: '10%',
     height: hp(112 / BASE_HEIGHT),
+    marginLeft: -wp(40 / BASE_WIDTH),
     zIndex: 100,
   },
   backIcon: {
+    marginLeft: wp(40 / BASE_WIDTH),
     width: wp(24 / BASE_WIDTH),
     height: hp(40 / BASE_HEIGHT),
     marginTop: hp(36 / BASE_HEIGHT),
   },
   content: {
+    position: 'absolute',
     color: '#fff',
     width: '100%',
     textAlign: 'center',
@@ -113,7 +116,8 @@ const styles = StyleSheet.create({
     top: hp(0 / BASE_HEIGHT),
     height: hp(112 / BASE_HEIGHT),
     lineHeight: hp(112 / BASE_HEIGHT),
-    left: -wp(20 / BASE_WIDTH),
+    left: -wp(80 / BASE_WIDTH),
+    zIndex: 99,
   },
 });
 

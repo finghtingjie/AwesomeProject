@@ -37,6 +37,10 @@ target 'AwesomeProject' do
 
   pod 'Picker', :path => '../node_modules/react-native-picker'
 
+  pod 'JPush', :path => '../node_modules/jpush-react-native'
+
+  pod 'JCore', :path => '../node_modules/jcore-react-native'
+
   target 'AwesomeProjectTests' do
     inherit! :search_paths
     # Pods for testing

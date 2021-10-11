@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   navigationBar: {
     width: '100%',
-    height: hp(215 / BASE_HEIGHT),
+    height: hp(165 / BASE_HEIGHT),
     backgroundColor: '#3D447B',
   },
   navigationContainer: {
@@ -87,13 +87,16 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: hp(112 / BASE_HEIGHT),
     zIndex: 100,
+    marginLeft: -wp(40 / BASE_WIDTH),
   },
   backIcon: {
+    marginLeft: wp(40 / BASE_WIDTH),
     width: wp(24 / BASE_WIDTH),
     height: hp(40 / BASE_HEIGHT),
     marginTop: hp(36 / BASE_HEIGHT),
   },
   content: {
+    position: 'absolute',
     color: '#fff',
     width: '100%',
     textAlign: 'center',
@@ -102,7 +105,8 @@ const styles = StyleSheet.create({
     top: hp(0 / BASE_HEIGHT),
     height: hp(112 / BASE_HEIGHT),
     lineHeight: hp(112 / BASE_HEIGHT),
-    left: -wp(20 / BASE_WIDTH),
+    left: -wp(80 / BASE_WIDTH),
+    zIndex: 99,
   },
 });
 

@@ -36,7 +36,7 @@ export default StyleSheet.create({
   iconContainerRight: {
     // position: 'absolute',
     position: 'relative',
-    width: 'auto',
+    width: wp(61 / BASE_WIDTH),
     // marginTop: hp(19 / BASE_HEIGHT),
     height: hp(112 / BASE_HEIGHT),
     // right: wp(60 / BASE_WIDTH),
@@ -70,12 +70,12 @@ export default StyleSheet.create({
     position: 'absolute',
     // position: 'relative',
     flexDirection: 'row',
-    width: '100%',
+    width: '60%',
     alignItems: 'center',
     justifyContent: 'center',
     top: hp(0 / BASE_HEIGHT),
     height: hp(100 / BASE_HEIGHT),
-    // left: wp(70 / BASE_WIDTH),
+    left: '20%',
   },
   contentText: {
     color: '#fff',

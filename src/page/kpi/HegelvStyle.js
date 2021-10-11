@@ -27,6 +27,7 @@ export default StyleSheet.create({
     width: '100%',
     height: hp(215 / BASE_HEIGHT),
     backgroundColor: '#3D447B',
+    overflow: 'hidden',
   },
   tabContainer: {
     position: 'relative',
@@ -42,13 +43,16 @@ export default StyleSheet.create({
   },
   iconContainer: {
     position: 'absolute',
-    width: 'auto',
+    width: '10%',
     top: hp(130 / BASE_HEIGHT),
     height: hp(215 / BASE_HEIGHT),
-    left: wp(70 / BASE_WIDTH),
+    left: wp(80 / BASE_WIDTH),
     zIndex: 100,
+    // backgroundColor: 'red',
+    marginLeft: -wp(40 / BASE_WIDTH),
   },
   backIcon: {
+    marginLeft: wp(80 / BASE_WIDTH),
     width: wp(24 / BASE_WIDTH),
     height: hp(40 / BASE_HEIGHT),
   },

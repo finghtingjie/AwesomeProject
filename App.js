@@ -5,13 +5,13 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
-
 import { BackHandler, YellowBox } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 // 第三方模块
 import { Toast } from 'teaset';
+import JPush from 'jpush-react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -54,6 +54,24 @@ class App extends React.Component {
     super(props);
   }
   componentDidMount() {
+    JPush.init();
+    //连接状态
+    this.connectListener = result => {
+      console.log('connectListener:' + JSON.stringify(result));
+    };
+    JPush.addConnectEventListener(this.connectListener);
+    JPush.getRegistrationID(result => {
+      console.log('registerID:' + JSON.stringify(result));
+      if (result) {
+        console.log(result.registerID);
+        AsyncStorage.setItem('registrationId', result.registerID);
+      }
+    });
+    //通知回调
+    this.notificationListener = result => {
+      console.log('notificationListener:' + JSON.stringify(result));
+    };
+    JPush.addNotificationListener(this.notificationListener);
     if (Platform.OS === 'android') {
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }

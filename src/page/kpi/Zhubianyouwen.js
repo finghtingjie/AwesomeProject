@@ -34,6 +34,10 @@ const commonxAxis = {
 
 const commonyAxis = {
   type: 'value',
+  min: -20,
+  max: 85,
+  splitNumber: 4,
+  minInterval: 4,
   splitLine: {
     show: false,
   },
@@ -579,12 +583,14 @@ const styles = StyleSheet.create({
   iconContainer: {
     position: 'relative',
     width: 'auto',
+    marginLeft: -wp(80 / BASE_WIDTH),
     // top: hp(108 / BASE_HEIGHT),
     height: hp(112 / BASE_HEIGHT),
     // left: wp(70 / BASE_WIDTH),
     zIndex: 100,
   },
   backIcon: {
+    marginLeft: wp(80 / BASE_WIDTH),
     width: wp(24 / BASE_WIDTH),
     height: hp(40 / BASE_HEIGHT),
     marginTop: hp(36 / BASE_HEIGHT),

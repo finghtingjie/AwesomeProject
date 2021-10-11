@@ -30,9 +30,7 @@ export default class DoubleDatePicker extends Component {
       date: new Date(),
       modalVisible: false,
       active: 1,
-      dateStart: moment()
-        .day(-7)
-        .format('YYYY-MM-DD'),
+      dateStart: moment().format('YYYY-MM-DD'),
       dateEnd: moment().format('YYYY-MM-DD'),
     };
   }
@@ -105,9 +103,7 @@ export default class DoubleDatePicker extends Component {
       dateEnd = defaultValue[1];
       date = new Date(dateStart);
     } else {
-      dateStart = moment()
-        .day(-7)
-        .format('YYYY-MM-DD');
+      dateStart = moment().format('YYYY-MM-DD');
       dateEnd = moment().format('YYYY-MM-DD');
       date = new Date(dateStart);
     }
