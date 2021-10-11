@@ -1,6 +1,16 @@
 import React from 'react';
 import { View, TextInput, Text, Keyboard, StatusBar, Image } from 'react-native';
 
+import {
+  VpnState,
+  CharonErrorState,
+  connect,
+  disconnect,
+  getCharonErrorState,
+  getCurrentState,
+  onStateChangedListener,
+  prepare,
+} from 'react-native-ip-sec-vpn';
 import { Toast, ModalIndicator, Button } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -26,9 +36,23 @@ class Index extends React.PureComponent {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // alert(VpnState[VpnState.disconnected]);
+    // prepare();
+    // onStateChangedListener(e => {
+    //   console.log('state changed: ', e);
+    // });
+  }
 
   handleLogin = () => {
+    // disconnect()
+    //   .then(() => console.log('disconnect: '))
+    //   .catch(console.log);
+    // connect(
+    //   'https://60.2.15.148/por/login_psw.csp?rnd=0.657862098022687#https%3A%2F%2F60.2.15.148%2F',
+    //   'tiandongming',
+    //   'mingo2004',
+    // );
     Keyboard.dismiss();
     const { navigation } = this.props;
     const { userName, password } = this.state;

@@ -33,7 +33,7 @@ const commonxAxis = {
 };
 
 const commonyAxis = {
-  type: 'log',
+  type: 'value',
   splitLine: {
     show: false,
   },
@@ -229,7 +229,6 @@ class Index extends React.Component {
           lineStyle: {
             color: '#3CBE1E',
           },
-          stack: '总量',
           data: resData[0].value,
         },
         {
@@ -238,16 +237,11 @@ class Index extends React.Component {
           lineStyle: {
             color: '#1C6DDA',
           },
-          stack: '总量',
           data: resData2[0] ? resData2[0].value : [],
         },
         {
           name: '油温3',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData3[0] ? resData3[0].value : [],
         },
       ],

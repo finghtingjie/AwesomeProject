@@ -288,7 +288,7 @@ class Index extends React.Component {
             },
           },
         },
-        color: ['#BED7F9', '#1575F6', '#6972CC'],
+        color: ['#BCBCBC', '#00AAFF', '#FFAAFF'],
         legend: {
           data: ['谷', '平', '峰'],
           icon: 'stack',
@@ -333,7 +333,7 @@ class Index extends React.Component {
             },
             markArea: {
               itemStyle: {
-                color: '#BED7F9',
+                color: '#BCBCBC',
               },
               data: [
                 [
@@ -371,7 +371,7 @@ class Index extends React.Component {
             data: [100, 40, 230, 120, 200, 100, 200, 250, 400, 390, 380, 390, 400],
             markArea: {
               itemStyle: {
-                color: '#1575F6',
+                color: '#00AAFF',
               },
               data: [
                 [
@@ -416,7 +416,7 @@ class Index extends React.Component {
             data: [100, 40, 230, 120, 200, 100, 200, 250, 400, 390, 380, 390, 400],
             markArea: {
               itemStyle: {
-                color: '#6972CC',
+                color: '#FFAAFF',
               },
               data: [
                 [
@@ -452,12 +452,12 @@ class Index extends React.Component {
             data: [],
             markArea: {
               itemStyle: {
-                color: '#F69A7F',
+                color: '#EFB6A2',
               },
               data: [
                 [
                   {
-                    // name: '峰',
+                    name: '尖',
                     xAxis: '10:00',
                   },
                   {
@@ -466,7 +466,7 @@ class Index extends React.Component {
                 ],
                 [
                   {
-                    // name: '峰',
+                    name: '尖',
                     xAxis: '17:00',
                   },
                   {
@@ -531,7 +531,7 @@ class Index extends React.Component {
         const nowTimeFormat = `${nowTime} ${val[val.length - 1]}`;
         if (res.body.tip != null) {
           // 尖
-          if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 00:00`), moment(`${nowTime} 06:00`), 'hours')) {
+          if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 00:00`), moment(`${nowTime} 06:00`), 'minutes')) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[1].markArea.data[0][1].xAxis = val[val.length - 1];
             pieOption.series[2].data = [];
@@ -540,10 +540,14 @@ class Index extends React.Component {
             pieOption.series[3].markArea = {};
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 22:00`), moment(`${nowTime} 24:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 22:00`), moment(`${nowTime} 24:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[1].markArea.data[1][1].xAxis = val[val.length - 1];
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 06:00`), moment(`${nowTime} 10:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 06:00`), moment(`${nowTime} 10:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[2].markArea.data[0][1].xAxis = val[val.length - 1];
@@ -551,47 +555,62 @@ class Index extends React.Component {
             pieOption.series[3].markArea = {};
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 12:00`), moment(`${nowTime} 13:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 12:00`), moment(`${nowTime} 13:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[4].data = res.body.tip.value;
             pieOption.series[2].markArea.data[1][1].xAxis = val[val.length - 1];
             pieOption.series[3].data = [];
             pieOption.series[3].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 19:00`), moment(`${nowTime} 22:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 19:00`), moment(`${nowTime} 22:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
             pieOption.series[2].markArea.data[2][1].xAxis = val[val.length - 1];
             pieOption.series[2].markArea.data[2][1].xAxis = val[val.length - 1];
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 13:00`), moment(`${nowTime} 17:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 13:00`), moment(`${nowTime} 17:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
             pieOption.series[3].markArea.data[0][1].xAxis = val[val.length - 1];
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 18:00`), moment(`${nowTime} 19:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 18:00`), moment(`${nowTime} 19:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
             pieOption.series[3].markArea.data[1][1].xAxis = val[val.length - 1];
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 10:00`), moment(`${nowTime} 12:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 10:00`), moment(`${nowTime} 12:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[4].data = res.body.tip.value;
             pieOption.series[3].markArea.data[0][1].xAxis = val[val.length - 1];
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 17:00`), moment(`${nowTime} 18:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 17:00`), moment(`${nowTime} 18:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
             pieOption.series[3].markArea.data[1][1].xAxis = val[val.length - 1];
+          } else {
+            pieOption.series[4].data = [];
+            pieOption.series[4].markArea = {};
           }
           pieOption.legend.data = ['谷', '平', '峰', '尖'];
         } else {
-          if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 00:00`), moment(`${nowTime} 06:00`), 'hours')) {
+          if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 00:00`), moment(`${nowTime} 06:00`), 'minutes')) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[1].markArea.data[0][1].xAxis = val[val.length - 1];
             pieOption.series[2].data = [];
@@ -600,10 +619,14 @@ class Index extends React.Component {
             pieOption.series[3].markArea = {};
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 22:00`), moment(`${nowTime} 24:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 22:00`), moment(`${nowTime} 24:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[1].markArea.data[1][1].xAxis = val[val.length - 1];
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 06:00`), moment(`${nowTime} 10:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 06:00`), moment(`${nowTime} 10:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[2].markArea.data[0][1].xAxis = val[val.length - 1];
@@ -611,37 +634,47 @@ class Index extends React.Component {
             pieOption.series[3].markArea = {};
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 12:00`), moment(`${nowTime} 13:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 12:00`), moment(`${nowTime} 13:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[2].markArea.data[1][1].xAxis = val[val.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 19:00`), moment(`${nowTime} 22:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 19:00`), moment(`${nowTime} 22:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[2].markArea.data[2][1].xAxis = val[val.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 10:00`), moment(`${nowTime} 12:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 10:00`), moment(`${nowTime} 12:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[3].markArea.data[0][1].xAxis = val[val.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
-          } else if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 13:00`), moment(`${nowTime} 19:00`), 'hours')) {
+          } else if (
+            moment(nowTimeFormat).isBetween(moment(`${nowTime} 13:00`), moment(`${nowTime} 19:00`), 'minutes')
+          ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[3].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[4].data = [];
+            pieOption.series[4].markArea = {};
+          } else {
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
           }
         }
-
         this.pieOption.setOption(pieOption);
       } else {
         Toast.fail(res.msg);
@@ -981,7 +1014,7 @@ const styles = StyleSheet.create({
     width: '100%',
     top: hp(42 / BASE_HEIGHT),
     // left: hp(76 / BASE_HEIGHT),
-    color: '#1575F6',
+    color: '#00AAFF',
     textAlign: 'center',
     fontSize: hp(36 / BASE_HEIGHT),
     fontWeight: 'bold',

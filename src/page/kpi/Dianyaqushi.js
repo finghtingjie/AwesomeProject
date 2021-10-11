@@ -32,7 +32,7 @@ const commonxAxis = {
 };
 
 const commonyAxis = {
-  type: 'log',
+  type: 'value',
   splitLine: {
     show: false,
   },
@@ -148,7 +148,6 @@ class Index extends React.Component {
           lineStyle: {
             color: '#3CBE1E',
           },
-          stack: '总量',
           data: resData[0].value,
         },
       ],
@@ -181,7 +180,6 @@ class Index extends React.Component {
           lineStyle: {
             color: '#3CBE1E',
           },
-          stack: '总量',
           data: resData[0].value,
         },
         {
@@ -190,7 +188,6 @@ class Index extends React.Component {
           lineStyle: {
             color: '#1C6DDA',
           },
-          stack: '总量',
           data: resData2[0].value,
         },
       ],
@@ -224,34 +221,21 @@ class Index extends React.Component {
           lineStyle: {
             color: '#3CBE1E',
           },
-          stack: '总量',
           data: resData[0].value,
         },
         {
           name: 'Ⅱ段母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData2[0].value,
         },
         {
           name: 'Ⅱ段母线2',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: [],
         },
         {
           name: 'Ⅲ段母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData3[0].value,
         },
       ],
@@ -285,7 +269,6 @@ class Index extends React.Component {
           lineStyle: {
             color: '#3CBE1E',
           },
-          stack: '总量',
           data: resData[0].value,
         },
         {
@@ -294,16 +277,11 @@ class Index extends React.Component {
           lineStyle: {
             color: '#1C6DDA',
           },
-          stack: '总量',
           data: resData2[0].value,
         },
         {
           name: 'Ⅲ段母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData3[0].value,
         },
       ],
@@ -337,7 +315,6 @@ class Index extends React.Component {
           lineStyle: {
             color: '#3CBE1E',
           },
-          stack: '总量',
           data: resData[0].value,
         },
         {
@@ -346,25 +323,16 @@ class Index extends React.Component {
           lineStyle: {
             color: '#1C6DDA',
           },
-          stack: '总量',
           data: resData2[0].value,
         },
         {
           name: '5乙母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData3[0].value,
         },
         {
           name: '5甲母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData4[0].value,
         },
       ],
@@ -399,7 +367,6 @@ class Index extends React.Component {
           lineStyle: {
             color: '#3CBE1E',
           },
-          stack: '总量',
           data: resData[0].value,
         },
         {
@@ -408,34 +375,21 @@ class Index extends React.Component {
           lineStyle: {
             color: '#1C6DDA',
           },
-          stack: '总量',
           data: resData2[0].value,
         },
         {
           name: 'Ⅱ段B母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData3[0].value,
         },
         {
           name: 'Ⅱ段母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData4[0].value,
         },
         {
           name: 'Ⅲ段母线',
           type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
-          },
-          stack: '总量',
           data: resData5[0].value,
         },
       ],
@@ -496,7 +450,6 @@ class Index extends React.Component {
               option.series[2].name = 'Ⅲ段母线';
               option.series[2].type = option.series[1].type;
               option.series[2].lineStyle = option.series[1].lineStyle;
-              option.series[2].stack = option.series[1].stack;
               option.legend.data = ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'];
               option.series[0].data = resData[0].value;
               option.series[1].data = resData2[0].value;
@@ -529,7 +482,7 @@ class Index extends React.Component {
           case '2230冷轧110kV站':
           case '制氧110kV站':
           case '1420冷轧110kV站':
-            this.setOption1(res);
+            this.setOption1(res, 'Ⅰ段母线');
             break;
           case '1#110kV站':
           case '3#110kV站':
