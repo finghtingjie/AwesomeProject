@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'reac
 
 import { NavigationEvents } from 'react-navigation';
 import { Toast, Button, ModalIndicator } from 'teaset';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const BASE_WIDTH = 10.8;
@@ -189,9 +190,15 @@ class Index extends React.PureComponent {
     });
   };
 
-  handleChangZhan = () => {
+  handleChangZhan = async () => {
+    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
+    const newArr = menuIdArr.split(',').map(item => Number(item));
     const { navigation } = this.props;
-    navigation.navigate('Dianlichaoliu');
+    if (newArr.includes(16)) {
+      navigation.navigate('Dianlichaoliu');
+    } else {
+      Toast.info('您没有访问电力潮流图的权限');
+    }
   };
 
   handleTabChange = (item, index) => {
@@ -275,7 +282,7 @@ class Index extends React.PureComponent {
                 })}
               </View>
               <View>
-                <ScrollView style={styles.ScrollView}>
+                <ScrollView style={styles.ScrollView} showsVerticalScrollIndicator={false}>
                   {arr2.map((item, index) => {
                     return (
                       <Button key={item} style={styles.rightBtn} onPress={() => this.handleTypeChange2(item, index)}>
