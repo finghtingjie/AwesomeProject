@@ -162,10 +162,11 @@ class Index extends React.Component {
     this.ECharts.clear();
     if (!res.body.length) {
       this.ECharts.setOption({});
+      this.setState({ noResult: true });
     } else {
       const resData = res.body[0][`${val}#主变110YW1`];
       const resData2 = res.body[1][`${val}#主变110YW2`];
-      if (!resData.length && !resData.length) {
+      if (!resData.length && !resData2.length) {
         this.setState({ noResult: true });
       } else {
         this.setState({ noResult: false });
@@ -254,10 +255,7 @@ class Index extends React.Component {
         type: 'value',
         min: 'dataMin',
         max: 'dataMax',
-        // max: function(value) {
-        //   return value.max;
-        // },
-        // minInterval: 0.01,
+        minInterval: 1,
         splitLine: {
           show: false,
         },
