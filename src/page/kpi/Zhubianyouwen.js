@@ -199,7 +199,7 @@ class Index extends React.Component {
             show: false,
           },
         },
-        toolbox: commonToolbox,
+        // toolbox: commonToolbox,
         series: [
           {
             name: '油温1',
@@ -500,7 +500,7 @@ class Index extends React.Component {
                 })}
               </View>
               <View>
-                <ScrollView style={styles.ScrollView}>
+                <ScrollView style={styles.ScrollView} showsVerticalScrollIndicator={false}>
                   {arr2.map((item, index) => {
                     return (
                       <Button key={item} style={styles.rightBtn} onPress={() => this.handleTypeChange2(2, index)}>
