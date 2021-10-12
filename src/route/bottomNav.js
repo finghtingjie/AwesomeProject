@@ -34,9 +34,11 @@ import GroupConfig from '@page/profile/GroupConfig';
 import AddGroup from '@page/profile/AddGroup';
 
 import { getMenuData } from '@api/login';
+import { getUserGroupingMenu } from '@api/profile';
 
 import IconWithBadge from '../components/IconWithBadge';
 import NavigationService from '../../NavigationService';
+import Toast from 'teaset/components/Toast/Toast';
 
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
@@ -139,11 +141,21 @@ class customTabBar extends React.PureComponent {
     getMenuData({}).then(res => {
       if (res && res.status === 200) {
         const groupArr = res.body.find(item => item.id === 3).menuData.filter(item => item.parentId === 3);
-        // console.log(groupArr);
+        const groupArr2 = res.body.find(item => item.id === 5).menuData.filter(item => item.parentId === 5);
         AsyncStorage.setItem('groupArr', JSON.stringify(groupArr));
-        const arr = [];
-        arr.push(...res.body.map(item => item.name));
+        AsyncStorage.setItem('groupArr2', JSON.stringify(groupArr2));
+      }
+    });
+
+    getUserGroupingMenu({}).then(res => {
+      if (res && res.status === 200) {
+        AsyncStorage.setItem('menuIdArr', res.body.menuId);
+        const arr = ['首页'];
+        const arr2 = res.body.menuData.filter(item => item.select === 1 && item.id < 6);
+        arr.push(...arr2.map(item => item.name));
         this.setState({ menuData: arr });
+      } else {
+        Toast.fail(res.msg);
       }
     });
   }
@@ -200,7 +212,7 @@ class customTabBar extends React.PureComponent {
     const navigation = this.props.navigation;
     const { index } = navigation.state;
     // const {routes } = navigation.state;
-    // const menu = ['首页', '预约', '门店', '工单', '我的'];
+    // const menu = ['首页', '监控', 'kpi', '告警', '我的'];
     return (
       <View style={styles.container}>
         {this.state.menuData.map((item, routeIndex) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image, Alert, FlatList } from 'react-native';
 
 import { Toast, Button, Overlay, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -86,6 +86,26 @@ class UserConfig extends React.PureComponent {
     navigation.navigate('AddUser', { type: 'edit', item });
   };
 
+  renderItem = ({ item }) => (
+    <View key={item.userId} style={styles.userBtn}>
+      <View style={styles.leftContainer}>
+        <Image style={styles.orderPic} source={orderPic} />
+        <Text style={styles.userBtnText}>{item.userName}</Text>
+      </View>
+      <View style={styles.btnContainer}>
+        <Button style={styles.pwdBtn} onPress={() => this.handleLookPwd(item)}>
+          <Text style={styles.pwdBtnText}>查看密码</Text>
+        </Button>
+        <Button style={styles.editBtn} onPress={() => this.handleEditUser(item)}>
+          <Text style={styles.pwdBtnText}>编辑</Text>
+        </Button>
+        <Button style={styles.deleteBtn} onPress={() => this.handleDeleteUser(item.userId)}>
+          <Text style={styles.pwdBtnText}>删除</Text>
+        </Button>
+      </View>
+    </View>
+  );
+
   // 删除用户
   handleDeleteUser = item => {
     Alert.alert('确定删除此用户吗？', '', [
@@ -140,7 +160,16 @@ class UserConfig extends React.PureComponent {
             onChangeText={val => this.handleSearch(val)}
           />
         </View>
-        {fakeData.map(item => {
+        <View style={styles.flatlist}>
+          <FlatList
+            data={fakeData}
+            refreshing={false}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
+
+        {/* {fakeData.map(item => {
           return (
             <View key={item.userId} style={styles.userBtn}>
               <View style={styles.leftContainer}>
@@ -160,7 +189,7 @@ class UserConfig extends React.PureComponent {
               </View>
             </View>
           );
-        })}
+        })} */}
         <Button style={styles.submitBtn} onPress={this.handleAddUser}>
           <Text style={styles.submitBtnText}>新增用户</Text>
         </Button>

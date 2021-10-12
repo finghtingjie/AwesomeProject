@@ -171,4 +171,7 @@ export default StyleSheet.create({
   checkboxGroup: {
     marginLeft: wp(240 / BASE_WIDTH),
   },
+  titleStyle: {
+    width: wp(100 / BASE_WIDTH),
+  },
 });

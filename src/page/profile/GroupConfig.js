@@ -1,6 +1,6 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { View, Text, TouchableOpacity, StatusBar, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, Alert, FlatList } from 'react-native';
 
 import { Toast, Button } from 'teaset';
 
@@ -45,6 +45,23 @@ class GroupConfig extends React.PureComponent {
     navigation.navigate('AddGroup', { type: 'edit', item });
   };
 
+  renderItem = ({ item }) => (
+    <View key={item.id} style={styles.userBtn}>
+      <View style={styles.leftContainer}>
+        <Image style={styles.orderPic} source={orderPic} resizeMode="contain" />
+        <Text style={styles.userBtnText}>{item.name}</Text>
+      </View>
+      <View style={styles.btnContainer}>
+        <Button style={styles.editBtn} onPress={() => this.handleEditGroup(item)}>
+          <Text style={styles.pwdBtnText}>编辑</Text>
+        </Button>
+        <Button style={styles.deleteBtn} onPress={() => this.handleDeleteGroup(item.id)}>
+          <Text style={styles.pwdBtnText}>删除</Text>
+        </Button>
+      </View>
+    </View>
+  );
+
   handleDeleteGroup = item => {
     Alert.alert('确定删除此分组吗？', '', [
       {
@@ -86,7 +103,16 @@ class GroupConfig extends React.PureComponent {
             <Text style={styles.content}>分组管理</Text>
           </View>
         </View>
-        {fakeData.map(item => {
+        <View style={styles.flatlist}>
+          <FlatList
+            data={fakeData}
+            refreshing={false}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
+
+        {/* {fakeData.map(item => {
           return (
             <View key={item.id} style={styles.userBtn}>
               <View style={styles.leftContainer}>
@@ -103,7 +129,7 @@ class GroupConfig extends React.PureComponent {
               </View>
             </View>
           );
-        })}
+        })} */}
         <Button style={styles.submitBtn} onPress={this.handleAddGroup}>
           <Text style={styles.submitBtnText}>新&nbsp;&nbsp;&nbsp;增</Text>
         </Button>

@@ -88,6 +88,14 @@ export async function getGroupingMenu(params) {
   });
 }
 
+//获取当前用户菜单列表
+export async function getUserGroupingMenu(params) {
+  return request('getUserGroupingMenu', {
+    method: 'GET',
+    params,
+  });
+}
+
 // 获取用户信息
 export async function getUserInfo(params) {
   return request('getUserInfo', {

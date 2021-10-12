@@ -97,7 +97,7 @@ export default StyleSheet.create({
     paddingVertical: 0,
     width: wp(1000 / BASE_WIDTH),
     height: hp(110 / BASE_HEIGHT),
-    marginLeft: wp(40 / BASE_WIDTH),
+    // marginLeft: wp(40 / BASE_WIDTH),
     marginTop: hp(33 / BASE_HEIGHT),
     borderColor: '#fff',
     backgroundColor: '#fff',
@@ -169,5 +169,13 @@ export default StyleSheet.create({
     color: '#fff',
     fontWeight: 'normal',
     fontSize: hp(36 / BASE_HEIGHT),
+  },
+  flatlist: {
+    width: wp(1000 / BASE_WIDTH),
+    height: hp(600 / BASE_HEIGHT),
+    marginLeft: wp(40 / BASE_WIDTH),
+    marginRight: wp(40 / BASE_WIDTH),
+    marginTop: hp(40 / BASE_HEIGHT),
+    // backgroundColor: 'pink',
   },
 });
