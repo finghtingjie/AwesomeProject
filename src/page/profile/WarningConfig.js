@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image, Alert } from 'react-native';
 
-import { Toast, Button, PullPicker } from 'teaset';
+import { Toast, Button, PullPicker, ModalIndicator } from 'teaset';
 
 import IconFont from '@iconfont/index.js';
 import { addTGiveAnAlarmUser, getTGiveAnAlarmUser, getAllUserInfo, deleteTGiveAnAlarmr } from '@api/profile';
@@ -35,7 +35,9 @@ class WarningConfig extends React.PureComponent {
 
   // 获取用户信息
   getAllUserInfo = () => {
+    ModalIndicator.show();
     getAllUserInfo({}).then(res => {
+      ModalIndicator.hide();
       if (res && res.status === 200) {
         this.setState({ userList: res.body });
       } else {

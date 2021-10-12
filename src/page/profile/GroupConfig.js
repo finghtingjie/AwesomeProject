@@ -2,7 +2,7 @@ import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { View, Text, TouchableOpacity, StatusBar, Image, Alert, FlatList } from 'react-native';
 
-import { Toast, Button } from 'teaset';
+import { Toast, Button, ModalIndicator } from 'teaset';
 
 import IconFont from '@iconfont/index.js';
 import { getGrouping, deleteGrouping } from '@api/profile';
@@ -27,7 +27,9 @@ class GroupConfig extends React.PureComponent {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       const params = {};
+      ModalIndicator.show();
       getGrouping(params).then(res => {
+        ModalIndicator.hide();
         if (res && res.status === 200) {
           this.setState({ fakeData: res.body });
         }

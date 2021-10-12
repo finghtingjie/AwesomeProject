@@ -77,17 +77,39 @@ class Index extends React.Component {
     }
   };
 
-  handleClick = id => {
+  handleClick = async item => {
+    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
+    const newArr = menuIdArr.split(',').map(items => Number(items));
     const { navigation } = this.props;
-    switch (id) {
+    switch (item.id) {
       case 1:
-        return navigation.navigate('UserConfig');
+        if (newArr.includes(17)) {
+          navigation.navigate('UserConfig');
+        } else {
+          Toast.info('您没有访问用户管理的权限');
+        }
+        break;
       case 2:
-        return navigation.navigate('GroupConfig');
+        if (newArr.includes(18)) {
+          navigation.navigate('GroupConfig');
+        } else {
+          Toast.info('您没有访问分组管理的权限');
+        }
+        break;
       case 3:
-        return navigation.navigate('WarningConfig');
+        if (newArr.includes(19)) {
+          navigation.navigate('WarningConfig');
+        } else {
+          Toast.info('您没有访问告警配置的权限');
+        }
+        break;
       case 4:
-        return navigation.navigate('ChangePassword');
+        if (newArr.includes(20)) {
+          navigation.navigate('ChangePassword');
+        } else {
+          Toast.info('您没有访问修改密码的权限');
+        }
+        break;
       default:
         break;
     }
@@ -121,7 +143,7 @@ class Index extends React.Component {
         <View style={styles.centerContainer}>
           {dataList.map(item => {
             return (
-              <TouchableOpacity style={styles.commonRow} key={item.id} onPress={() => this.handleClick(item.id)}>
+              <TouchableOpacity style={styles.commonRow} key={item.id} onPress={() => this.handleClick(item)}>
                 <Image style={styles.yonghuPic} source={this.renderSource(item.id)} />
                 <View style={styles.commonContent}>
                   <Text style={styles.commonTitle}>{item.name}</Text>
