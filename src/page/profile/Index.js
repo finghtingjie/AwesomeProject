@@ -94,7 +94,7 @@ class Index extends React.Component {
   };
 
   handleLoginOut = async () => {
-    await AsyncStorage.clear();
+    await AsyncStorage.setItem('user', null);
     this.props.navigation.navigate('Auth');
   };
 

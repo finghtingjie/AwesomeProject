@@ -5,13 +5,14 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
-import { BackHandler, YellowBox } from 'react-native';
+import { BackHandler, YellowBox, AppState, Alert } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 // 第三方模块
 import { Toast } from 'teaset';
 import JPush from 'jpush-react-native';
+import { checkNotifications, requestNotifications, openSettings } from 'react-native-permissions';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -52,10 +53,13 @@ const AppContainer = createAppContainer(
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      appState: AppState.currentState,
+    };
   }
   async componentDidMount() {
     await JPush.init();
-    //连接状态
+    //通知连接状态
     this.connectListener = result => {
       console.log('connectListener:' + JSON.stringify(result));
       JPush.getRegistrationID(res => {
@@ -67,20 +71,51 @@ class App extends React.Component {
       });
     };
     JPush.addConnectEventListener(this.connectListener);
-    //通知回调
+    //通知回调方法
     this.notificationListener = result => {
       console.log('notificationListener:' + JSON.stringify(result));
+      AppState.addEventListener('change', this._handleAppStateChange);
     };
     JPush.addNotificationListener(this.notificationListener);
     if (Platform.OS === 'android') {
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
+    // 检测通知权限是否开启
+    checkNotifications().then(({ status, settings }) => {
+      if (status !== 'granted') {
+        Alert.alert('是否允许开启通知权限？', '', [
+          {
+            text: '取消',
+            onPress: () => {},
+          },
+          { text: '确定', onPress: () => openSettings().catch(() => console.warn('cannot open settings')) },
+          ,
+        ]);
+      }
+      // …
+    });
+    // requestNotifications(['alert', 'sound']).then(({ status, settings }) => {
+    //   console.log(status);
+    //   // …
+    // });
   }
+
+  // 处理跳转逻辑，app在后台并且登录状态才跳转到告警页
+  _handleAppStateChange = async nextAppState => {
+    const user = await AsyncStorage.getItem('user');
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!');
+    } else if (user) {
+      NavigationService.navigate('Warning');
+    }
+  };
 
   UNSAFE_componentWillMount() {
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
     }
+    // 移除监听事件
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   // 安卓后退键统一处理

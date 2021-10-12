@@ -36,7 +36,7 @@ const commonyAxis = {
   min: 90,
   max: 150,
   // splitNumber: 0.5,
-  minInterval: 0.5,
+  minInterval: 1,
   splitLine: {
     show: false,
   },
@@ -161,8 +161,12 @@ class Index extends React.Component {
       },
       yAxis: {
         type: 'value',
-        min: type === '35kV' ? 20 : 90,
-        max: type === '35kV' ? 50 : 150,
+        min: function(value) {
+          return Math.floor(value.min - 0.5);
+        },
+        max: function(value) {
+          return Math.floor(value.max - 0.5);
+        },
         minInterval: 0.5,
         splitLine: {
           show: false,
@@ -217,8 +221,12 @@ class Index extends React.Component {
       },
       yAxis: {
         type: 'value',
-        min: type === '220kV' ? 209 : 90,
-        max: type === '220kV' ? 231 : 150,
+        min: function(value) {
+          return Math.floor(value.min - 0.5);
+        },
+        max: function(value) {
+          return Math.floor(value.max - 0.5);
+        },
         minInterval: 0.5,
         splitLine: {
           show: false,
@@ -227,7 +235,7 @@ class Index extends React.Component {
           show: true,
         },
       },
-      toolbox: commonToolbox,
+      // toolbox: commonToolbox,
       series: [
         {
           name: '4#母线',
@@ -282,8 +290,12 @@ class Index extends React.Component {
       },
       yAxis: {
         type: 'value',
-        min: 5,
-        max: 15,
+        min: function(value) {
+          return Math.floor(value.min - 0.5);
+        },
+        max: function(value) {
+          return Math.floor(value.max - 0.5);
+        },
         minInterval: 0.5,
         splitLine: {
           show: false,
@@ -292,7 +304,7 @@ class Index extends React.Component {
           show: true,
         },
       },
-      toolbox: commonGrid,
+      // toolbox: commonGrid,
       series: [
         {
           name: 'Ⅰ段母线',
@@ -354,8 +366,12 @@ class Index extends React.Component {
       },
       yAxis: {
         type: 'value',
-        min: type === '10kV' ? 5 : 20,
-        max: type === '10kV' ? 15 : 50,
+        min: function(value) {
+          return Math.floor(value.min - 0.5);
+        },
+        max: function(value) {
+          return Math.floor(value.max - 0.5);
+        },
         minInterval: 0.5,
         splitLine: {
           show: false,
@@ -364,7 +380,7 @@ class Index extends React.Component {
           show: true,
         },
       },
-      toolbox: commonToolbox,
+      // toolbox: commonToolbox,
       series: [
         {
           name: 'Ⅰ段母线',
@@ -425,8 +441,12 @@ class Index extends React.Component {
       },
       yAxis: {
         type: 'value',
-        min: 90,
-        max: 150,
+        min: function(value) {
+          return Math.floor(value.min - 0.5);
+        },
+        max: function(value) {
+          return Math.floor(value.max - 0.5);
+        },
         minInterval: 0.5,
         splitLine: {
           show: false,
@@ -435,7 +455,7 @@ class Index extends React.Component {
           show: true,
         },
       },
-      toolbox: commonToolbox,
+      // toolbox: commonToolbox,
       series: [
         {
           name: '4乙母线',
@@ -502,8 +522,12 @@ class Index extends React.Component {
       },
       yAxis: {
         type: 'value',
-        min: 5,
-        max: 15,
+        min: function(value) {
+          return Math.floor(value.min - 0.5);
+        },
+        max: function(value) {
+          return Math.floor(value.max - 0.5);
+        },
         minInterval: 0.5,
         splitLine: {
           show: false,
@@ -512,7 +536,7 @@ class Index extends React.Component {
           show: true,
         },
       },
-      toolbox: commonToolbox,
+      // toolbox: commonToolbox,
       series: [
         {
           name: 'Ⅰ段母线',
@@ -573,9 +597,13 @@ class Index extends React.Component {
               const formatVal = newArr.map(item => item.slice(11, 16));
               let { option } = this.state;
               option.xAxis.data = formatVal;
-              option.yAxis.min = 209;
-              option.yAxis.max = 231;
-              option.yAxis.minInterval = 2;
+              option.yAxis.min = function(value) {
+                return Math.floor(value.min - 0.5);
+              };
+              option.yAxis.max = function(value) {
+                return Math.floor(value.max + 0.5);
+              };
+              option.yAxis.minInterval = 0.5;
               option.series[0].name = '4#母线';
               option.series[1].name = '5#母线';
               option.legend.data = ['4#母线', '5#母线'];
@@ -603,8 +631,13 @@ class Index extends React.Component {
               option.series[0].name = 'Ⅰ段母线';
               option.series[1].name = 'Ⅱ段母线';
               option.series[2].name = 'Ⅲ段母线';
-              option.yAxis.min = 5;
-              option.yAxis.max = 15;
+              option.yAxis.min = function(value) {
+                return Math.floor(value.min - 0.5);
+              };
+              option.yAxis.max = function(value) {
+                return Math.floor(value.max - 0.5);
+              };
+              option.yAxis.minInterval = 0.5;
               option.series[2].type = option.series[1].type;
               option.series[2].lineStyle = option.series[1].lineStyle;
               option.legend.data = ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'];

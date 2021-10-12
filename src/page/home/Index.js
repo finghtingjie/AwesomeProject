@@ -147,20 +147,20 @@ class Index extends React.Component {
             // },
           },
         ],
-        toolbox: {
-          feature: {
-            dataZoom: {
-              yAxisIndex: 'none',
-              title: {
-                zoom: '区域缩放',
-                back: '区域缩放还原',
-              },
-            },
-            restore: {
-              title: '还原',
-            },
-          },
-        },
+        // toolbox: {
+        //   feature: {
+        //     dataZoom: {
+        //       yAxisIndex: 'none',
+        //       title: {
+        //         zoom: '区域缩放',
+        //         back: '区域缩放还原',
+        //       },
+        //     },
+        //     restore: {
+        //       title: '还原',
+        //     },
+        //   },
+        // },
         series: [
           {
             data: [7, 10, 12, 24, 20.3, 17, 6],
@@ -274,20 +274,20 @@ class Index extends React.Component {
             snap: true,
           },
         },
-        toolbox: {
-          feature: {
-            dataZoom: {
-              yAxisIndex: 'none',
-              title: {
-                zoom: '区域缩放',
-                back: '区域缩放还原',
-              },
-            },
-            restore: {
-              title: '还原',
-            },
-          },
-        },
+        // toolbox: {
+        //   feature: {
+        //     dataZoom: {
+        //       yAxisIndex: 'none',
+        //       title: {
+        //         zoom: '区域缩放',
+        //         back: '区域缩放还原',
+        //       },
+        //     },
+        //     restore: {
+        //       title: '还原',
+        //     },
+        //   },
+        // },
         color: ['#BCBCBC', '#00AAFF', '#FFAAFF'],
         legend: {
           data: ['谷', '平', '峰'],
@@ -457,7 +457,7 @@ class Index extends React.Component {
               data: [
                 [
                   {
-                    name: '尖',
+                    // name: '尖',
                     xAxis: '10:00',
                   },
                   {
@@ -466,7 +466,7 @@ class Index extends React.Component {
                 ],
                 [
                   {
-                    name: '尖',
+                    // name: '尖',
                     xAxis: '17:00',
                   },
                   {
@@ -624,6 +624,8 @@ class Index extends React.Component {
           ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[1].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[4].data = [];
+            pieOption.series[4].markArea = {};
           } else if (
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 06:00`), moment(`${nowTime} 10:00`), 'minutes')
           ) {

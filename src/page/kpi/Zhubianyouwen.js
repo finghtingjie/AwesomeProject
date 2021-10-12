@@ -34,19 +34,9 @@ const commonxAxis = {
 
 const commonyAxis = {
   type: 'value',
-  min: function(value) {
-    return Math.floor(value.min);
-  },
-  max: function(value) {
-    return Math.floor(value.max);
-  },
-  splitNumber: 4,
-  minInterval: 4,
+  // minInterval: 0.05,
   splitLine: {
     show: false,
-  },
-  minorSplitLine: {
-    show: true,
   },
 };
 
@@ -85,6 +75,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      noResult: false,
       option: {
         color: ['#3CBE1E', '#1C6DDA'], //图例颜色
         tooltip: {
@@ -97,7 +88,7 @@ class Index extends React.Component {
         grid: commonGrid,
         xAxis: commonxAxis,
         yAxis: commonyAxis,
-        toolbox: commonToolbox,
+        // toolbox: commonToolbox,
         series: [
           {
             name: '油温1',
@@ -156,7 +147,7 @@ class Index extends React.Component {
       actionIndex: 0,
       actionIndex2: 0,
       actionsheetShow: false,
-      arr2: ['220kV铁钢站', '220kV轧钢站', '110kV热电站'],
+      arr2: ['220kV铁钢站', '220kV轧钢站'],
       tabArr: ['1#主变', '2#主变', '3#主变'],
       newArr: [],
     };
@@ -174,6 +165,11 @@ class Index extends React.Component {
     } else {
       const resData = res.body[0][`${val}#主变110YW1`];
       const resData2 = res.body[1][`${val}#主变110YW2`];
+      if (!resData.length && !resData.length) {
+        this.setState({ noResult: true });
+      } else {
+        this.setState({ noResult: false });
+      }
       let newArr = [];
       resData[0].time.map(item => {
         item = moment(item).format('YYYY-MM-DD HH:mm');
@@ -195,7 +191,14 @@ class Index extends React.Component {
           boundaryGap: false,
           data: formatVal,
         },
-        yAxis: commonyAxis,
+        yAxis: {
+          type: 'value',
+          min: 'dataMin',
+          max: 'dataMax',
+          splitLine: {
+            show: false,
+          },
+        },
         toolbox: commonToolbox,
         series: [
           {
@@ -222,6 +225,7 @@ class Index extends React.Component {
 
   setOption33 = (res, val, voltage) => {
     this.ECharts.clear();
+    this.setState({ noResult: false });
     const resData = res.body[0][`${val}#主变${voltage}YW1`];
     const resData2 = res.body[1][`${val}#主变${voltage}YW2`];
     const resData3 = res.body[2][`${val}#主变${voltage}YW3`];
@@ -246,8 +250,19 @@ class Index extends React.Component {
         boundaryGap: false,
         data: formatVal,
       },
-      yAxis: commonyAxis,
-      toolbox: commonToolbox,
+      yAxis: {
+        type: 'value',
+        min: 'dataMin',
+        max: 'dataMax',
+        // max: function(value) {
+        //   return value.max;
+        // },
+        // minInterval: 0.01,
+        splitLine: {
+          show: false,
+        },
+      },
+      // toolbox: commonToolbox,
       series: [
         {
           name: '油温1',
@@ -290,20 +305,6 @@ class Index extends React.Component {
           case '220kV铁钢站':
           case '220kV轧钢站':
             if (voltage === '1#主变') {
-              // const resData = res.body[0]['1#主变220YW1'];
-              // const resData2 = res.body[1]['1#主变220YW2'];
-              // const resData3 = res.body[2]['1#主变220YW3'];
-              // let { option } = this.state;
-              // option.series[0].name = '油温1';
-              // option.series[1].name = '油温2';
-              // option.series[2].name = '油温3';
-              // option.legend.data = ['油温1', '油温2', '油温3'];
-              // option.series[0].data = resData[0].value;
-              // option.series[1].data = resData2[0].value;
-              // option.series[2].data = resData3[0].value;
-              // this.setState({ option }, () => {
-              //   this.ECharts.setOption(this.state.option);
-              // });
               this.setOption33(res, '1', '220');
             } else if (voltage === '2#主变') {
               this.setOption33(res, '2', '220');
@@ -313,13 +314,13 @@ class Index extends React.Component {
             break;
           case '热电110kV站':
             if (voltage === '1#主变') {
-              // this.setOption33(res, '2');
+              this.setOption33(res, '2');
             } else if (voltage === '2#主变') {
-              // this.setOption33(res, '3');
+              this.setOption33(res, '3');
             } else if (voltage === '起备变') {
-              // this.setOption33(res, '3');
+              this.setOption33(res, '3');
             } else if (voltage === '1#厂用变') {
-              // this.setOption33(res, '3');
+              this.setOption33(res, '3');
             }
             break;
           case 'MCCR110kV站':
@@ -407,7 +408,7 @@ class Index extends React.Component {
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
       this.setState({
-        arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站'],
+        arr2: ['220kV铁钢站', '220kV轧钢站'],
       });
     } else {
       this.setState({ arr2: arr });
@@ -462,7 +463,7 @@ class Index extends React.Component {
   };
 
   render() {
-    const { option, activeIndex, actionIndex, actionIndex2, actionsheetShow, arr2, tabArr } = this.state;
+    const { option, activeIndex, actionIndex, actionIndex2, actionsheetShow, arr2, tabArr, noResult } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -530,6 +531,11 @@ class Index extends React.Component {
         <View style={styles.EChartsContainer}>
           <ECharts ref={ref => (this.ECharts = ref)} option={option} backgroundColor="#fff" />
         </View>
+        {noResult && (
+          <View style={styles.noresultContainer}>
+            <Text style={styles.noresultText}>暂无数据</Text>
+          </View>
+        )}
         {/* <WebView
           useWebKit
           scrollEnabled={false}
@@ -552,6 +558,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    position: 'relative',
   },
   btnContainer: {
     flexDirection: 'row',
@@ -576,6 +583,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'normal',
     fontSize: hp(32 / BASE_HEIGHT),
+  },
+  noresultText: {
+    position: 'relative',
+    width: '100%',
+    textAlign: 'center',
+    color: '#666',
+    fontWeight: 'normal',
+    fontSize: hp(32 / BASE_HEIGHT),
+    height: hp(500 / BASE_HEIGHT),
+    lineHeight: hp(500 / BASE_HEIGHT),
   },
   webviewContainer: {
     width: wp(100),
@@ -680,7 +697,7 @@ const styles = StyleSheet.create({
   ScrollView: {
     position: 'relative',
     width: 'auto',
-    height: hp(300 / BASE_HEIGHT),
+    height: hp(200 / BASE_HEIGHT),
   },
   leftBtn: {
     width: wp(160 / BASE_WIDTH),
@@ -721,7 +738,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 0,
   },
+  noresultContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: hp(500 / BASE_HEIGHT),
+    zIndex: 999,
+  },
   EChartsContainer: {
+    // alignItems: 'center',
+    // justifyContent: 'center',
     width: '100%',
     height: hp(500 / BASE_HEIGHT),
     // height: hp(580 / BASE_HEIGHT),
