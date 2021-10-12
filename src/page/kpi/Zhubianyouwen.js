@@ -255,7 +255,6 @@ class Index extends React.Component {
         type: 'value',
         min: 'dataMin',
         max: 'dataMax',
-        minInterval: 1,
         splitLine: {
           show: false,
         },

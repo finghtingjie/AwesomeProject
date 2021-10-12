@@ -22,7 +22,7 @@ const BASE_HEIGHT = 19.2;
 
 const arrowPic = require('../../assets/profile/xiala.png');
 const orderPic = require('../../assets/warning/paixu.png');
-const searchIcon = require('../../assets/warning/searchicon.png');
+const searchIcon = require('../../assets/warning/searchicon1.png');
 const hu = require('../../assets/warning/hu.png');
 const yue = require('../../assets/warning/yue.png');
 const yi = require('../../assets/warning/yi.png');
@@ -239,24 +239,29 @@ class Index extends React.PureComponent {
     return action;
   };
 
-  handleSearch = val => {
-    const { selectedIndex1, dateEnd, dateStart, sort } = this.state;
-    setTimeout(() => {
-      this.setState({ alarmContent: val }, () => {
-        const params = {
-          sort,
-          alarmContent: val,
-          eventLevel: selectedIndex1 + 1,
-        };
-        if (dateStart) {
-          params.startTime = moment(dateStart).valueOf();
-        }
-        if (dateEnd) {
-          params.endTime = moment(dateEnd).valueOf();
-        }
-        this.getGiveAnAlarm(params);
-      });
-    }, 500);
+  handleSearch = () => {
+    Keyboard.dismiss();
+    const { dateEnd, dateStart, sort, pageNum, pageSize, alarmContent, typeId } = this.state;
+    const params = {
+      sort,
+      pageNum,
+      pageSize,
+      alarmContent,
+    };
+    if (typeId) {
+      params.typeId = typeId;
+    }
+    if (dateStart) {
+      params.startTime = moment(dateStart).valueOf();
+    }
+    if (dateEnd) {
+      if (dateStart === dateEnd) {
+        params.endTime = moment(`${dateEnd} 23:59:59`).valueOf();
+      } else {
+        params.endTime = moment(dateEnd).valueOf();
+      }
+    }
+    this.getGiveAnAlarm(params);
   };
 
   renderColor = item => {
@@ -434,9 +439,11 @@ class Index extends React.PureComponent {
             style={styles.inputBase}
             placeholderTextColor="#999"
             onBlur={() => Keyboard.dismiss()}
-            onChangeText={val => this.handleSearch(val)}
+            onChangeText={val => this.setState({ alarmContent: val })}
           />
-          <Image style={styles.searchIcon} source={searchIcon} resizeMode="contain" />
+          <TouchableOpacity onPress={() => this.handleSearch()}>
+            <Image style={styles.searchIcon} source={searchIcon} resizeMode="contain" />
+          </TouchableOpacity>
         </View>
         <View style={styles.warningContent}>
           <Text style={styles.warningText}>
@@ -460,7 +467,6 @@ class Index extends React.PureComponent {
           data={fakeData}
           windowSize={300}
           refreshing={false}
-          refreshControl={<RefreshControl refreshing={false} onRefresh={this.onRefresh} tintColor="#fff" />}
           onEndReachedThreshold={0.1}
           onRefresh={this.onRefresh}
           renderItem={this.renderItem}
