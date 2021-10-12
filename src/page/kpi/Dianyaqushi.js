@@ -33,8 +33,8 @@ const commonxAxis = {
 
 const commonyAxis = {
   type: 'value',
-  min: 90,
-  max: 150,
+  min: 'dataMin',
+  max: 'dataMax',
   // splitNumber: 0.5,
   minInterval: 1,
   splitLine: {
@@ -96,7 +96,7 @@ class Index extends React.Component {
         grid: commonGrid,
         xAxis: commonxAxis,
         yAxis: commonyAxis,
-        toolbox: commonToolbox,
+        // toolbox: commonToolbox,
         series: [
           {
             name: '4#母线',
@@ -159,23 +159,8 @@ class Index extends React.Component {
         boundaryGap: false,
         data: formatVal,
       },
-      yAxis: {
-        type: 'value',
-        min: function(value) {
-          return Math.floor(value.min - 0.5);
-        },
-        max: function(value) {
-          return Math.floor(value.max - 0.5);
-        },
-        minInterval: 0.5,
-        splitLine: {
-          show: false,
-        },
-        minorSplitLine: {
-          show: true,
-        },
-      },
-      toolbox: commonToolbox,
+      yAxis: commonyAxis,
+      // toolbox: commonToolbox,
       series: [
         {
           name: val,
@@ -219,22 +204,7 @@ class Index extends React.Component {
         boundaryGap: false,
         data: formatVal,
       },
-      yAxis: {
-        type: 'value',
-        min: function(value) {
-          return Math.floor(value.min - 0.5);
-        },
-        max: function(value) {
-          return Math.floor(value.max - 0.5);
-        },
-        minInterval: 0.5,
-        splitLine: {
-          show: false,
-        },
-        minorSplitLine: {
-          show: true,
-        },
-      },
+      yAxis: commonyAxis,
       // toolbox: commonToolbox,
       series: [
         {
@@ -288,22 +258,7 @@ class Index extends React.Component {
         boundaryGap: false,
         data: formatVal,
       },
-      yAxis: {
-        type: 'value',
-        min: function(value) {
-          return Math.floor(value.min - 0.5);
-        },
-        max: function(value) {
-          return Math.floor(value.max - 0.5);
-        },
-        minInterval: 0.5,
-        splitLine: {
-          show: false,
-        },
-        minorSplitLine: {
-          show: true,
-        },
-      },
+      yAxis: commonyAxis,
       // toolbox: commonGrid,
       series: [
         {
@@ -364,22 +319,7 @@ class Index extends React.Component {
         boundaryGap: false,
         data: formatVal,
       },
-      yAxis: {
-        type: 'value',
-        min: function(value) {
-          return Math.floor(value.min - 0.5);
-        },
-        max: function(value) {
-          return Math.floor(value.max - 0.5);
-        },
-        minInterval: 0.5,
-        splitLine: {
-          show: false,
-        },
-        minorSplitLine: {
-          show: true,
-        },
-      },
+      yAxis: commonyAxis,
       // toolbox: commonToolbox,
       series: [
         {
@@ -439,22 +379,7 @@ class Index extends React.Component {
         boundaryGap: false,
         data: formatVal,
       },
-      yAxis: {
-        type: 'value',
-        min: function(value) {
-          return Math.floor(value.min - 0.5);
-        },
-        max: function(value) {
-          return Math.floor(value.max - 0.5);
-        },
-        minInterval: 0.5,
-        splitLine: {
-          show: false,
-        },
-        minorSplitLine: {
-          show: true,
-        },
-      },
+      yAxis: commonyAxis,
       // toolbox: commonToolbox,
       series: [
         {
@@ -520,22 +445,7 @@ class Index extends React.Component {
         boundaryGap: false,
         data: formatVal,
       },
-      yAxis: {
-        type: 'value',
-        min: function(value) {
-          return Math.floor(value.min - 0.5);
-        },
-        max: function(value) {
-          return Math.floor(value.max - 0.5);
-        },
-        minInterval: 0.5,
-        splitLine: {
-          show: false,
-        },
-        minorSplitLine: {
-          show: true,
-        },
-      },
+      yAxis: commonyAxis,
       // toolbox: commonToolbox,
       series: [
         {
@@ -597,13 +507,9 @@ class Index extends React.Component {
               const formatVal = newArr.map(item => item.slice(11, 16));
               let { option } = this.state;
               option.xAxis.data = formatVal;
-              option.yAxis.min = function(value) {
-                return Math.floor(value.min - 0.5);
-              };
-              option.yAxis.max = function(value) {
-                return Math.floor(value.max + 0.5);
-              };
-              option.yAxis.minInterval = 0.5;
+              option.yAxis.min = 'dataMin';
+              option.yAxis.max = 'dataMax';
+              // option.yAxis.minInterval = 0.5;
               option.series[0].name = '4#母线';
               option.series[1].name = '5#母线';
               option.legend.data = ['4#母线', '5#母线'];
@@ -618,39 +524,7 @@ class Index extends React.Component {
             } else if (voltage.includes('110')) {
               this.setOption4(res);
             } else if (voltage === '10kV') {
-              const resData = res.body['10kVⅠ段母线'];
-              let newArr = [];
-              resData[0].time.map(item => {
-                item = moment(item).format('hh:mm');
-                newArr.push(item);
-              });
-              const resData2 = res.body['10kVⅡ段母线'];
-              const resData3 = res.body['10kVⅢ段母线'];
-              let { option } = this.state;
-              option.series.push({});
-              option.series[0].name = 'Ⅰ段母线';
-              option.series[1].name = 'Ⅱ段母线';
-              option.series[2].name = 'Ⅲ段母线';
-              option.yAxis.min = function(value) {
-                return Math.floor(value.min - 0.5);
-              };
-              option.yAxis.max = function(value) {
-                return Math.floor(value.max - 0.5);
-              };
-              option.yAxis.minInterval = 0.5;
-              option.series[2].type = option.series[1].type;
-              option.series[2].lineStyle = option.series[1].lineStyle;
-              option.legend.data = ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'];
-              option.series[0].data = resData[0].value;
-              option.series[1].data = resData2[0].value;
-              option.series[2].data = resData3[0].value;
-              this.ECharts.clear();
-              if (option.series.length >= 4) {
-                option.series[option.series.length - 1].data = [];
-              }
-              this.setState({ option, newArr }, () => {
-                this.ECharts.setOption(option);
-              });
+              this.setOption33(res, '10kV');
             }
             break;
           case '220kV轧钢站':
@@ -813,7 +687,7 @@ class Index extends React.Component {
                 })}
               </View>
               <View>
-                <ScrollView style={styles.ScrollView}>
+                <ScrollView style={styles.ScrollView} showsVerticalScrollIndicator={false}>
                   {arr2.map((item, index) => {
                     return (
                       <Button key={item} style={styles.rightBtn} onPress={() => this.handleTypeChange2(2, index)}>
