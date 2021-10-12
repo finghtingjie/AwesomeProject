@@ -138,9 +138,9 @@ class Index extends React.Component {
               show: false,
             },
             scale: false,
-            max: 100,
-            min: 40,
-            splitNumber: 6,
+            max: 'dataMax',
+            min: 'dataMin',
+            // splitNumber: 6,
             // boundaryGap: [0, '100%'],
             // axisPointer: {
             //   snap: true,

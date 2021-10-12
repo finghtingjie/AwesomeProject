@@ -100,13 +100,19 @@ class App extends React.Component {
     // });
   }
 
-  // 处理跳转逻辑，app在后台并且登录状态才跳转到告警页
+  // 处理跳转逻辑，app在前台且登录状态才跳转到告警页
   _handleAppStateChange = async nextAppState => {
     const user = await AsyncStorage.getItem('user');
+    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
+    const newArr = menuIdArr.split(',').map(items => Number(items));
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       console.log('App has come to the foreground!');
-    } else if (user) {
+    } else if (user && newArr.includes(4)) {
+      // 登录态并且开启了告警菜单
       NavigationService.navigate('Warning');
+    } else {
+      // 登录态未开启告警菜单
+      NavigationService.navigate('Home');
     }
   };
 
