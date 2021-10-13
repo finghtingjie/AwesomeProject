@@ -1,108 +1,68 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Image, StatusBar, Dimensions } from 'react-native';
+<html lang="en">
 
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  TSpan,
-  TextPath,
-  Path,
-  Polygon,
-  Polyline,
-  Line,
-  Rect,
-  Use,
-  Symbol,
-  Defs,
-  LinearGradient,
-  RadialGradient,
-  Stop,
-  ClipPath,
-  Pattern,
-  Mask,
-  SvgXml,
-  SvgCssUri,
-} from 'react-native-svg';
-import { screenWidth, screenHeight, scale } from '../../utils/device';
-import { WebView } from 'react-native-webview';
+<head>
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport"
+        content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /> -->
+    <script src="https://w.mousenat.cn/js/vue.js"></script>
+    <script src="https://w.mousenat.cn/js/axios.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
 
-import Orientation from 'react-native-orientation-locker';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+        @media screen and (orientation: portrait) {
 
-const backIcon = require('../../assets/backicon.png');
+            /*要横屏显示的内容的外层盒子*/
+            #app {
+                /* 设置基准点为左上角 */
+                transform-origin: top left;
+                /* 以左上角为基准点，顺时针旋转90度 然后沿Y轴反方向平移100% */
+                /* 为什么沿Y轴，因为旋转使坐标轴方向发生了变化 */
+                transform: rotate(90deg) translateY(-100%);
+                /*设置元素的宽度为 100%父元素的高度 并提高样式优先级 */
+                width: 3000px !important;
+                /* 设置元素的宽度为 100%父元素的宽度  并提高样式优先级  */
+                height: 100vw !important;
+                overflow-x: scroll;
+                overflow-y: scroll;
+            }
+        }
 
-const BASE_WIDTH = 10.8;
-const BASE_HEIGHT = 19.2;
+        #app {
+            width: 100%;
+            height: 100%;
+            overflow-x: scroll;
+            overflow-y: scroll;
+        }
+    </style>
 
-const source = { uri: 'file:///android_asset/test.html' };
-// const source = { uri: 'https://w.mousenat.cn/index.html' };
+</head>
 
-class Index extends React.Component {
-  static navigationOptions = {
-    headerShown: false,
-  };
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {
-    Orientation.lockToLandscapeLeft();
-  }
-
-  componentDidUpdate() {
-    this.sendMessage();
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <StatusBar
-          animated
-          translucent
-          backgroundColor="transparent"
-          showHideTransition="fade"
-          networkActivityIndicatorVisible
-        />
-        <View style={styles.navigationBar}>
-          <View style={styles.navigationContainer}>
-            <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
-              <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
-            </TouchableOpacity>
-            <Text style={styles.content}>电力潮流图</Text>
-          </View>
-        </View>
-        <View style={styles.webviewContainer}>
-          <WebView
-            useWebKit
-            scrollEnabled={false}
-            javaScriptEnabled
-            originWhitelist={['*']}
-            source={source}
-            style={styles.webview}
-            mixedContentMode="compatibility"
-            ref={ref => (this.webView = ref)}
-            onError={e => console.log(e)}
-            onMessage={event => console.log(event.nativeEvent.data)}
-            onLoadEnd={this.onLoadEnd}
-          />
-          {/* <SvgXml
-            xml={` <svg xmlns="http://www.w3.org/2000/svg" onload="try{init1(evt);}catch(e){}"
+<body>
+    <div id="app">
+        <!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
+        <svg xmlns="http://www.w3.org/2000/svg" onload="try{init1(evt);}catch(e){}"
             xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
-            xmlns:cge="http://iec.ch/TC57/2005/SVG-schema#" width="100%" height="100%" viewBox="0 0 1920 1440"
-            id='main'>
+            xmlns:cge="http://iec.ch/TC57/2005/SVG-schema#" width="100%" height="100%" id='main'
+            style="overflow:scroll">
             <defs>
                 <style type="text/css"></style>
             </defs>
             <script type="text/javascript">g_adobeviewer = this;</script>
-            <g  bottomlatitude="0" rightlongitude="0" leftlongitude="0" width="100%" height="100%"
+            <g pointer-events="all" bottomlatitude="0" rightlongitude="0" leftlongitude="0" width="100%" height="100%"
                 dbname="scadamdl" id="ROOT" share="1" graphtypeid="7" transform="translate(560,522.5)" toplatitude="0">
                 <graphplanes></graphplanes>
                 <rect width="20000" x="-10000" y="-10000" fill="#000000" onmousedown="try{OnBGClick(evt)}catch(e){}"
                     height="20000" id="ID_BACKGROUND"></rect>
                 <image width="100%" x="-956" y="-522.5" preserveAspectRatio="none" onmousedown="OnBGClick(evt)"
                     height="100%" xlink:href="../../resource/jingtang/blackgroud3.jpg"></image>
+                <g fill="none" stroke="#323232" stroke-linejoin="bevel" id="36498224" stroke-linecap="round"
+                    name="Rectangle_44_7379" transform="translate(0.625,-478.125)">
+
+                </g>
+
                 <g fill="none" stroke="#412e1b" stroke-linejoin="bevel" id="33146448" stroke-linecap="round"
                     name="Rectangle_44_226" transform="translate(-745.417,-480.625)">
                     <clipPath id="33146448_img_cp">
@@ -3215,71 +3175,78 @@ class Index extends React.Component {
                 </a>
                 <g id="AllTags"></g>
             </g>
-        </svg>`}
-            width={952}
-            height={420}
-          /> */}
-        </View>
-      </View>
-    );
-  }
-}
+        </svg>
+        <!--?AdobeSVGViewer save="snapshot"?-->
+    </div>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  webviewContainer: {
-    width: screenHeight + StatusBar.currentHeight - 2,
-    height: hp(1920 / BASE_HEIGHT) - hp(165 / BASE_HEIGHT),
-    backgroundColor: 'pink',
-    borderColor: 'red',
-  },
-  webview: {
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  navigationBar: {
-    width: '100%',
-    height: hp(165 / BASE_HEIGHT),
-    backgroundColor: '#3D447B',
-  },
-  navigationContainer: {
-    position: 'absolute',
-    width: '100%',
-    height: hp(112 / BASE_HEIGHT),
-    bottom: 0,
-    left: wp(80 / BASE_WIDTH),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  iconContainer: {
-    position: 'relative',
-    width: '10%',
-    height: hp(112 / BASE_HEIGHT),
-    marginLeft: -wp(40 / BASE_WIDTH),
-    zIndex: 100,
-  },
-  backIcon: {
-    marginLeft: wp(40 / BASE_WIDTH),
-    width: wp(24 / BASE_WIDTH),
-    height: hp(40 / BASE_HEIGHT),
-    marginTop: hp(36 / BASE_HEIGHT),
-  },
-  content: {
-    position: 'absolute',
-    color: '#fff',
-    width: '100%',
-    textAlign: 'center',
-    fontSize: hp(48 / BASE_HEIGHT),
-    fontWeight: 'bold',
-    top: hp(0 / BASE_HEIGHT),
-    height: hp(112 / BASE_HEIGHT),
-    lineHeight: hp(112 / BASE_HEIGHT),
-    left: -wp(80 / BASE_WIDTH),
-    zIndex: 99,
-  },
-});
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    data: '',
+                    clientId: ''
+                }
+            },
+            mounted() {
+                this.clientId = Math.floor(Math.random() * 10000000000000000);
+                // this.getSnapshot()
 
-export default Index;
+            },
+            methods: {
+                getSnapshot() {
+                    axios.get('/shougang', {
+                        params: {
+                            clientId: this.clientId
+                        }
+                    }).then(res => {
+                        this.data = res.data
+                        window.setInterval(() => {
+                            this.update();
+
+                        }, 3000)
+                    })
+                },
+                update() {
+                    axios.get('/shougangUpdate', {
+                        params: {
+                            clientId: this.clientId
+                        }
+                    }).then(response => {
+                        console.log(response.data);
+                    })
+                }
+            }
+        })
+        //调整浏览器窗口大小事件 
+        window.onresize = function () {
+            // autoZoom();
+        }
+        autoZoom();
+        function autoZoom() {
+            var svg = document.getElementById("main");
+            if (svg) {
+                var setHeight = setWidth * viewBoxHeight / viewBoxWidth;
+                svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
+                svg.setAttribute("viewBox", `0 0 ${document.body.clientWidth - 400} ${document.body.clientHeight}`);
+                svg.style.overflow = "hidden";
+                var viewBoxVal = svg.getAttribute("viewBox");
+                if (viewBoxVal) {
+                    var viewBoxWidth = viewBoxVal.split(" ")[2];
+                    var viewBoxHeight = viewBoxVal.split(" ")[3];
+                    svg.removeAttribute("width");
+                    svg.removeAttribute("height");
+                    var setWidth = document.body.clientWidth;
+                    var setHeight = setWidth * viewBoxHeight / viewBoxWidth;
+                    svg.setAttribute("width", setWidth);
+                    svg.setAttribute("height", setHeight);
+                    // svg.setAttribute("viewBox", `0 0 ${setHeight} ${document.body.clientWidth}`);
+                    svg.setAttribute("viewBox", `-400 0 952 2340`);
+                }
+            }
+        }
+    </script>
+</body>
+
+
+</html>

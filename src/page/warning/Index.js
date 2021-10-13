@@ -132,13 +132,7 @@ class Index extends React.PureComponent {
       params.startTime = moment(dateStart).valueOf();
     }
     if (dateEnd) {
-      if (dateStart === dateEnd) {
-        params.endTime = moment(`${dateEnd} 23:59:59`).valueOf();
-        // console.log(moment(`${dateEnd} 23:59:59`).format('YYYY-MM-DD HH:mm:ss'));
-        // console.log(moment(`${dateEnd} 23:59:59`).valueOf());
-      } else {
-        params.endTime = moment(dateEnd).valueOf();
-      }
+      params.endTime = moment(`${dateEnd} 23:59:59`).valueOf();
     }
     // ModalIndicator.show();
     getGiveAnAlarm(params).then(res => {
@@ -283,11 +277,7 @@ class Index extends React.PureComponent {
       params.startTime = moment(dateStart).valueOf();
     }
     if (dateEnd) {
-      if (dateStart === dateEnd) {
-        params.endTime = moment(`${dateEnd} 23:59:59`).valueOf();
-      } else {
-        params.endTime = moment(dateEnd).valueOf();
-      }
+      params.endTime = moment(`${dateEnd} 23:59:59`).valueOf();
     }
     this.getGiveAnAlarm(params);
   };
