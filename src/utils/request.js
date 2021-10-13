@@ -49,7 +49,7 @@ export const clearPending = () => {
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
+  timeout: 8000,
   headers: {
     'X-Custom-Header': 'foobar',
     'Content-Type': 'application/json',

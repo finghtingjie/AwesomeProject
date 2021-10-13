@@ -54,3 +54,18 @@ export async function getOilTemperatureOfMainTransformer(params) {
     params,
   });
 }
+
+// 更新潮流图
+export async function shougang(params) {
+  return request('/shougang', {
+    method: 'GET',
+    params,
+  });
+}
+// 更新潮流图
+export async function shougangUpdate(params) {
+  return request('/shougangUpdate', {
+    method: 'GET',
+    params,
+  });
+}
