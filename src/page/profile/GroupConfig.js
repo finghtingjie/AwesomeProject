@@ -113,25 +113,6 @@ class GroupConfig extends React.PureComponent {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-
-        {/* {fakeData.map(item => {
-          return (
-            <View key={item.id} style={styles.userBtn}>
-              <View style={styles.leftContainer}>
-                <Image style={styles.orderPic} source={orderPic} resizeMode="contain" />
-                <Text style={styles.userBtnText}>{item.name}</Text>
-              </View>
-              <View style={styles.btnContainer}>
-                <Button style={styles.editBtn} onPress={() => this.handleEditGroup(item)}>
-                  <Text style={styles.pwdBtnText}>编辑</Text>
-                </Button>
-                <Button style={styles.deleteBtn} onPress={() => this.handleDeleteGroup(item.id)}>
-                  <Text style={styles.pwdBtnText}>删除</Text>
-                </Button>
-              </View>
-            </View>
-          );
-        })} */}
         <Button style={styles.submitBtn} onPress={this.handleAddGroup}>
           <Text style={styles.submitBtnText}>新&nbsp;&nbsp;&nbsp;增</Text>
         </Button>

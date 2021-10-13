@@ -109,13 +109,16 @@ export default StyleSheet.create({
     marginLeft: wp(28 / BASE_WIDTH),
   },
   submitBtn: {
+    position: 'absolute',
     paddingVertical: 0,
     backgroundColor: '#4367FD',
     width: wp(700 / BASE_WIDTH),
     height: hp(128 / BASE_HEIGHT),
     borderRadius: wp(30 / BASE_WIDTH),
     marginLeft: wp(190 / BASE_WIDTH),
-    marginTop: hp(132 / BASE_HEIGHT),
+    // marginTop: hp(132 / BASE_HEIGHT),
+    bottom: hp(62 / BASE_HEIGHT),
+    left: 0,
   },
   submitBtnText: {
     width: '100%',
@@ -126,7 +129,7 @@ export default StyleSheet.create({
   },
   flatlist: {
     width: wp(1000 / BASE_WIDTH),
-    height: hp(600 / BASE_HEIGHT),
+    height: hp(1500 / BASE_HEIGHT),
     marginLeft: wp(40 / BASE_WIDTH),
     marginRight: wp(40 / BASE_WIDTH),
     marginTop: hp(40 / BASE_HEIGHT),
