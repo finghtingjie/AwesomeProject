@@ -7,7 +7,7 @@ import { WebView } from 'react-native-webview';
 import { ECharts } from 'react-native-echarts-wrapper';
 import { Toast, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Orientation from 'react-native-orientation-locker';
+
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { screenWidth, screenHeight, scale } from '../../utils/device';
@@ -119,9 +119,6 @@ class Index extends React.Component {
             fontWeight: 'bold',
           },
         },
-        tooltip: {
-          trigger: 'axis',
-        },
         grid: {
           left: '2%',
           right: '0%',
@@ -141,9 +138,9 @@ class Index extends React.Component {
               show: false,
             },
             scale: false,
-            max: 100,
-            min: 40,
-            splitNumber: 6,
+            max: 'dataMax',
+            min: 'dataMin',
+            // splitNumber: 6,
             // boundaryGap: [0, '100%'],
             // axisPointer: {
             //   snap: true,
@@ -216,15 +213,15 @@ class Index extends React.Component {
         ],
       },
       fakeData: [
-        { id: 1, val: '源端监视', source: yuanduan, routeName: 'Yuanduan' },
-        { id: 2, val: '网侧监视', source: wangce, routeName: 'Wangce' },
-        { id: 3, val: '电力潮流图', source: dianlichaoliu, routeName: 'Dianlichaoliu' },
-        { id: 4, val: '电压趋势图', source: dianyaqushi, routeName: 'Dianyaqushi' },
-        { id: 5, val: '电压合格率', source: hegelv, routeName: 'Hegelv' },
-        { id: 6, val: '发电机负荷率', source: fuzailv, routeName: 'Fuzailv' },
-        { id: 7, val: '主变油温', source: youwen, routeName: 'Zhubianyouwen' },
-        { id: 8, val: '主变负荷率', source: zhubianfuzailv, routeName: 'ZhubianFuzailv' },
-        { id: 9, val: '直流系统', source: zhiliu, routeName: 'Zhiliu' },
+        { id: 8, val: '源端监视', source: yuanduan, routeName: 'Yuanduan' },
+        { id: 9, val: '网侧监视', source: wangce, routeName: 'Wangce' },
+        { id: 10, val: '电力潮流图', source: dianlichaoliu, routeName: 'Dianlichaoliu' },
+        { id: 11, val: '电压趋势图', source: dianyaqushi, routeName: 'Dianyaqushi' },
+        { id: 12, val: '电压合格率', source: hegelv, routeName: 'Hegelv' },
+        { id: 13, val: '发电机负荷率', source: fuzailv, routeName: 'Fuzailv' },
+        { id: 14, val: '主变油温', source: youwen, routeName: 'Zhubianyouwen' },
+        { id: 15, val: '主变负荷率', source: zhubianfuzailv, routeName: 'ZhubianFuzailv' },
+        { id: 16, val: '直流系统', source: zhiliu, routeName: 'Zhiliu' },
       ],
       fakeData2: [
         { id: 1, val: '总用电', yougong: 61.23, wugong: 26.86, source: yuanduan, routeName: 'Wangce' },
@@ -460,7 +457,7 @@ class Index extends React.Component {
               data: [
                 [
                   {
-                    name: '尖',
+                    // name: '尖',
                     xAxis: '10:00',
                   },
                   {
@@ -469,7 +466,7 @@ class Index extends React.Component {
                 ],
                 [
                   {
-                    name: '尖',
+                    // name: '尖',
                     xAxis: '17:00',
                   },
                   {
@@ -770,23 +767,50 @@ class Index extends React.Component {
     this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
   };
 
-  handleClick = item => {
+  handleClick = async item => {
+    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
+    const newArr = menuIdArr.split(',').map(items => Number(items));
     const { navigation } = this.props;
-    navigation.navigate(item.routeName);
+    if (newArr.includes(item.id)) {
+      navigation.navigate(item.routeName);
+    } else {
+      Toast.info(`您没有访问${item.val}的权限`);
+    }
     // this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
   };
 
-  handleClickCard = (item, index) => {
+  handleClickZhi = async () => {
+    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
+    const newArr = menuIdArr.split(',').map(items => Number(items));
     const { navigation } = this.props;
-    if (index === 0) {
+    if (newArr.includes(16)) {
+      navigation.navigate('Zhiliu');
+    } else {
+      Toast.info('您没有访问直流系统的权限');
+    }
+  };
+
+  handleClickCard = async (item, index) => {
+    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
+    const newArr = menuIdArr.split(',').map(items => Number(items));
+    const { navigation } = this.props;
+
+    if (index === 0 && newArr.includes(9)) {
       // 总用电（有功功率、无功功率）：点击后跳转至KPI-网侧监视模块中
-      navigation.navigate(item.routeName);
-    } else if (index === 1) {
-      // 总发电（有功功率、无功功率）：点击后跳转至KPI-源端监视-用电tab中。
-      navigation.navigate(item.routeName, { activeIndex: 2 });
-    } else if (index === 2) {
-      // 总进线（有功功率、无功功率）、自供电率：点击后跳转至KPI-源端监视-电网购电tab中。
-      navigation.navigate(item.routeName, { activeIndex: 1 });
+      navigation.navigate('Wangce');
+    } else if (index === 0 && !newArr.includes(9)) {
+      Toast.info('您没有访问网侧监视的权限');
+    }
+    if (newArr.includes(8)) {
+      if (index === 1) {
+        // 总发电（有功功率、无功功率）：点击后跳转至KPI-源端监视-用电tab中。
+        navigation.navigate(item.routeName, { activeIndex: 2 });
+      } else if (index === 2) {
+        // 总进线（有功功率、无功功率）、自供电率：点击后跳转至KPI-源端监视-电网购电tab中。
+        navigation.navigate(item.routeName, { activeIndex: 1 });
+      }
+    } else {
+      Toast.info('您没有访问源端监视的权限');
     }
   };
 
@@ -816,7 +840,6 @@ class Index extends React.Component {
               this.getHeadInfo();
               this.selfDowerSupplyRate();
               this.totalLoadCurve();
-              Orientation.lockToPortrait();
             }
           }}
         />
@@ -892,8 +915,8 @@ class Index extends React.Component {
           </View>
           <ScrollView
             horizontal
-            showsHorizontalScrollIndicator={false}
             style={styles.horizontalContainer}
+            showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}
             ref={ref => (this.ScrollView = ref)}
             onScroll={event => {
@@ -915,7 +938,7 @@ class Index extends React.Component {
               })}
             </View>
             <View style={styles.menuContainer2}>
-              <TouchableOpacity style={styles.tabButton} onPress={() => this.props.navigation.navigate('Zhiliu')}>
+              <TouchableOpacity style={styles.tabButton} onPress={() => this.handleClickZhi()}>
                 <Image source={fakeData[8].source} style={styles.image} />
                 <Text style={styles.menuItem}>{fakeData[8].val}</Text>
               </TouchableOpacity>
