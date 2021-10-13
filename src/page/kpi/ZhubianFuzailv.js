@@ -132,7 +132,7 @@ class Hegelv extends React.PureComponent {
                   <View style={styles.rowContainer2}>
                     {item.map((items, index) => {
                       return (
-                        <View key={items} style={this.renderRowStyle(item, index)}>
+                        <View key={items + index} style={this.renderRowStyle(item, index)}>
                           {Array.isArray(items) ? (
                             this.renderArrayText(items, index)
                           ) : (

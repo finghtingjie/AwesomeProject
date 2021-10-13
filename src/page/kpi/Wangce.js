@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
 // import { Toast, Button, PullPicker } from 'teaset';
-import { Table, Row, Rows } from 'react-native-table-component';
 
 const backIcon = require('../../assets/backicon.png');
 
@@ -10,7 +9,7 @@ import { netSideMonitor } from '@api/kpi';
 
 import styles from './WangceStyle';
 
-class Yuanduan extends React.PureComponent {
+class Wangce extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,7 +43,7 @@ class Yuanduan extends React.PureComponent {
     netSideMonitor({}).then(res => {
       if (res && res.status === 200) {
         const resData = res.body;
-        console.log(resData);
+        // console.log(resData);
         let newArr = [];
         resData.map((item, index) => {
           newArr[index] = [
@@ -54,14 +53,7 @@ class Yuanduan extends React.PureComponent {
             Number(item.dianLiu).toFixed(2),
           ];
         });
-        this.setState(
-          {
-            tableData: newArr,
-          },
-          () => {
-            console.log('总数', newArr);
-          },
-        );
+        this.setState({ tableData: newArr });
       }
     });
   };
@@ -94,10 +86,6 @@ class Yuanduan extends React.PureComponent {
           </View>
         </View>
         <View style={styles.tableContainer}>
-          {/* <Table borderStyle={styles.borderStyle}>
-            <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
-            <Rows data={tableData} style={styles.rows} textStyle={styles.rowsText} />
-          </Table> */}
           <View style={styles.headContainer}>
             {tableHead.map((item, index) => {
               return (
@@ -114,7 +102,7 @@ class Yuanduan extends React.PureComponent {
                   <View style={i % 2 === 0 ? styles.rowContainer : styles.rowContainer2}>
                     {item.map((items, index) => {
                       return (
-                        <View key={items} style={this.renderColStyle(item, index)}>
+                        <View key={items + index} style={this.renderColStyle(item, index)}>
                           <Text style={styles.commonColText}>{items}</Text>
                         </View>
                       );
@@ -130,4 +118,4 @@ class Yuanduan extends React.PureComponent {
   }
 }
 
-export default Yuanduan;
+export default Wangce;

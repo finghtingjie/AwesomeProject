@@ -363,7 +363,7 @@ class Index extends React.PureComponent {
                   <View style={styles.rowContainer}>
                     {item.map((items, index) => {
                       return (
-                        <View key={index} style={styles.nameStyle}>
+                        <View key={items + index} style={styles.nameStyle}>
                           <Text style={styles.commonrowText}>{items}</Text>
                         </View>
                       );
@@ -397,7 +397,7 @@ class Index extends React.PureComponent {
                   <View style={styles.rowContainer}>
                     {item.map((items, index) => {
                       return (
-                        <View key={index} style={styles.nameStyle}>
+                        <View key={items + index} style={styles.nameStyle}>
                           <Text style={styles.commonrowText}>{items}</Text>
                         </View>
                       );
@@ -431,7 +431,7 @@ class Index extends React.PureComponent {
                   <View style={styles.rowContainer}>
                     {item.map((items, index) => {
                       return (
-                        <View key={index} style={styles.nameStyle}>
+                        <View key={items + index} style={styles.nameStyle}>
                           <Text style={styles.commonrowText}>{items}</Text>
                         </View>
                       );
@@ -465,7 +465,7 @@ class Index extends React.PureComponent {
                   <View style={styles.rowContainer}>
                     {item.map((items, index) => {
                       return (
-                        <View key={index} style={styles.nameStyle}>
+                        <View key={items + index} style={styles.nameStyle}>
                           <Text style={styles.commonrowText}>{items}</Text>
                         </View>
                       );

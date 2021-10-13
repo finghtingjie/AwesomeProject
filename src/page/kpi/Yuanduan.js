@@ -26,10 +26,14 @@ class Yuanduan extends React.PureComponent {
   };
 
   componentDidMount() {
-    // const { params } = this.props.navigation.state;
-    // const { activeIndex } = params;
-    // console.log(activeIndex);
-    this.sourceEndMonitor('电网购电');
+    const { params } = this.props.navigation.state;
+    if (params && params.activeIndex) {
+      this.setState({ activeTab: params.activeIndex }, () => {
+        this.sourceEndMonitor(this.state.activeTab === 1 ? '电网购电' : '发电');
+      });
+    } else {
+      this.sourceEndMonitor(this.state.activeTab === 1 ? '电网购电' : '发电');
+    }
   }
 
   sourceEndMonitor = val => {
