@@ -55,16 +55,16 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ clientId: Math.floor(Math.random() * 10000000000000000) }, () => {
-      shougang({ clientId: this.state.clientId }).then(res => {
-        this.setState({ xmlData: res });
-        setInterval(() => {
-          shougangUpdate({ clientId: this.state.clientId }).then(ress => {
-            this.setState({ xmlData: ress });
-          });
-        }, 3000);
-      });
-    });
+    // this.setState({ clientId: Math.floor(Math.random() * 10000000000000000) }, () => {
+    //   shougang({ clientId: this.state.clientId }).then(res => {
+    //     this.setState({ xmlData: res });
+    //     setInterval(() => {
+    //       shougangUpdate({ clientId: this.state.clientId }).then(ress => {
+    //         this.setState({ xmlData: ress });
+    //       });
+    //     }, 3000);
+    //   });
+    // });
     Orientation.lockToLandscapeLeft();
   }
 

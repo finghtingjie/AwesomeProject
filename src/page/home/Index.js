@@ -627,6 +627,8 @@ class Index extends React.Component {
           ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[1].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[4].data = [];
+            pieOption.series[4].markArea = {};
           } else if (
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 06:00`), moment(`${nowTime} 10:00`), 'minutes')
           ) {
