@@ -3,7 +3,6 @@ import { NavigationEvents } from 'react-navigation';
 import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image, Alert, FlatList } from 'react-native';
 
 import { Toast, Button, Overlay, ModalIndicator } from 'teaset';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import IconFont from '@iconfont/index.js';
 import { getAllUserInfo, userSearch, deleteUser } from '@api/profile';
@@ -13,7 +12,6 @@ const backIcon = require('../../assets/backicon.png');
 
 import styles from './UserConfigStyles';
 import overlayStyles from '../style/overlayStyle';
-import BASE_URL from '../../utils/baseurl';
 
 class UserConfig extends React.PureComponent {
   constructor(props) {
@@ -44,9 +42,11 @@ class UserConfig extends React.PureComponent {
     });
   };
 
-  handleSearch = val => {
+  // 搜索用户
+  handleSearch = () => {
+    Keyboard.dismiss();
     ModalIndicator.show();
-    const params = { name: val };
+    const params = { name: this.state.keyWord };
     userSearch(params).then(res => {
       ModalIndicator.hide();
       if (res && res.status === 200) {
@@ -119,7 +119,6 @@ class UserConfig extends React.PureComponent {
   };
 
   handleOk = async item => {
-    // ModalIndicator.show();
     deleteUser({ userId: item }).then(res => {
       if (res && res.status === 200) {
         Toast.success('删除成功');
@@ -157,8 +156,11 @@ class UserConfig extends React.PureComponent {
             style={styles.inputBase}
             placeholderTextColor="#999"
             onBlur={() => Keyboard.dismiss()}
-            onChangeText={val => this.handleSearch(val)}
+            onChangeText={val => this.setState({ keyWord: val })}
           />
+          <TouchableOpacity style={styles.searchIcon} onPress={() => this.handleSearch()}>
+            <Text style={styles.searchText}>搜 索</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.flatlist}>
           <FlatList
@@ -168,28 +170,6 @@ class UserConfig extends React.PureComponent {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-
-        {/* {fakeData.map(item => {
-          return (
-            <View key={item.userId} style={styles.userBtn}>
-              <View style={styles.leftContainer}>
-                <Image style={styles.orderPic} source={orderPic} />
-                <Text style={styles.userBtnText}>{item.userName}</Text>
-              </View>
-              <View style={styles.btnContainer}>
-                <Button style={styles.pwdBtn} onPress={() => this.handleLookPwd(item)}>
-                  <Text style={styles.pwdBtnText}>查看密码</Text>
-                </Button>
-                <Button style={styles.editBtn} onPress={() => this.handleEditUser(item)}>
-                  <Text style={styles.pwdBtnText}>编辑</Text>
-                </Button>
-                <Button style={styles.deleteBtn} onPress={() => this.handleDeleteUser(item.userId)}>
-                  <Text style={styles.pwdBtnText}>删除</Text>
-                </Button>
-              </View>
-            </View>
-          );
-        })} */}
         <Button style={styles.submitBtn} onPress={this.handleAddUser}>
           <Text style={styles.submitBtnText}>新增用户</Text>
         </Button>

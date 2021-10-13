@@ -183,7 +183,7 @@ class Index extends React.Component {
           trigger: 'axis',
         },
         legend: {
-          data: ['油温1', '油温2'],
+          data: resData2.length >= 1 ? ['油温1', '油温2'] : ['油温1'],
           left: '3%',
         },
         grid: commonGrid,
@@ -242,7 +242,7 @@ class Index extends React.Component {
         trigger: 'axis',
       },
       legend: {
-        data: ['油温1', '油温2', '油温3'],
+        data: resData3.length >= 1 ? ['油温1', '油温2', '油温3'] : ['油温1', '油温2'],
         left: '3%',
       },
       grid: commonGrid,
@@ -533,19 +533,6 @@ class Index extends React.Component {
             <Text style={styles.noresultText}>暂无数据</Text>
           </View>
         )}
-        {/* <WebView
-          useWebKit
-          scrollEnabled={false}
-          javaScriptEnabled
-          source={webViewsource}
-          originWhitelist={['*']}
-          style={styles.webview}
-          mixedContentMode="compatibility"
-          ref={ref => (this.webView = ref)}
-          onError={e => console.log(e)}
-          onMessage={event => console.log(event.nativeEvent.data)}
-          onLoadEnd={this.onLoadEnd}
-        /> */}
       </View>
     );
   }

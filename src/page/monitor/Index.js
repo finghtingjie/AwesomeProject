@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView } from 'react-native';
 
 import { NavigationEvents } from 'react-navigation';
+import Orientation from 'react-native-orientation-locker';
 import { Toast, Button, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -246,7 +247,12 @@ class Index extends React.PureComponent {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
-        <NavigationEvents onDidFocus={() => this.getMonitor()} />
+        <NavigationEvents
+          onDidFocus={() => {
+            this.getMonitor();
+            Orientation.lockToPortrait();
+          }}
+        />
         <View style={styles.navigationBar}>
           <View style={styles.navigationContainer}>
             <TouchableOpacity

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, TextInput, Text, Keyboard, StatusBar, Image } from 'react-native';
 
+import { NavigationEvents } from 'react-navigation';
+import Orientation from 'react-native-orientation-locker';
 import { Toast, ModalIndicator, Button } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -64,6 +66,7 @@ class Index extends React.PureComponent {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
+        <NavigationEvents onDidFocus={() => Orientation.lockToPortrait()} />
         <Image style={styles.loginBg} source={loginBg} />
         <View style={styles.centerContainer}>
           <View style={styles.logoContainer}>

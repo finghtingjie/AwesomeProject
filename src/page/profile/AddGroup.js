@@ -31,9 +31,9 @@ class AddGroup extends React.PureComponent {
         { id: 10, val: '电力潮流图', checked: false },
         { id: 11, val: '电压趋势图', checked: false },
         { id: 12, val: '电压合格率', checked: false },
-        { id: 13, val: '发电机负载率', checked: false },
+        { id: 13, val: '发电机负荷率', checked: false },
         { id: 14, val: '主变油温', checked: false },
-        { id: 15, val: '主变负载率', checked: false },
+        { id: 15, val: '主变负荷率', checked: false },
         { id: 16, val: '直流系统', checked: false },
       ],
       fakeData2: [
@@ -82,13 +82,11 @@ class AddGroup extends React.PureComponent {
               this.setState({ checked2: false });
             }
             if (res.body.menuData.find(item => item.id === 3).select === 1) {
-              // this.handleSetAll();
               this.setState({ checked: true });
             } else {
               this.setState({ checked: false });
             }
             if (res.body.menuData.find(item => item.id === 5).select === 1) {
-              // this.handleSetAll();
               this.setState({ checked3: true });
             } else {
               this.setState({ checked3: false });
@@ -98,7 +96,7 @@ class AddGroup extends React.PureComponent {
       });
     } else {
       const groupArr = await AsyncStorage.getItem('groupArr');
-      const groupArr2 = await AsyncStorage.getItem('groupArr');
+      const groupArr2 = await AsyncStorage.getItem('groupArr2');
       const newArr = JSON.parse(groupArr);
       const newArr2 = JSON.parse(groupArr2);
       newArr.map(item => {

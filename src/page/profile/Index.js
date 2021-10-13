@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
 
 import { Toast, ModalIndicator, Button } from 'teaset';
+import { NavigationEvents } from 'react-navigation';
+import Orientation from 'react-native-orientation-locker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -36,20 +38,16 @@ class Index extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({ userName: '测试用户名' });
-    this.getUserInfo();
-  }
+  componentDidMount() {}
 
   getUserInfo = async () => {
     const user = await AsyncStorage.getItem('user');
     if (user !== '') {
       this.setState({ userInfo: JSON.parse(user) });
       const params = { userId: JSON.parse(user).userId };
-      console.log(params);
+      // console.log(params);
       ModalIndicator.show();
       getUserInfo(params).then(res => {
-        console.log(res);
         ModalIndicator.hide();
         if (res && res.status === 200) {
           this.setState({
@@ -130,6 +128,12 @@ class Index extends React.Component {
           backgroundColor="transparent"
           showHideTransition="fade"
           networkActivityIndicatorVisible
+        />
+        <NavigationEvents
+          onDidFocus={() => {
+            this.getUserInfo();
+            Orientation.lockToPortrait();
+          }}
         />
         <View style={styles.topBg}>
           <View style={styles.userContainer}>

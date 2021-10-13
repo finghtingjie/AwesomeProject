@@ -9,11 +9,11 @@ import {
   Image,
   ScrollView,
   FlatList,
-  RefreshControl,
 } from 'react-native';
 
 import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
+import Orientation from 'react-native-orientation-locker';
 import { Toast, Button, PullPicker, ModalIndicator } from 'teaset';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -196,6 +196,7 @@ class Index extends React.PureComponent {
     });
   };
 
+  // 切换类型
   handleSelectLevel = () => {
     const { levelArr } = this.state;
     const items = ['全部类型'].concat(levelArr.map(item => item.name));
@@ -220,13 +221,39 @@ class Index extends React.PureComponent {
     }
   };
 
-  // handleSelectStatus = () => {
-  //   const items = ['全部状态', '未确认', '已确认'];
-  //   PullPicker.show('请选择状态', items, this.state.selectedIndex2, (item, index) =>
-  //     this.setState({ selectedIndex2: index, statusName: item }, () => console.log(item)),
-  //   );
-  // };
+  // 选择时间-确定
+  handleConfirm = dateArr => {
+    this.setState(
+      {
+        dateArr,
+        dateStart: dateArr[0],
+        dateEnd: dateArr[1],
+        dateModalVisible: false,
+      },
+      () => {
+        const diff = moment(dateArr[0]).diff(moment(dateArr[1]), 'days');
+        if (Math.abs(diff) >= 8) {
+          Toast.info('只支持查询七天内的数据，请重新选择查询范围');
+          this.setState({ dateStart: null, dateEnd: null });
+        } else {
+          this.setState({ pageNum: 1, pageSize: 10 }, () => {
+            this.getGiveAnAlarm();
+          });
+        }
+      },
+    );
+  };
 
+  // 选择时间-取消
+  handleCancel = () => {
+    this.setState({ dateModalVisible: false, dateStart: null, dateEnd: null }, () => {
+      this.setState({ pageNum: 1, pageSize: 10 }, () => {
+        this.getGiveAnAlarm();
+      });
+    });
+  };
+
+  // 切换排序
   handleChangeOrder = () => {
     this.setState({ sort: this.state.sort === 'desc' ? 'asc' : 'desc' }, () => {
       this.getGiveAnAlarm();
@@ -239,6 +266,7 @@ class Index extends React.PureComponent {
     return action;
   };
 
+  // 搜索告警内容
   handleSearch = () => {
     Keyboard.dismiss();
     const { dateEnd, dateStart, sort, pageNum, pageSize, alarmContent, typeId } = this.state;
@@ -286,10 +314,7 @@ class Index extends React.PureComponent {
         <View style={styles.rightPart}>
           <Text style={styles.commonLine}>
             告警类型：
-            <Text style={[styles.contents, { color: this.renderColor(item.alarmGroup) }]}>
-              {/* {this.renderLevel(item.eventLevel)} */}
-              {item.alarmGroup}
-            </Text>
+            <Text style={[styles.contents, { color: this.renderColor(item.alarmGroup) }]}>{item.alarmGroup}</Text>
           </Text>
           <Text style={styles.commonLine}>
             告警时间：
@@ -302,7 +327,6 @@ class Index extends React.PureComponent {
             <Text style={[styles.contents, { color: this.renderColor(item.alarmGroup) }]}>{item.alarmContent}</Text>
           </Text>
         </View>
-        {/* <Text style={styles.confirmBtnText}>{item.actingDesc}</Text> */}
         <Button style={item.isConfirm ? styles.isConfirm : styles.confirmBtn}>
           <Text style={styles.confirmBtnText}>{item.actingDesc}</Text>
         </Button>
@@ -352,28 +376,6 @@ class Index extends React.PureComponent {
     });
   };
 
-  handleConfirm = dateArr => {
-    this.setState(
-      {
-        dateArr,
-        dateStart: dateArr[0],
-        dateEnd: dateArr[1],
-        dateModalVisible: false,
-      },
-      () => {
-        const diff = moment(dateArr[0]).diff(moment(dateArr[1]), 'days');
-        if (Math.abs(diff) >= 8) {
-          Toast.info('只支持查询七天内的数据，请重新选择查询范围');
-          this.setState({ dateStart: null, dateEnd: null });
-        } else {
-          this.setState({ pageNum: 1, pageSize: 10 }, () => {
-            this.getGiveAnAlarm();
-          });
-        }
-      },
-    );
-  };
-
   render() {
     const { alarmContent, fakeData, levelName, statusName, dateEnd, total, dateStart } = this.state;
     const renderDate = (item1, item2) => {
@@ -404,6 +406,7 @@ class Index extends React.PureComponent {
             });
             this.getGiveAnAlarm();
             this.getTGiveAnAlarm();
+            Orientation.lockToPortrait();
           }}
         />
         <View style={styles.navigationBar}>
@@ -425,7 +428,7 @@ class Index extends React.PureComponent {
               visible={this.state.dateModalVisible}
               // defaultValue={this.state.dateArr}
               onConfirm={this.handleConfirm}
-              onCancle={() => this.setState({ dateModalVisible: false, dateStart: null, dateEnd: null })}
+              onCancle={() => this.handleCancel()}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.orderContainer} onPress={() => this.handleChangeOrder()}>
@@ -441,8 +444,9 @@ class Index extends React.PureComponent {
             onBlur={() => Keyboard.dismiss()}
             onChangeText={val => this.setState({ alarmContent: val })}
           />
-          <TouchableOpacity onPress={() => this.handleSearch()}>
-            <Image style={styles.searchIcon} source={searchIcon} resizeMode="contain" />
+          <TouchableOpacity style={styles.searchIcon} onPress={() => this.handleSearch()}>
+            {/* <Image style={styles.searchIcon} source={searchIcon} resizeMode="contain" /> */}
+            <Text style={styles.searchText}>搜 索</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.warningContent}>

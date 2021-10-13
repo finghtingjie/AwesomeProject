@@ -13,7 +13,7 @@ class Hegelv extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: ['机组', '发电机', '负载率'],
+      tableHead: ['机组', '发电机', '负荷率'],
       tableData: [
         ['热电110kV站', ['1#发电机', '2#发电机'], ['100.34', '100.19']],
         ['25MW机组', ['3#25MW机组', '4#25MW机组'], ['100.34', '100.19']],

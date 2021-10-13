@@ -151,10 +151,11 @@ export default StyleSheet.create({
     borderRadius: wp(40 / BASE_WIDTH),
     marginLeft: wp(92 / BASE_WIDTH),
     marginTop: hp(30 / BASE_HEIGHT),
+    overflow: 'hidden',
   },
   inputBase: {
     color: '#333',
-    width: '90%',
+    width: '84%',
     paddingVertical: 0,
     textAlign: 'center',
     fontSize: hp(32 / BASE_HEIGHT),
@@ -162,8 +163,18 @@ export default StyleSheet.create({
     lineHeight: hp((32 * 1.2) / BASE_HEIGHT),
   },
   searchIcon: {
-    width: wp(33 / BASE_WIDTH),
-    height: wp(33 / BASE_WIDTH),
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: wp(150 / BASE_WIDTH),
+    height: wp(100 / BASE_WIDTH),
+    borderTopRightRadius: wp(40 / BASE_WIDTH),
+    borderBottomRightRadius: wp(40 / BASE_WIDTH),
+    backgroundColor: '#3D447B',
+  },
+  searchText: {
+    color: '#fff',
+    fontSize: hp(28 / BASE_HEIGHT),
+    lineHeight: hp(36 / BASE_HEIGHT),
   },
   warningContent: {
     flexDirection: 'row',

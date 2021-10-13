@@ -12,8 +12,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 // 第三方模块
 import { Toast } from 'teaset';
 import JPush from 'jpush-react-native';
-import { checkNotifications, requestNotifications, openSettings } from 'react-native-permissions';
-
+import { checkNotifications, openSettings } from 'react-native-permissions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 自己代码导入模块
