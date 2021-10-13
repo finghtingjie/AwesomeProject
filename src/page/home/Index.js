@@ -892,6 +892,7 @@ class Index extends React.Component {
           </View>
           <ScrollView
             horizontal
+            showsHorizontalScrollIndicator={false}
             style={styles.horizontalContainer}
             contentContainerStyle={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}
             ref={ref => (this.ScrollView = ref)}
