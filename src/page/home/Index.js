@@ -119,6 +119,9 @@ class Index extends React.Component {
             fontWeight: 'bold',
           },
         },
+        tooltip: {
+          trigger: 'axis',
+        },
         grid: {
           left: '2%',
           right: '0%',

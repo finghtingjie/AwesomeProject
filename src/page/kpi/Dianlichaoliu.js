@@ -31,8 +31,7 @@ import Orientation from 'react-native-orientation-locker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
 // import ViewTransformer from 'react-native-view-transformer';
-// import ZoomableSvg from '../../utils/Zoom';
-import { shougangUpdate, shougang } from '@api/kpi';
+// import { shougangUpdate, shougang } from '@api/kpi';
 
 const backIcon = require('../../assets/backicon.png');
 
@@ -87,22 +86,19 @@ class Index extends React.Component {
           </View>
         </View>
         {/* <ScrollView horizontal> */}
-        {/* <ViewTransformer> */}
+
         {/* <View style={styles.webviewContainer}> */}
-        <WebView
+        {/* <WebView
           useWebKit
-          scrollEnabled
           javaScriptEnabled
           originWhitelist={['*']}
           source={source}
           style={styles.webview}
           mixedContentMode="compatibility"
           ref={ref => (this.webView = ref)}
-          onLoadEnd={this.onLoadEnd}
-        />
+        /> */}
         {/* <SvgXml xml={this.state.xmlData} width="100%" height="56%" /> */}
         {/* </View> */}
-        {/* </ViewTransformer> */}
         {/* </ScrollView> */}
       </View>
     );

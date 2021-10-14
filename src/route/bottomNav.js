@@ -153,6 +153,10 @@ class customTabBar extends React.PureComponent {
         const arr = ['首页'];
         const arr2 = res.body.menuData.filter(item => item.select === 1 && item.id < 6);
         arr.push(...arr2.map(item => item.name));
+        const kpiArr = res.body.menuData.filter(item => item.parentId === 3 && item.select === 1);
+        if (kpiArr.length >= 1 && !arr.includes('kpi')) {
+          arr.splice(2, 0, 'kpi');
+        }
         this.setState({ menuData: arr });
       } else {
         Toast.fail(res.msg);

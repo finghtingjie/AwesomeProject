@@ -2,7 +2,9 @@ import React from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
+import { Toast } from 'teaset';
 import Orientation from 'react-native-orientation-locker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const yuanduan = require('../../assets/kpi/yuanduan.png');
 const wangce = require('../../assets/kpi/wangce.png');
@@ -21,15 +23,15 @@ class Index extends React.PureComponent {
     super(props);
     this.state = {
       fakeData: [
-        { id: 1, val: '源端监视', source: yuanduan, routeName: 'Yuanduan' },
-        { id: 2, val: '网侧监视', source: wangce, routeName: 'Wangce' },
-        { id: 3, val: '电力潮流图', source: dianlichaoliu, routeName: 'Dianlichaoliu' },
-        { id: 4, val: '电压趋势图', source: dianyaqushi, routeName: 'Dianyaqushi' },
-        { id: 5, val: '电压合格率', source: hegelv, routeName: 'Hegelv' },
-        { id: 6, val: '发电机负荷率', source: fuzailv, routeName: 'Fuzailv' },
-        { id: 7, val: '主变油温', source: youwen, routeName: 'Zhubianyouwen' },
-        { id: 8, val: '主变负荷率', source: zhubianfuzailv, routeName: 'ZhubianFuzailv' },
-        { id: 9, val: '直流系统', source: zhiliu, routeName: 'Zhiliu' },
+        { id: 8, val: '源端监视', source: yuanduan, routeName: 'Yuanduan' },
+        { id: 9, val: '网侧监视', source: wangce, routeName: 'Wangce' },
+        { id: 10, val: '电力潮流图', source: dianlichaoliu, routeName: 'Dianlichaoliu' },
+        { id: 11, val: '电压趋势图', source: dianyaqushi, routeName: 'Dianyaqushi' },
+        { id: 12, val: '电压合格率', source: hegelv, routeName: 'Hegelv' },
+        { id: 13, val: '发电机负荷率', source: fuzailv, routeName: 'Fuzailv' },
+        { id: 14, val: '主变油温', source: youwen, routeName: 'Zhubianyouwen' },
+        { id: 15, val: '主变负荷率', source: zhubianfuzailv, routeName: 'ZhubianFuzailv' },
+        { id: 16, val: '直流系统', source: zhiliu, routeName: 'Zhiliu' },
       ],
     };
   }
@@ -39,9 +41,15 @@ class Index extends React.PureComponent {
 
   componentDidMount() {}
 
-  handleClick = item => {
+  handleClick = async item => {
     const { navigation } = this.props;
-    navigation.navigate(item.routeName);
+    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
+    const newArr = menuIdArr.split(',').map(items => Number(items));
+    if (newArr.includes(item.id)) {
+      navigation.navigate(item.routeName);
+    } else {
+      Toast.info(`您没有访问${item.val}的权限`);
+    }
   };
 
   render() {
