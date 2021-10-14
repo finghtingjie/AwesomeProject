@@ -154,12 +154,18 @@ class customTabBar extends React.PureComponent {
         const arr2 = res.body.menuData.filter(item => item.select === 1 && item.id < 6);
         arr.push(...arr2.map(item => item.name));
         const kpiArr = res.body.menuData.filter(item => item.parentId === 3 && item.select === 1);
+        const profileArr = res.body.menuData.filter(item => item.parentId === 5 && item.select === 1);
+        // 只有kpi的子菜单
         if (kpiArr.length >= 1 && !arr.includes('kpi')) {
           if (arr[0] === '首页' && arr[1] === '我的') {
             arr.splice(1, 0, 'kpi');
           } else {
             arr.splice(2, 0, 'kpi');
           }
+        }
+        // 只有我的子菜单
+        if (profileArr.length >= 1 && !arr.includes('我的')) {
+          arr.splice(4, 0, '我的');
         }
         this.setState({ menuData: arr });
       } else {
