@@ -42,12 +42,21 @@ class Yuanduan extends React.PureComponent {
         const resData = res.body;
         let newArr = [];
         resData.map((item, index) => {
-          newArr[index] = [
-            item.name,
-            item.youGong ? Number(item.youGong).toFixed(2) : '--',
-            item.wuGong ? Number(item.wuGong).toFixed(2) : '--',
-            item.dianLiu ? Number(item.dianLiu).toFixed(2) : '--',
-          ];
+          if (val === '电网购电') {
+            newArr[index] = [
+              item.name,
+              item.youGong ? Number(item.youGong).toFixed(2) : '--',
+              item.wuGong ? Number(item.wuGong).toFixed(2) : '--',
+              item.dianLiu ? Number(item.dianLiu).toFixed(2) : '--',
+            ];
+          } else {
+            newArr[index] = [
+              item.name,
+              item.youGong ? Number(item.youGong > 0 ? -item.youGong : item.youGong).toFixed(2) : '--',
+              item.wuGong ? Number(item.wuGong > 0 ? -item.wuGong : item.wuGong).toFixed(2) : '--',
+              item.dianLiu ? Number(item.dianLiu).toFixed(2) : '--',
+            ];
+          }
         });
         this.setState({
           tableData: newArr,
