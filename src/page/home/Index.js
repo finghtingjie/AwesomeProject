@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView, Dimensions
 import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
 import { WebView } from 'react-native-webview';
+import Orientation from 'react-native-orientation-locker';
 import { ECharts } from 'react-native-echarts-wrapper';
 import { Toast, ModalIndicator } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -277,43 +278,53 @@ class Index extends React.Component {
             snap: true,
           },
         },
-        // toolbox: {
-        //   feature: {
-        //     dataZoom: {
-        //       yAxisIndex: 'none',
-        //       title: {
-        //         zoom: '区域缩放',
-        //         back: '区域缩放还原',
-        //       },
-        //     },
-        //     restore: {
-        //       title: '还原',
-        //     },
-        //   },
-        // },
         color: ['#BCBCBC', '#00AAFF', '#FFAAFF'],
         legend: {
           data: ['谷', '平', '峰'],
           icon: 'stack',
-          right: '10%',
+          itemHeight: 10, //修改icon图形大小
+          textStyle: {
+            fontSize: 8,
+            color: '#000',
+          },
+          left: '10%',
           top: '12%',
+        },
+        label: {
+          show: false,
+          position: 'top',
+          color: '#fff',
+          // backgroundColor: 'red',
+        },
+        tooltip: {
+          trigger: 'axis',
+          confine: true,
+          padding: [
+            10, // 上
+            5, // 右
+            10, // 下
+            5, // 左
+          ],
+          textStyle: {
+            fontSize: 8,
+            fontWeight: 'normal',
+            // position: function(point, params, dom, rect, size) {
+            //   //其中params为当前鼠标的位置
+            //   return [params[0] - 220, '10%'];
+            // },
+          },
         },
         series: [
           {
             type: 'line',
             symbol: 'none',
             sampling: 'lttb',
-            dataZoom: [
-              {
-                type: 'inside',
-                start: 0,
-                end: 10,
-              },
-              {
-                start: 0,
-                end: 10,
-              },
-            ],
+            label: {
+              show: false,
+              position: 'top',
+              color: '#fff',
+              // backgroundColor: 'red',
+            },
             itemStyle: {
               color: '#FA0208',
             },
@@ -330,7 +341,7 @@ class Index extends React.Component {
               color: 'rgba(0,0,0,0)',
             },
             label: {
-              show: true,
+              show: false,
               position: 'top',
               color: '#fff',
             },
@@ -362,8 +373,6 @@ class Index extends React.Component {
           },
           {
             name: '平',
-            z: 1,
-            zlevel: 1,
             type: 'line',
             smooth: true,
             symbol: 'none',
@@ -524,7 +533,7 @@ class Index extends React.Component {
         pieOption.yAxis.axisLabel = {
           show: true,
           textStyle: {
-            fontSize: 10,
+            fontSize: 8,
           },
           formatter: function(value) {
             return value && `${Number(value)}.0`;
@@ -734,16 +743,16 @@ class Index extends React.Component {
               {
                 id: 2,
                 val: '总发电',
-                yougong: Number(totalElectricityGeneration.youGong).toFixed(2),
-                wugong: Number(totalElectricityGeneration.wuGong).toFixed(2),
+                yougong: Number(totalIncomingLine.youGong).toFixed(2),
+                wugong: Number(totalIncomingLine.wuGong).toFixed(2),
                 source: wangce,
                 routeName: 'Yuanduan',
               },
               {
                 id: 3,
                 val: '总进线',
-                yougong: Number(totalIncomingLine.youGong).toFixed(2),
-                wugong: Number(totalIncomingLine.wuGong).toFixed(2),
+                yougong: Number(totalElectricityGeneration.youGong).toFixed(2),
+                wugong: Number(totalElectricityGeneration.wuGong).toFixed(2),
                 source: dianlichaoliu,
                 routeName: 'Yuanduan',
               },
@@ -838,6 +847,7 @@ class Index extends React.Component {
         />
         <NavigationEvents
           onDidFocus={async payload => {
+            Orientation.lockToPortrait();
             const user = await AsyncStorage.getItem('user');
             if (user) {
               this.getHeadInfo();
@@ -1105,7 +1115,7 @@ const styles = StyleSheet.create({
     // right: wp(72 / BASE_WIDTH),
     // top: hp(100 / BASE_HEIGHT),
     width: '92%',
-    height: hp(380 / BASE_HEIGHT),
+    height: hp(420 / BASE_HEIGHT),
     // marginTop: hp(20 / BASE_HEIGHT),
     marginLeft: '4%',
     borderRadius: wp(20 / BASE_WIDTH),

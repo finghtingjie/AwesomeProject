@@ -1,17 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
 
+import { ModalIndicator, Toast } from 'teaset';
 import { WebView } from 'react-native-webview';
-
 import Orientation from 'react-native-orientation-locker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const backIcon = require('../../assets/backicon.png');
+// const backIcon = require('../../assets/backicon.png');
 
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
-const source = { uri: 'file:///android_asset/index.html' };
+const source = { uri: 'http://10.99.230.103:8080/pcs9000/navi/index.jsp' };
 
 class Index extends React.Component {
   static navigationOptions = {
@@ -24,11 +24,19 @@ class Index extends React.Component {
 
   componentDidMount() {
     Orientation.lockToLandscapeLeft();
+    ModalIndicator.show();
   }
 
-  componentDidUpdate() {
-    this.sendMessage();
-  }
+  handleError = e => {
+    const { navigation } = this.props;
+    const errMsg = e.nativeEvent.description;
+    if (errMsg.includes('net')) {
+      Toast.info('网页加载失败，请连接vpn后查看！');
+      setTimeout(() => {
+        navigation.goBack();
+      }, 2000);
+    }
+  };
 
   render() {
     return (
@@ -40,13 +48,26 @@ class Index extends React.Component {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
-        <View style={styles.navigationBar}>
+        {/* <View style={styles.navigationBar}>
           <View style={styles.navigationContainer}>
             <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
               <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
             </TouchableOpacity>
             <Text style={styles.content}>直流系统</Text>
           </View>
+        </View> */}
+        <View style={styles.webviewContainer}>
+          <WebView
+            useWebKit
+            javaScriptEnabled
+            source={source}
+            originWhitelist={['*']}
+            style={styles.webview}
+            mixedContentMode="compatibility"
+            ref={ref => (this.webView = ref)}
+            onError={e => this.handleError(e)}
+            onLoadEnd={() => ModalIndicator.hide()}
+          />
         </View>
       </View>
     );
@@ -58,14 +79,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   webviewContainer: {
-    width: wp(100),
-    height: 200,
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'pink',
   },
   webview: {
     // flex: 1,
-    width: wp(100),
-    height: 200,
-    backgroundColor: 'pink',
+    position: 'relative',
+    // overflow: 'hidden',
   },
   navigationBar: {
     width: '100%',

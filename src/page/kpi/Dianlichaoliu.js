@@ -1,45 +1,19 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Image, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Image, StatusBar } from 'react-native';
 
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  TSpan,
-  TextPath,
-  Path,
-  Polygon,
-  Polyline,
-  Line,
-  Rect,
-  Use,
-  Symbol,
-  Defs,
-  LinearGradient,
-  RadialGradient,
-  Stop,
-  ClipPath,
-  Pattern,
-  Mask,
-  SvgXml,
-  SvgCssUri,
-} from 'react-native-svg';
-import { screenWidth, screenHeight, scale } from '../../utils/device';
 import { WebView } from 'react-native-webview';
 
 import Orientation from 'react-native-orientation-locker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { ScrollView } from 'react-native-gesture-handler';
-// import ViewTransformer from 'react-native-view-transformer';
-// import { shougangUpdate, shougang } from '@api/kpi';
+import { ModalIndicator, Toast } from 'teaset';
 
-const backIcon = require('../../assets/backicon.png');
+// const backIcon = require('../../assets/backicon.png');
 
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
 // const source = { uri: 'file:///android_asset/test.html' };
-const source = { uri: 'https://w.mousenat.cn/index.html' };
+const source = { uri: 'http://10.99.230.103:8080/pcs9000/navi/index.jsp' };
 
 class Index extends React.Component {
   static navigationOptions = {
@@ -54,18 +28,20 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({ clientId: Math.floor(Math.random() * 10000000000000000) }, () => {
-    //   shougang({ clientId: this.state.clientId }).then(res => {
-    //     this.setState({ xmlData: res });
-    //     setInterval(() => {
-    //       shougangUpdate({ clientId: this.state.clientId }).then(ress => {
-    //         this.setState({ xmlData: ress });
-    //       });
-    //     }, 3000);
-    //   });
-    // });
     Orientation.lockToLandscapeLeft();
+    ModalIndicator.show();
   }
+
+  handleError = e => {
+    const { navigation } = this.props;
+    const errMsg = e.nativeEvent.description;
+    if (errMsg.includes('net')) {
+      Toast.info('网页加载失败，请连接vpn后查看！');
+      setTimeout(() => {
+        navigation.goBack();
+      }, 2000);
+    }
+  };
 
   render() {
     return (
@@ -77,29 +53,27 @@ class Index extends React.Component {
           showHideTransition="fade"
           networkActivityIndicatorVisible
         />
-        <View style={styles.navigationBar}>
+        {/* <View style={styles.navigationBar}>
           <View style={styles.navigationContainer}>
             <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
               <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
             </TouchableOpacity>
             <Text style={styles.content}>电力潮流图</Text>
           </View>
+        </View> */}
+        <View style={styles.webviewContainer}>
+          <WebView
+            useWebKit
+            javaScriptEnabled
+            source={source}
+            originWhitelist={['*']}
+            style={styles.webview}
+            mixedContentMode="compatibility"
+            ref={ref => (this.webView = ref)}
+            onError={e => this.handleError(e)}
+            onLoadEnd={() => ModalIndicator.hide()}
+          />
         </View>
-        {/* <ScrollView horizontal> */}
-
-        {/* <View style={styles.webviewContainer}> */}
-        {/* <WebView
-          useWebKit
-          javaScriptEnabled
-          originWhitelist={['*']}
-          source={source}
-          style={styles.webview}
-          mixedContentMode="compatibility"
-          ref={ref => (this.webView = ref)}
-        /> */}
-        {/* <SvgXml xml={this.state.xmlData} width="100%" height="56%" /> */}
-        {/* </View> */}
-        {/* </ScrollView> */}
       </View>
     );
   }
@@ -110,14 +84,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   webviewContainer: {
-    width: 1100,
-    height: 480,
-    backgroundColor: 'pink',
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'pink',
   },
   webview: {
     // flex: 1,
-    width: 1100,
-    height: 480,
     position: 'relative',
     // overflow: 'hidden',
   },

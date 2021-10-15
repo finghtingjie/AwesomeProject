@@ -7,7 +7,7 @@ const backIcon = require('../../assets/backicon.png');
 
 import { loadRateOfMainTransformer } from '@api/kpi';
 
-import styles from './FuzailvStyle';
+import styles from './ZhuFuzailvStyle';
 import Toast from 'teaset/components/Toast/Toast';
 
 class Hegelv extends React.PureComponent {
@@ -39,8 +39,8 @@ class Hegelv extends React.PureComponent {
         resData.map((item, index) => {
           newArr[index] = [
             item.name,
-            item.data !== undefined && Object.keys(item.data),
-            item.data !== undefined && Object.values(item.data).map(items => Number(items).toFixed(2)),
+            item.loadData !== undefined && Object.keys(item.loadData),
+            item.loadData !== undefined && Object.values(item.loadData).map(items => Number(items).toFixed(2)),
           ];
         });
         this.setState({
