@@ -20,7 +20,7 @@ import { getMonitor } from '@api/monitor';
 
 import styles from './MonitorStyle';
 
-const arr = [
+const wangceArr = [
   '1#110kV站',
   '2#110kV站',
   '3#110kV站',
@@ -29,7 +29,6 @@ const arr = [
   '6#110kV站',
   '7#110kV站',
   '制氧二期110kV站',
-  'CCPP110kV变电站',
   '4#高炉鼓风110kV站',
   'MCCR110kV站',
   '2230冷轧110kV站',
@@ -167,7 +166,7 @@ class Index extends React.PureComponent {
         arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV变电站'],
       });
     } else {
-      this.setState({ arr2: arr });
+      this.setState({ arr2: wangceArr });
     }
   };
 

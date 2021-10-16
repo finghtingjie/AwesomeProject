@@ -300,13 +300,13 @@ class Index extends React.Component {
           trigger: 'axis',
           confine: true,
           padding: [
-            10, // 上
+            5, // 上
             5, // 右
-            10, // 下
+            5, // 下
             5, // 左
           ],
           textStyle: {
-            fontSize: 8,
+            fontSize: 12,
             fontWeight: 'normal',
             // position: function(point, params, dom, rect, size) {
             //   //其中params为当前鼠标的位置
