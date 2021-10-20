@@ -165,10 +165,22 @@ class Index extends React.Component {
         //     },
         //   },
         // },
+        dataZoom: [
+          {
+            type: 'inside',
+            start: 0,
+            end: 100,
+          },
+          {
+            start: 0,
+            end: 100,
+          },
+        ],
         series: [
           {
             data: [7, 10, 12, 24, 20.3, 17, 6],
             type: 'line',
+            sampling: 'lttb',
             lineStyle: {
               color: '#2B7CF4',
             },
@@ -182,6 +194,15 @@ class Index extends React.Component {
               position: 'top',
               color: '#fff',
               // backgroundColor: 'red',
+            },
+            markLine: {
+              data: [{ type: 'average', name: '平均值' }],
+              // symbol: ['none', 'none'], //去掉箭头
+              label: {
+                show: true,
+                color: 'red',
+                fontSize: 8,
+              },
             },
             markPoint: {
               data: [
@@ -201,16 +222,6 @@ class Index extends React.Component {
                   symbolSize: [40, 30],
                   symbolOffset: [0, '-120%'],
                 },
-                // {
-                //   name: '最新值',
-                //   value: `最新值${12}`,
-                //   color: '#fff',
-                //   xAxis: 2,
-                //   yAxis: 12,
-                //   symbol: 'roundRect',
-                //   symbolSize: [60, 30],
-                //   symbolOffset: [0, '-60%'],
-                // },
               ],
             },
           },
@@ -246,9 +257,9 @@ class Index extends React.Component {
         },
         grid: {
           left: '2%',
-          right: '0%',
+          right: '4%',
           bottom: '0%',
-          width: '90%',
+          width: '88%',
           containLabel: true,
         },
         xAxis: {
@@ -278,13 +289,24 @@ class Index extends React.Component {
             snap: true,
           },
         },
+        dataZoom: [
+          {
+            type: 'inside',
+            start: 0,
+            end: 100,
+          },
+          {
+            start: 0,
+            end: 100,
+          },
+        ],
         color: ['#BCBCBC', '#00AAFF', '#FFAAFF'],
         legend: {
           data: ['谷', '平', '峰'],
           icon: 'stack',
           itemHeight: 10, //修改icon图形大小
           textStyle: {
-            fontSize: 8,
+            fontSize: hp(24 / BASE_HEIGHT),
             color: '#000',
           },
           left: '10%',
@@ -308,10 +330,6 @@ class Index extends React.Component {
           textStyle: {
             fontSize: 12,
             fontWeight: 'normal',
-            // position: function(point, params, dom, rect, size) {
-            //   //其中params为当前鼠标的位置
-            //   return [params[0] - 220, '10%'];
-            // },
           },
         },
         series: [
@@ -329,6 +347,35 @@ class Index extends React.Component {
               color: '#FA0208',
             },
             data: [],
+            markLine: {
+              data: [{ type: 'average', name: '平均值' }],
+              // symbol: ['none', 'none'], //去掉箭头
+              label: {
+                show: true,
+                color: 'red',
+                fontSize: 8,
+              },
+            },
+            markPoint: {
+              data: [
+                {
+                  type: 'max',
+                  name: '最大值',
+                  color: '#fff',
+                  symbol: 'roundRect',
+                  symbolSize: [50, 30],
+                  symbolOffset: [0, '-30%'],
+                },
+                {
+                  type: 'min',
+                  name: '最小值',
+                  color: '#fff',
+                  symbol: 'roundRect',
+                  symbolSize: [50, 30],
+                  symbolOffset: [0, '-120%'],
+                },
+              ],
+            },
           },
           {
             name: '谷',
@@ -529,16 +576,7 @@ class Index extends React.Component {
         let { pieOption } = this.state;
         this.pieOption.clear();
         pieOption.xAxis.data = val;
-        pieOption.series[0].data = res.body.all.value;
-        pieOption.yAxis.axisLabel = {
-          show: true,
-          textStyle: {
-            fontSize: 8,
-          },
-          formatter: function(value) {
-            return value && `${Number(value)}.0`;
-          },
-        };
+        pieOption.series[0].data = res.body.all.value.map(item => Number(item.toFixed(2)));
         const nowTime = moment(new Date()).format('YYYY-MM-DD');
         const nowTimeFormat = `${nowTime} ${val[val.length - 1]}`;
         if (res.body.tip != null) {
@@ -689,6 +727,15 @@ class Index extends React.Component {
             pieOption.series[4].markArea = {};
           }
         }
+        pieOption.yAxis.axisLabel = {
+          show: true,
+          textStyle: {
+            fontSize: 8,
+          },
+          formatter: function(value) {
+            return value && `${Number(value)}.0`;
+          },
+        };
         this.pieOption.setOption(pieOption);
       } else {
         Toast.fail(res.msg);
@@ -897,67 +944,68 @@ class Index extends React.Component {
             );
           })}
         </View>
-        <View style={styles.chartContainer1}>
-          <ECharts
-            option={pieOption}
-            backgroundColor="#fff"
-            ref={ref => (this.pieOption = ref)}
-            onData={() => this.totalLoadCurve()}
-          />
-        </View>
-        <View style={styles.chartContainer}>
-          <ECharts
-            option={option}
-            backgroundColor="#fff"
-            ref={ref => (this.option = ref)}
-            onData={() => this.selfDowerSupplyRate()}
-          />
-        </View>
-
-        <View style={styles.topContainer}>
-          <View style={styles.dotContainer}>
-            <TouchableOpacity
-              style={activeTab === 1 ? styles.btnActive : styles.commonBtn}
-              onPress={() => this.handleTabChange(1)}
-            />
-            <View style={styles.border} />
-            <TouchableOpacity
-              style={activeTab === 2 ? styles.btnActive : styles.commonBtn}
-              onPress={() => this.handleTabChange(2)}
+        <ScrollView>
+          <View style={styles.chartContainer1}>
+            <ECharts
+              option={pieOption}
+              backgroundColor="#fff"
+              ref={ref => (this.pieOption = ref)}
+              onData={() => this.totalLoadCurve()}
             />
           </View>
-          <ScrollView
-            horizontal
-            style={styles.horizontalContainer}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}
-            ref={ref => (this.ScrollView = ref)}
-            onScroll={event => {
-              const val = event.nativeEvent.contentOffset.x;
-              if (val >= 60) {
-                this.setState({ activeTab: 2 });
-              } else {
-                this.setState({ activeTab: 1 });
-              }
-            }}>
-            <View style={styles.menuContainer}>
-              {fakeData.slice(0, 8).map(item => {
-                return (
-                  <TouchableOpacity style={styles.tabButton} key={item.id} onPress={() => this.handleClick(item)}>
-                    <Image source={item.source} style={styles.image} />
-                    <Text style={styles.menuItem}>{item.val}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+          <View style={styles.chartContainer}>
+            <ECharts
+              option={option}
+              backgroundColor="#fff"
+              ref={ref => (this.option = ref)}
+              onData={() => this.selfDowerSupplyRate()}
+            />
+          </View>
+          <View style={styles.topContainer}>
+            <View style={styles.dotContainer}>
+              <TouchableOpacity
+                style={activeTab === 1 ? styles.btnActive : styles.commonBtn}
+                onPress={() => this.handleTabChange(1)}
+              />
+              <View style={styles.border} />
+              <TouchableOpacity
+                style={activeTab === 2 ? styles.btnActive : styles.commonBtn}
+                onPress={() => this.handleTabChange(2)}
+              />
             </View>
-            <View style={styles.menuContainer2}>
-              <TouchableOpacity style={styles.tabButton} onPress={() => this.handleClickZhi()}>
-                <Image source={fakeData[8].source} style={styles.image} />
-                <Text style={styles.menuItem}>{fakeData[8].val}</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </View>
+            <ScrollView
+              horizontal
+              style={styles.horizontalContainer}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}
+              ref={ref => (this.ScrollView = ref)}
+              onScroll={event => {
+                const val = event.nativeEvent.contentOffset.x;
+                if (val >= 60) {
+                  this.setState({ activeTab: 2 });
+                } else {
+                  this.setState({ activeTab: 1 });
+                }
+              }}>
+              <View style={styles.menuContainer}>
+                {fakeData.slice(0, 8).map(item => {
+                  return (
+                    <TouchableOpacity style={styles.tabButton} key={item.id} onPress={() => this.handleClick(item)}>
+                      <Image source={item.source} style={styles.image} />
+                      <Text style={styles.menuItem}>{item.val}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <View style={styles.menuContainer2}>
+                <TouchableOpacity style={styles.tabButton} onPress={() => this.handleClickZhi()}>
+                  <Image source={fakeData[8].source} style={styles.image} />
+                  <Text style={styles.menuItem}>{fakeData[8].val}</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -1115,7 +1163,7 @@ const styles = StyleSheet.create({
     // right: wp(72 / BASE_WIDTH),
     // top: hp(100 / BASE_HEIGHT),
     width: '92%',
-    height: hp(420 / BASE_HEIGHT),
+    height: hp((420 * 1.5) / BASE_HEIGHT),
     // marginTop: hp(20 / BASE_HEIGHT),
     marginLeft: '4%',
     borderRadius: wp(20 / BASE_WIDTH),
@@ -1127,7 +1175,7 @@ const styles = StyleSheet.create({
     width: '92%',
     marginLeft: '4%',
     // width: screenHeight - 40,
-    height: hp(380 / BASE_HEIGHT),
+    height: hp((380 * 1.5) / BASE_HEIGHT),
     borderRadius: wp(20 / BASE_WIDTH),
     marginTop: hp(20 / BASE_HEIGHT),
     overflow: 'hidden',

@@ -108,6 +108,7 @@ class App extends React.Component {
       console.log('App has come to the foreground!');
     } else if (user && newArr.includes(4)) {
       // 登录态并且开启了告警菜单
+      console.log('跳转告警');
       NavigationService.navigate('Warning');
     } else {
       // 登录态未开启告警菜单
