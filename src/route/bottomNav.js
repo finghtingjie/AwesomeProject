@@ -141,9 +141,13 @@ class customTabBar extends React.PureComponent {
     getMenuData({}).then(res => {
       if (res && res.status === 200) {
         const groupArr = res.body.find(item => item.id === 3).menuData.filter(item => item.parentId === 3);
-        const groupArr2 = res.body.find(item => item.id === 5).menuData.filter(item => item.parentId === 5);
+        let arr = [];
+        const Arr2 = res.body.find(item => item.id === 5);
+        if (Arr2.menuData && Arr2.menuData.length >= 1) {
+          arr = Arr2.menuData.filter(item => item.parentId === 5);
+        }
         AsyncStorage.setItem('groupArr', JSON.stringify(groupArr));
-        AsyncStorage.setItem('groupArr2', JSON.stringify(groupArr2));
+        AsyncStorage.setItem('groupArr2', JSON.stringify(arr));
       }
     });
 

@@ -59,6 +59,7 @@ class Index extends React.PureComponent {
       tableData2: [],
       tableData3: [],
       tableData4: [],
+      tableData5: [],
       dataSource: [
         {
           id: 45,
@@ -107,24 +108,35 @@ class Index extends React.PureComponent {
       type: tabArr[activeIndex],
     };
     console.log(params);
+    const isNumber = val => {
+      const regPos = /^\d+(\.\d+)?$/; //非负浮点数
+      const regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+      if (regPos.test(val) || regNeg.test(val)) {
+        return true;
+      } else {
+        return false;
+      }
+    };
     ModalIndicator.show();
     getMonitor(params).then(res => {
       ModalIndicator.hide();
       if (res && res.status === 200) {
-        const resData1 = res.body.incomingLineAndTieLine || [];
-        const resData2 = res.body.generatrix || [];
-        const resData3 = res.body.busCouplerSwitch || [];
-        const resData4 = res.body.outgoingLine || [];
+        const resData1 = res.body.incomingLineAndTieLine || []; //进线
+        const resData2 = res.body.generatrix || []; //母线
+        const resData3 = res.body.busCouplerSwitch || []; //母线开关
+        const resData4 = res.body.outgoingLine || []; //出线
+        const resData5 = res.body.transformer || []; //变压器
         let newArr = [];
         let newArr2 = [];
         let newArr3 = [];
         let newArr4 = [];
+        let newArr5 = [];
         resData1.map((item, index) => {
           newArr[index] = [
             item.name,
-            Number(item.youGong).toFixed(2),
-            Number(item.wuGong).toFixed(2),
-            Number(item.dianLiu).toFixed(2),
+            isNumber(item.youGong) ? Number(item.youGong).toFixed(2) : '--',
+            isNumber(item.wuGong) ? Number(item.wuGong).toFixed(2) : '--',
+            isNumber(item.dianLiu) ? Number(item.dianLiu).toFixed(2) : '--',
           ];
         });
         resData2.map((item, index) => {
@@ -133,17 +145,25 @@ class Index extends React.PureComponent {
         resData3.map((item, index) => {
           newArr3[index] = [
             item.name,
-            Number(item.youGong).toFixed(2),
-            Number(item.wuGong).toFixed(2),
-            Number(item.dianLiu).toFixed(2),
+            isNumber(item.youGong) ? Number(item.youGong).toFixed(2) : '--',
+            isNumber(item.wuGong) ? Number(item.wuGong).toFixed(2) : '--',
+            isNumber(item.dianLiu) ? Number(item.dianLiu).toFixed(2) : '--',
           ];
         });
         resData4.map((item, index) => {
           newArr4[index] = [
             item.name,
-            Number(item.youGong).toFixed(2),
-            Number(item.wuGong).toFixed(2),
-            Number(item.dianLiu).toFixed(2),
+            isNumber(item.youGong) ? Number(item.youGong).toFixed(2) : '--',
+            isNumber(item.wuGong) ? Number(item.wuGong).toFixed(2) : '--',
+            isNumber(item.dianLiu) ? Number(item.dianLiu).toFixed(2) : '--',
+          ];
+        });
+        resData5.map((item, index) => {
+          newArr5[index] = [
+            item.name,
+            isNumber(item.youGong) ? Number(item.youGong).toFixed(2) : '--',
+            isNumber(item.wuGong) ? Number(item.wuGong).toFixed(2) : '--',
+            isNumber(item.dianLiu) ? Number(item.dianLiu).toFixed(2) : '--',
           ];
         });
         this.setState({
@@ -151,6 +171,7 @@ class Index extends React.PureComponent {
           tableData2: newArr2,
           tableData3: newArr3,
           tableData4: newArr4,
+          tableData5: newArr5,
         });
       } else {
         Toast.fail(res.msg);
@@ -228,6 +249,7 @@ class Index extends React.PureComponent {
       tableData2,
       tableData3,
       tableData4,
+      tableData5,
       tableHead1,
       tableHead2,
       activeIndex,
@@ -460,6 +482,40 @@ class Index extends React.PureComponent {
                   })}
               </View>
               {tableData4.map(item => {
+                return (
+                  <View style={styles.rowContainer}>
+                    {item.map((items, index) => {
+                      return (
+                        <View key={items + index} style={styles.nameStyle}>
+                          <Text style={styles.commonrowText}>{items}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+          {/* 变压器 */}
+          <View style={styles.commonTableContainer}>
+            {tableData5.length >= 1 && (
+              <View style={styles.tabTitleContainer}>
+                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                <Text style={styles.tabTitle}>变压器</Text>
+              </View>
+            )}
+            <View style={styles.tableContainer}>
+              <View style={styles.headContainer}>
+                {tableData5.length >= 1 &&
+                  tableHead1.map((item, index) => {
+                    return (
+                      <View key={item} style={styles.nameStyle}>
+                        <Text style={styles.commonColText}>{item}</Text>
+                      </View>
+                    );
+                  })}
+              </View>
+              {tableData5.map(item => {
                 return (
                   <View style={styles.rowContainer}>
                     {item.map((items, index) => {
