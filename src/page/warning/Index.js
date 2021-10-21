@@ -430,7 +430,7 @@ class Index extends React.PureComponent {
             value={alarmContent}
             placeholder="搜索告警内容"
             style={styles.inputBase}
-            placeholderTextColor="#999"
+            placeholderTextColor="#BABABC"
             onBlur={() => Keyboard.dismiss()}
             onChangeText={val => this.setState({ alarmContent: val })}
           />
