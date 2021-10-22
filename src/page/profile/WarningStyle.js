@@ -178,7 +178,7 @@ export default StyleSheet.create({
     borderRadius: wp(30 / BASE_WIDTH),
     // marginLeft: wp(148 / BASE_WIDTH),
     // marginTop: hp(720 / BASE_HEIGHT),
-    bottom: hp(120 / BASE_HEIGHT),
+    bottom: hp(60 / BASE_HEIGHT),
     left: hp(148 / BASE_HEIGHT),
   },
   tabTextActive: {
@@ -201,5 +201,13 @@ export default StyleSheet.create({
     color: '#fff',
     fontWeight: 'normal',
     fontSize: hp(36 / BASE_HEIGHT),
+  },
+  flatlist: {
+    width: wp(1000 / BASE_WIDTH),
+    height: hp(1500 / BASE_HEIGHT),
+    marginLeft: wp(40 / BASE_WIDTH),
+    marginRight: wp(40 / BASE_WIDTH),
+    // marginTop: hp(40 / BASE_HEIGHT),
+    // backgroundColor: 'pink',
   },
 });

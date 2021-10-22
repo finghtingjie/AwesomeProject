@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, Alert, FlatList } from 'react-native';
 
 import { Toast, Button, PullPicker, ModalIndicator } from 'teaset';
 
@@ -12,13 +12,11 @@ const backIcon = require('../../assets/backicon.png');
 
 const WarningArr = ['异常信号', '越限监视', '重要信号', '保护动作'];
 
-const arr = [{ userId: 1, userName: '张珊山/zhangshanshan' }, { userId: 2, userName: '张珊山/zhangshanshan' }];
-
 class WarningConfig extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tabActiveIndex: 0, //tab激活下
+      tabActiveIndex: 0, //tab激活下标
       fakeData: [],
       userList: [],
       selectedIndex: null,
@@ -48,10 +46,9 @@ class WarningConfig extends React.PureComponent {
 
   getTGiveAnAlarmUser = () => {
     const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2 };
-    console.log(params);
+    // console.log(params);
     getTGiveAnAlarmUser(params).then(res => {
       if (res && res.status === 200) {
-        console.log(res);
         this.setState({ fakeData: res.body });
       }
     });
@@ -106,15 +103,17 @@ class WarningConfig extends React.PureComponent {
   };
 
   handleAdd = () => {
-    const items = this.state.userList.map(item => item.userName);
-    PullPicker.show('请选择用户', items, this.state.selectedIndex, (item, index) =>
-      this.setState(
-        {
-          userId: this.state.userList.find(i => i.userName === item).userId,
-          selectedIndex: index,
-        },
-        () => {
-          const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2, userIdArray: [this.state.userId].toString() };
+    const userArr = this.state.userList.map(item => item.userName);
+    const items = ['全选'].concat(userArr);
+    let params = {};
+    PullPicker.show('请选择用户', items, this.state.selectedIndex, (item, index) => {
+      this.setState({ selectedIndex: index }, () => {
+        if (index === 0) {
+          // 全选
+          params = {
+            tGiveAnAlarmId: this.state.tabActiveIndex + 2,
+            userIdArray: this.state.fakeData.map(d => d.userId).toString(),
+          };
           addTGiveAnAlarmUser(params).then(res => {
             if (res && res.status === 200) {
               Toast.success('新增成功');
@@ -123,9 +122,24 @@ class WarningConfig extends React.PureComponent {
               Toast.fail(res.msg);
             }
           });
-        },
-      ),
-    );
+        } else {
+          this.setState({ userId: this.state.userList.find(i => i.userName === item).userId }, () => {
+            params = {
+              tGiveAnAlarmId: this.state.tabActiveIndex + 2,
+              userIdArray: [this.state.userId].toString(),
+            };
+            addTGiveAnAlarmUser(params).then(res => {
+              if (res && res.status === 200) {
+                Toast.success('新增成功');
+                this.getTGiveAnAlarmUser();
+              } else {
+                Toast.fail(res.msg);
+              }
+            });
+          });
+        }
+      });
+    });
   };
 
   handleDelete = item => {
@@ -151,6 +165,13 @@ class WarningConfig extends React.PureComponent {
       }
     });
   };
+
+  renderItem = ({ item }) => (
+    <Button key={item.userId} style={styles.userBtn} onPress={() => this.handleDelete(item)}>
+      <Text style={styles.userBtnText}>{item.userName}</Text>
+      <IconFont name="cuowutishi" size={18} color="#333" />
+    </Button>
+  );
 
   render() {
     const { fakeData } = this.state;
@@ -184,14 +205,14 @@ class WarningConfig extends React.PureComponent {
           })}
         </View>
         <View style={styles.centerContainer}>
-          {fakeData.map(item => {
-            return (
-              <Button key={item.userId} style={styles.userBtn} onPress={() => this.handleDelete(item)}>
-                <Text style={styles.userBtnText}>{item.userName}</Text>
-                <IconFont name="cuowutishi" size={18} color="#333" />
-              </Button>
-            );
-          })}
+          <View style={styles.flatlist}>
+            <FlatList
+              data={fakeData}
+              refreshing={false}
+              renderItem={this.renderItem}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </View>
         </View>
         <Button style={styles.submitBtn} onPress={this.handleAdd}>
           <Text style={styles.submitBtnText}>新增通知人员</Text>
