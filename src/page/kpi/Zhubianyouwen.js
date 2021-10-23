@@ -70,6 +70,11 @@ const arr = [
   '2230冷轧110kV站',
   '制氧110kV站',
   '1420冷轧110kV站',
+  '1580热轧110kV站',
+  '1700冷轧110kV站',
+  '高炉鼓风110kV站',
+  '4#高炉鼓风110kV站',
+  '2#制氧110kV站',
 ];
 
 const newArr = [
@@ -361,7 +366,7 @@ const newArr = [
   '2021-10-21 23:45:00',
   '2021-10-21 23:50:00',
   '2021-10-21 23:55:00',
-  // '2021-10-21 24:00:00',
+  '2021-10-21 24:00:00',
 ];
 class Index extends React.Component {
   static navigationOptions = {
@@ -400,33 +405,6 @@ class Index extends React.Component {
               color: '#1C6DDA',
             },
             data: [],
-            // markLine: {
-            //   symbol: ['none', 'none'], //去掉箭头
-            //   itemStyle: {
-            //     normal: {
-            //       lineStyle: {
-            //         color: 'red',
-            //       },
-            //       label: {
-            //         formatter: function(item) {
-            //           if (item.value === 30) {
-            //             return `上限:${item.value}°C`;
-            //           } else {
-            //             return `下限:${item.value}°C`;
-            //           }
-            //         },
-            //       },
-            //     },
-            //   },
-            //   data: [
-            //     {
-            //       yAxis: 30,
-            //     },
-            //     {
-            //       yAxis: 10,
-            //     },
-            //   ],
-            // },
           },
           {
             name: '油温3',
@@ -465,57 +443,54 @@ class Index extends React.Component {
         this.setState({ noResult: true });
       } else {
         this.setState({ noResult: false });
+        const formatVal = newArr.map(item => item.slice(11, 16));
+        const option = {
+          color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+          tooltip: {
+            trigger: 'axis',
+          },
+          legend: {
+            data: resData2.length >= 1 ? ['油温1', '油温2'] : ['油温1'],
+            left: '3%',
+          },
+          grid: commonGrid,
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: formatVal,
+            axisLabel: {
+              showMaxLabel: true,
+            },
+          },
+          yAxis: {
+            type: 'value',
+            min: 'dataMin',
+            max: 'dataMax',
+            splitLine: {
+              show: false,
+            },
+          },
+          series: [
+            {
+              name: '油温1',
+              type: 'line',
+              lineStyle: {
+                color: '#3CBE1E',
+              },
+              data: resData[0] ? resData[0].value : [],
+            },
+            {
+              name: '油温2',
+              type: 'line',
+              lineStyle: {
+                color: '#1C6DDA',
+              },
+              data: resData2[0] ? resData2[0].value : [],
+            },
+          ],
+        };
+        this.ECharts.setOption(option);
       }
-      // let newArr = [];
-      // resData[0].time.map(item => {
-      //   item = moment(item).format('YYYY-MM-DD HH:mm');
-      //   newArr.push(item);
-      // });
-      const formatVal = newArr.map(item => item.slice(11, 16));
-      const option = {
-        color: ['#3CBE1E', '#1C6DDA'], //图例颜色
-        tooltip: {
-          trigger: 'axis',
-        },
-        legend: {
-          data: resData2.length >= 1 ? ['油温1', '油温2'] : ['油温1'],
-          left: '3%',
-        },
-        grid: commonGrid,
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: formatVal,
-        },
-        yAxis: {
-          type: 'value',
-          min: 'dataMin',
-          max: 'dataMax',
-          splitLine: {
-            show: false,
-          },
-        },
-        // toolbox: commonToolbox,
-        series: [
-          {
-            name: '油温1',
-            type: 'line',
-            lineStyle: {
-              color: '#3CBE1E',
-            },
-            data: resData[0] ? resData[0].value : [],
-          },
-          {
-            name: '油温2',
-            type: 'line',
-            lineStyle: {
-              color: '#1C6DDA',
-            },
-            data: resData2[0] ? resData2[0].value : [],
-          },
-        ],
-      };
-      this.ECharts.setOption(option);
     }
   };
 
@@ -525,11 +500,6 @@ class Index extends React.Component {
     const resData = res.body[0][`${val}#主变${voltage}YW1`];
     const resData2 = res.body[1][`${val}#主变${voltage}YW2`];
     const resData3 = res.body[2][`${val}#主变${voltage}YW3`];
-    // let newArr = [];
-    // resData[0].time.map(item => {
-    //   item = moment(item).format('YYYY-MM-DD HH:mm');
-    //   newArr.push(item);
-    // });
     const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
@@ -545,6 +515,9 @@ class Index extends React.Component {
         type: 'category',
         boundaryGap: false,
         data: formatVal,
+        axisLabel: {
+          showMaxLabel: true,
+        },
       },
       yAxis: {
         type: 'value',
@@ -554,7 +527,6 @@ class Index extends React.Component {
           show: false,
         },
       },
-      // toolbox: commonToolbox,
       series: [
         {
           name: '油温1',
@@ -593,7 +565,32 @@ class Index extends React.Component {
       const station = arr2[actionIndex2];
       const voltage = tabArr[activeIndex];
       if (res && res.status === 200) {
+        console.log(res.body);
         switch (station) {
+          case '4#高炉鼓风110kV站':
+            this.setOption2(res, '4');
+            break;
+          case '1700冷轧110kV站':
+          case '高炉鼓风110kV站':
+          case '2#制氧110kV站':
+          case '1#110kV站':
+            if (voltage === '1#主变') {
+              this.setOption2(res, '1');
+            } else if (voltage === '2#主变') {
+              this.setOption2(res, '2');
+            } else if (voltage === '3#主变') {
+              this.setOption2(res, '3');
+            }
+            break;
+          case '1580热轧110kV站':
+            if (voltage === '1#主变') {
+              this.setOption33(res, '1', '110');
+            } else if (voltage === '2#主变') {
+              this.setOption33(res, '2', '110');
+            } else if (voltage === '3#主变') {
+              this.setOption33(res, '3', '110');
+            }
+            break;
           case '220kV铁钢站':
           case '220kV轧钢站':
             if (voltage === '1#主变') {
@@ -635,7 +632,6 @@ class Index extends React.Component {
               this.setOption2(res, '4');
             }
             break;
-          case '1#110kV站':
           case '3#110kV站':
           case '4#110kV站':
           case '5#110kV站':
@@ -732,13 +728,25 @@ class Index extends React.Component {
       // 2230冷轧110kV站 1 2 3
       // 制氧110kV站 1 2 3 4 5
       // 1420冷轧110kV站  1 2 3
-    } else if (actionIndex === 1 && [0, 2, 3, 4, 6, 9, 11].includes(index)) {
+      // 1580热轧110kV站 1 2 3
+      // 1700冷轧110kV站 1 2 3
+      // 高炉鼓风110kV站 1 2 3
+      // 4#高炉鼓风110kV站 4
+      // 2#制氧110kV站 1 2 3
+    } else if (actionIndex === 1 && [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 15].includes(index)) {
       this.setState({ tabArr: ['1#主变', '2#主变', '3#主变'], activeIndex: 0 });
-    } else if (actionIndex === 1 && [1, 8].includes(index)) {
+    } else if (actionIndex === 1 && [1, 7].includes(index)) {
       this.setState({ tabArr: ['1#主变', '2#主变', '3#主变', '4#主变'], activeIndex: 0 });
+    } else if (actionIndex === 1 && index === 9) {
+      this.setState({ tabArr: ['1#主变', '2#主变', '3#主变', '4#主变', '5#主变'], activeIndex: 0 });
     } else if (actionIndex === 1 && index === 5) {
       this.setState({
         tabArr: ['1#主变', '2#主变', '3#主变', '4#主变', '5#主变', '6#主变'],
+        activeIndex: 0,
+      });
+    } else if (actionIndex === 1 && index === 14) {
+      this.setState({
+        tabArr: ['4#主变'],
         activeIndex: 0,
       });
     }

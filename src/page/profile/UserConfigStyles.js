@@ -179,7 +179,7 @@ export default StyleSheet.create({
   },
   flatlist: {
     width: wp(1000 / BASE_WIDTH),
-    height: hp(1500 / BASE_HEIGHT),
+    height: hp(1420 / BASE_HEIGHT),
     marginLeft: wp(40 / BASE_WIDTH),
     marginRight: wp(40 / BASE_WIDTH),
     marginTop: hp(40 / BASE_HEIGHT),

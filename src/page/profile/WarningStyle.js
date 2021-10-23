@@ -60,8 +60,9 @@ export default StyleSheet.create({
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     borderRadius: wp(20 / BASE_WIDTH),
-    shadowColor: 'rgba(0, 0, 0, 0.15)',
-    shadowOffset: { width: 20, height: 20 },
+    // shadowColor: 'rgba(0, 0, 0, 0.15)',
+    // shadowOffset: { width: 10, height: 10 },
+    // elevation: 1,
   },
   userBtn: {
     width: wp(900 / BASE_WIDTH),
@@ -204,7 +205,7 @@ export default StyleSheet.create({
   },
   flatlist: {
     width: wp(1000 / BASE_WIDTH),
-    height: hp(1500 / BASE_HEIGHT),
+    height: hp(1320 / BASE_HEIGHT),
     marginLeft: wp(40 / BASE_WIDTH),
     marginRight: wp(40 / BASE_WIDTH),
     // marginTop: hp(40 / BASE_HEIGHT),

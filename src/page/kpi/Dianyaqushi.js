@@ -76,6 +76,11 @@ const arr = [
   '2230冷轧110kV站',
   '制氧110kV站',
   '1420冷轧110kV站',
+  '高炉鼓风110kV站',
+  '4#高炉鼓风110kV站',
+  '2250热轧110kV站',
+  '1580热轧110kV站',
+  '1700冷轧110kV站',
 ];
 
 const newArr = [
@@ -367,8 +372,10 @@ const newArr = [
   '2021-10-21 23:45:00',
   '2021-10-21 23:50:00',
   '2021-10-21 23:55:00',
-  // '2021-10-21 24:00:00',
+  '2021-10-21 24:00:00',
 ];
+
+const formatVal = newArr.map(item => item.slice(11, 16));
 class Index extends React.Component {
   static navigationOptions = {
     headerShown: false,
@@ -376,6 +383,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      noResult: false,
       option: {
         color: ['#3CBE1E', '#1C6DDA'], //图例颜色
         tooltip: {
@@ -430,44 +438,46 @@ class Index extends React.Component {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
-    // let newArr = [];
-    // resData[0].time.map(item => {
-    //   item = moment(item).format('YYYY-MM-DD HH:mm');
-    //   newArr.push(item);
-    // });
-    const formatVal = newArr.map(item => item.slice(11, 16));
-    const option = {
-      color: ['#3CBE1E'], //图例颜色
-      tooltip: {
-        trigger: 'axis',
-        textStyle: {
-          fontSize: 10,
-        },
-      },
-      legend: {
-        data: [val],
-        left: '3%',
-      },
-      grid: commonGrid,
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: formatVal,
-      },
-      yAxis: commonyAxis,
-      // toolbox: commonToolbox,
-      series: [
-        {
-          name: val,
-          type: 'line',
-          lineStyle: {
-            color: '#3CBE1E',
+    if (!resArr.length || !resData.length) {
+      this.ECharts.setOption({});
+      this.setState({ noResult: true });
+    } else {
+      const option = {
+        color: ['#3CBE1E'], //图例颜色
+        tooltip: {
+          trigger: 'axis',
+          textStyle: {
+            fontSize: 10,
           },
-          data: resData[0].value,
         },
-      ],
-    };
-    this.ECharts.setOption(option);
+        legend: {
+          data: [val],
+          left: '3%',
+        },
+        grid: commonGrid,
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: formatVal,
+          axisLabel: {
+            showMaxLabel: true,
+          },
+        },
+        yAxis: commonyAxis,
+        // toolbox: commonToolbox,
+        series: [
+          {
+            name: val,
+            type: 'line',
+            lineStyle: {
+              color: '#3CBE1E',
+            },
+            data: resData[0] ? resData[0].value : [],
+          },
+        ],
+      };
+      this.ECharts.setOption(option);
+    }
   };
 
   setOption2 = (res, type) => {
@@ -475,12 +485,6 @@ class Index extends React.Component {
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
     const resData2 = res.body[resArr[1]];
-    // let newArr = [];
-    // resData[0].time.map(item => {
-    //   item = moment(item).format('YYYY-MM-DD HH:mm');
-    //   newArr.push(item);
-    // });
-    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -498,6 +502,9 @@ class Index extends React.Component {
         type: 'category',
         boundaryGap: false,
         data: formatVal,
+        axisLabel: {
+          showMaxLabel: true,
+        },
       },
       yAxis: commonyAxis,
       // toolbox: commonToolbox,
@@ -526,121 +533,125 @@ class Index extends React.Component {
   setOption3 = res => {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
-    const resData = res.body[resArr[0]];
-    const resData2 = res.body[resArr[1]];
-    const resData3 = res.body[resArr[3]];
-    // let newArr = [];
-    // resData[0].time.map(item => {
-    //   item = moment(item).format('YYYY-MM-DD HH:mm');
-    //   newArr.push(item);
-    // });
-    const formatVal = newArr.map(item => item.slice(11, 16));
-    const option = {
-      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
-      tooltip: {
-        trigger: 'axis',
-        textStyle: {
-          fontSize: 10,
-        },
-      },
-      legend: {
-        data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅱ段母线2', 'Ⅲ段母线'],
-        left: '3%',
-      },
-      grid: commonGrid,
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: formatVal,
-      },
-      yAxis: commonyAxis,
-      // toolbox: commonGrid,
-      series: [
-        {
-          name: 'Ⅰ段母线',
-          type: 'line',
-          lineStyle: {
-            color: '#3CBE1E',
+    if (!resArr.length) {
+      this.ECharts.setOption({});
+      this.setState({ noResult: true });
+    } else {
+      const resData = res.body[resArr[0]];
+      const resData2 = res.body[resArr[1]];
+      const resData3 = res.body[resArr[3]];
+      const option = {
+        color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+        tooltip: {
+          trigger: 'axis',
+          textStyle: {
+            fontSize: 10,
           },
-          data: resData[0].value,
         },
-        {
-          name: 'Ⅱ段母线',
-          type: 'line',
-          data: resData2[0].value,
+        legend: {
+          data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅱ段母线2', 'Ⅲ段母线'],
+          left: '3%',
         },
-        {
-          name: 'Ⅱ段母线2',
-          type: 'line',
-          data: [],
+        grid: commonGrid,
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: formatVal,
+          axisLabel: {
+            showMaxLabel: true,
+          },
         },
-        {
-          name: 'Ⅲ段母线',
-          type: 'line',
-          data: resData3[0].value,
-        },
-      ],
-    };
-    this.ECharts.setOption(option);
+        yAxis: commonyAxis,
+        // toolbox: commonGrid,
+        series: [
+          {
+            name: 'Ⅰ段母线',
+            type: 'line',
+            lineStyle: {
+              color: '#3CBE1E',
+            },
+            data: resData[0].value,
+          },
+          {
+            name: 'Ⅱ段母线',
+            type: 'line',
+            data: resData2[0].value,
+          },
+          {
+            name: 'Ⅱ段母线2',
+            type: 'line',
+            data: [],
+          },
+          {
+            name: 'Ⅲ段母线',
+            type: 'line',
+            data: resData3[0].value,
+          },
+        ],
+      };
+      this.ECharts.setOption(option);
+    }
   };
 
   setOption33 = (res, type) => {
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
-    const resData = res.body[resArr[0]];
-    const resData2 = res.body[resArr[1]];
-    const resData3 = res.body[resArr[2]];
-    // let newArr = [];
-    // resData[0].time.map(item => {
-    //   item = moment(item).format('YYYY-MM-DD HH:mm');
-    //   newArr.push(item);
-    // });
-    const formatVal = newArr.map(item => item.slice(11, 16));
-    const option = {
-      color: ['#3CBE1E', '#1C6DDA'], //图例颜色
-      tooltip: {
-        trigger: 'axis',
-        textStyle: {
-          fontSize: 10,
-        },
-      },
-      legend: {
-        data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'],
-        left: '3%',
-      },
-      grid: commonGrid,
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: formatVal,
-      },
-      yAxis: commonyAxis,
-      // toolbox: commonToolbox,
-      series: [
-        {
-          name: 'Ⅰ段母线',
-          type: 'line',
-          lineStyle: {
-            color: '#3CBE1E',
+    if (!resArr.length) {
+      this.ECharts.setOption({});
+      this.setState({ noResult: true });
+    } else {
+      const resData = res.body[resArr[0]];
+      const resData2 = res.body[resArr[1]];
+      const resData3 = res.body[resArr[2]];
+      const option = {
+        color: ['#3CBE1E', '#1C6DDA'], //图例颜色
+        tooltip: {
+          trigger: 'axis',
+          textStyle: {
+            fontSize: 10,
           },
-          data: resData[0].value,
         },
-        {
-          name: 'Ⅱ段母线',
-          type: 'line',
-          lineStyle: {
-            color: '#1C6DDA',
+        legend: {
+          data: ['Ⅰ段母线', 'Ⅱ段母线', 'Ⅲ段母线'],
+          left: '3%',
+        },
+        grid: commonGrid,
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: formatVal,
+          axisLabel: {
+            showMaxLabel: true,
           },
-          data: resData2[0].value,
         },
-        {
-          name: 'Ⅲ段母线',
-          type: 'line',
-          data: resData3[0].value,
-        },
-      ],
-    };
-    this.ECharts.setOption(option);
+        yAxis: commonyAxis,
+        // toolbox: commonToolbox,
+        series: [
+          {
+            name: 'Ⅰ段母线',
+            type: 'line',
+            lineStyle: {
+              color: '#3CBE1E',
+            },
+            data: resData[0].value,
+          },
+          {
+            name: 'Ⅱ段母线',
+            type: 'line',
+            lineStyle: {
+              color: '#1C6DDA',
+            },
+            data: resData2[0].value,
+          },
+          {
+            name: 'Ⅲ段母线',
+            type: 'line',
+            data: resData3[0].value,
+          },
+        ],
+      };
+      this.ECharts.setOption(option);
+    }
   };
 
   setOption4 = res => {
@@ -650,12 +661,6 @@ class Index extends React.Component {
     const resData2 = res.body[resArr[1]];
     const resData3 = res.body[resArr[2]];
     const resData4 = res.body[resArr[3]];
-    // let newArr = [];
-    // resData[0].time.map(item => {
-    //   item = moment(item).format('YYYY-MM-DD HH:mm');
-    //   newArr.push(item);
-    // });
-    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -673,6 +678,9 @@ class Index extends React.Component {
         type: 'category',
         boundaryGap: false,
         data: formatVal,
+        axisLabel: {
+          showMaxLabel: true,
+        },
       },
       yAxis: commonyAxis,
       // toolbox: commonToolbox,
@@ -705,7 +713,6 @@ class Index extends React.Component {
         },
       ],
     };
-    console.log(option);
     this.ECharts.setOption(option);
   };
 
@@ -716,12 +723,6 @@ class Index extends React.Component {
     const resData3 = res.body[resArr[2]];
     const resData4 = res.body[resArr[3]];
     const resData5 = res.body[resArr[4]];
-    // let newArr = [];
-    // resData[0].time.map(item => {
-    //   item = moment(item).format('YYYY-MM-DD HH:mm');
-    //   newArr.push(item);
-    // });
-    const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
       tooltip: {
@@ -739,6 +740,9 @@ class Index extends React.Component {
         type: 'category',
         boundaryGap: false,
         data: formatVal,
+        axisLabel: {
+          showMaxLabel: true,
+        },
       },
       yAxis: commonyAxis,
       // toolbox: commonToolbox,
@@ -794,17 +798,10 @@ class Index extends React.Component {
             if (voltage === '220kV') {
               const resData = res.body['220kV4#母线'];
               const resData2 = res.body['220kV5#母线'];
-              // let newArr = [];
-              // resData[0].time.map(item => {
-              //   item = moment(item).format('YYYY-MM-DD HH:mm');
-              //   newArr.push(item);
-              // });
-              const formatVal = newArr.map(item => item.slice(11, 16));
               let { option } = this.state;
               option.xAxis.data = formatVal;
               option.yAxis.min = 'dataMin';
               option.yAxis.max = 'dataMax';
-              // option.yAxis.minInterval = 0.5;
               option.series[0].name = '4#母线';
               option.series[1].name = '5#母线';
               option.legend.data = ['4#母线', '5#母线'];
@@ -833,6 +830,19 @@ class Index extends React.Component {
             break;
           case '热电110kV站':
             this.setOption4(res);
+            break;
+          case '4#高炉鼓风110kV站':
+          case '高炉鼓风110kV站':
+          case '1700冷轧110kV站':
+            this.setOption1(res, 'Ⅰ段母线', '10kV');
+            break;
+          case '1580热轧110kV站':
+          case '2250热轧110kV站':
+            if (voltage === '110kV') {
+              this.setOption33(res, '110kV');
+            } else if (voltage === '10kV') {
+              this.setOption33(res, '10kV');
+            }
             break;
           case 'CCPP110kV站':
           case '制氧二期110kV站':
@@ -923,12 +933,21 @@ class Index extends React.Component {
       // 2230冷轧110kV站  110
       // 制氧110kV站 110
       // 1420冷轧110kV站  110
+      // 高炉鼓风110kV站  10
+      // 4#高炉鼓风110kV站  10
+      // 2250热轧110kV站  10 35
+      // 1580热轧110kV站  10 35
+      // 1700冷轧110kV站  10
     } else if (actionIndex === 1 && [0, 2, 3, 4].includes(index)) {
       this.setState({ tabArr: ['110kV', '10kV'], activeIndex: 0 });
     } else if (actionIndex === 1 && [1, 5, 6].includes(index)) {
       this.setState({ tabArr: ['110kV', '35kV', '10kV'], activeIndex: 0 });
-    } else if (actionIndex === 1 && index > 6) {
+    } else if (actionIndex === 1 && [7, 8, 9, 10, 11].includes(index)) {
       this.setState({ tabArr: ['110kV'], activeIndex: 0 });
+    } else if (actionIndex === 1 && [12, 13, 16].includes(index)) {
+      this.setState({ tabArr: ['10kV'], activeIndex: 0 });
+    } else if (actionIndex === 1 && [14, 15].includes(index)) {
+      this.setState({ tabArr: ['110kV', '35kV'], activeIndex: 0 });
     }
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
@@ -943,7 +962,7 @@ class Index extends React.Component {
   };
 
   render() {
-    const { option, activeIndex, actionIndex, actionIndex2, actionsheetShow, arr2, tabArr, newArr } = this.state;
+    const { option, activeIndex, actionIndex, actionIndex2, actionsheetShow, arr2, tabArr, noResult } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -1011,15 +1030,18 @@ class Index extends React.Component {
           })}
         </View>
         <View style={styles.EChartsContainer}>
-          {newArr.length >= 10 && (
-            <ECharts
-              option={option}
-              backgroundColor="#fff"
-              ref={ref => (this.ECharts = ref)}
-              onData={() => this.voltageTrend()}
-            />
-          )}
+          <ECharts
+            option={option}
+            backgroundColor="#fff"
+            ref={ref => (this.ECharts = ref)}
+            onData={() => this.voltageTrend()}
+          />
         </View>
+        {noResult && (
+          <View style={styles.noresultContainer}>
+            <Text style={styles.noresultText}>暂无数据</Text>
+          </View>
+        )}
       </View>
     );
   }
@@ -1221,6 +1243,26 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 0,
+  },
+  noresultContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: hp(500 / BASE_HEIGHT),
+    zIndex: 999,
+  },
+  noresultText: {
+    position: 'relative',
+    width: '100%',
+    textAlign: 'center',
+    color: '#666',
+    fontWeight: 'normal',
+    fontSize: hp(32 / BASE_HEIGHT),
+    height: hp(500 / BASE_HEIGHT),
+    lineHeight: hp(500 / BASE_HEIGHT),
   },
 });
 
