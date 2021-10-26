@@ -438,7 +438,7 @@ class Index extends React.Component {
       this.setState({ noResult: true });
     } else {
       const resData = res.body[0][`${val}#主变110YW1`];
-      const resData2 = res.body[1][`${val}#主变110YW2`];
+      const resData2 = res.body[1] ? res.body[1][`${val}#主变110YW2`] : [];
       if (!resData.length && !resData2.length) {
         this.setState({ noResult: true });
       } else {
@@ -498,8 +498,8 @@ class Index extends React.Component {
     this.ECharts.clear();
     this.setState({ noResult: false });
     const resData = res.body[0][`${val}#主变${voltage}YW1`];
-    const resData2 = res.body[1][`${val}#主变${voltage}YW2`];
-    const resData3 = res.body[2][`${val}#主变${voltage}YW3`];
+    const resData2 = res.body[1] ? res.body[1][`${val}#主变${voltage}YW2`] : [];
+    const resData3 = res.body[2] ? res.body[2][`${val}#主变${voltage}YW3`] : [];
     const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色

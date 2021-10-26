@@ -435,6 +435,7 @@ class Index extends React.Component {
   }
 
   setOption1 = (res, val, type) => {
+    this.setState({ noResult: false });
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -481,6 +482,7 @@ class Index extends React.Component {
   };
 
   setOption2 = (res, type) => {
+    this.setState({ noResult: false });
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -531,6 +533,7 @@ class Index extends React.Component {
   };
 
   setOption3 = res => {
+    this.setState({ noResult: false });
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     if (!resArr.length) {
@@ -594,6 +597,7 @@ class Index extends React.Component {
   };
 
   setOption33 = (res, type) => {
+    this.setState({ noResult: false });
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     if (!resArr.length) {
@@ -655,6 +659,7 @@ class Index extends React.Component {
   };
 
   setOption4 = res => {
+    this.setState({ noResult: false });
     this.ECharts.clear();
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
@@ -717,6 +722,7 @@ class Index extends React.Component {
   };
 
   setOption5 = res => {
+    this.setState({ noResult: false });
     const resArr = Object.keys(res.body);
     const resData = res.body[resArr[0]];
     const resData2 = res.body[resArr[1]];
@@ -1153,7 +1159,7 @@ const styles = StyleSheet.create({
   },
   actionSheet: {
     position: 'absolute',
-    zIndex: 999,
+    zIndex: 1000,
     top: hp(215 / BASE_HEIGHT),
     left: hp(0 / BASE_HEIGHT),
     width: '100%',

@@ -233,6 +233,7 @@ class Index extends React.PureComponent {
 
   handleTypeChange2 = (item, index) => {
     const { actionIndex } = this.state;
+    console.log(actionIndex);
     // 源端
     if (actionIndex === 0 && [0, 1].includes(index)) {
       this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
@@ -242,8 +243,10 @@ class Index extends React.PureComponent {
       this.setState({ tabArr: ['110kV', '10kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 1 && [1, 5, 6].includes(index)) {
       this.setState({ tabArr: ['110kV', '35kV', '10kV', '变压器'], activeIndex: 0 });
-    } else if (actionIndex === 1 && index > 6) {
+    } else if (actionIndex === 1 && [7, 9, 10, 11, 12, 13, 14, 15, 16].includes(index)) {
       this.setState({ tabArr: ['110kV', '变压器'], activeIndex: 0 });
+    } else if (actionIndex === 1 && index === 8) {
+      this.setState({ tabArr: ['变压器'], activeIndex: 0 });
     }
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
@@ -375,7 +378,7 @@ class Index extends React.PureComponent {
             position: 'relative',
             marginLeft: wp(40 / BASE_WIDTH),
             marginTop: hp(40 / BASE_HEIGHT),
-            maxWidth: wp(750 / BASE_WIDTH),
+            maxWidth: wp((250 * 4) / BASE_WIDTH),
             width: wp((250 * tabArr.length) / BASE_WIDTH),
             height: hp(78 / BASE_HEIGHT),
             flexDirection: 'row',
@@ -591,7 +594,7 @@ class Index extends React.PureComponent {
               {tableData6.length >= 1 && (
                 <View style={styles.tabTitleContainer}>
                   <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                  <Text style={styles.tabTitle}>{type1}</Text>
+                  <Text style={styles.tabTitle}>{type2}</Text>
                 </View>
               )}
               <View style={styles.tableContainer}>
@@ -627,7 +630,7 @@ class Index extends React.PureComponent {
               {tableData7.length >= 1 && (
                 <View style={styles.tabTitleContainer}>
                   <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                  <Text style={styles.tabTitle}>{type1}</Text>
+                  <Text style={styles.tabTitle}>{type3}</Text>
                 </View>
               )}
               <View style={styles.tableContainer}>
