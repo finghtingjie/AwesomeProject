@@ -112,8 +112,9 @@ class WarningConfig extends React.PureComponent {
           // 全选
           params = {
             tGiveAnAlarmId: this.state.tabActiveIndex + 2,
-            userIdArray: this.state.fakeData.map(d => d.userId).toString(),
+            userIdArray: this.state.userList.map(d => d.userId).toString(),
           };
+          console.log(params);
           addTGiveAnAlarmUser(params).then(res => {
             if (res && res.status === 200) {
               Toast.success('新增成功');
@@ -128,6 +129,7 @@ class WarningConfig extends React.PureComponent {
               tGiveAnAlarmId: this.state.tabActiveIndex + 2,
               userIdArray: [this.state.userId].toString(),
             };
+            console.log(params);
             addTGiveAnAlarmUser(params).then(res => {
               if (res && res.status === 200) {
                 Toast.success('新增成功');
