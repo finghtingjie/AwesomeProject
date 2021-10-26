@@ -51,15 +51,17 @@ class Index extends React.PureComponent {
       tableHead1: ['名称', '有功功率(MW)', '无功功率(MVar)', '电流(A)'],
       tableHead2: ['名称', '电压'],
       tableData1: [
-        ['铁扎一线', '61.13', '26.86', '0.91'],
-        ['铁扎二线', '61.13', '26.86', '0.91'],
-        ['曹铁一线', '61.13', '26.86', '0.91'],
-        ['曹铁二线', '61.13', '26.86', '0.91'],
+        // ['铁扎一线', '61.13', '26.86', '0.91'],
+        // ['铁扎二线', '61.13', '26.86', '0.91'],
+        // ['曹铁一线', '61.13', '26.86', '0.91'],
+        // ['曹铁二线', '61.13', '26.86', '0.91'],
       ],
       tableData2: [],
       tableData3: [],
       tableData4: [],
       tableData5: [],
+      tableData6: [],
+      tableData7: [],
       dataSource: [
         {
           id: 45,
@@ -92,6 +94,9 @@ class Index extends React.PureComponent {
       ],
       arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV变电站'],
       tabArr: ['220kV', '110kV', '10kV'],
+      type1: '',
+      type2: '',
+      type3: '',
     };
   }
   static navigationOptions = {
@@ -102,11 +107,18 @@ class Index extends React.PureComponent {
 
   getMonitor = () => {
     const { actionIndex, actionIndex2, arr2, tabArr, activeIndex } = this.state;
+    const type = tabArr[activeIndex];
     const params = {
       genus: actionIndex + 1,
       name: arr2[actionIndex2],
-      type: tabArr[activeIndex],
     };
+    // 没有变压器的传type
+    if (type !== '变压器') {
+      params.type = type;
+      params.isTransformer = false;
+    } else {
+      params.isTransformer = true;
+    }
     console.log(params);
     const isNumber = val => {
       const regPos = /^\d+(\.\d+)?$/; //非负浮点数
@@ -121,16 +133,23 @@ class Index extends React.PureComponent {
     getMonitor(params).then(res => {
       ModalIndicator.hide();
       if (res && res.status === 200) {
-        const resData1 = res.body.incomingLineAndTieLine || []; //进线
-        const resData2 = res.body.generatrix || []; //母线
-        const resData3 = res.body.busCouplerSwitch || []; //母线开关
-        const resData4 = res.body.outgoingLine || []; //出线
-        const resData5 = res.body.transformer || []; //变压器
+        const resData1 = res.body.data[0].incomingLineAndTieLine || []; //进线
+        const resData2 = res.body.data[0].generatrix || []; //母线
+        const resData3 = res.body.data[0].busCouplerSwitch || []; //母线开关
+        const resData4 = res.body.data[0].outgoingLine || []; //出线
+        const resData5 = res.body.data[0].transformer || []; //变压器
+        const resData6 = (res.body.data[1] && res.body.data[1].transformer) || []; //变压器
+        const resData7 = (res.body.data[2] && res.body.data[2].transformer) || []; //变压器
+        const type1 = (res.body.data[0] && res.body.data[0].type) || '';
+        const type2 = (res.body.data[1] && res.body.data[1].type) || '';
+        const type3 = (res.body.data[2] && res.body.data[2].type) || '';
         let newArr = [];
         let newArr2 = [];
         let newArr3 = [];
         let newArr4 = [];
         let newArr5 = [];
+        let newArr6 = [];
+        let newArr7 = [];
         resData1.map((item, index) => {
           newArr[index] = [
             item.name,
@@ -166,12 +185,33 @@ class Index extends React.PureComponent {
             isNumber(item.dianLiu) ? Number(item.dianLiu).toFixed(2) : '--',
           ];
         });
+        resData6.map((item, index) => {
+          newArr6[index] = [
+            item.name,
+            isNumber(item.youGong) ? Number(item.youGong).toFixed(2) : '--',
+            isNumber(item.wuGong) ? Number(item.wuGong).toFixed(2) : '--',
+            isNumber(item.dianLiu) ? Number(item.dianLiu).toFixed(2) : '--',
+          ];
+        });
+        resData7.map((item, index) => {
+          newArr7[index] = [
+            item.name,
+            isNumber(item.youGong) ? Number(item.youGong).toFixed(2) : '--',
+            isNumber(item.wuGong) ? Number(item.wuGong).toFixed(2) : '--',
+            isNumber(item.dianLiu) ? Number(item.dianLiu).toFixed(2) : '--',
+          ];
+        });
         this.setState({
           tableData1: newArr,
           tableData2: newArr2,
           tableData3: newArr3,
           tableData4: newArr4,
           tableData5: newArr5,
+          tableData6: newArr6,
+          tableData7: newArr7,
+          type1,
+          type2,
+          type3,
         });
       } else {
         Toast.fail(res.msg);
@@ -197,13 +237,13 @@ class Index extends React.PureComponent {
     if (actionIndex === 0 && [0, 1].includes(index)) {
       this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
     } else if (actionIndex === 0 && index >= 2) {
-      this.setState({ tabArr: ['110kV'], activeIndex: 0 });
+      this.setState({ tabArr: ['110kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 1 && [0, 2, 3, 4].includes(index)) {
-      this.setState({ tabArr: ['110kV', '10kV'], activeIndex: 0 });
+      this.setState({ tabArr: ['110kV', '10kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 1 && [1, 5, 6].includes(index)) {
-      this.setState({ tabArr: ['110kV', '35kV', '10kV'], activeIndex: 0 });
+      this.setState({ tabArr: ['110kV', '35kV', '10kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 1 && index > 6) {
-      this.setState({ tabArr: ['110kV'], activeIndex: 0 });
+      this.setState({ tabArr: ['110kV', '变压器'], activeIndex: 0 });
     }
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
@@ -250,6 +290,8 @@ class Index extends React.PureComponent {
       tableData3,
       tableData4,
       tableData5,
+      tableData6,
+      tableData7,
       tableHead1,
       tableHead2,
       activeIndex,
@@ -258,6 +300,9 @@ class Index extends React.PureComponent {
       actionsheetShow,
       tabArr,
       arr2,
+      type1,
+      type2,
+      type3,
     } = this.state;
     return (
       <View style={styles.container}>
@@ -360,176 +405,258 @@ class Index extends React.PureComponent {
           })}
         </View>
         {/* table */}
-        <ScrollView>
-          <View style={styles.commonTableContainer}>
-            {tableData1.length >= 1 && (
-              <View style={styles.tabTitleContainer}>
-                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                <Text style={styles.tabTitle}>进线/联络线</Text>
-              </View>
-            )}
-            <View style={styles.tableContainer}>
-              <View style={styles.headContainer}>
-                {tableData1.length >= 1 &&
-                  tableHead1.map((item, index) => {
-                    return (
-                      <View key={item} style={styles.nameStyle}>
-                        <Text style={styles.commonColText}>{item}</Text>
-                      </View>
-                    );
-                  })}
-              </View>
-              {tableData1.map(item => {
-                return (
-                  <View style={styles.rowContainer}>
-                    {item.map((items, index) => {
+        <ScrollView contentContainerStyle={{ flex: 1 }}>
+          {tableData1.length >= 1 && (
+            <View style={styles.commonTableContainer}>
+              {tableData1.length >= 1 && (
+                <View style={styles.tabTitleContainer}>
+                  <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                  <Text style={styles.tabTitle}>进线/联络线</Text>
+                </View>
+              )}
+              <View style={styles.tableContainer}>
+                <View style={styles.headContainer}>
+                  {tableData1.length >= 1 &&
+                    tableHead1.map((item, index) => {
                       return (
-                        <View key={items + index} style={styles.nameStyle}>
-                          <Text style={styles.commonrowText}>{items}</Text>
+                        <View key={item} style={styles.nameStyle}>
+                          <Text style={styles.commonColText}>{item}</Text>
                         </View>
                       );
                     })}
-                  </View>
-                );
-              })}
+                </View>
+                {tableData1.map(item => {
+                  return (
+                    <View style={styles.rowContainer}>
+                      {item.map((items, index) => {
+                        return (
+                          <View key={items + index} style={styles.nameStyle}>
+                            <Text style={styles.commonrowText}>{items}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
+          )}
           {/* 母线 */}
-          <View style={styles.commonTableContainer}>
-            {tableData2.length >= 1 && (
-              <View style={styles.tabTitleContainer}>
-                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                <Text style={styles.tabTitle}>母线</Text>
-              </View>
-            )}
-            <View style={styles.tableContainer}>
-              <View style={styles.headContainer}>
-                {tableData2.length >= 1 &&
-                  tableHead2.map((item, index) => {
-                    return (
-                      <View key={item} style={styles.nameStyle}>
-                        <Text style={styles.commonColText}>{item}</Text>
-                      </View>
-                    );
-                  })}
-              </View>
-              {tableData2.map(item => {
-                return (
-                  <View style={styles.rowContainer}>
-                    {item.map((items, index) => {
+          {tableData2.length >= 1 && (
+            <View style={styles.commonTableContainer}>
+              {tableData2.length >= 1 && (
+                <View style={styles.tabTitleContainer}>
+                  <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                  <Text style={styles.tabTitle}>母线</Text>
+                </View>
+              )}
+              <View style={styles.tableContainer}>
+                <View style={styles.headContainer}>
+                  {tableData2.length >= 1 &&
+                    tableHead2.map((item, index) => {
                       return (
-                        <View key={items + index} style={styles.nameStyle}>
-                          <Text style={styles.commonrowText}>{items}</Text>
+                        <View key={item} style={styles.nameStyle}>
+                          <Text style={styles.commonColText}>{item}</Text>
                         </View>
                       );
                     })}
-                  </View>
-                );
-              })}
+                </View>
+                {tableData2.map(item => {
+                  return (
+                    <View style={styles.rowContainer}>
+                      {item.map((items, index) => {
+                        return (
+                          <View key={items + index} style={styles.nameStyle}>
+                            <Text style={styles.commonrowText}>{items}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
+          )}
           {/* 母联开关 */}
-          <View style={styles.commonTableContainer}>
-            {tableData3.length >= 1 && (
-              <View style={styles.tabTitleContainer}>
-                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                <Text style={styles.tabTitle}>母联开关</Text>
-              </View>
-            )}
-            <View style={styles.tableContainer}>
-              <View style={styles.headContainer}>
-                {tableData3.length >= 1 &&
-                  tableHead1.map((item, index) => {
-                    return (
-                      <View key={item} style={styles.nameStyle}>
-                        <Text style={styles.commonColText}>{item}</Text>
-                      </View>
-                    );
-                  })}
-              </View>
-              {tableData3.map(item => {
-                return (
-                  <View style={styles.rowContainer}>
-                    {item.map((items, index) => {
+          {tableData3.length >= 1 && (
+            <View style={styles.commonTableContainer}>
+              {tableData3.length >= 1 && (
+                <View style={styles.tabTitleContainer}>
+                  <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                  <Text style={styles.tabTitle}>母联开关</Text>
+                </View>
+              )}
+              <View style={styles.tableContainer}>
+                <View style={styles.headContainer}>
+                  {tableData3.length >= 1 &&
+                    tableHead1.map((item, index) => {
                       return (
-                        <View key={items + index} style={styles.nameStyle}>
-                          <Text style={styles.commonrowText}>{items}</Text>
+                        <View key={item} style={styles.nameStyle}>
+                          <Text style={styles.commonColText}>{item}</Text>
                         </View>
                       );
                     })}
-                  </View>
-                );
-              })}
+                </View>
+                {tableData3.map(item => {
+                  return (
+                    <View style={styles.rowContainer}>
+                      {item.map((items, index) => {
+                        return (
+                          <View key={items + index} style={styles.nameStyle}>
+                            <Text style={styles.commonrowText}>{items}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
+          )}
           {/* 出线 */}
-          <View style={styles.commonTableContainer}>
-            {tableData4.length >= 1 && (
-              <View style={styles.tabTitleContainer}>
-                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                <Text style={styles.tabTitle}>出线</Text>
-              </View>
-            )}
-            <View style={styles.tableContainer}>
-              <View style={styles.headContainer}>
-                {tableData4.length >= 1 &&
-                  tableHead1.map((item, index) => {
-                    return (
-                      <View key={item} style={styles.nameStyle}>
-                        <Text style={styles.commonColText}>{item}</Text>
-                      </View>
-                    );
-                  })}
-              </View>
-              {tableData4.map(item => {
-                return (
-                  <View style={styles.rowContainer}>
-                    {item.map((items, index) => {
+          {tableData4.length >= 1 && (
+            <View style={styles.commonTableContainer}>
+              {tableData4.length >= 1 && (
+                <View style={styles.tabTitleContainer}>
+                  <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                  <Text style={styles.tabTitle}>出线</Text>
+                </View>
+              )}
+              <View style={styles.tableContainer}>
+                <View style={styles.headContainer}>
+                  {tableData4.length >= 1 &&
+                    tableHead1.map((item, index) => {
                       return (
-                        <View key={items + index} style={styles.nameStyle}>
-                          <Text style={styles.commonrowText}>{items}</Text>
+                        <View key={item} style={styles.nameStyle}>
+                          <Text style={styles.commonColText}>{item}</Text>
                         </View>
                       );
                     })}
-                  </View>
-                );
-              })}
+                </View>
+                {tableData4.map(item => {
+                  return (
+                    <View style={styles.rowContainer}>
+                      {item.map((items, index) => {
+                        return (
+                          <View key={items + index} style={styles.nameStyle}>
+                            <Text style={styles.commonrowText}>{items}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
-          {/* 变压器 */}
-          <View style={styles.commonTableContainer}>
-            {tableData5.length >= 1 && (
-              <View style={styles.tabTitleContainer}>
-                <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                <Text style={styles.tabTitle}>变压器</Text>
-              </View>
-            )}
-            <View style={styles.tableContainer}>
-              <View style={styles.headContainer}>
-                {tableData5.length >= 1 &&
-                  tableHead1.map((item, index) => {
-                    return (
-                      <View key={item} style={styles.nameStyle}>
-                        <Text style={styles.commonColText}>{item}</Text>
-                      </View>
-                    );
-                  })}
-              </View>
-              {tableData5.map(item => {
-                return (
-                  <View style={styles.rowContainer}>
-                    {item.map((items, index) => {
+          )}
+          {/* 变压器1 */}
+          {tableData5.length >= 1 && (
+            <View style={styles.commonTableContainer}>
+              {tableData5.length >= 1 && (
+                <View style={styles.tabTitleContainer}>
+                  <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                  <Text style={styles.tabTitle}>{type1}</Text>
+                </View>
+              )}
+              <View style={styles.tableContainer}>
+                <View style={styles.headContainer}>
+                  {tableData5.length >= 1 &&
+                    tableHead1.map((item, index) => {
                       return (
-                        <View key={items + index} style={styles.nameStyle}>
-                          <Text style={styles.commonrowText}>{items}</Text>
+                        <View key={item} style={styles.nameStyle}>
+                          <Text style={styles.commonColText}>{item}</Text>
                         </View>
                       );
                     })}
-                  </View>
-                );
-              })}
+                </View>
+                {tableData5.map(item => {
+                  return (
+                    <View style={styles.rowContainer}>
+                      {item.map((items, index) => {
+                        return (
+                          <View key={items + index} style={styles.nameStyle}>
+                            <Text style={styles.commonrowText}>{items}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
+          )}
+          {/* 变压器2 */}
+          {tableData6.length >= 1 && (
+            <View style={styles.commonTableContainer}>
+              {tableData6.length >= 1 && (
+                <View style={styles.tabTitleContainer}>
+                  <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                  <Text style={styles.tabTitle}>{type1}</Text>
+                </View>
+              )}
+              <View style={styles.tableContainer}>
+                <View style={styles.headContainer}>
+                  {tableData6.length >= 1 &&
+                    tableHead1.map((item, index) => {
+                      return (
+                        <View key={item} style={styles.nameStyle}>
+                          <Text style={styles.commonColText}>{item}</Text>
+                        </View>
+                      );
+                    })}
+                </View>
+                {tableData6.map(item => {
+                  return (
+                    <View style={styles.rowContainer}>
+                      {item.map((items, index) => {
+                        return (
+                          <View key={items + index} style={styles.nameStyle}>
+                            <Text style={styles.commonrowText}>{items}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+          {/* 变压器2 */}
+          {tableData7.length >= 1 && (
+            <View style={styles.commonTableContainer}>
+              {tableData7.length >= 1 && (
+                <View style={styles.tabTitleContainer}>
+                  <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
+                  <Text style={styles.tabTitle}>{type1}</Text>
+                </View>
+              )}
+              <View style={styles.tableContainer}>
+                <View style={styles.headContainer}>
+                  {tableData7.length >= 1 &&
+                    tableHead1.map((item, index) => {
+                      return (
+                        <View key={item} style={styles.nameStyle}>
+                          <Text style={styles.commonColText}>{item}</Text>
+                        </View>
+                      );
+                    })}
+                </View>
+                {tableData7.map(item => {
+                  return (
+                    <View style={styles.rowContainer}>
+                      {item.map((items, index) => {
+                        return (
+                          <View key={items + index} style={styles.nameStyle}>
+                            <Text style={styles.commonrowText}>{items}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          )}
         </ScrollView>
       </View>
     );

@@ -209,11 +209,11 @@ export default StyleSheet.create({
   },
   commonrowText: {
     color: '#333',
-    width: wp(250 / BASE_WIDTH),
+    width: wp(240 / BASE_WIDTH),
     height: hp(80 / BASE_HEIGHT),
     lineHeight: hp(80 / BASE_HEIGHT),
     textAlign: 'center',
-    fontSize: hp(24 / BASE_HEIGHT),
+    fontSize: hp(20 / BASE_HEIGHT),
     fontWeight: 'bold',
   },
   commonBorder: {
@@ -248,7 +248,7 @@ export default StyleSheet.create({
   },
   commonTableContainer: {
     position: 'relative',
-    width: wp(1000 / BASE_WIDTH),
+    width: wp(960 / BASE_WIDTH),
     marginLeft: wp(90 / BASE_WIDTH),
     // backgroundColor: 'pink',
   },
