@@ -844,10 +844,10 @@ class Index extends React.Component {
             break;
           case '1580热轧110kV站':
           case '2250热轧110kV站':
-            if (voltage === '110kV') {
-              this.setOption33(res, '110kV');
+            if (voltage === '35kV') {
+              this.setOption1(res, 'Ⅰ段母线', '35kV');
             } else if (voltage === '10kV') {
-              this.setOption33(res, '10kV');
+              this.setOption1(res, 'Ⅰ段母线', '10kV');
             }
             break;
           case 'CCPP110kV站':
@@ -953,7 +953,7 @@ class Index extends React.Component {
     } else if (actionIndex === 1 && [12, 13, 16].includes(index)) {
       this.setState({ tabArr: ['10kV'], activeIndex: 0 });
     } else if (actionIndex === 1 && [14, 15].includes(index)) {
-      this.setState({ tabArr: ['110kV', '35kV'], activeIndex: 0 });
+      this.setState({ tabArr: ['10kV', '35kV'], activeIndex: 0 });
     }
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {

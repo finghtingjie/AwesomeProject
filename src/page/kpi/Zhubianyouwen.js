@@ -75,6 +75,7 @@ const arr = [
   '高炉鼓风110kV站',
   '4#高炉鼓风110kV站',
   '2#制氧110kV站',
+  '2250热轧110kV站',
 ];
 
 const newArr = [
@@ -583,6 +584,7 @@ class Index extends React.Component {
             }
             break;
           case '1580热轧110kV站':
+          case '2250热轧110kV站':
             if (voltage === '1#主变') {
               this.setOption33(res, '1', '110');
             } else if (voltage === '2#主变') {
@@ -733,7 +735,8 @@ class Index extends React.Component {
       // 高炉鼓风110kV站 1 2 3
       // 4#高炉鼓风110kV站 4
       // 2#制氧110kV站 1 2 3
-    } else if (actionIndex === 1 && [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 15].includes(index)) {
+      // 2250热轧110kV站 1 2 3
+    } else if (actionIndex === 1 && [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 15, 16].includes(index)) {
       this.setState({ tabArr: ['1#主变', '2#主变', '3#主变'], activeIndex: 0 });
     } else if (actionIndex === 1 && [1, 7].includes(index)) {
       this.setState({ tabArr: ['1#主变', '2#主变', '3#主变', '4#主变'], activeIndex: 0 });

@@ -93,7 +93,7 @@ class Index extends React.PureComponent {
         },
       ],
       arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV变电站'],
-      tabArr: ['220kV', '110kV', '10kV'],
+      tabArr: ['220kV', '110kV', '10kV', '变压器'],
       type1: '',
       type2: '',
       type3: '',
@@ -113,7 +113,7 @@ class Index extends React.PureComponent {
       name: arr2[actionIndex2],
     };
     // 没有变压器的传type
-    if (type !== '变压器') {
+    if (['220kV', '110kV', '10kV'].includes(type)) {
       params.type = type;
       params.isTransformer = false;
     } else {
@@ -233,10 +233,9 @@ class Index extends React.PureComponent {
 
   handleTypeChange2 = (item, index) => {
     const { actionIndex } = this.state;
-    console.log(actionIndex);
     // 源端
     if (actionIndex === 0 && [0, 1].includes(index)) {
-      this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
+      this.setState({ tabArr: ['220kV', '110kV', '10kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 0 && index >= 2) {
       this.setState({ tabArr: ['110kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 1 && [0, 2, 3, 4].includes(index)) {
@@ -408,7 +407,7 @@ class Index extends React.PureComponent {
           })}
         </View>
         {/* table */}
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <ScrollView>
           {tableData1.length >= 1 && (
             <View style={styles.commonTableContainer}>
               {tableData1.length >= 1 && (
