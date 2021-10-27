@@ -566,7 +566,6 @@ class Index extends React.Component {
       const station = arr2[actionIndex2];
       const voltage = tabArr[activeIndex];
       if (res && res.status === 200) {
-        console.log(res.body);
         switch (station) {
           case '4#高炉鼓风110kV站':
             this.setOption2(res, '4');

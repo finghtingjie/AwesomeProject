@@ -113,7 +113,7 @@ class Index extends React.PureComponent {
       name: arr2[actionIndex2],
     };
     // 没有变压器的传type
-    if (['220kV', '110kV', '10kV'].includes(type)) {
+    if (['220kV', '110kV', '10kV', '35kV'].includes(type)) {
       params.type = type;
       params.isTransformer = false;
     } else {
