@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, StatusBar, Image, Alert, FlatList } from 
 
 import { Toast, Button, ModalIndicator } from 'teaset';
 
-import IconFont from '@iconfont/index.js';
 import { getGrouping, deleteGrouping } from '@api/profile';
 
 const orderPic = require('../../assets/profile/order.png');
@@ -37,16 +36,19 @@ class GroupConfig extends React.PureComponent {
     });
   }
 
+  // 添加分组
   handleAddGroup = () => {
     const { navigation } = this.props;
     navigation.navigate('AddGroup', { type: 'add' });
   };
 
+  // 编辑分组
   handleEditGroup = item => {
     const { navigation } = this.props;
     navigation.navigate('AddGroup', { type: 'edit', item });
   };
 
+  // 渲染内容
   renderItem = ({ item }) => (
     <View key={item.id} style={styles.userBtn}>
       <View style={styles.leftContainer}>
@@ -64,6 +66,7 @@ class GroupConfig extends React.PureComponent {
     </View>
   );
 
+  // 删除分组
   handleDeleteGroup = item => {
     Alert.alert('确定删除此分组吗？', '', [
       {
@@ -75,6 +78,7 @@ class GroupConfig extends React.PureComponent {
     ]);
   };
 
+  // 确定删除
   handleOk = item => {
     deleteGrouping({ id: item }).then(res => {
       if (res && res.status === 200) {

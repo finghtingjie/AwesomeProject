@@ -32,6 +32,7 @@ class Index extends React.Component {
     ModalIndicator.show();
   }
 
+  // 处理加载失败
   handleError = e => {
     const { navigation } = this.props;
     const errMsg = e.nativeEvent.description;

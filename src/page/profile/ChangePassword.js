@@ -3,11 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image } f
 
 import { Toast, Button } from 'teaset';
 
-const backPic = require('../../assets/profile/back.png');
 const rank = require('../../assets/profile/xinghao.png');
 const backIcon = require('../../assets/backicon.png');
 
-// import IconFont from '@iconfont/index.js';
 import { revisePassword } from '@api/profile';
 
 import styles from './ChangePasswordStyle';
@@ -25,6 +23,7 @@ class ChangePassword extends React.PureComponent {
     headerShown: false,
   };
 
+  // 提交数据
   handleSubmit = () => {
     const { navigation } = this.props;
     const { newPassword, verifyPassword, curPassword } = this.state;
@@ -76,7 +75,6 @@ class ChangePassword extends React.PureComponent {
               onBlur={() => Keyboard.dismiss()}
               onChangeText={val => this.setState({ curPassword: val })}
             />
-            {/* <Image style={styles.backRight} source={backPic} /> */}
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.curPassword}>新密码</Text>
@@ -90,7 +88,6 @@ class ChangePassword extends React.PureComponent {
               onBlur={() => Keyboard.dismiss()}
               onChangeText={val => this.setState({ newPassword: val })}
             />
-            {/* <Image style={styles.backRight} source={backPic} /> */}
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.curPassword}>确认密码</Text>
@@ -104,7 +101,6 @@ class ChangePassword extends React.PureComponent {
               onBlur={() => Keyboard.dismiss()}
               onChangeText={val => this.setState({ verifyPassword: val })}
             />
-            {/* <Image style={styles.backRight} source={backPic} /> */}
           </View>
           <View style={styles.tipBox}>
             <Image style={styles.backRight} source={rank} resizeMode="contain" />

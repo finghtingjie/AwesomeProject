@@ -6,7 +6,7 @@ import { Toast, Button, PullPicker } from 'teaset';
 const arrowPic = require('../../assets/profile/xiala.png');
 const backIcon = require('../../assets/backicon.png');
 
-import { addUser, reviseUser, getGrouping, getUserInfo } from '@api/profile';
+import { addUser, reviseUser, getGrouping } from '@api/profile';
 
 import styles from './AddUserStyle';
 
@@ -55,6 +55,7 @@ class AddUser extends React.PureComponent {
     });
   }
 
+  // 提交数据
   handleSubmit = () => {
     const { userName, realName, password, groupingId } = this.state;
     const { params } = this.props.navigation.state;
@@ -95,6 +96,7 @@ class AddUser extends React.PureComponent {
     }
   };
 
+  // 选择分组
   handleSelect = () => {
     const items = this.state.groupArr.map(item => item.name);
     PullPicker.show('请选择分组', items, this.state.selectedIndex, (item, index) =>

@@ -4,7 +4,6 @@ import { View, Text, TextInput, TouchableOpacity, Keyboard, StatusBar, Image, Al
 
 import { Toast, Button, Overlay, ModalIndicator } from 'teaset';
 
-// import IconFont from '@iconfont/index.js';
 import { getAllUserInfo, userSearch, deleteUser } from '@api/profile';
 
 const orderPic = require('../../assets/profile/order.png');
@@ -118,6 +117,7 @@ class UserConfig extends React.PureComponent {
     ]);
   };
 
+  // 确定删除
   handleOk = async item => {
     deleteUser({ userId: item }).then(res => {
       if (res && res.status === 200) {

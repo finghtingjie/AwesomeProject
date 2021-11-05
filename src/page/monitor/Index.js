@@ -20,6 +20,7 @@ import { getMonitor } from '@api/monitor';
 
 import styles from './MonitorStyle';
 
+// 网侧端数据源
 const wangceArr = [
   '1#110kV站',
   '2#110kV站',
@@ -94,9 +95,9 @@ class Index extends React.PureComponent {
       ],
       arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV变电站'],
       tabArr: ['220kV', '110kV', '10kV', '变压器'],
-      type1: '',
-      type2: '',
-      type3: '',
+      type1: '', //变压器类型1
+      type2: '', //变压器类型2
+      type3: '', //变压器类型3
     };
   }
   static navigationOptions = {
@@ -105,6 +106,7 @@ class Index extends React.PureComponent {
 
   componentDidMount() {}
 
+  // 获取监控数据
   getMonitor = () => {
     const { actionIndex, actionIndex2, arr2, tabArr, activeIndex } = this.state;
     const type = tabArr[activeIndex];
@@ -219,8 +221,8 @@ class Index extends React.PureComponent {
     });
   };
 
+  // 切换场站类型
   handleTypeChange = (item, index) => {
-    // const { actionIndex2, actionIndex } = this.state;
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
       this.setState({
@@ -231,6 +233,7 @@ class Index extends React.PureComponent {
     }
   };
 
+  // 切换场站名称
   handleTypeChange2 = (item, index) => {
     const { actionIndex } = this.state;
     // 源端
@@ -253,6 +256,7 @@ class Index extends React.PureComponent {
     });
   };
 
+  // 跳转电里潮流图
   handleChangZhan = async () => {
     const menuIdArr = await AsyncStorage.getItem('menuIdArr');
     const newArr = menuIdArr.split(',').map(item => Number(item));
@@ -264,12 +268,14 @@ class Index extends React.PureComponent {
     }
   };
 
+  // 切换场站电压
   handleTabChange = (item, index) => {
     this.setState({ activeIndex: index }, () => {
       this.getMonitor();
     });
   };
 
+  // 切换tab选中样式
   renderBtnStyle = (item, index) => {
     const { tabArr } = this.state;
     if (tabArr.length === 1) {

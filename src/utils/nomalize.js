@@ -1,4 +1,4 @@
-import {PixelRatio, Dimensions} from 'react-native';
+import { PixelRatio, Dimensions } from 'react-native';
 
 const pixelRatio = PixelRatio.get();
 const deviceHeight = Dimensions.get('window').height;

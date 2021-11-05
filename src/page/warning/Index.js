@@ -14,7 +14,7 @@ import {
 import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
 import Orientation from 'react-native-orientation-locker';
-import { Toast, Button, PullPicker, ModalIndicator } from 'teaset';
+import { Toast, Button, PullPicker } from 'teaset';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const BASE_WIDTH = 10.8;
@@ -22,16 +22,13 @@ const BASE_HEIGHT = 19.2;
 
 const arrowPic = require('../../assets/profile/xiala.png');
 const orderPic = require('../../assets/warning/paixu.png');
-const searchIcon = require('../../assets/warning/searchicon1.png');
 const hu = require('../../assets/warning/hu.png');
 const yue = require('../../assets/warning/yue.png');
 const yi = require('../../assets/warning/yi.png');
 const shi = require('../../assets/warning/shi.png');
 
-// import IconFont from '@iconfont/index.js';
 import { getGiveAnAlarm, getTGiveAnAlarm } from '@api/warning';
 
-// import DatePicker from '@components/DatePicker';
 import DashLine from '@components/DashLine';
 import DoubleDatePicker from '@components/DoubleDatePicker';
 
@@ -109,6 +106,7 @@ class Index extends React.PureComponent {
 
   componentDidMount() {}
 
+  // 获取告警类型
   getTGiveAnAlarm = () => {
     getTGiveAnAlarm({}).then(res => {
       if (res && res.status === 200) {
@@ -117,6 +115,7 @@ class Index extends React.PureComponent {
     });
   };
 
+  // 获取告警数据
   getGiveAnAlarm = () => {
     let { pageNum, pageSize, alarmContent, typeId, sort, dateStart, dateEnd } = this.state;
     const params = {
@@ -282,6 +281,7 @@ class Index extends React.PureComponent {
     this.getGiveAnAlarm(params);
   };
 
+  // 处理文本颜色
   renderColor = item => {
     const actions = new Map([
       ['异常信号', '#FCA001'],
@@ -294,6 +294,7 @@ class Index extends React.PureComponent {
     return action;
   };
 
+  // 渲染内容
   renderItem = ({ item }) => {
     return (
       <View style={styles.commonContainer}>
@@ -324,6 +325,7 @@ class Index extends React.PureComponent {
     );
   };
 
+  // 处理滚动加载底部视图
   renderFooter = () => {
     if (this.state.dataFlag && this.state.fakeData.length) {
       return (
@@ -342,6 +344,7 @@ class Index extends React.PureComponent {
     }
   };
 
+  // 处理空白内容视图
   renderEmpty = () => {
     return (
       <View style={styles.noDataView}>
@@ -350,6 +353,7 @@ class Index extends React.PureComponent {
     );
   };
 
+  // 处理滚动到底部
   onEndReached = () => {
     let { pageNum } = this.state;
     if (this.state.dataFlag) {
@@ -360,6 +364,7 @@ class Index extends React.PureComponent {
     }
   };
 
+  // 处理刷新
   onRefresh = () => {
     this.setState({ pageNum: 1 }, () => {
       this.getGiveAnAlarm();
@@ -367,7 +372,7 @@ class Index extends React.PureComponent {
   };
 
   render() {
-    const { alarmContent, fakeData, levelName, statusName, dateEnd, total, dateStart } = this.state;
+    const { alarmContent, fakeData, levelName, dateEnd, total, dateStart } = this.state;
     const renderDate = (item1, item2) => {
       if (item1 && item2) {
         return `${moment(item1)

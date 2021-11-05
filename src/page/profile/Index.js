@@ -40,6 +40,7 @@ class Index extends React.Component {
 
   componentDidMount() {}
 
+  // 获取用户列表
   getUserInfo = async () => {
     const user = await AsyncStorage.getItem('user');
     if (user !== '') {
@@ -60,6 +61,7 @@ class Index extends React.Component {
     }
   };
 
+  // 处理图片
   renderSource = id => {
     switch (id) {
       case 1:
@@ -75,6 +77,7 @@ class Index extends React.Component {
     }
   };
 
+  // 处理访问子模块
   handleClick = async item => {
     const menuIdArr = await AsyncStorage.getItem('menuIdArr');
     const newArr = menuIdArr.split(',').map(items => Number(items));
@@ -113,6 +116,7 @@ class Index extends React.Component {
     }
   };
 
+  // 退出登录
   handleLoginOut = async () => {
     await AsyncStorage.removeItem('user');
     this.props.navigation.navigate('Login');
