@@ -6,8 +6,6 @@ import { WebView } from 'react-native-webview';
 import Orientation from 'react-native-orientation-locker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const backIcon = require('../../assets/backicon.png');
-
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 

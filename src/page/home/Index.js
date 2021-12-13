@@ -1,17 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView, Dimensions, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 
 import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
-import { WebView } from 'react-native-webview';
+// import { WebView } from 'react-native-webview';
 import Orientation from 'react-native-orientation-locker';
 import { ECharts } from 'react-native-echarts-wrapper';
-import { Toast, ModalIndicator } from 'teaset';
+import { Toast } from 'teaset';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { screenWidth, screenHeight, scale } from '../../utils/device';
+import { screenHeight, scale } from '../../utils/device';
 
 import { getHeadInfo, selfDowerSupplyRate, totalLoadCurve } from '@api/home';
 
@@ -27,7 +27,7 @@ if (scale === 2.75 && formatVal === 759) {
   BASE_HEIGHT = 23.4;
 }
 
-const webViewsource = { uri: 'file:///android_asset/pie.html' };
+// const webViewsource = { uri: 'file:///android_asset/pie.html' };
 
 const yuanduan = require('../../assets/kpi/yuanduan.png');
 const wangce = require('../../assets/kpi/wangce.png');
@@ -41,7 +41,8 @@ const zhiliu = require('../../assets/kpi/zhiliu.png');
 const commonPic = require('../../assets/home/cardbg.png');
 const lightPic = require('../../assets/home/light.png');
 
-const newArr = [
+// 图标x轴数据
+const xAxisArr = [
   '2021-10-21 00:00:00',
   '2021-10-21 00:05:00',
   '2021-10-21 00:10:00',
@@ -332,6 +333,9 @@ const newArr = [
   '2021-10-21 23:55:00',
   '2021-10-21 24:00:00',
 ];
+
+// 格式化时间
+const formattedVal = xAxisArr.map(item => item.slice(11, 16));
 
 class Index extends React.Component {
   static navigationOptions = {
@@ -853,23 +857,15 @@ class Index extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // this.ScrollView.scrollTo({ x: 85, y: 0, animated: true });
-  }
+  componentDidMount() {}
 
   // 总负荷曲线统计图
   totalLoadCurve = () => {
     totalLoadCurve({}).then(res => {
       if (res && res.status === 200) {
-        const resData = res.body.all.time;
-        // resData.map(item => {
-        //   item = moment(item).format('YYYY-MM-DD HH:mm');
-        //   newArr.push(item);
-        // });
-        const val = newArr.map(item => item.slice(11, 16));
         let { pieOption } = this.state;
         this.pieOption.clear();
-        pieOption.xAxis.data = val;
+        pieOption.xAxis.data = formattedVal;
         pieOption.series[0].data = res.body.all.value.map(item => Number(item.toFixed(2)));
         const nowTime = moment(new Date()).format('YYYY-MM-DD');
         const nowTimeFormat = `${nowTime} ${val[val.length - 1]}`;
@@ -1043,15 +1039,8 @@ class Index extends React.Component {
   selfDowerSupplyRate = () => {
     selfDowerSupplyRate({}).then(res => {
       if (res && res.status === 200) {
-        const resData = res.body[0].time;
-        // let newArr = [];
-        // resData.map(item => {
-        //   item = moment(item).format('YYYY-MM-DD HH:mm');
-        //   newArr.push(item);
-        // });
-        const val = newArr.map(item => item.slice(11, 16));
         let { option } = this.state;
-        option.xAxis.data = val;
+        option.xAxis.data = formattedVal;
         option.series[0].data = res.body[0].value.map(item => Number(item.toFixed(2)));
         this.option.setOption(option);
       }
@@ -1117,12 +1106,13 @@ class Index extends React.Component {
     });
   };
 
-  onLoadEnd = () => {
-    this.webView.postMessage('rn啊');
-    this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
-  };
+  // onLoadEnd = () => {
+  //   this.webView.postMessage('rn啊');
+  //   this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
+  // };
 
-  handleClick = async item => {
+  // 点击底部导航
+  handleClickSubMenu = async item => {
     const menuIdArr = await AsyncStorage.getItem('menuIdArr');
     const newArr = menuIdArr.split(',').map(items => Number(items));
     const { navigation } = this.props;
@@ -1131,9 +1121,9 @@ class Index extends React.Component {
     } else {
       Toast.info(`您没有访问${item.val}的权限`);
     }
-    // this.webView.injectJavaScript(`receiveMessage(${this.state.percent});true;`);
   };
 
+  // 点击直流系统
   handleClickZhi = async () => {
     const menuIdArr = await AsyncStorage.getItem('menuIdArr');
     const newArr = menuIdArr.split(',').map(items => Number(items));
@@ -1145,11 +1135,11 @@ class Index extends React.Component {
     }
   };
 
+  // 点击头部card
   handleClickCard = async (item, index) => {
     const menuIdArr = await AsyncStorage.getItem('menuIdArr');
     const newArr = menuIdArr.split(',').map(items => Number(items));
     const { navigation } = this.props;
-
     if (index === 0 && newArr.includes(9)) {
       // 总用电（有功功率、无功功率）：点击后跳转至KPI-网侧监视模块中
       navigation.navigate('Wangce');
@@ -1169,6 +1159,7 @@ class Index extends React.Component {
     }
   };
 
+  // 切换底部导航滑块
   handleTabChange = item => {
     if (item === 2) {
       this.ScrollView.scrollTo({ x: 120, y: 0, animated: true });
@@ -1286,7 +1277,10 @@ class Index extends React.Component {
               <View style={styles.menuContainer}>
                 {fakeData.slice(0, 8).map(item => {
                   return (
-                    <TouchableOpacity style={styles.tabButton} key={item.id} onPress={() => this.handleClick(item)}>
+                    <TouchableOpacity
+                      key={item.id}
+                      style={styles.tabButton}
+                      onPress={() => this.handleClickSubMenu(item)}>
                       <Image source={item.source} style={styles.image} />
                       <Text style={styles.menuItem}>{item.val}</Text>
                     </TouchableOpacity>
@@ -1314,8 +1308,6 @@ const styles = StyleSheet.create({
   webview: {
     position: 'relative',
     overflow: 'hidden',
-    // width: wp(152 / BASE_WIDTH),
-    // height: wp(152 / BASE_WIDTH),
   },
   topcardContainer: {
     position: 'absolute',

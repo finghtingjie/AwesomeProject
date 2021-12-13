@@ -1,4 +1,4 @@
-import {Text, TextInput} from 'react-native';
+import { Text, TextInput } from 'react-native';
 //设置字体不随系统设置改变
 if (!Text.defaultProps) {
   Text.defaultProps = {};

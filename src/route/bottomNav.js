@@ -138,6 +138,7 @@ class customTabBar extends React.PureComponent {
   }
 
   componentDidMount() {
+    // 获取菜单数据
     getMenuData({}).then(res => {
       if (res && res.status === 200) {
         const groupArr = res.body.find(item => item.id === 3).menuData.filter(item => item.parentId === 3);
@@ -151,6 +152,7 @@ class customTabBar extends React.PureComponent {
       }
     });
 
+    // 获取当前用户菜单
     getUserGroupingMenu({}).then(res => {
       if (res && res.status === 200) {
         AsyncStorage.setItem('menuIdArr', res.body.menuId);
@@ -193,6 +195,7 @@ class customTabBar extends React.PureComponent {
     return action;
   };
 
+  // 处理tab激活
   renderImage = (item, activeColor) => {
     if (activeColor === '#4367FD') {
       return <Image style={styles.userPic} source={iconMap[item].iconActive} />;

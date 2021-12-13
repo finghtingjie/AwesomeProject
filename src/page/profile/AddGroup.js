@@ -109,6 +109,7 @@ class AddGroup extends React.PureComponent {
     }
   }
 
+  // 处理kpi子节点选择
   handleKpiItem = (items, val) => {
     const fakeData = [...this.state.fakeData];
     fakeData.map(item => {
@@ -124,6 +125,7 @@ class AddGroup extends React.PureComponent {
     }
   };
 
+  // 处理我的子节点选择
   handleProfileItem = (items, val) => {
     const fakeData2 = [...this.state.fakeData2];
     fakeData2.map(item => {
@@ -139,14 +141,17 @@ class AddGroup extends React.PureComponent {
     }
   };
 
+  // 处理监控选择
   handleCheckMonitor = val => {
     this.setState({ checked1: val });
   };
 
+  // 处理告警选择
   handleCheckWarn = val => {
     this.setState({ checked2: val });
   };
 
+  // 处理kpi全选与否
   handleCheckKpi = val => {
     if (val) {
       const fakeData = [...this.state.fakeData];
@@ -163,6 +168,7 @@ class AddGroup extends React.PureComponent {
     }
   };
 
+  // 处理我的全选与否
   handleCheckProfile = val => {
     const fakeData2 = [...this.state.fakeData2];
     if (val) {
@@ -178,16 +184,19 @@ class AddGroup extends React.PureComponent {
     }
   };
 
+  // 展开kpi
   handleOpenKpi = () => {
     const { isOpen } = this.state;
     this.setState({ isOpen: !isOpen });
   };
 
+  // 展开我的
   handleOpenProfile = () => {
     const { isOpen2 } = this.state;
     this.setState({ isOpen2: !isOpen2 });
   };
 
+  // 处理全选
   handleSetAll = () => {
     const fakeData = [...this.state.fakeData];
     const fakeData2 = [...this.state.fakeData2];
@@ -200,6 +209,7 @@ class AddGroup extends React.PureComponent {
     this.setState({ fakeData, checked: true, checked1: true, checked2: true, checked3: true });
   };
 
+  // 处理全不选
   handleSetAllNot = () => {
     const fakeData = [...this.state.fakeData];
     const fakeData2 = [...this.state.fakeData2];
@@ -212,6 +222,7 @@ class AddGroup extends React.PureComponent {
     this.setState({ fakeData, checked: false, checked1: false, checked2: false, checked3: false });
   };
 
+  // 提交数据
   handleSubmit = () => {
     const { navigation } = this.props;
     const { groupName, fakeData, fakeData2, checked1, checked2, checked3, checked, type, groupId } = this.state;

@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 
-// import { Toast, Button, PullPicker } from 'teaset';
-
 const backIcon = require('../../assets/backicon.png');
 
 import { generatorLoadRate } from '@api/kpi';

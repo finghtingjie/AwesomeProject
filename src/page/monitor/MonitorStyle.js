@@ -88,7 +88,7 @@ export default StyleSheet.create({
   },
   actionSheet: {
     position: 'absolute',
-    zIndex: 999,
+    zIndex: 1000,
     top: hp(215 / BASE_HEIGHT),
     left: hp(0 / BASE_HEIGHT),
     width: '100%',

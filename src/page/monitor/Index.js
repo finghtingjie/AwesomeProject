@@ -20,6 +20,7 @@ import { getMonitor } from '@api/monitor';
 
 import styles from './MonitorStyle';
 
+// 网侧端数据源
 const wangceArr = [
   '1#110kV站',
   '2#110kV站',
@@ -93,10 +94,10 @@ class Index extends React.PureComponent {
         },
       ],
       arr2: ['220kV铁钢站', '220kV轧钢站', '热电110kV站', 'CCPP110kV变电站'],
-      tabArr: ['220kV', '110kV', '10kV'],
-      type1: '',
-      type2: '',
-      type3: '',
+      tabArr: ['220kV', '110kV', '10kV', '变压器'],
+      type1: '', //变压器类型1
+      type2: '', //变压器类型2
+      type3: '', //变压器类型3
     };
   }
   static navigationOptions = {
@@ -105,6 +106,7 @@ class Index extends React.PureComponent {
 
   componentDidMount() {}
 
+  // 获取监控数据
   getMonitor = () => {
     const { actionIndex, actionIndex2, arr2, tabArr, activeIndex } = this.state;
     const type = tabArr[activeIndex];
@@ -113,7 +115,7 @@ class Index extends React.PureComponent {
       name: arr2[actionIndex2],
     };
     // 没有变压器的传type
-    if (type !== '变压器') {
+    if (['220kV', '110kV', '10kV', '35kV'].includes(type)) {
       params.type = type;
       params.isTransformer = false;
     } else {
@@ -219,8 +221,8 @@ class Index extends React.PureComponent {
     });
   };
 
+  // 切换场站类型
   handleTypeChange = (item, index) => {
-    // const { actionIndex2, actionIndex } = this.state;
     this.setState({ actionIndex: index, actionIndex2: 0 });
     if (index === 0) {
       this.setState({
@@ -231,19 +233,22 @@ class Index extends React.PureComponent {
     }
   };
 
+  // 切换场站名称
   handleTypeChange2 = (item, index) => {
     const { actionIndex } = this.state;
     // 源端
     if (actionIndex === 0 && [0, 1].includes(index)) {
-      this.setState({ tabArr: ['220kV', '110kV', '10kV'], activeIndex: 0 });
+      this.setState({ tabArr: ['220kV', '110kV', '10kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 0 && index >= 2) {
       this.setState({ tabArr: ['110kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 1 && [0, 2, 3, 4].includes(index)) {
       this.setState({ tabArr: ['110kV', '10kV', '变压器'], activeIndex: 0 });
     } else if (actionIndex === 1 && [1, 5, 6].includes(index)) {
       this.setState({ tabArr: ['110kV', '35kV', '10kV', '变压器'], activeIndex: 0 });
-    } else if (actionIndex === 1 && index > 6) {
+    } else if (actionIndex === 1 && [7, 9, 10, 11, 12, 13, 14, 15, 16].includes(index)) {
       this.setState({ tabArr: ['110kV', '变压器'], activeIndex: 0 });
+    } else if (actionIndex === 1 && index === 8) {
+      this.setState({ tabArr: ['变压器'], activeIndex: 0 });
     }
     // 点击右侧条件,关闭actionsheet
     this.setState({ actionIndex2: index, actionsheetShow: false }, () => {
@@ -251,6 +256,7 @@ class Index extends React.PureComponent {
     });
   };
 
+  // 跳转电里潮流图
   handleChangZhan = async () => {
     const menuIdArr = await AsyncStorage.getItem('menuIdArr');
     const newArr = menuIdArr.split(',').map(item => Number(item));
@@ -262,12 +268,14 @@ class Index extends React.PureComponent {
     }
   };
 
+  // 切换场站电压
   handleTabChange = (item, index) => {
     this.setState({ activeIndex: index }, () => {
       this.getMonitor();
     });
   };
 
+  // 切换tab选中样式
   renderBtnStyle = (item, index) => {
     const { tabArr } = this.state;
     if (tabArr.length === 1) {
@@ -375,7 +383,7 @@ class Index extends React.PureComponent {
             position: 'relative',
             marginLeft: wp(40 / BASE_WIDTH),
             marginTop: hp(40 / BASE_HEIGHT),
-            maxWidth: wp(750 / BASE_WIDTH),
+            maxWidth: wp((250 * 4) / BASE_WIDTH),
             width: wp((250 * tabArr.length) / BASE_WIDTH),
             height: hp(78 / BASE_HEIGHT),
             flexDirection: 'row',
@@ -405,7 +413,7 @@ class Index extends React.PureComponent {
           })}
         </View>
         {/* table */}
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <ScrollView>
           {tableData1.length >= 1 && (
             <View style={styles.commonTableContainer}>
               {tableData1.length >= 1 && (
@@ -592,7 +600,7 @@ class Index extends React.PureComponent {
               {tableData6.length >= 1 && (
                 <View style={styles.tabTitleContainer}>
                   <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                  <Text style={styles.tabTitle}>{type1}</Text>
+                  <Text style={styles.tabTitle}>{type2}</Text>
                 </View>
               )}
               <View style={styles.tableContainer}>
@@ -628,7 +636,7 @@ class Index extends React.PureComponent {
               {tableData7.length >= 1 && (
                 <View style={styles.tabTitleContainer}>
                   <Image style={styles.shuPic} source={shuPic} resizeMode="contain" />
-                  <Text style={styles.tabTitle}>{type1}</Text>
+                  <Text style={styles.tabTitle}>{type3}</Text>
                 </View>
               )}
               <View style={styles.tableContainer}>

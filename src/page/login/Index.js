@@ -30,6 +30,7 @@ class Index extends React.PureComponent {
 
   componentDidMount() {}
 
+  // 登录
   handleLogin = async () => {
     const registrationId = await AsyncStorage.getItem('registrationId');
     Keyboard.dismiss();

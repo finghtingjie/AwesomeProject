@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image, ScrollView, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image, FlatList } from 'react-native';
 
-// import { Toast, Button, PullPicker } from 'teaset';
 import Orientation from 'react-native-orientation-locker';
-// import { Table, Row, Rows } from 'react-native-table-component';
 
 const backIcon = require('../../assets/backicon.png');
 const yes = require('../../assets/kpi/yes.png');
@@ -104,7 +102,6 @@ class Hegelv extends React.PureComponent {
     getVoltageQualificationRate(params).then(res => {
       if (res && res.status === 200) {
         this.setState({ total: res.body.totalAmount });
-        const resData = res.body;
         if (pageNum === 1) {
           const tempArr = res.body.data || [];
           let newArr = [];

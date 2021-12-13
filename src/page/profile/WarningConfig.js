@@ -44,6 +44,7 @@ class WarningConfig extends React.PureComponent {
     });
   };
 
+  // 获取告警人员
   getTGiveAnAlarmUser = () => {
     const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2 };
     // console.log(params);
@@ -61,6 +62,7 @@ class WarningConfig extends React.PureComponent {
     });
   };
 
+  // 处理tab选择样式
   renderTabStyle = (item, index) => {
     const { tabActiveIndex } = this.state;
     switch (index) {
@@ -93,6 +95,7 @@ class WarningConfig extends React.PureComponent {
     }
   };
 
+  // 处理text选中样式
   renderTabTextStyle = (item, index) => {
     const { tabActiveIndex } = this.state;
     if (tabActiveIndex === index) {
@@ -102,6 +105,7 @@ class WarningConfig extends React.PureComponent {
     }
   };
 
+  // 新增告警人员
   handleAdd = () => {
     const userArr = this.state.userList.map(item => item.userName);
     const items = ['全选'].concat(userArr);
@@ -112,8 +116,9 @@ class WarningConfig extends React.PureComponent {
           // 全选
           params = {
             tGiveAnAlarmId: this.state.tabActiveIndex + 2,
-            userIdArray: this.state.fakeData.map(d => d.userId).toString(),
+            userIdArray: this.state.userList.map(d => d.userId).toString(),
           };
+          console.log(params);
           addTGiveAnAlarmUser(params).then(res => {
             if (res && res.status === 200) {
               Toast.success('新增成功');
@@ -128,6 +133,7 @@ class WarningConfig extends React.PureComponent {
               tGiveAnAlarmId: this.state.tabActiveIndex + 2,
               userIdArray: [this.state.userId].toString(),
             };
+            console.log(params);
             addTGiveAnAlarmUser(params).then(res => {
               if (res && res.status === 200) {
                 Toast.success('新增成功');
@@ -142,6 +148,7 @@ class WarningConfig extends React.PureComponent {
     });
   };
 
+  // 删除告警人员
   handleDelete = item => {
     Alert.alert('确定删除此用户吗？', '', [
       {
@@ -153,6 +160,7 @@ class WarningConfig extends React.PureComponent {
     ]);
   };
 
+  // 确定删除
   handleOk = item => {
     const params = { tGiveAnAlarmId: this.state.tabActiveIndex + 2, userId: item.userId };
     deleteTGiveAnAlarmr(params).then(res => {
@@ -166,6 +174,7 @@ class WarningConfig extends React.PureComponent {
     });
   };
 
+  // 渲染内容
   renderItem = ({ item }) => (
     <Button key={item.userId} style={styles.userBtn} onPress={() => this.handleDelete(item)}>
       <Text style={styles.userBtnText}>{item.userName}</Text>

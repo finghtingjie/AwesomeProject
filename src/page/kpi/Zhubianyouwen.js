@@ -75,6 +75,7 @@ const arr = [
   '高炉鼓风110kV站',
   '4#高炉鼓风110kV站',
   '2#制氧110kV站',
+  '2250热轧110kV站',
 ];
 
 const newArr = [
@@ -438,7 +439,7 @@ class Index extends React.Component {
       this.setState({ noResult: true });
     } else {
       const resData = res.body[0][`${val}#主变110YW1`];
-      const resData2 = res.body[1][`${val}#主变110YW2`];
+      const resData2 = res.body[1] ? res.body[1][`${val}#主变110YW2`] : [];
       if (!resData.length && !resData2.length) {
         this.setState({ noResult: true });
       } else {
@@ -498,8 +499,8 @@ class Index extends React.Component {
     this.ECharts.clear();
     this.setState({ noResult: false });
     const resData = res.body[0][`${val}#主变${voltage}YW1`];
-    const resData2 = res.body[1][`${val}#主变${voltage}YW2`];
-    const resData3 = res.body[2][`${val}#主变${voltage}YW3`];
+    const resData2 = res.body[1] ? res.body[1][`${val}#主变${voltage}YW2`] : [];
+    const resData3 = res.body[2] ? res.body[2][`${val}#主变${voltage}YW3`] : [];
     const formatVal = newArr.map(item => item.slice(11, 16));
     const option = {
       color: ['#3CBE1E', '#1C6DDA'], //图例颜色
@@ -565,7 +566,6 @@ class Index extends React.Component {
       const station = arr2[actionIndex2];
       const voltage = tabArr[activeIndex];
       if (res && res.status === 200) {
-        console.log(res.body);
         switch (station) {
           case '4#高炉鼓风110kV站':
             this.setOption2(res, '4');
@@ -583,6 +583,7 @@ class Index extends React.Component {
             }
             break;
           case '1580热轧110kV站':
+          case '2250热轧110kV站':
             if (voltage === '1#主变') {
               this.setOption33(res, '1', '110');
             } else if (voltage === '2#主变') {
@@ -733,7 +734,8 @@ class Index extends React.Component {
       // 高炉鼓风110kV站 1 2 3
       // 4#高炉鼓风110kV站 4
       // 2#制氧110kV站 1 2 3
-    } else if (actionIndex === 1 && [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 15].includes(index)) {
+      // 2250热轧110kV站 1 2 3
+    } else if (actionIndex === 1 && [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 15, 16].includes(index)) {
       this.setState({ tabArr: ['1#主变', '2#主变', '3#主变'], activeIndex: 0 });
     } else if (actionIndex === 1 && [1, 7].includes(index)) {
       this.setState({ tabArr: ['1#主变', '2#主变', '3#主变', '4#主变'], activeIndex: 0 });
