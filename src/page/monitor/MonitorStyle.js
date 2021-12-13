@@ -281,7 +281,7 @@ export default StyleSheet.create({
   commonColText: {
     color: '#6972CC',
     textAlign: 'center',
-    fontSize: hp(24 / BASE_HEIGHT),
+    fontSize: hp(20 / BASE_HEIGHT),
     fontWeight: 'bold',
   },
   rowContainer: {

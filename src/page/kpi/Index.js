@@ -39,7 +39,9 @@ class Index extends React.PureComponent {
     headerShown: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    Orientation.lockToPortrait();
+  }
 
   handleClick = async item => {
     const { navigation } = this.props;

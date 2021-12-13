@@ -7,13 +7,12 @@ import Orientation from 'react-native-orientation-locker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ModalIndicator, Toast } from 'teaset';
 
-// const backIcon = require('../../assets/backicon.png');
+const backIcon = require('../../assets/backicon.png');
 
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
-// const source = { uri: 'file:///android_asset/test.html' };
-const source = { uri: 'http://10.99.230.103:8080/pcs9000/navi/index.jsp' };
+// const source = { uri: 'http://10.99.230.103:8080/pcs9000/navi/index.jsp' };
 
 class Index extends React.Component {
   static navigationOptions = {
@@ -24,12 +23,20 @@ class Index extends React.Component {
     this.state = {
       xmlData: null,
       clientId: 0,
+      source: {
+        uri:
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=%E7%94%B5%E5%8A%9B%E6%BD%AE%E6%B5%81%E5%9B%BE',
+      },
     };
   }
 
   componentDidMount() {
     Orientation.lockToLandscapeLeft();
     ModalIndicator.show();
+    const { params } = this.props.navigation.state;
+    if (params && params.source) {
+      this.setState({ source: { uri: params.source } });
+    }
   }
 
   handleError = e => {
@@ -44,6 +51,7 @@ class Index extends React.Component {
   };
 
   render() {
+    const { source } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar
@@ -62,6 +70,9 @@ class Index extends React.Component {
           </View>
         </View> */}
         <View style={styles.webviewContainer}>
+          <TouchableOpacity style={styles.iconContainer} onPress={() => this.props.navigation.goBack()}>
+            <Image style={styles.backIcon} source={backIcon} resizeMode="contain" />
+          </TouchableOpacity>
           <WebView
             useWebKit
             javaScriptEnabled
@@ -86,6 +97,7 @@ const styles = StyleSheet.create({
   webviewContainer: {
     width: '100%',
     height: '100%',
+    position: 'relative',
     // backgroundColor: 'pink',
   },
   webview: {
@@ -109,17 +121,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   iconContainer: {
-    position: 'relative',
-    width: '10%',
+    position: 'absolute',
+    width: '100%',
     height: hp(112 / BASE_HEIGHT),
-    marginLeft: -wp(40 / BASE_WIDTH),
-    zIndex: 100,
+    left: wp(40 / BASE_WIDTH),
+    top: 0,
+    zIndex: 999,
   },
   backIcon: {
     marginLeft: wp(40 / BASE_WIDTH),
-    width: wp(24 / BASE_WIDTH),
-    height: hp(40 / BASE_HEIGHT),
-    marginTop: hp(36 / BASE_HEIGHT),
+    width: wp((24 * 1.5) / BASE_WIDTH),
+    height: hp((40 * 1.5) / BASE_HEIGHT),
+    marginTop: hp(72 / BASE_HEIGHT),
   },
   content: {
     position: 'absolute',

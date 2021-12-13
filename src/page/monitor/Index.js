@@ -537,6 +537,7 @@ class Index extends React.PureComponent {
                   return (
                     <View style={styles.rowContainer}>
                       {item.map((items, index) => {
+                        console.log(items.length);
                         return (
                           <View key={items + index} style={styles.nameStyle}>
                             <Text style={styles.commonrowText}>{items}</Text>
