@@ -11,8 +11,10 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import Home from '@page/home/Index';
 
 import monitor from '@page/monitor/Index';
+import JieXian from '@page/monitor/MonitorJieXian';
 
 import Kpi from '@page/kpi/Index';
+import KpiJieXian from '@page/kpi/KpiJieXian';
 import Yuanduan from '@page/kpi/Yuanduan';
 import Wangce from '@page/kpi/Wangce';
 import Dianlichaoliu from '@page/kpi/Dianlichaoliu';
@@ -46,10 +48,11 @@ const BASE_HEIGHT = 19.2;
 // 底部一级导航器
 const HomeStack = createStackNavigator({ Home });
 
-const MonitorStack = createStackNavigator({ monitor });
+const MonitorStack = createStackNavigator({ monitor, JieXian });
 
 const KpiStack = createStackNavigator({
   Kpi,
+  KpiJieXian,
   Yuanduan,
   Wangce,
   Dianlichaoliu,

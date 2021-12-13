@@ -9,6 +9,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
+const backIcon = require('../../assets/backicon.png');
+
 // const source = { uri: 'http://10.99.230.103:8080/pcs9000/navi/index.jsp' };
 
 class Index extends React.Component {
@@ -47,7 +49,7 @@ class Index extends React.Component {
       <View style={styles.container}>
         <StatusBar
           animated
-          translucent
+          translucent={false}
           backgroundColor="transparent"
           showHideTransition="fade"
           networkActivityIndicatorVisible

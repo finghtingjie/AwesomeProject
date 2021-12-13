@@ -12,9 +12,7 @@ const backIcon = require('../../assets/backicon.png');
 const BASE_WIDTH = 10.8;
 const BASE_HEIGHT = 19.2;
 
-// const source = { uri: 'http://10.99.230.103:8080/pcs9000/navi/index.jsp' };
-
-class Index extends React.Component {
+class Jiexian extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
@@ -24,8 +22,7 @@ class Index extends React.Component {
       xmlData: null,
       clientId: 0,
       source: {
-        uri:
-          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=%E7%94%B5%E5%8A%9B%E6%BD%AE%E6%B5%81%E5%9B%BE',
+        uri: 'https://www.baidu.com/',
       },
     };
   }
@@ -150,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Index;
+export default Jiexian;

@@ -256,15 +256,123 @@ class Index extends React.PureComponent {
     });
   };
 
-  // 跳转电里潮流图
-  handleChangZhan = async () => {
-    const menuIdArr = await AsyncStorage.getItem('menuIdArr');
-    const newArr = menuIdArr.split(',').map(item => Number(item));
+  handleChangZhan = () => {
+    const { arr2, actionIndex2 } = this.state;
+    const item = arr2[actionIndex2];
     const { navigation } = this.props;
-    if (newArr.includes(16)) {
-      navigation.navigate('Dianlichaoliu');
-    } else {
-      Toast.info('您没有访问电力潮流图的权限');
+    // console.log(item);
+    let source =
+      'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=%E7%94%B5%E5%8A%9B%E6%BD%AE%E6%B5%81%E5%9B%BE';
+    switch (item) {
+      case '220kV铁钢站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=220kV%E9%93%81%E9%92%A2%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '220kV轧钢站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=220kV%E8%BD%A7%E9%92%A2%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '热电110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=1%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case 'CCPP110kV变电站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=CCPP110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '1#110kV':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=1%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '2#110kV':
+      case '2#站LF炉':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=2%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '3#110kV':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=3%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '4#110kV':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=4%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '5#110kV':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=5%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '6#110kV':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=6%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '7#110kV':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=7%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '制氧二期110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=2%23%E5%88%B6%E6%B0%A7110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '4#高炉鼓风110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=4%23%E9%AB%98%E7%82%89%E9%BC%93%E9%A3%8E110kV%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case 'MCCR110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=MCCR110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '2230冷轧110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=2230%E5%86%B7%E8%BD%A7110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '高炉鼓风110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=%E9%AB%98%E7%82%89%E9%BC%93%E9%A3%8E110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '制氧110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=%E5%88%B6%E6%B0%A7110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '2250热轧110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=2250%E7%83%AD%E8%BD%A7110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '1580热轧110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=1580%E7%83%AD%E8%BD%A7110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '1700热轧110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=1700%E5%86%B7%E8%BD%A7110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      case '1420冷轧110kV站':
+        source =
+          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=1420%E5%86%B7%E8%BD%A7110kV%E5%8F%98%E7%94%B5%E7%AB%99';
+        navigation.navigate('JieXian', { source });
+        break;
+      default:
+        navigation.navigate('JieXian', { source });
+        break;
     }
   };
 
@@ -366,7 +474,7 @@ class Index extends React.PureComponent {
                   {arr2.map((item, index) => {
                     return (
                       <Button key={item} style={styles.rightBtn} onPress={() => this.handleTypeChange2(item, index)}>
-                        <Text style={actionIndex2 === index ? styles.leftBtnTextActive : styles.leftBtnText}>
+                        <Text style={actionIndex2 === index ? styles.rightBtnTextActive : styles.rightBtnText}>
                           {item}
                         </Text>
                       </Button>
