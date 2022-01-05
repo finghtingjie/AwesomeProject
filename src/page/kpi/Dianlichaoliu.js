@@ -123,14 +123,15 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: 'absolute',
-    width: '100%',
-    height: hp(112 / BASE_HEIGHT),
+    width: wp(200 / BASE_WIDTH),
+    textAlign: 'center',
+    height: hp(200 / BASE_HEIGHT),
     left: wp(40 / BASE_WIDTH),
     top: 0,
     zIndex: 999,
   },
   backIcon: {
-    marginLeft: wp(40 / BASE_WIDTH),
+    marginLeft: wp(60 / BASE_WIDTH),
     width: wp((24 * 1.5) / BASE_WIDTH),
     height: hp((40 * 1.5) / BASE_HEIGHT),
     marginTop: hp(72 / BASE_HEIGHT),

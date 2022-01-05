@@ -22,8 +22,7 @@ class Jiexian extends React.Component {
       xmlData: null,
       clientId: 0,
       source: {
-        uri:
-          'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=220kV%E9%93%81%E9%92%A2%E7%AB%99',
+        uri: 'http://www.baidu.com/',
       },
     };
   }
@@ -113,14 +112,15 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: 'absolute',
-    width: '100%',
-    height: hp(112 / BASE_HEIGHT),
+    width: wp(200 / BASE_WIDTH),
+    textAlign: 'center',
+    height: hp(200 / BASE_HEIGHT),
     left: wp(40 / BASE_WIDTH),
     top: 0,
     zIndex: 999,
   },
   backIcon: {
-    marginLeft: wp(40 / BASE_WIDTH),
+    marginLeft: wp(60 / BASE_WIDTH),
     width: wp((24 * 1.5) / BASE_WIDTH),
     height: hp((40 * 1.5) / BASE_HEIGHT),
     marginTop: hp(72 / BASE_HEIGHT),

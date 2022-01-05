@@ -868,12 +868,12 @@ class Index extends React.Component {
         pieOption.xAxis.data = formattedVal;
         pieOption.series[0].data = res.body.all.value.map(item => Number(item.toFixed(2)));
         const nowTime = moment(new Date()).format('YYYY-MM-DD');
-        const nowTimeFormat = `${nowTime} ${val[val.length - 1]}`;
+        const nowTimeFormat = `${nowTime} ${formattedVal[formattedVal.length - 1]}`;
         if (res.body.tip != null) {
           // 尖
           if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 00:00`), moment(`${nowTime} 06:00`), 'minutes')) {
             pieOption.series[1].data = res.body.valley.value;
-            pieOption.series[1].markArea.data[0][1].xAxis = val[val.length - 1];
+            pieOption.series[1].markArea.data[0][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[2].data = [];
             pieOption.series[2].markArea = {};
             pieOption.series[3].data = [];
@@ -884,13 +884,13 @@ class Index extends React.Component {
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 22:00`), moment(`${nowTime} 24:00`), 'minutes')
           ) {
             pieOption.series[1].data = res.body.valley.value;
-            pieOption.series[1].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[1].markArea.data[1][1].xAxis = formattedVal[formattedVal.length - 1];
           } else if (
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 06:00`), moment(`${nowTime} 10:00`), 'minutes')
           ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
-            pieOption.series[2].markArea.data[0][1].xAxis = val[val.length - 1];
+            pieOption.series[2].markArea.data[0][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[3].data = [];
             pieOption.series[3].markArea = {};
             pieOption.series[4].data = [];
@@ -901,7 +901,7 @@ class Index extends React.Component {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[4].data = res.body.tip.value;
-            pieOption.series[2].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[2].markArea.data[1][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[3].data = [];
             pieOption.series[3].markArea = {};
           } else if (
@@ -911,8 +911,8 @@ class Index extends React.Component {
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
-            pieOption.series[2].markArea.data[2][1].xAxis = val[val.length - 1];
-            pieOption.series[2].markArea.data[2][1].xAxis = val[val.length - 1];
+            pieOption.series[2].markArea.data[2][1].xAxis = formattedVal[formattedVal.length - 1];
+            pieOption.series[2].markArea.data[2][1].xAxis = formattedVal[formattedVal.length - 1];
           } else if (
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 13:00`), moment(`${nowTime} 17:00`), 'minutes')
           ) {
@@ -920,7 +920,7 @@ class Index extends React.Component {
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
-            pieOption.series[3].markArea.data[0][1].xAxis = val[val.length - 1];
+            pieOption.series[3].markArea.data[0][1].xAxis = formattedVal[formattedVal.length - 1];
           } else if (
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 18:00`), moment(`${nowTime} 19:00`), 'minutes')
           ) {
@@ -928,14 +928,14 @@ class Index extends React.Component {
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
-            pieOption.series[3].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[3].markArea.data[1][1].xAxis = formattedVal[formattedVal.length - 1];
           } else if (
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 10:00`), moment(`${nowTime} 12:00`), 'minutes')
           ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[4].data = res.body.tip.value;
-            pieOption.series[3].markArea.data[0][1].xAxis = val[val.length - 1];
+            pieOption.series[3].markArea.data[0][1].xAxis = formattedVal[formattedVal.length - 1];
           } else if (
             moment(nowTimeFormat).isBetween(moment(`${nowTime} 17:00`), moment(`${nowTime} 18:00`), 'minutes')
           ) {
@@ -943,7 +943,7 @@ class Index extends React.Component {
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
             pieOption.series[4].data = res.body.tip.value;
-            pieOption.series[3].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[3].markArea.data[1][1].xAxis = formattedVal[formattedVal.length - 1];
           } else {
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
@@ -952,7 +952,7 @@ class Index extends React.Component {
         } else {
           if (moment(nowTimeFormat).isBetween(moment(`${nowTime} 00:00`), moment(`${nowTime} 06:00`), 'minutes')) {
             pieOption.series[1].data = res.body.valley.value;
-            pieOption.series[1].markArea.data[0][1].xAxis = val[val.length - 1];
+            pieOption.series[1].markArea.data[0][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[2].data = [];
             pieOption.series[2].markArea = {};
             pieOption.series[3].data = [];
@@ -965,7 +965,7 @@ class Index extends React.Component {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
-            pieOption.series[1].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[1].markArea.data[1][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
           } else if (
@@ -973,7 +973,7 @@ class Index extends React.Component {
           ) {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
-            pieOption.series[2].markArea.data[0][1].xAxis = val[val.length - 1];
+            pieOption.series[2].markArea.data[0][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[3].data = [];
             pieOption.series[3].markArea = {};
             pieOption.series[4].data = [];
@@ -984,7 +984,7 @@ class Index extends React.Component {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
-            pieOption.series[2].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[2].markArea.data[1][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
           } else if (
@@ -993,7 +993,7 @@ class Index extends React.Component {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
-            pieOption.series[2].markArea.data[2][1].xAxis = val[val.length - 1];
+            pieOption.series[2].markArea.data[2][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
           } else if (
@@ -1002,7 +1002,7 @@ class Index extends React.Component {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
-            pieOption.series[3].markArea.data[0][1].xAxis = val[val.length - 1];
+            pieOption.series[3].markArea.data[0][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
           } else if (
@@ -1011,7 +1011,7 @@ class Index extends React.Component {
             pieOption.series[1].data = res.body.valley.value;
             pieOption.series[2].data = res.body.flat.value;
             pieOption.series[3].data = res.body.peak.value;
-            pieOption.series[3].markArea.data[1][1].xAxis = val[val.length - 1];
+            pieOption.series[3].markArea.data[1][1].xAxis = formattedVal[formattedVal.length - 1];
             pieOption.series[4].data = [];
             pieOption.series[4].markArea = {};
           } else {

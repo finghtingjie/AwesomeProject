@@ -111,14 +111,14 @@ class Yuanduan extends React.PureComponent {
       case '热电110kV站':
         source =
           'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=1%23110kV%E5%8F%98%E7%94%B5%E7%AB%99';
-        navigation.navigate('JieXian', { source });
+        navigation.navigate('KpiJieXian', { source });
         break;
       case 'CCPP110kV变电站':
       case 'CCPP燃机':
       case 'CCPP汽机':
         source =
           'http://10.99.230.103:8080/pcs9000/online/embed_graph.jsp?username=lucy&password=1&app=common&pic=CCPP110kV%E5%8F%98%E7%94%B5%E7%AB%99';
-        navigation.navigate('JieXian', { source });
+        navigation.navigate('KpiJieXian', { source });
         break;
       case '1#110kV':
       case '1#CDQ':
