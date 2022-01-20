@@ -10,6 +10,15 @@ import { sourceEndMonitor } from '@api/kpi';
 
 import styles from './YuanduanStyle';
 
+const isNumber = val => {
+  const regPos = /^\d+(\.\d+)?$/; //非负浮点数
+  const regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+  if (regPos.test(val) || regNeg.test(val)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 class Yuanduan extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -44,15 +53,7 @@ class Yuanduan extends React.PureComponent {
       if (res && res.status === 200) {
         const resData = res.body;
         let newArr = [];
-        const isNumber = val => {
-          const regPos = /^\d+(\.\d+)?$/; //非负浮点数
-          const regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
-          if (regPos.test(val) || regNeg.test(val)) {
-            return true;
-          } else {
-            return false;
-          }
-        };
+
         resData.map((item, index) => {
           if (val === '电网购电') {
             newArr[index] = [
