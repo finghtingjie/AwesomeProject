@@ -276,7 +276,7 @@ class Yuanduan extends React.PureComponent {
               );
             })}
           </View>
-          <ScrollView>
+          <ScrollView style={styles.ScrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.bbb}>
               {tableData.map((item, i) => {
                 return (

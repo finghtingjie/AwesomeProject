@@ -174,4 +174,9 @@ export default StyleSheet.create({
   bbb: {
     paddingBottom: hp(200 / BASE_HEIGHT),
   },
+  ScrollView: {
+    position: 'relative',
+    width: 'auto',
+    height: hp(1500 / BASE_HEIGHT),
+  },
 });
